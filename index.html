@@ -3,1264 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบเช็คชื่อนักเรียนออนไลน์</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ระบบถ่ายรูปนักเรียน - ค่ายรูปเช็คซ์อ</title>
     <style>
-        /* CSS Variables */
-        :root {
-            --primary-blue: #4A6FA5;
-            --light-blue: #E3F2FD;
-            --pastel-pink: #FFD6E7;
-            --white: #FFFFFF;
-            --light-gray: #F5F5F5;
-            --gray: #757575;
-            --dark-gray: #333333;
-            --success: #4CAF50;
-            --warning: #FF9800;
-            --danger: #F44336;
-            --info: #2196F3;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+            font-family: 'Segoe UI', 'Noto Sans Thai', sans-serif;
         }
         
         body {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
         }
         
-        /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--pastel-pink));
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
             color: white;
-            padding: 25px 0;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            padding: 25px 30px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 28px;
+            margin-bottom: 5px;
             font-weight: 700;
-            margin-bottom: 10px;
         }
         
-        /* Login Section */
-        .login-container {
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px 20px;
+            margin: 20px 30px;
+            border-radius: 8px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            min-height: 60vh;
         }
         
-        .login-box {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
+        .success-icon {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-right: 15px;
         }
         
-        .login-title {
+        .success-text h3 {
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+        
+        .success-text p {
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .time-stamp {
+            background-color: #f0f4ff;
+            padding: 10px 20px;
+            margin: 0 30px 20px;
+            border-radius: 8px;
             text-align: center;
-            color: var(--primary-blue);
-            margin-bottom: 30px;
-            font-size: 1.8rem;
+            color: #4b6cb7;
+            font-weight: 500;
         }
         
-        .role-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .role-btn {
-            padding: 12px;
-            border: 2px solid var(--light-blue);
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .camera-section {
+            padding: 20px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
         }
         
-        .role-btn.active {
-            background: var(--light-blue);
-            border-color: var(--primary-blue);
-        }
-        
-        .role-btn i {
-            font-size: 1.5rem;
-            color: var(--primary-blue);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-blue);
-        }
-        
-        .form-control {
+        .camera-container {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border 0.3s;
+            max-width: 500px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-blue);
+        #camera-view {
+            width: 100%;
+            height: 350px;
+            background-color: #333;
+            display: block;
         }
         
-        .form-check {
+        #photo-preview {
+            width: 100%;
+            height: 350px;
+            background-color: #f5f5f5;
+            display: none;
+            object-fit: contain;
+        }
+        
+        .camera-controls {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .form-check input {
-            width: 18px;
-            height: 18px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .btn {
             padding: 12px 25px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 50px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            width: 100%;
+            transition: all 0.3s ease;
         }
         
         .btn-primary {
-            background-color: var(--primary-blue);
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
             color: white;
+            box-shadow: 0 4px 10px rgba(75, 108, 183, 0.3);
         }
         
         .btn-primary:hover {
-            background-color: #3a5a8c;
-        }
-        
-        .btn-success {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .btn-warning {
-            background-color: var(--warning);
-            color: white;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(75, 108, 183, 0.4);
         }
         
         .btn-secondary {
-            background-color: var(--gray);
-            color: white;
+            background-color: #f0f4ff;
+            color: #4b6cb7;
+            border: 2px solid #4b6cb7;
         }
         
-        /* Alert */
-        .alert {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .btn-secondary:hover {
+            background-color: #e4eaff;
+        }
+        
+        .btn-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .instructions {
+            background-color: #f9f9ff;
+            padding: 20px;
+            margin: 20px 30px;
+            border-radius: 12px;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .instructions h3 {
+            color: #182848;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            color: #555;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .status-message {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
             display: none;
-            animation: fadeIn 0.3s;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .status-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            display: block;
         }
         
-        .alert-success {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--success);
-            border-left: 4px solid var(--success);
+        .status-error {
+            background-color: #ffebee;
+            color: #c62828;
         }
         
-        .alert-danger {
-            background-color: rgba(244, 67, 54, 0.1);
-            color: var(--danger);
-            border-left: 4px solid var(--danger);
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #4b6cb7;
+            margin-top: 10px;
+            display: none;
         }
         
-        .alert-info {
-            background-color: rgba(33, 150, 243, 0.1);
-            color: var(--info);
-            border-left: 4px solid var(--info);
-        }
-        
-        .alert-warning {
-            background-color: rgba(255, 152, 0, 0.1);
-            color: var(--warning);
-            border-left: 4px solid var(--warning);
-        }
-        
-        /* Toggle between login and register */
-        .auth-toggle {
+        .footer {
             text-align: center;
-            margin-top: 20px;
-            color: var(--gray);
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            margin-top: 10px;
         }
         
-        .auth-toggle a {
-            color: var(--primary-blue);
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        
-        /* Dashboard */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            background: white;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--gray);
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .tab-btn.active {
-            color: var(--primary-blue);
-            border-bottom: 3px solid var(--primary-blue);
-            background: var(--light-blue);
-        }
-        
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-        }
-        
-        .card-title {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Student Camera */
-        .camera-container {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .camera-preview {
-            width: 100%;
-            max-width: 500px;
-            height: 300px;
-            background: #333;
-            border-radius: 10px;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .camera-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .capture-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            margin-top: 20px;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
+        @media (max-width: 600px) {
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 22px;
             }
             
-            .role-selector {
-                grid-template-columns: 1fr;
+            .camera-container {
+                height: 300px;
             }
             
-            .nav-tabs {
+            #camera-view, #photo-preview {
+                height: 300px;
+            }
+            
+            .camera-controls {
                 flex-direction: column;
+                width: 100%;
             }
             
-            .dashboard-header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen">
+    <div class="container">
         <div class="header">
-            <div class="container">
-                <h1><i class="fas fa-clipboard-check"></i> ระบบเช็คชื่อนักเรียนออนไลน์</h1>
-                <p>วิทยาลัยเทคนิคสุราษฎร์ธานี</p>
+            <h1>ค่ายรูปเช็คซ์อ</h1>
+            <div class="subtitle">ระบบถ่ายรูปนักเรียนสำหรับลงทะเบียนกิจกรรม</div>
+        </div>
+        
+        <div class="success-message">
+            <div class="success-icon">✓</div>
+            <div class="success-text">
+                <h3>ค่ายรูปสำเร็จ!</h3>
+                <p>ระบบได้บันทึกรูปภาพของคุณเรียบร้อยแล้ว</p>
             </div>
         </div>
         
-        <div class="container">
-            <div class="login-container">
-                <div class="login-box">
-                    <h2 class="login-title" id="authTitle">ลงชื่อเข้าใช้งาน</h2>
-                    
-                    <!-- Alert Message -->
-                    <div id="alertMessage" class="alert"></div>
-                    
-                    <div id="loginForm">
-                        <div class="form-group">
-                            <label class="form-label">เลือกระบบการใช้งาน</label>
-                            <div class="role-selector">
-                                <button class="role-btn active" onclick="selectRole('student')" id="roleStudent">
-                                    <i class="fas fa-user-graduate"></i>
-                                    <span>นักเรียน</span>
-                                </button>
-                                <button class="role-btn" onclick="selectRole('teacher')" id="roleTeacher">
-                                    <i class="fas fa-chalkboard-teacher"></i>
-                                    <span>อาจารย์</span>
-                                </button>
-                                <button class="role-btn" onclick="selectRole('admin')" id="roleAdmin">
-                                    <i class="fas fa-user-cog"></i>
-                                    <span>แอดมิน</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" id="usernameLabel">รหัสนักเรียน/อาจารย์ หรืออีเมล</label>
-                            <input type="text" id="username" class="form-control" placeholder="กรอกอีเมลหรือรหัสประจำตัว">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">รหัสผ่าน</label>
-                            <input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน">
-                        </div>
-                        
-                        <div class="form-check">
-                            <input type="checkbox" id="rememberMe">
-                            <label for="rememberMe">จำรหัสผ่าน</label>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button class="btn btn-primary" onclick="login()">
-                                <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                            </button>
-                        </div>
-                        
-                        <div class="auth-toggle">
-                            ยังไม่มีบัญชี? <a onclick="showRegister()">สมัครสมาชิก</a>
-                        </div>
-                    </div>
-                    
-                    <div id="registerForm" style="display: none;">
-                        <div class="form-group">
-                            <label class="form-label">เลือกระบบการใช้งาน</label>
-                            <div class="role-selector">
-                                <button class="role-btn active" onclick="selectRole('student')" id="regRoleStudent">
-                                    <i class="fas fa-user-graduate"></i>
-                                    <span>นักเรียน</span>
-                                </button>
-                                <button class="role-btn" onclick="selectRole('teacher')" id="regRoleTeacher">
-                                    <i class="fas fa-chalkboard-teacher"></i>
-                                    <span>อาจารย์</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label" id="regUsernameLabel">รหัสนักเรียน/อาจารย์</label>
-                            <input type="text" id="regUsername" class="form-control" placeholder="เช่น 6412345678">
-                            <small style="color: var(--gray); display: block; margin-top: 5px;">ใช้รหัสนักเรียนหรือรหัสอาจารย์</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">อีเมลวิทยาลัย</label>
-                            <input type="email" id="regEmail" class="form-control" placeholder="เช่น student6412345678@surat.ac.th">
-                            <small style="color: var(--gray); display: block; margin-top: 5px;">ต้องเป็นอีเมลของวิทยาลัยเทคนิคสุราษฎร์ธานีเท่านั้น (@surat.ac.th)</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">ชื่อ-สกุล</label>
-                            <input type="text" id="regName" class="form-control" placeholder="กรอกชื่อ-สกุล">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">รหัสผ่าน</label>
-                            <input type="password" id="regPassword" class="form-control" placeholder="กรอกรหัสผ่าน (อย่างน้อย 6 ตัว)">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">ยืนยันรหัสผ่าน</label>
-                            <input type="password" id="regConfirmPassword" class="form-control" placeholder="กรอกรหัสผ่านอีกครั้ง">
-                        </div>
-                        
-                        <div class="form-group">
-                            <button class="btn btn-success" onclick="register()">
-                                <i class="fas fa-user-plus"></i> สมัครสมาชิก
-                            </button>
-                        </div>
-                        
-                        <div class="auth-toggle">
-                            มีบัญชีอยู่แล้ว? <a onclick="showLogin()">เข้าสู่ระบบ</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="time-stamp" id="time-stamp">
+            วันที่และเวลา: กำลังโหลด...
         </div>
         
-        <footer style="text-align: center; padding: 20px; color: var(--gray); margin-top: 30px;">
-            <p>ระบบเช็คชื่อนักเรียนออนไลน์ &copy; 2023 - วิทยาลัยเทคนิคสุราษฎร์ธานี</p>
-            <p>พัฒนาเพื่อใช้งานภายในวิทยาลัยเทคนิคสุราษฎร์ธานีเท่านั้น</p>
-        </footer>
-    </div>
-
-    <!-- Dashboard -->
-    <div id="dashboard" style="display: none;">
-        <div class="header">
-            <div class="container dashboard-header">
-                <div>
-                    <h1 id="dashboardTitle"></h1>
-                    <p id="dashboardSubtitle"></p>
-                </div>
-                <div class="user-info">
-                    <span id="userNameDisplay"></span>
-                    <button class="btn btn-secondary" onclick="logout()" style="width: auto; padding: 8px 15px;">
-                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="container">
-            <!-- Navigation Tabs -->
-            <div class="nav-tabs" id="navTabs"></div>
+        <div class="camera-section">
+            <h2 style="color: #182848; margin-bottom: 20px; text-align: center;">กล้องถ่ายภาพนักเรียน</h2>
             
-            <!-- Dashboard Alert -->
-            <div id="dashboardAlert" class="alert"></div>
-            
-            <!-- Content Sections -->
-            <div id="contentSections">
-                <!-- Student Content -->
-                <div id="studentContent" class="content-section">
-                    <div class="card">
-                        <h2 class="card-title">
-                            <i class="fas fa-camera"></i> ถ่ายรูปเช็คชื่อ
-                        </h2>
-                        <div class="camera-container">
-                            <div class="camera-preview" id="cameraPreview">
-                                <div class="camera-placeholder">
-                                    <i class="fas fa-camera fa-3x"></i>
-                                    <p style="margin-top: 10px;">กล้องถ่ายรูปสำหรับเช็คชื่อ</p>
-                                </div>
-                            </div>
-                            <button class="capture-btn" onclick="capturePhoto()">
-                                <i class="fas fa-camera"></i>
-                            </button>
-                            <p style="margin-top: 15px; color: var(--gray);">
-                                กดปุ่มด้านบนเพื่อถ่ายรูปเช็คชื่อเข้าร่วมกิจกรรม
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <h2 class="card-title">
-                            <i class="fas fa-history"></i> ประวัติการเช็คชื่อ
-                        </h2>
-                        <div id="studentHistory">
-                            <p style="text-align: center; color: var(--gray); padding: 20px;">
-                                ยังไม่มีประวัติการเช็คชื่อ
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <h2 class="card-title">
-                            <i class="fas fa-user-cog"></i> จัดการบัญชีผู้ใช้
-                        </h2>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label class="form-label">รหัสนักเรียน</label>
-                                <input type="text" class="form-control" id="studentIdDisplay" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ชื่อ-สกุล</label>
-                                <input type="text" class="form-control" id="studentNameDisplay" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">อีเมล</label>
-                                <input type="email" class="form-control" id="studentEmailDisplay" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ชั้นเรียน</label>
-                                <input type="text" class="form-control" id="studentClassDisplay" readonly>
-                            </div>
-                        </div>
-                        
-                        <h3 style="color: var(--primary-blue); margin: 20px 0 15px 0;">
-                            <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
-                        </h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label class="form-label">รหัสผ่านใหม่</label>
-                                <input type="password" class="form-control" id="studentNewPassword" placeholder="รหัสผ่านใหม่">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
-                                <input type="password" class="form-control" id="studentConfirmPassword" placeholder="ยืนยันรหัสผ่านใหม่">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" onclick="changeStudentPassword()">
-                            <i class="fas fa-save"></i> บันทึกรหัสผ่านใหม่
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Teacher Content -->
-                <div id="teacherContent" class="content-section">
-                    <div class="card">
-                        <h2 class="card-title">
-                            <i class="fas fa-user-cog"></i> จัดการบัญชีผู้ใช้
-                        </h2>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label class="form-label">รหัสอาจารย์</label>
-                                <input type="text" class="form-control" id="teacherIdDisplay" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ชื่อ-สกุล</label>
-                                <input type="text" class="form-control" id="teacherNameDisplay" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">อีเมล</label>
-                                <input type="email" class="form-control" id="teacherEmailDisplay" readonly>
-                            </div>
-                        </div>
-                        
-                        <h3 style="color: var(--primary-blue); margin: 20px 0 15px 0;">
-                            <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
-                        </h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label class="form-label">รหัสผ่านใหม่</label>
-                                <input type="password" class="form-control" id="teacherNewPassword" placeholder="รหัสผ่านใหม่">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
-                                <input type="password" class="form-control" id="teacherConfirmPassword" placeholder="ยืนยันรหัสผ่านใหม่">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" onclick="changeTeacherPassword()">
-                            <i class="fas fa-save"></i> บันทึกรหัสผ่านใหม่
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Admin Content -->
-                <div id="adminContent" class="content-section">
-                    <div class="card">
-                        <h2 class="card-title">
-                            <i class="fas fa-info-circle"></i> ข้อมูลระบบแอดมิน
-                        </h2>
-                        <p><strong>รหัสผ่านแอดมินตายตัว:</strong> 1234</p>
-                        <p><strong>หมายเหตุ:</strong> รหัสผ่านแอดมินไม่สามารถเปลี่ยนได้และเป็นรหัสผ่านเดียวกันทุกคน</p>
-                        <p><strong>หน้าที่:</strong> เพิ่มกิจกรรมใหม่ จัดการกิจกรรมทั้งหมด</p>
-                    </div>
-                </div>
+            <div class="camera-container">
+                <video id="camera-view" autoplay playsinline></video>
+                <img id="photo-preview" alt="ภาพที่ถ่าย">
             </div>
+            
+            <div class="camera-controls">
+                <button id="capture-btn" class="btn btn-primary">
+                    <span class="btn-icon">📷</span> ถ่ายภาพตอนนี้
+                </button>
+                <button id="retake-btn" class="btn btn-secondary" disabled>
+                    <span class="btn-icon">🔄</span> ถ่ายภาพใหม่
+                </button>
+                <button id="confirm-btn" class="btn btn-primary" disabled>
+                    <span class="btn-icon">✓</span> ยืนยันภาพนี้
+                </button>
+            </div>
+            
+            <div class="countdown" id="countdown">3</div>
+            
+            <div id="status-message" class="status-message"></div>
+        </div>
+        
+        <div class="instructions">
+            <h3><span style="margin-right: 8px;">📋</span> คำแนะนำการถ่ายภาพ</h3>
+            <ul>
+                <li>กดปุ่ม "ถ่ายภาพตอนนี้" เพื่อถ่ายรูปเช็คซ์อเข้าร่วมกิจกรรม</li>
+                <li>ระบบจะนับถอยหลัง 3 วินาที ก่อนถ่ายภาพอัตโนมัติ</li>
+                <li>หลังจากถ่ายภาพแล้ว ภาพจะแสดงให้คุณเห็นทันที</li>
+                <li>หากภาพไม่พอใจ กดปุ่ม "ถ่ายภาพใหม่" เพื่อลองอีกครั้ง</li>
+                <li>เมื่อพอใจกับภาพแล้ว กดปุ่ม "ยืนยันภาพนี้" เพื่อส่งภาพเข้าระบบ</li>
+                <li>โปรดยืนให้อยู่ในกรอบและมองตรงไปที่กล้อง</li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            ระบบลงทะเบียนกิจกรรมค่ายรูปเช็คซ์อ | สำหรับนักเรียนเท่านั้น
         </div>
     </div>
 
     <script>
-        // ============================
-        // GLOBAL VARIABLES
-        // ============================
-        let currentUser = null;
-        let currentRole = 'student';
+        // องค์ประกอบ HTML
+        const cameraView = document.getElementById('camera-view');
+        const photoPreview = document.getElementById('photo-preview');
+        const captureBtn = document.getElementById('capture-btn');
+        const retakeBtn = document.getElementById('retake-btn');
+        const confirmBtn = document.getElementById('confirm-btn');
+        const statusMessage = document.getElementById('status-message');
+        const countdownElement = document.getElementById('countdown');
+        const timeStampElement = document.getElementById('time-stamp');
         
-        // รายชื่อโดเมนอีเมลที่อนุญาต
-        const ALLOWED_EMAIL_DOMAINS = [
-            'surat.ac.th',
-            'surat-technical.ac.th',
-            'surat-tech.ac.th'
-        ];
+        // ตัวแปรสำหรับจัดการกล้อง
+        let cameraStream = null;
+        let photoData = null;
+        let countdownTimer = null;
         
-        // ============================
-        // INITIALIZATION
-        // ============================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load saved credentials if any
-            loadSavedCredentials();
-            
-            // Check if already logged in
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                try {
-                    currentUser = JSON.parse(savedUser);
-                    showDashboard();
-                } catch (e) {
-                    localStorage.removeItem('currentUser');
-                }
-            }
-            
-            // Initialize with student role
-            selectRole('student');
-        });
-        
-        // ============================
-        // AUTHENTICATION FUNCTIONS
-        // ============================
-        function selectRole(role) {
-            currentRole = role;
-            
-            // Update UI for login form
-            document.querySelectorAll('#loginForm .role-btn').forEach(btn => {
-                btn.classList.remove('active');
+        // อัพเดทเวลาปัจจุบัน
+        function updateTimeStamp() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
-            document.getElementById(`role${role.charAt(0).toUpperCase() + role.slice(1)}`).classList.add('active');
-            
-            // Update UI for register form if visible
-            if (document.getElementById('registerForm').style.display === 'block') {
-                document.querySelectorAll('#registerForm .role-btn').forEach(btn => {
-                    btn.classList.remove('active');
+            const timeStr = now.toLocaleTimeString('th-TH');
+            timeStampElement.textContent = `วันที่และเวลา: ${dateStr} ${timeStr}`;
+        }
+        
+        // อัพเดทเวลาทุกวินาที
+        updateTimeStamp();
+        setInterval(updateTimeStamp, 1000);
+        
+        // เริ่มใช้งานกล้อง
+        async function startCamera() {
+            try {
+                statusMessage.textContent = "กำลังเริ่มใช้งานกล้อง...";
+                statusMessage.className = "status-message";
+                statusMessage.style.display = "block";
+                
+                // ขออนุญาตใช้กล้อง
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    },
+                    audio: false
                 });
-                if (role === 'admin') {
-                    // Admin can't register - auto switch to student
-                    document.getElementById('regRoleStudent').classList.add('active');
-                    currentRole = 'student';
-                } else {
-                    document.getElementById(`regRole${role.charAt(0).toUpperCase() + role.slice(1)}`).classList.add('active');
-                }
-            }
-            
-            // Update labels
-            const labelMap = {
-                'student': 'รหัสนักเรียน หรืออีเมล',
-                'teacher': 'รหัสอาจารย์ หรืออีเมล',
-                'admin': 'รหัสแอดมิน'
-            };
-            
-            document.getElementById('usernameLabel').textContent = labelMap[role];
-            
-            // Clear password fields
-            document.getElementById('password').value = '';
-        }
-        
-        function showRegister() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-            document.getElementById('authTitle').textContent = 'สมัครสมาชิก';
-            
-            // Hide alert
-            hideAlert();
-            
-            // Reset role to student for registration
-            currentRole = 'student';
-            document.querySelectorAll('#registerForm .role-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById('regRoleStudent').classList.add('active');
-            
-            // Clear form fields
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regName').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regConfirmPassword').value = '';
-        }
-        
-        function showLogin() {
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('authTitle').textContent = 'ลงชื่อเข้าใช้งาน';
-            
-            // Hide alert
-            hideAlert();
-            
-            // Clear form fields
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-        }
-        
-        function loadSavedCredentials() {
-            const savedUsername = localStorage.getItem('savedUsername');
-            const savedPassword = localStorage.getItem('savedPassword');
-            const savedRole = localStorage.getItem('savedRole');
-            
-            if (savedUsername && savedPassword && savedRole) {
-                document.getElementById('username').value = savedUsername;
-                document.getElementById('password').value = savedPassword;
                 
-                // Select the saved role
-                if (savedRole) {
-                    selectRole(savedRole);
-                }
-            }
-        }
-        
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('rememberMe').checked;
-            
-            if (!username || !password) {
-                showAlert('กรุณากรอกข้อมูลให้ครบถ้วน', 'danger');
-                return;
-            }
-            
-            // Validate based on role
-            let isValid = false;
-            let userData = null;
-            
-            switch(currentRole) {
-                case 'student':
-                    // Check if user exists in localStorage
-                    const studentUsers = JSON.parse(localStorage.getItem('studentUsers') || '[]');
-                    userData = studentUsers.find(user => 
-                        (user.username === username || user.email === username || user.studentId === username) && 
-                        user.password === password
-                    );
-                    isValid = !!userData;
-                    break;
-                    
-                case 'teacher':
-                    // Check if user exists in localStorage
-                    const teacherUsers = JSON.parse(localStorage.getItem('teacherUsers') || '[]');
-                    userData = teacherUsers.find(user => 
-                        (user.username === username || user.email === username || user.teacherId === username) && 
-                        user.password === password
-                    );
-                    isValid = !!userData;
-                    break;
-                    
-                case 'admin':
-                    // Fixed admin password
-                    isValid = password === '1234';
-                    if (isValid) {
-                        userData = {
-                            username: username || 'admin',
-                            name: 'ผู้ดูแลระบบ',
-                            role: 'admin',
-                            email: 'admin@surat.ac.th'
-                        };
-                    }
-                    break;
-            }
-            
-            if (isValid) {
-                // Save credentials if remember me is checked
-                if (rememberMe) {
-                    localStorage.setItem('savedUsername', username);
-                    localStorage.setItem('savedPassword', password);
-                    localStorage.setItem('savedRole', currentRole);
-                } else {
-                    localStorage.removeItem('savedUsername');
-                    localStorage.removeItem('savedPassword');
-                    localStorage.removeItem('savedRole');
-                }
+                // แสดงภาพจากกล้อง
+                cameraView.srcObject = cameraStream;
+                statusMessage.style.display = "none";
                 
-                // Set current user
-                if (!userData) {
-                    userData = {
-                        username: username,
-                        name: username,
-                        role: currentRole,
-                        email: `${username}@surat.ac.th`,
-                        studentId: currentRole === 'student' ? username : null,
-                        teacherId: currentRole === 'teacher' ? username : null
-                    };
-                }
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการเข้าถึงกล้อง: ", error);
+                statusMessage.textContent = "ไม่สามารถเข้าถึงกล้องได้ กรุณาอนุญาตการใช้งานกล้อง";
+                statusMessage.className = "status-message status-error";
+                statusMessage.style.display = "block";
                 
-                currentUser = userData;
-                localStorage.setItem('currentUser', JSON.stringify(userData));
+                // แสดงภาพตัวอย่างแทน (สำหรับทดสอบ)
+                cameraView.style.display = "none";
+                photoPreview.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80";
+                photoPreview.style.display = "block";
+                photoPreview.style.objectFit = "cover";
+            }
+        }
+        
+        // เริ่มนับถอยก่อนถ่ายภาพ
+        function startCountdown() {
+            let count = 3;
+            countdownElement.textContent = count;
+            countdownElement.style.display = "block";
+            captureBtn.disabled = true;
+            
+            countdownTimer = setInterval(() => {
+                count--;
+                countdownElement.textContent = count;
                 
-                showDashboard();
-                showAlert('เข้าสู่ระบบสำเร็จ', 'success');
-            } else {
-                showAlert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger');
-            }
-        }
-        
-        function register() {
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const name = document.getElementById('regName').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('regConfirmPassword').value;
-            
-            // Validation
-            if (!username || !email || !name || !password || !confirmPassword) {
-                showAlert('กรุณากรอกข้อมูลให้ครบถ้วน', 'danger');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showAlert('รหัสผ่านไม่ตรงกัน', 'danger');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showAlert('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'danger');
-                return;
-            }
-            
-            // Validate email domain
-            const emailValid = validateCollegeEmail(email);
-            if (!emailValid.isValid) {
-                showAlert(emailValid.message, 'danger');
-                return;
-            }
-            
-            // Validate username format
-            if (currentRole === 'student') {
-                // รหัสนักเรียนควรเป็นตัวเลข
-                if (!/^\d+$/.test(username)) {
-                    showAlert('รหัสนักเรียนควรเป็นตัวเลขเท่านั้น', 'warning');
+                if (count <= 0) {
+                    clearInterval(countdownTimer);
+                    countdownElement.style.display = "none";
+                    capturePhoto();
                 }
-            }
-            
-            // Check if user already exists
-            const userKey = `${currentRole}Users`;
-            const existingUsers = JSON.parse(localStorage.getItem(userKey) || '[]');
-            
-            const userExists = existingUsers.some(user => 
-                user.username === username || user.email === email
-            );
-            
-            if (userExists) {
-                showAlert('มีผู้ใช้ชื่อนี้หรืออีเมลนี้อยู่ในระบบแล้ว', 'danger');
-                return;
-            }
-            
-            // Create new user
-            const newUser = {
-                username: username,
-                email: email,
-                name: name,
-                password: password,
-                role: currentRole,
-                studentId: currentRole === 'student' ? username : null,
-                teacherId: currentRole === 'teacher' ? username : null,
-                class: currentRole === 'student' ? 'ปวช.1/1' : null, // Default class
-                createdAt: new Date().toISOString()
-            };
-            
-            // Save user
-            existingUsers.push(newUser);
-            localStorage.setItem(userKey, JSON.stringify(existingUsers));
-            
-            // Auto login after registration
-            currentUser = newUser;
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            
-            showDashboard();
-            showAlert('สมัครสมาชิกสำเร็จและเข้าสู่ระบบแล้ว', 'success');
+            }, 1000);
         }
         
-        function validateCollegeEmail(email) {
-            // Check if email is valid format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                return {
-                    isValid: false,
-                    message: 'รูปแบบอีเมลไม่ถูกต้อง'
-                };
-            }
-            
-            // Extract domain
-            const domain = email.split('@')[1].toLowerCase();
-            
-            // Check if domain is allowed
-            const isAllowedDomain = ALLOWED_EMAIL_DOMAINS.some(allowedDomain => 
-                domain === allowedDomain
-            );
-            
-            if (!isAllowedDomain) {
-                return {
-                    isValid: false,
-                    message: 'กรุณาใช้อีเมลของวิทยาลัยเทคนิคสุราษฎร์ธานีเท่านั้น (@surat.ac.th)'
-                };
-            }
-            
-            return {
-                isValid: true,
-                message: 'อีเมลถูกต้อง'
-            };
-        }
-        
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'block';
-            showLogin(); // Switch back to login form
-            showAlert('ออกจากระบบสำเร็จ', 'info');
-        }
-        
-        // ============================
-        // DASHBOARD FUNCTIONS
-        // ============================
-        function showDashboard() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            
-            // Set dashboard title
-            const roleNames = {
-                'student': 'ระบบสำหรับนักเรียน',
-                'teacher': 'ระบบสำหรับอาจารย์',
-                'admin': 'ระบบสำหรับผู้ดูแลระบบ'
-            };
-            
-            document.getElementById('dashboardTitle').textContent = roleNames[currentUser.role];
-            document.getElementById('dashboardSubtitle').textContent = `วิทยาลัยเทคนิคสุราษฎร์ธานี`;
-            document.getElementById('userNameDisplay').textContent = currentUser.name;
-            
-            // Setup navigation tabs
-            setupNavigation();
-            
-            // Load appropriate dashboard content
-            loadDashboardContent();
-        }
-        
-        function setupNavigation() {
-            const navTabs = document.getElementById('navTabs');
-            navTabs.innerHTML = '';
-            
-            const tabs = {
-                'student': [
-                    { id: 'studentContent', icon: 'fa-camera', text: 'ถ่ายรูปเช็คชื่อ' }
-                ],
-                'teacher': [
-                    { id: 'teacherContent', icon: 'fa-user-cog', text: 'จัดการบัญชี' }
-                ],
-                'admin': [
-                    { id: 'adminContent', icon: 'fa-info-circle', text: 'ข้อมูลระบบ' }
-                ]
-            };
-            
-            tabs[currentUser.role].forEach(tab => {
-                const button = document.createElement('button');
-                button.className = 'tab-btn active';
-                button.innerHTML = `<i class="fas ${tab.icon}"></i> ${tab.text}`;
-                button.onclick = () => switchTab(tab.id);
-                navTabs.appendChild(button);
-            });
-            
-            // Show first tab
-            if (tabs[currentUser.role].length > 0) {
-                switchTab(tabs[currentUser.role][0].id);
-            }
-        }
-        
-        function switchTab(tabId) {
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Show selected content
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            const activeTab = document.getElementById(tabId);
-            activeTab.classList.add('active');
-            activeTab.style.display = 'block';
-            
-            // Load data for the tab if needed
-            loadTabData(tabId);
-        }
-        
-        function loadDashboardContent() {
-            // Load user data based on role
-            switch(currentUser.role) {
-                case 'student':
-                    document.getElementById('studentIdDisplay').value = currentUser.studentId || currentUser.username;
-                    document.getElementById('studentNameDisplay').value = currentUser.name;
-                    document.getElementById('studentEmailDisplay').value = currentUser.email;
-                    document.getElementById('studentClassDisplay').value = currentUser.class || 'ยังไม่ได้กำหนด';
-                    break;
-                    
-                case 'teacher':
-                    document.getElementById('teacherIdDisplay').value = currentUser.teacherId || currentUser.username;
-                    document.getElementById('teacherNameDisplay').value = currentUser.name;
-                    document.getElementById('teacherEmailDisplay').value = currentUser.email;
-                    break;
-            }
-        }
-        
-        function loadTabData(tabId) {
-            // Load additional data for specific tabs if needed
-            // For now, this is a placeholder
-        }
-        
+        // ถ่ายภาพ
         function capturePhoto() {
-            // Simulate photo capture
-            const preview = document.getElementById('cameraPreview');
-            preview.innerHTML = `
-                <div class="camera-placeholder" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
-                    <i class="fas fa-check-circle fa-3x"></i>
-                    <p style="margin-top: 10px;">ถ่ายรูปสำเร็จ!</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">${new Date().toLocaleTimeString('th-TH')}</p>
-                </div>
-            `;
-            
-            // Save check-in record
-            const checkinRecord = {
-                studentId: currentUser.studentId || currentUser.username,
-                studentName: currentUser.name,
-                timestamp: new Date().toISOString(),
-                status: 'เช็คชื่อแล้ว'
-            };
-            
-            // Save to localStorage
-            const checkins = JSON.parse(localStorage.getItem('studentCheckins') || '[]');
-            checkins.push(checkinRecord);
-            localStorage.setItem('studentCheckins', JSON.stringify(checkins));
-            
-            // Show success message
-            showDashboardAlert('ถ่ายรูปเช็คชื่อสำเร็จ!', 'success');
-        }
-        
-        function changeStudentPassword() {
-            const newPassword = document.getElementById('studentNewPassword').value;
-            const confirmPassword = document.getElementById('studentConfirmPassword').value;
-            
-            if (!newPassword || !confirmPassword) {
-                showDashboardAlert('กรุณากรอกรหัสผ่านใหม่ทั้งสองช่อง', 'danger');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showDashboardAlert('รหัสผ่านไม่ตรงกัน', 'danger');
-                return;
-            }
-            
-            if (newPassword.length < 6) {
-                showDashboardAlert('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'danger');
-                return;
-            }
-            
-            // Update password in localStorage
-            const studentUsers = JSON.parse(localStorage.getItem('studentUsers') || '[]');
-            const userIndex = studentUsers.findIndex(user => 
-                user.username === currentUser.username || user.email === currentUser.email
-            );
-            
-            if (userIndex !== -1) {
-                studentUsers[userIndex].password = newPassword;
-                localStorage.setItem('studentUsers', JSON.stringify(studentUsers));
+            try {
+                // สร้าง canvas เพื่อบันทึกภาพจากวิดีโอ
+                const canvas = document.createElement('canvas');
+                canvas.width = cameraView.videoWidth;
+                canvas.height = cameraView.videoHeight;
                 
-                // Update current user
-                currentUser.password = newPassword;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                const context = canvas.getContext('2d');
                 
-                // Clear password fields
-                document.getElementById('studentNewPassword').value = '';
-                document.getElementById('studentConfirmPassword').value = '';
+                // วาดภาพจากวิดีโอลงใน canvas
+                context.drawImage(cameraView, 0, 0, canvas.width, canvas.height);
                 
-                showDashboardAlert('เปลี่ยนรหัสผ่านสำเร็จ', 'success');
-            } else {
-                showDashboardAlert('ไม่พบข้อมูลผู้ใช้', 'danger');
+                // แปลง canvas เป็นข้อมูลรูปภาพ
+                photoData = canvas.toDataURL('image/png');
+                
+                // แสดงภาพที่ถ่ายให้ผู้ใช้เห็นทันที
+                photoPreview.src = photoData;
+                photoPreview.style.display = "block";
+                cameraView.style.display = "none";
+                
+                // เปลี่ยนสถานะปุ่ม
+                captureBtn.disabled = true;
+                retakeBtn.disabled = false;
+                confirmBtn.disabled = false;
+                
+                // แจ้งเตือนสำเร็จ
+                statusMessage.textContent = "ถ่ายภาพสำเร็จ! กรุณาตรวจสอบภาพด้านบน";
+                statusMessage.className = "status-message status-success";
+                statusMessage.style.display = "block";
+                
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการถ่ายภาพ: ", error);
+                statusMessage.textContent = "เกิดข้อผิดพลาดในการถ่ายภาพ กรุณาลองอีกครั้ง";
+                statusMessage.className = "status-message status-error";
+                statusMessage.style.display = "block";
+                
+                captureBtn.disabled = false;
+                countdownElement.style.display = "none";
             }
         }
         
-        function changeTeacherPassword() {
-            const newPassword = document.getElementById('teacherNewPassword').value;
-            const confirmPassword = document.getElementById('teacherConfirmPassword').value;
+        // ถ่ายภาพใหม่
+        function retakePhoto() {
+            // ซ่อนภาพที่ถ่ายและแสดงกล้องอีกครั้ง
+            photoPreview.style.display = "none";
+            cameraView.style.display = "block";
             
-            if (!newPassword || !confirmPassword) {
-                showDashboardAlert('กรุณากรอกรหัสผ่านใหม่ทั้งสองช่อง', 'danger');
-                return;
-            }
+            // รีเซ็ตปุ่ม
+            captureBtn.disabled = false;
+            retakeBtn.disabled = true;
+            confirmBtn.disabled = true;
             
-            if (newPassword !== confirmPassword) {
-                showDashboardAlert('รหัสผ่านไม่ตรงกัน', 'danger');
-                return;
-            }
-            
-            if (newPassword.length < 6) {
-                showDashboardAlert('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'danger');
-                return;
-            }
-            
-            // Update password in localStorage
-            const teacherUsers = JSON.parse(localStorage.getItem('teacherUsers') || '[]');
-            const userIndex = teacherUsers.findIndex(user => 
-                user.username === currentUser.username || user.email === currentUser.email
-            );
-            
-            if (userIndex !== -1) {
-                teacherUsers[userIndex].password = newPassword;
-                localStorage.setItem('teacherUsers', JSON.stringify(teacherUsers));
-                
-                // Update current user
-                currentUser.password = newPassword;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
-                // Clear password fields
-                document.getElementById('teacherNewPassword').value = '';
-                document.getElementById('teacherConfirmPassword').value = '';
-                
-                showDashboardAlert('เปลี่ยนรหัสผ่านสำเร็จ', 'success');
-            } else {
-                showDashboardAlert('ไม่พบข้อมูลผู้ใช้', 'danger');
-            }
+            // ซ่อนข้อความสถานะ
+            statusMessage.style.display = "none";
         }
         
-        // ============================
-        // HELPER FUNCTIONS
-        // ============================
-        function showAlert(message, type) {
-            const alertDiv = document.getElementById('alertMessage');
-            alertDiv.textContent = message;
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.style.display = 'block';
+        // ยืนยันภาพ
+        function confirmPhoto() {
+            statusMessage.textContent = "กำลังบันทึกรูปภาพลงระบบ...";
+            statusMessage.className = "status-message";
+            statusMessage.style.display = "block";
             
-            // Auto hide after 5 seconds
+            // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
             setTimeout(() => {
-                hideAlert();
-            }, 5000);
+                statusMessage.textContent = "บันทึกรูปภาพสำเร็จ! รูปภาพของคุณได้ถูกบันทึกเข้าระบบกิจกรรมแล้ว";
+                statusMessage.className = "status-message status-success";
+                
+                // ปิดการใช้งานปุ่ม
+                confirmBtn.disabled = true;
+                retakeBtn.disabled = true;
+                
+                // แสดงเวลาเสร็จสิ้น
+                updateTimeStamp();
+                
+                // จำลองส่งข้อมูลไปยังเซิร์ฟเวอร์ (ในระบบจริงควรใช้ fetch หรือ XMLHttpRequest)
+                console.log("ข้อมูลรูปภาพที่ส่งไปยังเซิร์ฟเวอร์:", photoData.substring(0, 100) + "...");
+                
+            }, 1500);
         }
         
-        function showDashboardAlert(message, type) {
-            const alertDiv = document.getElementById('dashboardAlert');
-            alertDiv.textContent = message;
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.style.display = 'block';
-            
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                alertDiv.style.display = 'none';
-            }, 5000);
-        }
+        // เพิ่ม Event Listeners
+        captureBtn.addEventListener('click', startCountdown);
+        retakeBtn.addEventListener('click', retakePhoto);
+        confirmBtn.addEventListener('click', confirmPhoto);
         
-        function hideAlert() {
-            document.getElementById('alertMessage').style.display = 'none';
-        }
+        // เริ่มระบบเมื่อโหลดหน้าเว็บเสร็จ
+        window.addEventListener('load', startCamera);
         
-        // Add some sample users for testing
-        function addSampleUsers() {
-            // Add sample student
-            const studentUsers = JSON.parse(localStorage.getItem('studentUsers') || '[]');
-            if (studentUsers.length === 0) {
-                studentUsers.push({
-                    username: '6412345678',
-                    email: 'student6412345678@surat.ac.th',
-                    name: 'นักเรียนตัวอย่าง',
-                    password: '123456',
-                    role: 'student',
-                    studentId: '6412345678',
-                    class: 'ปวช.1/1',
-                    createdAt: new Date().toISOString()
-                });
-                localStorage.setItem('studentUsers', JSON.stringify(studentUsers));
+        // ปิดสตรีมกล้องเมื่อออกจากหน้าเว็บ
+        window.addEventListener('beforeunload', () => {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
             }
-            
-            // Add sample teacher
-            const teacherUsers = JSON.parse(localStorage.getItem('teacherUsers') || '[]');
-            if (teacherUsers.length === 0) {
-                teacherUsers.push({
-                    username: 'T001',
-                    email: 'teacher001@surat.ac.th',
-                    name: 'อาจารย์ตัวอย่าง',
-                    password: '123456',
-                    role: 'teacher',
-                    teacherId: 'T001',
-                    createdAt: new Date().toISOString()
-                });
-                localStorage.setItem('teacherUsers', JSON.stringify(teacherUsers));
-            }
-        }
-        
-        // Call this to add sample users (for testing)
-        // addSampleUsers();
+        });
     </script>
 </body>
 </html>
