@@ -1276,12 +1276,13 @@
         let countdownTimer = null;
 
         // รวมข้อมูลผู้ใช้จากทุกกลุ่ม
-        for (const role in sampleUsers) {
-            allUsers = allUsers.concat(sampleUsers[role]);
-        }
-
-        // โหลดข้อมูลผู้ใช้จาก localStorage
-        function loadUsersFromStorage() {
+        function initializeUsers() {
+            allUsers = [];
+            for (const role in sampleUsers) {
+                allUsers = allUsers.concat(sampleUsers[role]);
+            }
+            
+            // โหลดข้อมูลจาก localStorage
             try {
                 const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
                 allUsers = allUsers.concat(storedUsers);
@@ -1476,12 +1477,25 @@
                 user.role === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ';
             
             // อัปเดตโปรไฟล์
-            document.getElementById('profile-name').textContent = user.name;
-            document.getElementById('profile-id').textContent = user.id;
-            document.getElementById('profile-class').textContent = user.class || 'ไม่ระบุ';
-            document.getElementById('profile-email').textContent = user.email || 'ไม่ระบุ';
-            document.getElementById('profile-phone').textContent = user.phone || 'ไม่ระบุ';
-            document.getElementById('profile-reg-date').textContent = user.regDate || 'ไม่ระบุ';
+            if (document.getElementById('profile-name')) {
+                document.getElementById('profile-name').textContent = user.name;
+                document.getElementById('profile-id').textContent = user.id;
+                document.getElementById('profile-class').textContent = user.class || 'ไม่ระบุ';
+                document.getElementById('profile-email').textContent = user.email || 'ไม่ระบุ';
+                document.getElementById('profile-phone').textContent = user.phone || 'ไม่ระบุ';
+                document.getElementById('profile-reg-date').textContent = user.regDate || 'ไม่ระบุ';
+                
+                // อัปเดตสถานะ
+                const statusElement = document.querySelector('#profile-page .status-badge');
+                if (statusElement) {
+                    statusElement.className = 'status-badge ' + 
+                        (user.status === 'registered' ? 'status-registered' : 
+                         user.status === 'pending' ? 'status-pending' : 'status-not-registered');
+                    statusElement.textContent = 
+                        user.status === 'registered' ? 'ลงทะเบียนแล้ว' : 
+                        user.status === 'pending' ? 'รอการยืนยัน' : 'ยังไม่ได้ลงทะเบียน';
+                }
+            }
             
             // อัปเดตเมนูตามบทบาท
             updateMenuBasedOnRole(user.role);
@@ -1519,6 +1533,10 @@
         // เริ่มกล้อง
         async function startCamera() {
             try {
+                if (cameraStream) {
+                    cameraStream.getTracks().forEach(track => track.stop());
+                }
+                
                 cameraStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         width: { ideal: 1280 },
@@ -1530,6 +1548,12 @@
                 
                 const cameraView = document.getElementById('camera-view');
                 cameraView.srcObject = cameraStream;
+                
+                // ซ่อนสถานะข้อความถ้ามี
+                const statusElement = document.getElementById('camera-status');
+                if (statusElement) {
+                    statusElement.style.display = 'none';
+                }
                 
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการเข้าถึงกล้อง:", error);
@@ -1564,6 +1588,7 @@
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการถ่ายภาพ:", error);
                 showMessage('camera-status', 'เกิดข้อผิดพลาดในการถ่ายภาพ กรุณาลองอีกครั้ง', 'error');
+                document.getElementById('capture-btn').disabled = false;
             }
         }
 
@@ -1574,6 +1599,10 @@
             countdownElement.textContent = count;
             countdownElement.style.display = 'block';
             document.getElementById('capture-btn').disabled = true;
+            
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
             
             countdownTimer = setInterval(() => {
                 count--;
@@ -1597,7 +1626,9 @@
             document.getElementById('confirm-btn').disabled = true;
             
             const statusElement = document.getElementById('camera-status');
-            statusElement.style.display = 'none';
+            if (statusElement) {
+                statusElement.style.display = 'none';
+            }
         }
 
         // ยืนยันภาพ
@@ -1612,9 +1643,133 @@
                 
                 updateTimeStamp();
                 
-                console.log("บันทึกรูปภาพ:", photoData.substring(0, 100) + "...");
+                // บันทึกกิจกรรม
+                if (currentUser) {
+                    const activity = {
+                        title: `${currentUser.name} ถ่ายรูปลงทะเบียนกิจกรรม`,
+                        time: new Date().toLocaleTimeString('th-TH'),
+                        icon: '📸'
+                    };
+                    addActivity(activity);
+                }
+                
+                console.log("บันทึกรูปภาพสำเร็จ:", photoData.substring(0, 100) + "...");
                 
             }, 1500);
+        }
+
+        // เพิ่มกิจกรรม
+        function addActivity(activity) {
+            const activityList = document.getElementById('activity-list');
+            if (activityList) {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div class="activity-details">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `;
+                activityList.prepend(activityItem);
+            }
+        }
+
+        // โหลดกิจกรรม
+        function loadActivities() {
+            const activities = [
+                { title: "นางสาวสมชาย ใจดี ลงทะเบียนกิจกรรม", time: "11:20:02 น.", icon: "📸" },
+                { title: "นายก้องภพ ศรีสวัสดิ์ อัพเดทรูปโปรไฟล์", time: "10:45:15 น.", icon: "🖼️" },
+                { title: "ครูสมหมาย อนุมัติการลงทะเบียน", time: "09:30:45 น.", icon: "✅" },
+                { title: "ระบบทำการสำรองข้อมูลอัตโนมัติ", time: "08:00:00 น.", icon: "💾" },
+                { title: "นางสาววรรณษา พันธ์แสง ส่งคำร้องขอลงทะเบียน", time: "07:15:20 น.", icon: "📝" }
+            ];
+            
+            const activityList = document.getElementById('activity-list');
+            if (activityList) {
+                activityList.innerHTML = '';
+                activities.forEach(activity => {
+                    addActivity(activity);
+                });
+            }
+        }
+
+        // โหลดข้อมูลนักเรียนสำหรับหน้า Admin/Teacher
+        function loadStudentsData() {
+            const students = allUsers.filter(user => user.role === 'student');
+            const tableBody = document.getElementById('students-table-body');
+            
+            if (tableBody) {
+                tableBody.innerHTML = '';
+                
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    
+                    const statusClass = 
+                        student.status === 'registered' ? 'status-registered' : 
+                        student.status === 'pending' ? 'status-pending' : 'status-not-registered';
+                    
+                    const statusText = 
+                        student.status === 'registered' ? 'ลงทะเบียนแล้ว' : 
+                        student.status === 'pending' ? 'รอการยืนยัน' : 'ยังไม่ได้ลงทะเบียน';
+                    
+                    row.innerHTML = `
+                        <td class="student-id">${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.class || 'ไม่ระบุ'}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>${student.regDate || 'ไม่ระบุ'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn">ดู</button>
+                                <button class="action-btn edit-btn">แก้ไข</button>
+                                <button class="action-btn delete-btn">ลบ</button>
+                            </div>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+            }
+        }
+
+        // โหลดข้อมูลห้องเรียน
+        function loadClassesData() {
+            const classList = document.querySelector('.class-list');
+            if (!classList) return;
+            
+            const classes = [
+                { name: "ม.6/1", total: 40, registered: 38, pending: 2, teacher: "ครูสมหมาย ใจดี" },
+                { name: "ม.6/2", total: 42, registered: 35, pending: 5, teacher: "ครูวรรณา ศรีสุข" },
+                { name: "ม.6/3", total: 38, registered: 36, pending: 2, teacher: "ครูชัยวัฒน์ พันธ์ทอง" },
+                { name: "ม.6/4", total: 45, registered: 40, pending: 3, teacher: "ครูเพ็ญพิชชา ทรัพย์สมบูรณ์" }
+            ];
+            
+            classList.innerHTML = '';
+            
+            classes.forEach(cls => {
+                const classCard = document.createElement('div');
+                classCard.className = 'class-card';
+                classCard.innerHTML = `
+                    <h3>${cls.name}</h3>
+                    <p>ครูผู้สอน: ${cls.teacher}</p>
+                    <div class="class-stats">
+                        <div class="stat">
+                            <div class="stat-value">${cls.total}</div>
+                            <div class="stat-label">ทั้งหมด</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${cls.registered}</div>
+                            <div class="stat-label">ลงทะเบียนแล้ว</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${cls.pending}</div>
+                            <div class="stat-label">รอการยืนยัน</div>
+                        </div>
+                    </div>
+                `;
+                classList.appendChild(classCard);
+            });
         }
 
         // สลับหน้า
@@ -1623,21 +1778,48 @@
                 page.classList.add('hidden');
             });
             
-            document.getElementById(pageId).classList.remove('hidden');
-            document.getElementById('page-title').textContent = 
-                pageId === 'dashboard-page' ? 'แดชบอร์ด' :
-                pageId === 'camera-page' ? 'ถ่ายรูปลงทะเบียน' :
-                pageId === 'profile-page' ? 'ข้อมูลส่วนตัว' :
-                pageId === 'students-page' ? 'จัดการนักเรียน' :
-                pageId === 'classes-page' ? 'จัดการห้องเรียน' :
-                pageId === 'reports-page' ? 'รายงานสถิติ' :
-                pageId === 'settings-page' ? 'ตั้งค่าระบบ' : 'แดชบอร์ด';
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
             
-            // ถ้าเป็นหน้ากล้อง ให้เริ่มกล้อง
-            if (pageId === 'camera-page') {
-                setTimeout(() => {
-                    startCamera();
-                }, 100);
+            const pageElement = document.getElementById(pageId);
+            if (pageElement) {
+                pageElement.classList.remove('hidden');
+                
+                // อัปเดตเมนูที่ active
+                const pageName = pageId.replace('-page', '');
+                const menuItem = document.querySelector(`.menu-item[data-page="${pageName}"]`);
+                if (menuItem) {
+                    menuItem.classList.add('active');
+                }
+                
+                // อัปเดตชื่อหน้า
+                const pageTitle = document.getElementById('page-title');
+                if (pageTitle) {
+                    const titles = {
+                        'dashboard': 'แดชบอร์ด',
+                        'camera': 'ถ่ายรูปลงทะเบียน',
+                        'profile': 'ข้อมูลส่วนตัว',
+                        'students': 'จัดการนักเรียน',
+                        'classes': 'จัดการห้องเรียน',
+                        'reports': 'รายงานสถิติ',
+                        'settings': 'ตั้งค่าระบบ'
+                    };
+                    pageTitle.textContent = titles[pageName] || 'แดชบอร์ด';
+                }
+                
+                // โหลดข้อมูลหน้า
+                if (pageId === 'dashboard-page') {
+                    loadActivities();
+                } else if (pageId === 'students-page') {
+                    loadStudentsData();
+                } else if (pageId === 'classes-page') {
+                    loadClassesData();
+                } else if (pageId === 'camera-page') {
+                    setTimeout(() => {
+                        startCamera();
+                    }, 100);
+                }
             }
         }
 
@@ -1645,6 +1827,7 @@
         function logout() {
             if (cameraStream) {
                 cameraStream.getTracks().forEach(track => track.stop());
+                cameraStream = null;
             }
             
             currentUser = null;
@@ -1654,12 +1837,20 @@
             // รีเซ็ตฟอร์มล็อกอิน
             document.getElementById('login-form').reset();
             showForm('login');
+            
+            // ซ่อนข้อความทั้งหมด
+            ['login-message', 'register-message', 'forgot-message'].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none';
+                }
+            });
         }
 
         // เมื่อ DOM โหลดเสร็จ
         document.addEventListener('DOMContentLoaded', function() {
-            // โหลดข้อมูล
-            loadUsersFromStorage();
+            // เริ่มต้นระบบ
+            initializeUsers();
             loadRememberedCredentials();
             updateTimeStamp();
             setInterval(updateTimeStamp, 60000);
@@ -1800,9 +1991,6 @@
             // เมนูในระบบ
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.addEventListener('click', function() {
-                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
                     const page = this.getAttribute('data-page');
                     showPage(page + '-page');
                 });
@@ -1824,12 +2012,31 @@
             // ออกจากระบบ
             document.getElementById('logout-btn').addEventListener('click', logout);
             
+            // ปุ่มค้นหาในหน้าจัดการนักเรียน
+            const searchButton = document.querySelector('#students-page .btn-primary');
+            if (searchButton) {
+                searchButton.addEventListener('click', function() {
+                    loadStudentsData();
+                });
+            }
+            
+            // ปุ่มเพิ่มนักเรียน
+            const addStudentButton = document.querySelector('#students-page .btn-secondary');
+            if (addStudentButton) {
+                addStudentButton.addEventListener('click', function() {
+                    alert('หน้าสำหรับเพิ่มนักเรียนใหม่');
+                });
+            }
+            
             // ปิดกล้องเมื่อออกจากหน้า
             window.addEventListener('beforeunload', function() {
                 if (cameraStream) {
                     cameraStream.getTracks().forEach(track => track.stop());
                 }
             });
+            
+            // โหลดกิจกรรมเริ่มต้น
+            loadActivities();
         });
     </script>
 </body>
