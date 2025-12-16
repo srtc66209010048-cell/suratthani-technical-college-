@@ -1,12 +1,1080 @@
+# ระบบบันทึกการเช็คกิจกรรมออนไลน์
+ระบบเดียวสำหรับ นักเรียน, อาจารย์, และแอดมิน
+
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เว็บไซต์โครงการวิทยาลัยเทคนิคสุราษฎร์ธานี</title>
+    <title>ระบบเช็คชื่อนักเรียนออนไลน์</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-blue: #4A6FA5;
+            --light-blue: #E3F2FD;
+            --pastel-pink: #FFD6E7;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --gray: #757575;
+            --dark-gray: #333333;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --info: #2196F3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--pastel-pink));
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        /* Login Section */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-title {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .role-btn {
+            padding: 12px;
+            border: 2px solid var(--light-blue);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .role-btn.active {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+        }
+        
+        .role-btn i {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5a8c;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        /* Dashboard */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-blue);
+            border-bottom: 3px solid var(--primary-blue);
+            background: var(--light-blue);
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-title {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Student Section */
+        .camera-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .camera-preview {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            background: #333;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .camera-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .capture-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+        
+        /* Teacher Section */
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .student-table th {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+        
+        .student-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .status-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .status-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-present { background-color: rgba(76, 175, 80, 0.1); color: var(--success); }
+        .btn-present.active { background-color: var(--success); color: white; }
+        .btn-late { background-color: rgba(255, 152, 0, 0.1); color: var(--warning); }
+        .btn-late.active { background-color: var(--warning); color: white; }
+        .btn-absent { background-color: rgba(244, 67, 54, 0.1); color: var(--danger); }
+        .btn-absent.active { background-color: var(--danger); color: white; }
+        
+        /* Admin Section */
+        .activity-form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .activity-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .activity-item {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .role-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>ยินดีต้อนรับสู่เว็บไซต์โครงการ!</h1>
-    <p>นี่คือโค้ด HTML ที่เรากำลังจะนำไปโฮสต์บน Vercel</p>
-</body>
-</html>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="container">
+        <div class="header">
+            <h1><i class="fas fa-clipboard-check"></i> ระบบเช็คชื่อนักเรียนออนไลน์</h1>
+            <p>วิทยาลัยเทคนิคสุราษฎร์ธานี</p>
+        </div>
+        
+        <div class="login-container">
+            <div class="login-box">
+                <h2 class="login-title">ลงชื่อเข้าใช้งาน</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">เลือกระบบการใช้งาน</label>
+                    <div class="role-selector">
+                        <button class="role-btn active" onclick="selectRole('student')">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>นักเรียน</span>
+                        </button>
+                        <button class="role-btn" onclick="selectRole('teacher')">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>อาจารย์</span>
+                        </button>
+                        <button class="role-btn" onclick="selectRole('admin')">
+                            <i class="fas fa-user-cog"></i>
+                            <span>แอดมิน</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" id="usernameLabel">รหัสนักเรียน</label>
+                    <input type="text" id="username" class="form-control" placeholder="กรอกรหัสนักเรียน">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">รหัสผ่าน</label>
+                    <input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน">
+                </div>
+                
+                <button class="btn btn-primary" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Dashboard (Hidden until login) -->
+    <div id="mainDashboard" style="display: none;">
+        <div class="header">
+            <div class="container dashboard-header">
+                <h1 id="dashboardTitle"></h1>
+                <div class="user-info">
+                    <span id="userRoleDisplay"></span>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs" id="navTabs"></div>
+            
+            <!-- Alert Message -->
+            <div id="alertMessage" class="alert"></div>
+            
+            <!-- Content Sections -->
+            <div id="contentSections">
+                <!-- Student Content -->
+                <div id="studentContent" class="content-section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-camera"></i> ถ่ายรูปเช็คชื่อ
+                        </h2>
+                        <div class="camera-container">
+                            <div class="camera-preview" id="cameraPreview">
+                                <div class="camera-placeholder">
+                                    <i class="fas fa-camera fa-3x"></i>
+                                    <p style="margin-top: 10px;">กล้องถ่ายรูปสำหรับเช็คชื่อ</p>
+                                </div>
+                            </div>
+                            <button class="capture-btn" onclick="capturePhoto()">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                            <p style="margin-top: 15px; color: var(--gray);">
+                                กดปุ่มด้านบนเพื่อถ่ายรูปเช็คชื่อเข้าร่วมกิจกรรม
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-history"></i> ประวัติการเช็คชื่อ
+                        </h2>
+                        <div id="studentHistory">
+                            <!-- History will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Teacher Content -->
+                <div id="teacherContent" class="content-section">
+                    <!-- Tab 1: Check-in -->
+                    <div id="teacherCheckin" class="content-section active">
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-calendar-check"></i> เช็คชื่อนักเรียน
+                            </h2>
+                            <div class="filter-row">
+                                <div class="form-group">
+                                    <label class="form-label">วันที่</label>
+                                    <input type="date" id="checkinDate" class="form-control" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">กิจกรรม</label>
+                                    <select id="checkinActivity" class="form-control">
+                                        <option value="">เลือกกิจกรรม</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ชั้นเรียน</label>
+                                    <select id="checkinClass" class="form-control">
+                                        <option value="">ทั้งหมด</option>
+                                        <option value="ปวช.1/1">ปวช.1/1</option>
+                                        <option value="ปวช.1/2">ปวช.1/2</option>
+                                        <option value="ปวช.2/1">ปวช.2/1</option>
+                                        <option value="ปวช.2/2">ปวช.2/2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="loadStudentsForCheckin()">
+                                <i class="fas fa-search"></i> แสดงรายชื่อนักเรียน
+                            </button>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-list"></i> รายชื่อนักเรียน
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="student-table">
+                                    <thead>
+                                        <tr>
+                                            <th>เลขที่</th>
+                                            <th>ชื่อ-สกุล</th>
+                                            <th>ชั้นเรียน</th>
+                                            <th>สถานะการเช็คชื่อ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="studentCheckinList">
+                                        <!-- Students will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-success" onclick="saveCheckinData()">
+                                    <i class="fas fa-save"></i> บันทึกข้อมูล
+                                </button>
+                                <button class="btn btn-primary" onclick="loadFromStorage()">
+                                    <i class="fas fa-download"></i> โหลดข้อมูลที่บันทึกไว้
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 2: Manage Students -->
+                    <div id="teacherManageStudents" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-user-plus"></i> เพิ่มนักเรียนใหม่
+                            </h2>
+                            <div class="filter-row">
+                                <div class="form-group">
+                                    <label class="form-label">เลขที่</label>
+                                    <input type="text" id="newStudentNumber" class="form-control" placeholder="กรอกเลขที่">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ชื่อ</label>
+                                    <input type="text" id="newFirstName" class="form-control" placeholder="กรอกชื่อ">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">สกุล</label>
+                                    <input type="text" id="newLastName" class="form-control" placeholder="กรอกสกุล">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ชั้นเรียน</label>
+                                    <select id="newStudentClass" class="form-control">
+                                        <option value="ปวช.1/1">ปวช.1/1</option>
+                                        <option value="ปวช.1/2">ปวช.1/2</option>
+                                        <option value="ปวช.2/1">ปวช.2/1</option>
+                                        <option value="ปวช.2/2">ปวช.2/2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-success" onclick="addNewStudent()">
+                                <i class="fas fa-plus"></i> เพิ่มนักเรียน
+                            </button>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-users"></i> รายชื่อนักเรียนทั้งหมด
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="student-table">
+                                    <thead>
+                                        <tr>
+                                            <th>เลขที่</th>
+                                            <th>ชื่อ-สกุล</th>
+                                            <th>ชั้นเรียน</th>
+                                            <th>การดำเนินการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allStudentsList">
+                                        <!-- All students will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 3: Reports -->
+                    <div id="teacherReports" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-chart-bar"></i> รายงานการเช็คชื่อ
+                            </h2>
+                            <div class="filter-row">
+                                <div class="form-group">
+                                    <label class="form-label">ตั้งแต่</label>
+                                    <input type="date" id="reportStartDate" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ถึง</label>
+                                    <input type="date" id="reportEndDate" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">กิจกรรม</label>
+                                    <select id="reportActivity" class="form-control">
+                                        <option value="">ทั้งหมด</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary" onclick="generateReport()">
+                                <i class="fas fa-chart-line"></i> สร้างรายงาน
+                            </button>
+                        </div>
+                        
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-table"></i> ผลรายงาน
+                            </h2>
+                            <div id="reportResults">
+                                <!-- Report results will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Admin Content -->
+                <div id="adminContent" class="content-section">
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-calendar-plus"></i> เพิ่มกิจกรรมใหม่
+                        </h2>
+                        <div class="activity-form">
+                            <div class="form-group">
+                                <label class="form-label">ชื่อกิจกรรม</label>
+                                <input type="text" id="activityName" class="form-control" placeholder="กรอกชื่อกิจกรรม">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">คำอธิบาย</label>
+                                <textarea id="activityDescription" class="form-control" rows="3" placeholder="กรอกรายละเอียดกิจกรรม"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">วันที่จัดกิจกรรม</label>
+                                <input type="date" id="activityDate" class="form-control">
+                            </div>
+                            
+                            <button class="btn btn-success" onclick="addNewActivity()">
+                                <i class="fas fa-plus"></i> เพิ่มกิจกรรม
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-calendar-alt"></i> รายการกิจกรรมทั้งหมด
+                        </h2>
+                        <div id="activitiesList" class="activity-list">
+                            <!-- Activities will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PHP Backend Simulation (Using JavaScript to simulate PHP) -->
+    <script>
+        // ============================
+        // GLOBAL VARIABLES
+        // ============================
+        let currentUser = null;
+        let currentRole = 'student';
+        let checkinData = {};
+        let students = [];
+        let activities = [];
+        
+        // ============================
+        // INITIALIZATION
+        // ============================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date
+            document.getElementById('checkinDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('reportStartDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('reportEndDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('activityDate').value = new Date().toISOString().split('T')[0];
+            
+            // Load initial data
+            loadInitialData();
+            
+            // Check if already logged in
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard(currentUser.role);
+            }
+        });
+        
+        // ============================
+        // LOGIN FUNCTIONS
+        // ============================
+        function selectRole(role) {
+            currentRole = role;
+            
+            // Update UI
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update label
+            const labelMap = {
+                'student': 'รหัสนักเรียน',
+                'teacher': 'รหัสอาจารย์',
+                'admin': 'รหัสแอดมิน'
+            };
+            document.getElementById('usernameLabel').textContent = labelMap[role];
+        }
+        
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                showAlert('กรุณากรอกข้อมูลให้ครบถ้วน', 'danger');
+                return;
+            }
+            
+            // Simple authentication (in real app, this would be server-side)
+            let userData = null;
+            
+            switch(currentRole) {
+                case 'student':
+                    if (username === 'student001' && password === '1234') {
+                        userData = {
+                            id: 'ST001',
+                            name: 'นักเรียนตัวอย่าง',
+                            role: 'student',
+                            class: 'ปวช.1/1'
+                        };
+                    }
+                    break;
+                    
+                case 'teacher':
+                    if (username === 'teacher001' && password === '1234') {
+                        userData = {
+                            id: 'T001',
+                            name: 'อาจารย์ผู้สอน',
+                            role: 'teacher',
+                            department: 'วิชาการ'
+                        };
+                    }
+                    break;
+                    
+                case 'admin':
+                    if (username === 'admin001' && password === '1234') {
+                        userData = {
+                            id: 'AD001',
+                            name: 'ผู้ดูแลระบบ',
+                            role: 'admin'
+                        };
+                    }
+                    break;
+            }
+            
+            if (userData) {
+                currentUser = userData;
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+                showDashboard(currentRole);
+                showAlert('เข้าสู่ระบบสำเร็จ', 'success');
+            } else {
+                showAlert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger');
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            document.getElementById('mainDashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+        }
+        
+        // ============================
+        // DASHBOARD FUNCTIONS
+        // ============================
+        function showDashboard(role) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainDashboard').style.display = 'block';
+            
+            // Set dashboard title
+            const roleNames = {
+                'student': 'ระบบสำหรับนักเรียน',
+                'teacher': 'ระบบสำหรับอาจารย์',
+                'admin': 'ระบบสำหรับแอดมิน'
+            };
+            
+            document.getElementById('dashboardTitle').textContent = roleNames[role];
+            document.getElementById('userRoleDisplay').textContent = currentUser.name;
+            
+            // Show appropriate content
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Setup navigation tabs based on role
+            setupNavigation(role);
+            
+            // Load initial data for the role
+            loadRoleData(role);
+        }
+        
+        function setupNavigation(role) {
+            const navTabs = document.getElementById('navTabs');
+            navTabs.innerHTML = '';
+            
+            const tabs = {
+                'student': [
+                    { id: 'studentContent', icon: 'fa-camera', text: 'ถ่ายรูปเช็คชื่อ' }
+                ],
+                'teacher': [
+                    { id: 'teacherCheckin', icon: 'fa-calendar-check', text: 'เช็คชื่อนักเรียน' },
+                    { id: 'teacherManageStudents', icon: 'fa-users', text: 'จัดการนักเรียน' },
+                    { id: 'teacherReports', icon: 'fa-chart-bar', text: 'รายงาน' }
+                ],
+                'admin': [
+                    { id: 'adminContent', icon: 'fa-calendar-plus', text: 'จัดการกิจกรรม' }
+                ]
+            };
+            
+            tabs[role].forEach(tab => {
+                const button = document.createElement('button');
+                button.className = 'tab-btn';
+                button.innerHTML = `<i class="fas ${tab.icon}"></i> ${tab.text}`;
+                button.onclick = () => switchTab(tab.id);
+                
+                // Make first tab active by default
+                if (navTabs.children.length === 0) {
+                    button.classList.add('active');
+                }
+                
+                navTabs.appendChild(button);
+            });
+            
+            // Show first tab
+            if (tabs[role].length > 0) {
+                document.getElementById(tabs[role][0].id).classList.add('active');
+            }
+        }
+        
+        function switchTab(tabId) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show selected content
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // ============================
+        // STUDENT FUNCTIONS
+        // ============================
+        function capturePhoto() {
+            // In a real app, this would use the device camera
+            // For demo purposes, we'll simulate a photo capture
+            
+            const preview = document.getElementById('cameraPreview');
+            preview.innerHTML = `
+                <div class="camera-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <i class="fas fa-check-circle fa-3x" style="color: white;"></i>
+                    <p style="margin-top: 10px; color: white;">ถ่ายรูปสำเร็จ!</p>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">${new Date().toLocaleTimeString('th-TH')}</p>
+                </div>
+            `;
+            
+            // Record check-in
+            const checkinRecord = {
+                studentId: currentUser.id,
+                studentName: currentUser.name,
+                activity: 'กิจกรรมประจำวัน',
+                timestamp: new Date().toISOString(),
+                status: 'เช็คชื่อแล้ว'
+            };
+            
+            // Save to localStorage
+            const checkins = JSON.parse(localStorage.getItem('studentCheckins') || '[]');
+            checkins.push(checkinRecord);
+            localStorage.setItem('studentCheckins', JSON.stringify(checkins));
+            
+            // Update history
+            loadStudentHistory();
+            
+            showAlert('ถ่ายรูปเช็คชื่อสำเร็จแล้ว!', 'success');
+        }
+        
+        function loadStudentHistory() {
+            const checkins = JSON.parse(localStorage.getItem('studentCheckins') || '[]');
+            const historyDiv = document.getElementById('studentHistory');
+            
+            if (checkins.length === 0) {
+                historyDiv.innerHTML = '<p style="color: var(--gray); text-align: center;">ยังไม่มีประวัติการเช็คชื่อ</p>';
+                return;
+            }
+            
+            let html = '<div class="activity-list">';
+            checkins.reverse().forEach((checkin, index) => {
+                const date = new Date(checkin.timestamp).toLocaleDateString('th-TH');
+                const time = new Date(checkin.timestamp).toLocaleTimeString('th-TH');
+                
+                html += `
+                    <div class="activity-item">
+                        <div>
+                            <strong>${checkin.activity}</strong>
+                            <p style="font-size: 0.9rem; color: var(--gray);">${date} ${time}</p>
+                        </div>
+                        <span style="color: var(--success);">
+                            <i class="fas fa-check-circle"></i> ${checkin.status}
+                        </span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            historyDiv.innerHTML = html;
+        }
+        
+        // ============================
+        // TEACHER FUNCTIONS
+        // ============================
+        function loadStudentsForCheckin() {
+            const activityId = document.getElementById('checkinActivity').value;
+            const className = document.getElementById('checkinClass').value;
+            
+            if (!activityId) {
+                showAlert('กรุณาเลือกกิจกรรม', 'danger');
+                return;
+            }
+            
+            // Filter students by class
+            let filteredStudents = students;
+            if (className) {
+                filteredStudents = students.filter(s => s.class === className);
+            }
+            
+            // Display students
+            const tbody = document.getElementById('studentCheckinList');
+            tbody.innerHTML = '';
+            
+            filteredStudents.forEach((student, index) => {
+                const row = document.createElement('tr');
+                
+                // Check if student already checked in
+                const checkinKey = `${student.id}_${activityId}`;
+                const savedStatus = localStorage.getItem(checkinKey) || 'absent';
+                
+                row.innerHTML = `
+                    <td>${student.number}</td>
+                    <td>${student.name}</td>
+                    <td>${student.class}</td>
+                    <td>
+                        <div class="status-buttons">
+                            <button class="status-btn btn-present ${savedStatus === 'present' ? 'active' : ''}" 
+                                    onclick="setCheckinStatus('${student.id}', 'present', '${activityId}')">
+                                <i class="fas fa-check"></i> มา
+                            </button>
+                            <button class="status-btn btn-late ${savedStatus === 'late' ? 'active' : ''}" 
+                                    onclick="setCheckinStatus('${student.id}', 'late', '${activityId}')">
+                                <i class="fas fa-clock"></i> สาย
+                            </button>
+                            <button class="status-btn btn-absent ${savedStatus === 'absent' ? 'active' : ''}" 
+                                    onclick="setCheckinStatus('${student.id}', 'absent', '${activityId}')">
+                                <i class="fas fa-times"></i> ขาด
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+                
+                // Store in checkinData
+                if (!checkinData[student.id]) {
+                    checkinData[student.id] = {};
+                }
+                checkinData[student.id][activityId] = {
+                    status: savedStatus,
+                    date: document.getElementById('checkinDate').value
+                };
+            });
+            
+            showAlert(`พบนักเรียน ${filteredStudents.length} คน`, 'success');
+        }
+        
+        function setCheckinStatus(studentId, status, activityId) {
+            // Update UI
+            const row = event.target.closest('tr');
+            row.querySelectorAll('.status-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update checkinData
+            if (!checkinData[studentId]) {
+                checkinData[studentId] = {};
+            }
+            checkinData[studentId][activityId] = {
+                status: status,
+                date: document.getElementById('checkinDate').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            localStorage.setItem(`${studentId}_${activityId}`, status);
+        }
+        
+        function saveCheckinData() {
+            const activityId
