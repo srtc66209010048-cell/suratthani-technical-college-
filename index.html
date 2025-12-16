@@ -782,6 +782,70 @@
             text-decoration: underline;
         }
         
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .photo-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .photo-info {
+            padding: 10px;
+        }
+        
+        .photo-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #182848;
+        }
+        
+        .photo-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .approve-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
@@ -856,7 +920,6 @@
                     <select id="login-role" class="login-select">
                         <option value="student">นักเรียน</option>
                         <option value="teacher">อาจารย์</option>
-                        <option value="admin">ผู้ดูแลระบบ</option>
                     </select>
                 </div>
                 
@@ -884,113 +947,12 @@
             <div id="login-message" class="message hidden"></div>
             
             <div class="login-options">
-                <a href="#" id="forgot-password-link">ลืมรหัสผ่าน?</a>
-                <a href="#" id="register-link">สมัครสมาชิกใหม่</a>
+                <p style="color: #666; font-size: 14px; margin-top: 10px;">
+                    สำหรับทดสอบระบบ:<br>
+                    นักเรียน: STD2024001 / student123<br>
+                    อาจารย์: TEA001 / teacherpass
+                </p>
             </div>
-        </div>
-        
-        <!-- ฟอร์มสมัครสมาชิก (ซ่อนไว้) -->
-        <div id="register-form-section" class="hidden">
-            <form id="register-form" class="login-form">
-                <h3 style="color: #182848; margin-bottom: 20px; text-align: center;">สมัครสมาชิกใหม่</h3>
-                
-                <div class="form-group">
-                    <label for="register-role">ประเภทผู้ใช้งาน</label>
-                    <select id="register-role" class="login-select">
-                        <option value="student">นักเรียน</option>
-                        <option value="teacher">อาจารย์</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-id">รหัสประจำตัว</label>
-                    <input type="text" id="register-id" placeholder="เช่น STD2024001" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-name">ชื่อ-สกุล</label>
-                    <input type="text" id="register-name" placeholder="กรอกชื่อ-สกุล" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-email">อีเมล</label>
-                    <input type="email" id="register-email" placeholder="กรอกอีเมล" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-phone">เบอร์โทรศัพท์</label>
-                    <input type="tel" id="register-phone" placeholder="กรอกเบอร์โทรศัพท์">
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-class">ชั้นเรียน (สำหรับนักเรียน)</label>
-                    <input type="text" id="register-class" placeholder="เช่น ม.6/1">
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-password">รหัสผ่าน</label>
-                    <input type="password" id="register-password" placeholder="กรอกรหัสผ่าน" required>
-                    <div class="password-strength" id="password-strength"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-confirm-password">ยืนยันรหัสผ่าน</label>
-                    <input type="password" id="register-confirm-password" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
-                </div>
-                
-                <div class="form-group">
-                    <div class="terms-agreement">
-                        <input type="checkbox" id="agree-terms" required>
-                        <label for="agree-terms">ฉันยอมรับ <a href="#" style="color: #4b6cb7;">ข้อตกลงและเงื่อนไข</a> ของระบบ</label>
-                    </div>
-                </div>
-                
-                <button type="submit" class="login-btn">สมัครสมาชิก</button>
-                <button type="button" id="back-to-login" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">กลับไปหน้าเข้าสู่ระบบ</button>
-            </form>
-            
-            <div id="register-message" class="message hidden"></div>
-        </div>
-        
-        <!-- ฟอร์มลืมรหัสผ่าน (ซ่อนไว้) -->
-        <div id="forgot-password-section" class="hidden">
-            <form id="forgot-password-form" class="login-form">
-                <h3 style="color: #182848; margin-bottom: 20px; text-align: center;">ลืมรหัสผ่าน</h3>
-                
-                <div class="form-group">
-                    <label for="forgot-role">ประเภทผู้ใช้งาน</label>
-                    <select id="forgot-role" class="login-select">
-                        <option value="student">นักเรียน</option>
-                        <option value="teacher">อาจารย์</option>
-                        <option value="admin">ผู้ดูแลระบบ</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="forgot-id">รหัสประจำตัว</label>
-                    <input type="text" id="forgot-id" placeholder="กรอกรหัสประจำตัว" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="forgot-email">อีเมลที่ลงทะเบียน</label>
-                    <input type="email" id="forgot-email" placeholder="กรอกอีเมลที่ลงทะเบียนไว้" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="new-password">รหัสผ่านใหม่</label>
-                    <input type="password" id="new-password" placeholder="กรอกรหัสผ่านใหม่" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirm-new-password">ยืนยันรหัสผ่านใหม่</label>
-                    <input type="password" id="confirm-new-password" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง" required>
-                </div>
-                
-                <button type="submit" class="login-btn">รีเซ็ตรหัสผ่าน</button>
-                <button type="button" id="back-to-login-from-forgot" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">กลับไปหน้าเข้าสู่ระบบ</button>
-            </form>
-            
-            <div id="forgot-message" class="message hidden"></div>
         </div>
         
         <div class="login-footer">
@@ -1003,7 +965,7 @@
         <div class="header">
             <div class="header-left">
                 <h1>ค่ายรูปเช็คซ์อ</h1>
-                <div class="subtitle">ระบบลงทะเบียนกิจกรรมสำหรับนักเรียน</div>
+                <div class="subtitle" id="system-subtitle">ระบบลงทะเบียนกิจกรรมสำหรับนักเรียน</div>
             </div>
             
             <div class="user-info">
@@ -1019,14 +981,11 @@
                 <div class="role-selector">
                     <h3>👤 ประเภทผู้ใช้</h3>
                     <div class="role-options">
-                        <button class="role-btn" data-role="student">
+                        <button class="role-btn active" data-role="student">
                             <span class="role-icon">🎓</span> นักเรียน
                         </button>
                         <button class="role-btn" data-role="teacher">
                             <span class="role-icon">👨‍🏫</span> อาจารย์
-                        </button>
-                        <button class="role-btn" data-role="admin">
-                            <span class="role-icon">⚙️</span> ผู้ดูแลระบบ
                         </button>
                     </div>
                 </div>
@@ -1037,23 +996,20 @@
                         <button class="menu-item active" data-page="dashboard">
                             <span class="menu-icon">📊</span> แดชบอร์ด
                         </button>
-                        <button class="menu-item" data-page="camera">
+                        <button class="menu-item" data-page="camera" id="camera-menu">
                             <span class="menu-icon">📷</span> ถ่ายรูปลงทะเบียน
                         </button>
                         <button class="menu-item" data-page="profile">
                             <span class="menu-icon">👤</span> ข้อมูลส่วนตัว
                         </button>
-                        <button class="menu-item teacher-admin-only" data-page="students">
+                        <button class="menu-item teacher-only" data-page="approve">
+                            <span class="menu-icon">✅</span> อนุมัติรูปภาพ
+                        </button>
+                        <button class="menu-item teacher-only" data-page="students">
                             <span class="menu-icon">👥</span> จัดการนักเรียน
                         </button>
-                        <button class="menu-item teacher-admin-only" data-page="classes">
+                        <button class="menu-item teacher-only" data-page="classes">
                             <span class="menu-icon">🏫</span> จัดการห้องเรียน
-                        </button>
-                        <button class="menu-item admin-only" data-page="reports">
-                            <span class="menu-icon">📈</span> รายงานสถิติ
-                        </button>
-                        <button class="menu-item admin-only" data-page="settings">
-                            <span class="menu-icon">⚙️</span> ตั้งค่าระบบ
                         </button>
                     </div>
                 </div>
@@ -1068,37 +1024,37 @@
                 
                 <!-- หน้า Dashboard -->
                 <div id="dashboard-page" class="page-content">
-                    <div class="success-message">
+                    <div id="dashboard-message" class="success-message" style="display: none;">
                         <div class="success-icon">✓</div>
                         <div class="success-text">
-                            <h3>ค่ายรูปสำเร็จ!</h3>
-                            <p>ระบบได้บันทึกรูปภาพของคุณเรียบร้อยแล้ว</p>
+                            <h3 id="dashboard-title">ค่ายรูปสำเร็จ!</h3>
+                            <p id="dashboard-desc">ระบบได้บันทึกรูปภาพของคุณเรียบร้อยแล้ว</p>
                         </div>
                     </div>
                     
                     <div class="dashboard-stats">
                         <div class="stat-card">
-                            <h3>นักเรียนลงทะเบียนแล้ว</h3>
-                            <div class="stat-value" id="stat-registered">125</div>
-                            <div class="stat-change">เพิ่มขึ้น 8% จากสัปดาห์ที่แล้ว</div>
+                            <h3 id="stat1-title">นักเรียนลงทะเบียนแล้ว</h3>
+                            <div class="stat-value" id="stat-registered">0</div>
+                            <div class="stat-change" id="stat1-change">กำลังโหลด...</div>
                         </div>
                         
                         <div class="stat-card">
-                            <h3>รอการยืนยัน</h3>
-                            <div class="stat-value" id="stat-pending">18</div>
-                            <div class="stat-change">ลดลง 3% จากเมื่อวาน</div>
+                            <h3 id="stat2-title">รอการอนุมัติ</h3>
+                            <div class="stat-value" id="stat-pending">0</div>
+                            <div class="stat-change" id="stat2-change">กำลังโหลด...</div>
                         </div>
                         
                         <div class="stat-card">
-                            <h3>ยังไม่ได้ลงทะเบียน</h3>
-                            <div class="stat-value" id="stat-not-registered">42</div>
-                            <div class="stat-change">คงที่จากเมื่อวาน</div>
+                            <h3 id="stat3-title">อนุมัติแล้ว</h3>
+                            <div class="stat-value" id="stat-approved">0</div>
+                            <div class="stat-change" id="stat3-change">กำลังโหลด...</div>
                         </div>
                         
                         <div class="stat-card">
-                            <h3>อัตราการเข้าร่วม</h3>
-                            <div class="stat-value" id="stat-participation">78%</div>
-                            <div class="stat-change">เพิ่มขึ้น 5% จากเดือนที่แล้ว</div>
+                            <h3 id="stat4-title">สถานะของคุณ</h3>
+                            <div class="stat-value" id="stat-status">-</div>
+                            <div class="stat-change" id="stat4-change">กำลังตรวจสอบ...</div>
                         </div>
                     </div>
                     
@@ -1110,7 +1066,7 @@
                     </div>
                 </div>
                 
-                <!-- หน้า Camera -->
+                <!-- หน้า Camera (สำหรับนักเรียน) -->
                 <div id="camera-page" class="page-content hidden">
                     <div class="camera-section">
                         <div class="camera-container">
@@ -1126,7 +1082,7 @@
                                 <span>🔄</span> ถ่ายภาพใหม่
                             </button>
                             <button id="confirm-btn" class="btn btn-primary" disabled>
-                                <span>✓</span> ยืนยันภาพนี้
+                                <span>✓</span> ส่งภาพเพื่ออนุมัติ
                             </button>
                         </div>
                         
@@ -1142,7 +1098,7 @@
                             <li>ระบบจะนับถอยหลัง 3 วินาที ก่อนถ่ายภาพอัตโนมัติ</li>
                             <li>หลังจากถ่ายภาพแล้ว ภาพจะแสดงให้คุณเห็นทันที</li>
                             <li>หากภาพไม่พอใจ กดปุ่ม "ถ่ายภาพใหม่" เพื่อลองอีกครั้ง</li>
-                            <li>เมื่อพอใจกับภาพแล้ว กดปุ่ม "ยืนยันภาพนี้" เพื่อส่งภาพเข้าระบบ</li>
+                            <li>เมื่อพอใจกับภาพแล้ว กดปุ่ม "ส่งภาพเพื่ออนุมัติ" เพื่อส่งให้อาจารย์ตรวจสอบ</li>
                             <li>โปรดยืนให้อยู่ในกรอบและมองตรงไปที่กล้อง</li>
                         </ul>
                     </div>
@@ -1169,29 +1125,46 @@
                             <div class="info-row">
                                 <div class="info-label">สถานะการลงทะเบียน:</div>
                                 <div class="info-value">
-                                    <span class="status-badge status-registered">ลงทะเบียนแล้ว</span>
+                                    <span class="status-badge" id="profile-status">กำลังตรวจสอบ...</span>
                                 </div>
                             </div>
                             
                             <div class="info-row">
-                                <div class="info-label">วันที่ลงทะเบียน:</div>
+                                <div class="info-label">วันที่ส่งรูป:</div>
                                 <div class="info-value" id="profile-reg-date">15 มีนาคม 2567</div>
                             </div>
                             
                             <div class="info-row">
-                                <div class="info-label">อีเมล:</div>
-                                <div class="info-value" id="profile-email">somchai.j@example.com</div>
-                            </div>
-                            
-                            <div class="info-row">
-                                <div class="info-label">เบอร์โทรศัพท์:</div>
-                                <div class="info-value" id="profile-phone">081-234-5678</div>
+                                <div class="info-label">รูปภาพที่ส่ง:</div>
+                                <div class="info-value">
+                                    <button id="view-my-photo" class="btn-secondary" style="padding: 5px 10px; font-size: 14px;">ดูรูปของฉัน</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- หน้า Students (สำหรับครูและแอดมิน) -->
+                <!-- หน้า Approve Photos (สำหรับอาจารย์) -->
+                <div id="approve-page" class="page-content hidden">
+                    <h3>อนุมัติรูปภาพนักเรียน</h3>
+                    
+                    <div class="admin-controls">
+                        <input type="text" class="search-box" id="search-photos" placeholder="ค้นหานักเรียนด้วยชื่อหรือรหัสประจำตัว...">
+                        <select class="filter-select" id="filter-status">
+                            <option value="all">ทั้งหมด</option>
+                            <option value="pending">รออนุมัติ</option>
+                            <option value="approved">อนุมัติแล้ว</option>
+                            <option value="rejected">ปฏิเสธแล้ว</option>
+                        </select>
+                        <button class="btn btn-primary" id="search-photo-btn">ค้นหา</button>
+                    </div>
+                    
+                    <div class="photo-grid" id="photo-grid">
+                        <!-- รูปภาพนักเรียนจะถูกเพิ่มโดย JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- หน้า Students (สำหรับอาจารย์) -->
                 <div id="students-page" class="page-content hidden">
                     <h3>จัดการข้อมูลนักเรียน</h3>
                     
@@ -1199,12 +1172,11 @@
                         <input type="text" class="search-box" placeholder="ค้นหานักเรียนด้วยชื่อหรือรหัสประจำตัว...">
                         <select class="filter-select">
                             <option value="all">ทั้งหมด</option>
-                            <option value="registered">ลงทะเบียนแล้ว</option>
-                            <option value="pending">รอการยืนยัน</option>
-                            <option value="not-registered">ยังไม่ได้ลงทะเบียน</option>
+                            <option value="approved">อนุมัติแล้ว</option>
+                            <option value="pending">รออนุมัติ</option>
+                            <option value="not-submitted">ยังไม่ได้ส่งรูป</option>
                         </select>
                         <button class="btn btn-primary">ค้นหา</button>
-                        <button class="btn btn-secondary">เพิ่มนักเรียน</button>
                     </div>
                     
                     <table class="data-table">
@@ -1213,8 +1185,8 @@
                                 <th>รหัสประจำตัว</th>
                                 <th>ชื่อ-สกุล</th>
                                 <th>ชั้นเรียน</th>
-                                <th>สถานะ</th>
-                                <th>วันที่ลงทะเบียน</th>
+                                <th>สถานะรูปภาพ</th>
+                                <th>วันที่ส่ง</th>
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
@@ -1224,27 +1196,13 @@
                     </table>
                 </div>
                 
-                <!-- หน้า Classes (สำหรับครูและแอดมิน) -->
+                <!-- หน้า Classes (สำหรับอาจารย์) -->
                 <div id="classes-page" class="page-content hidden">
                     <h3>จัดการห้องเรียน</h3>
                     
                     <div class="class-list">
                         <!-- ห้องเรียนจะถูกเพิ่มโดย JavaScript -->
                     </div>
-                </div>
-                
-                <!-- หน้า Reports (สำหรับแอดมิน) -->
-                <div id="reports-page" class="page-content hidden">
-                    <h3>รายงานสถิติระบบ</h3>
-                    <p>หน้าสำหรับผู้ดูแลระบบเพื่อดูรายงานและสถิติต่างๆ</p>
-                    <!-- สามารถเพิ่มกราฟและรายงานได้ที่นี่ -->
-                </div>
-                
-                <!-- หน้า Settings (สำหรับแอดมิน) -->
-                <div id="settings-page" class="page-content hidden">
-                    <h3>ตั้งค่าระบบ</h3>
-                    <p>หน้าสำหรับผู้ดูแลระบบเพื่อตั้งค่าต่างๆ ของระบบ</p>
-                    <!-- สามารถเพิ่มฟอร์มตั้งค่าได้ที่นี่ -->
                 </div>
             </div>
         </div>
@@ -1254,17 +1212,60 @@
         // ข้อมูลผู้ใช้งานตัวอย่าง
         const sampleUsers = {
             student: [
-                { id: "STD2024001", password: "student123", name: "นางสาวสมชาย ใจดี", role: "student", email: "somchai.j@example.com", phone: "081-234-5678", class: "ม.6/1", regDate: "15 มีนาคม 2567", status: "registered" },
-                { id: "STD2024002", password: "password456", name: "นายก้องภพ ศรีสวัสดิ์", role: "student", email: "kongpop.s@example.com", phone: "082-345-6789", class: "ม.6/1", regDate: "16 มีนาคม 2567", status: "registered" },
-                { id: "STD2024003", password: "std2024003", name: "นางสาววรรณษา พันธ์แสง", role: "student", email: "wannasa.p@example.com", phone: "083-456-7890", class: "ม.6/2", regDate: "17 มีนาคม 2567", status: "pending" },
+                { 
+                    id: "STD2024001", 
+                    password: "student123", 
+                    name: "นางสาวสมชาย ใจดี", 
+                    role: "student", 
+                    email: "somchai.j@example.com", 
+                    phone: "081-234-5678", 
+                    class: "ม.6/1",
+                    photoStatus: "pending", // pending, approved, rejected
+                    photoDate: "15 มีนาคม 2567",
+                    photoData: null
+                },
+                { 
+                    id: "STD2024002", 
+                    password: "password456", 
+                    name: "นายก้องภพ ศรีสวัสดิ์", 
+                    role: "student", 
+                    email: "kongpop.s@example.com", 
+                    phone: "082-345-6789", 
+                    class: "ม.6/1",
+                    photoStatus: "approved",
+                    photoDate: "16 มีนาคม 2567",
+                    photoData: null
+                },
+                { 
+                    id: "STD2024003", 
+                    password: "std2024003", 
+                    name: "นางสาววรรณษา พันธ์แสง", 
+                    role: "student", 
+                    email: "wannasa.p@example.com", 
+                    phone: "083-456-7890", 
+                    class: "ม.6/2",
+                    photoStatus: "pending",
+                    photoDate: "17 มีนาคม 2567",
+                    photoData: null
+                },
             ],
             teacher: [
-                { id: "TEA001", password: "teacherpass", name: "ครูสมหมาย ใจดี", role: "teacher", email: "sommaijai@school.ac.th", phone: "083-456-7890" },
-                { id: "TEA002", password: "edu2024", name: "ครูวรรณา ศรีสุข", role: "teacher", email: "wannasrisuk@school.ac.th", phone: "084-567-8901" },
-            ],
-            admin: [
-                { id: "ADMIN01", password: "admin1234", name: "ผู้ดูแลระบบ", role: "admin", email: "admin@school.ac.th" },
-                { id: "SUPERADMIN", password: "superadmin", name: "ผู้ดูแลระบบหลัก", role: "admin", email: "superadmin@school.ac.th" },
+                { 
+                    id: "TEA001", 
+                    password: "teacherpass", 
+                    name: "ครูสมหมาย ใจดี", 
+                    role: "teacher", 
+                    email: "sommaijai@school.ac.th", 
+                    phone: "083-456-7890" 
+                },
+                { 
+                    id: "TEA002", 
+                    password: "edu2024", 
+                    name: "ครูวรรณา ศรีสุข", 
+                    role: "teacher", 
+                    email: "wannasrisuk@school.ac.th", 
+                    phone: "084-567-8901" 
+                },
             ]
         };
 
@@ -1274,6 +1275,7 @@
         let cameraStream = null;
         let photoData = null;
         let countdownTimer = null;
+        let studentPhotos = []; // เก็บข้อมูลรูปภาพนักเรียน
 
         // รวมข้อมูลผู้ใช้จากทุกกลุ่ม
         function initializeUsers() {
@@ -1286,44 +1288,22 @@
             try {
                 const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
                 allUsers = allUsers.concat(storedUsers);
+                
+                const storedPhotos = JSON.parse(localStorage.getItem('studentPhotos')) || [];
+                studentPhotos = storedPhotos;
+                
+                // อัพเดตสถานะรูปภาพจาก studentPhotos ไปยังผู้ใช้
+                studentPhotos.forEach(photo => {
+                    const user = allUsers.find(u => u.id === photo.studentId && u.role === 'student');
+                    if (user) {
+                        user.photoStatus = photo.status;
+                        user.photoDate = photo.submitDate;
+                        user.photoData = photo.photoData;
+                    }
+                });
+                
             } catch (e) {
                 console.log("ไม่สามารถโหลดข้อมูลจาก localStorage:", e);
-            }
-        }
-
-        // ตรวจสอบความแข็งแรงของรหัสผ่าน
-        function checkPasswordStrength(password) {
-            let strength = 0;
-            
-            if (password.length >= 8) strength++;
-            if (/[a-z]/.test(password)) strength++;
-            if (/[A-Z]/.test(password)) strength++;
-            if (/[0-9]/.test(password)) strength++;
-            if (/[^a-zA-Z0-9]/.test(password)) strength++;
-            
-            return strength;
-        }
-
-        // แสดงความแข็งแรงของรหัสผ่าน
-        function updatePasswordStrength(password) {
-            const strengthElement = document.getElementById('password-strength');
-            const strength = checkPasswordStrength(password);
-            
-            if (password.length === 0) {
-                strengthElement.textContent = '';
-                strengthElement.className = 'password-strength';
-                return;
-            }
-            
-            if (strength <= 2) {
-                strengthElement.textContent = 'ความแข็งแรง: อ่อน';
-                strengthElement.className = 'password-strength password-weak';
-            } else if (strength <= 4) {
-                strengthElement.textContent = 'ความแข็งแรง: ปานกลาง';
-                strengthElement.className = 'password-strength password-medium';
-            } else {
-                strengthElement.textContent = 'ความแข็งแรง: แข็งแรง';
-                strengthElement.className = 'password-strength password-strong';
             }
         }
 
@@ -1333,7 +1313,6 @@
                 localStorage.setItem('rememberedUserId', userId);
                 localStorage.setItem('rememberedUserRole', role);
                 localStorage.setItem('rememberMe', 'true');
-                // เก็บรหัสผ่าน (ในระบบจริงควรเข้ารหัส)
                 sessionStorage.setItem('tempPassword', password);
             } else {
                 localStorage.removeItem('rememberedUserId');
@@ -1363,96 +1342,6 @@
             }
         }
 
-        // สมัครสมาชิก
-        function registerUser(userData) {
-            // ตรวจสอบรหัสผู้ใช้ซ้ำ
-            const existingUser = allUsers.find(user => user.id === userData.id);
-            if (existingUser) {
-                return { success: false, message: 'รหัสผู้ใช้งานนี้มีอยู่ในระบบแล้ว' };
-            }
-            
-            // ตรวจสอบรหัสผ่านตรงกัน
-            if (userData.password !== userData.confirmPassword) {
-                return { success: false, message: 'รหัสผ่านไม่ตรงกัน' };
-            }
-            
-            // ตรวจสอบความแข็งแรงรหัสผ่าน
-            if (checkPasswordStrength(userData.password) < 3) {
-                return { success: false, message: 'รหัสผ่านไม่แข็งแรงพอ กรุณาใช้รหัสผ่านที่ซับซ้อนมากขึ้น' };
-            }
-            
-            // สร้างผู้ใช้ใหม่
-            const newUser = {
-                id: userData.id,
-                password: userData.password,
-                name: userData.name,
-                role: userData.role,
-                email: userData.email,
-                phone: userData.phone || '',
-                class: userData.class || '',
-                regDate: new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }),
-                status: 'registered'
-            };
-            
-            // เพิ่มผู้ใช้ใหม่
-            allUsers.push(newUser);
-            
-            // บันทึกลง localStorage
-            const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-            storedUsers.push(newUser);
-            localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
-            
-            return { success: true, message: 'สมัครสมาชิกสำเร็จ! คุณสามารถเข้าสู่ระบบได้ทันที', user: newUser };
-        }
-
-        // ลืมรหัสผ่าน
-        function resetPassword(role, userId, email, newPassword, confirmPassword) {
-            // ตรวจสอบรหัสผ่านตรงกัน
-            if (newPassword !== confirmPassword) {
-                return { success: false, message: 'รหัสผ่านใหม่ไม่ตรงกัน' };
-            }
-            
-            // ตรวจสอบความแข็งแรงรหัสผ่าน
-            if (checkPasswordStrength(newPassword) < 3) {
-                return { success: false, message: 'รหัสผ่านไม่แข็งแรงพอ กรุณาใช้รหัสผ่านที่ซับซ้อนมากขึ้น' };
-            }
-            
-            // ค้นหาผู้ใช้
-            let user = allUsers.find(u => u.id === userId && u.role === role && u.email === email);
-            
-            if (!user) {
-                return { success: false, message: 'ไม่พบข้อมูลผู้ใช้งาน กรุณาตรวจสอบข้อมูลอีกครั้ง' };
-            }
-            
-            // อัปเดตรหัสผ่าน
-            user.password = newPassword;
-            
-            // อัปเดตใน localStorage
-            const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-            const userIndex = storedUsers.findIndex(u => u.id === userId && u.role === role);
-            if (userIndex !== -1) {
-                storedUsers[userIndex].password = newPassword;
-                localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
-            }
-            
-            return { success: true, message: 'รีเซ็ตรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้ทันที' };
-        }
-
-        // แสดง/ซ่อนฟอร์ม
-        function showForm(formType) {
-            document.getElementById('login-form-section').classList.add('hidden');
-            document.getElementById('register-form-section').classList.add('hidden');
-            document.getElementById('forgot-password-section').classList.add('hidden');
-            
-            if (formType === 'login') {
-                document.getElementById('login-form-section').classList.remove('hidden');
-            } else if (formType === 'register') {
-                document.getElementById('register-form-section').classList.remove('hidden');
-            } else if (formType === 'forgot') {
-                document.getElementById('forgot-password-section').classList.remove('hidden');
-            }
-        }
-
         // แสดงข้อความ
         function showMessage(elementId, message, type = 'info') {
             const element = document.getElementById(elementId);
@@ -1473,48 +1362,42 @@
             
             document.getElementById('current-user-name').textContent = user.name;
             document.getElementById('current-user-role').textContent = 
-                user.role === 'student' ? 'นักเรียน' : 
-                user.role === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ';
+                user.role === 'student' ? 'นักเรียน' : 'อาจารย์';
             
-            // อัปเดตโปรไฟล์
-            if (document.getElementById('profile-name')) {
-                document.getElementById('profile-name').textContent = user.name;
-                document.getElementById('profile-id').textContent = user.id;
-                document.getElementById('profile-class').textContent = user.class || 'ไม่ระบุ';
-                document.getElementById('profile-email').textContent = user.email || 'ไม่ระบุ';
-                document.getElementById('profile-phone').textContent = user.phone || 'ไม่ระบุ';
-                document.getElementById('profile-reg-date').textContent = user.regDate || 'ไม่ระบุ';
-                
-                // อัปเดตสถานะ
-                const statusElement = document.querySelector('#profile-page .status-badge');
-                if (statusElement) {
-                    statusElement.className = 'status-badge ' + 
-                        (user.status === 'registered' ? 'status-registered' : 
-                         user.status === 'pending' ? 'status-pending' : 'status-not-registered');
-                    statusElement.textContent = 
-                        user.status === 'registered' ? 'ลงทะเบียนแล้ว' : 
-                        user.status === 'pending' ? 'รอการยืนยัน' : 'ยังไม่ได้ลงทะเบียน';
-                }
-            }
+            document.getElementById('system-subtitle').textContent = 
+                user.role === 'student' ? 'ระบบลงทะเบียนกิจกรรมสำหรับนักเรียน' : 'ระบบจัดการกิจกรรมสำหรับอาจารย์';
             
             // อัปเดตเมนูตามบทบาท
             updateMenuBasedOnRole(user.role);
+            
+            // อัปเดตข้อมูลแดชบอร์ด
+            updateDashboardStats();
+            
+            // อัปเดตข้อมูลโปรไฟล์
+            updateProfileInfo();
         }
 
         // อัปเดตเมนูตามบทบาท
         function updateMenuBasedOnRole(role) {
-            const teacherAdminItems = document.querySelectorAll('.teacher-admin-only');
-            const adminOnlyItems = document.querySelectorAll('.admin-only');
+            const teacherOnlyItems = document.querySelectorAll('.teacher-only');
             
-            teacherAdminItems.forEach(item => item.style.display = 'none');
-            adminOnlyItems.forEach(item => item.style.display = 'none');
+            teacherOnlyItems.forEach(item => item.style.display = 'none');
             
-            if (role === 'teacher' || role === 'admin') {
-                teacherAdminItems.forEach(item => item.style.display = 'flex');
-            }
-            
-            if (role === 'admin') {
-                adminOnlyItems.forEach(item => item.style.display = 'flex');
+            if (role === 'teacher') {
+                teacherOnlyItems.forEach(item => item.style.display = 'flex');
+                // สำหรับครู เปลี่ยนข้อความปุ่มกล้อง
+                const cameraMenu = document.getElementById('camera-menu');
+                if (cameraMenu) {
+                    cameraMenu.querySelector('.menu-icon').textContent = '👁️';
+                    cameraMenu.querySelector('span:last-child').textContent = ' ดูรูปภาพทั้งหมด';
+                }
+            } else {
+                // สำหรับนักเรียน เปลี่ยนข้อความปุ่มกล้อง
+                const cameraMenu = document.getElementById('camera-menu');
+                if (cameraMenu) {
+                    cameraMenu.querySelector('.menu-icon').textContent = '📷';
+                    cameraMenu.querySelector('span:last-child').textContent = ' ถ่ายรูปลงทะเบียน';
+                }
             }
         }
 
@@ -1558,6 +1441,11 @@
             } catch (error) {
                 console.error("เกิดข้อผิดพลาดในการเข้าถึงกล้อง:", error);
                 showMessage('camera-status', "ไม่สามารถเข้าถึงกล้องได้ กรุณาอนุญาตการใช้งานกล้อง", 'error');
+                
+                // สำหรับการทดสอบถ้าไม่มีกล้องจริง
+                const cameraView = document.getElementById('camera-view');
+                cameraView.style.background = "linear-gradient(45deg, #4b6cb7, #182848)";
+                cameraView.innerHTML = "<div style='color: white; text-align: center; padding-top: 150px;'>📷 กล้องพร้อมใช้งาน</div>";
             }
         }
 
@@ -1566,11 +1454,25 @@
             try {
                 const cameraView = document.getElementById('camera-view');
                 const canvas = document.createElement('canvas');
-                canvas.width = cameraView.videoWidth;
-                canvas.height = cameraView.videoHeight;
+                canvas.width = 640;
+                canvas.height = 480;
                 
                 const context = canvas.getContext('2d');
-                context.drawImage(cameraView, 0, 0, canvas.width, canvas.height);
+                
+                // วาดภาพจากวิดีโอหรือสีพื้นหลัง
+                if (cameraStream) {
+                    context.drawImage(cameraView, 0, 0, canvas.width, canvas.height);
+                } else {
+                    // ถ้าไม่มีกล้องจริง ให้สร้างภาพตัวอย่าง
+                    context.fillStyle = "#4b6cb7";
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    context.fillStyle = "white";
+                    context.font = "30px Arial";
+                    context.textAlign = "center";
+                    context.fillText("รูปภาพตัวอย่าง", canvas.width/2, canvas.height/2);
+                    context.font = "20px Arial";
+                    context.fillText(currentUser.name, canvas.width/2, canvas.height/2 + 40);
+                }
                 
                 photoData = canvas.toDataURL('image/png');
                 
@@ -1631,29 +1533,78 @@
             }
         }
 
-        // ยืนยันภาพ
+        // ยืนยันภาพ (นักเรียนส่งภาพ)
         function confirmPhoto() {
-            showMessage('camera-status', 'กำลังบันทึกรูปภาพลงระบบ...', 'info');
+            if (!currentUser || currentUser.role !== 'student') {
+                showMessage('camera-status', 'เฉพาะนักเรียนเท่านั้นที่สามารถส่งภาพได้', 'error');
+                return;
+            }
+            
+            showMessage('camera-status', 'กำลังส่งภาพเพื่ออนุมัติ...', 'info');
+            
+            // สร้างข้อมูลรูปภาพ
+            const photoInfo = {
+                studentId: currentUser.id,
+                studentName: currentUser.name,
+                studentClass: currentUser.class,
+                photoData: photoData,
+                submitDate: new Date().toLocaleDateString('th-TH', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }),
+                submitTime: new Date().toLocaleTimeString('th-TH'),
+                status: 'pending', // pending, approved, rejected
+                teacherComment: ''
+            };
+            
+            // ตรวจสอบว่านักเรียนส่งรูปแล้วหรือยัง
+            const existingPhotoIndex = studentPhotos.findIndex(p => p.studentId === currentUser.id);
+            
+            if (existingPhotoIndex !== -1) {
+                // อัพเดตรูปภาพที่มีอยู่
+                studentPhotos[existingPhotoIndex] = photoInfo;
+            } else {
+                // เพิ่มรูปภาพใหม่
+                studentPhotos.push(photoInfo);
+            }
+            
+            // อัพเดตข้อมูลผู้ใช้
+            currentUser.photoStatus = 'pending';
+            currentUser.photoDate = photoInfo.submitDate;
+            currentUser.photoData = photoData;
+            
+            // บันทึกลง localStorage
+            localStorage.setItem('studentPhotos', JSON.stringify(studentPhotos));
+            
+            // อัพเดตข้อมูลใน allUsers
+            const userIndex = allUsers.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                allUsers[userIndex] = currentUser;
+            }
             
             setTimeout(() => {
-                showMessage('camera-status', 'บันทึกรูปภาพสำเร็จ! รูปภาพของคุณได้ถูกบันทึกเข้าระบบกิจกรรมแล้ว', 'success');
+                showMessage('camera-status', 'ส่งภาพสำเร็จ! รูปภาพของคุณถูกส่งให้อาจารย์ตรวจสอบแล้ว', 'success');
                 
                 document.getElementById('confirm-btn').disabled = true;
                 document.getElementById('retake-btn').disabled = true;
                 
                 updateTimeStamp();
+                updateDashboardStats();
+                updateProfileInfo();
                 
                 // บันทึกกิจกรรม
-                if (currentUser) {
-                    const activity = {
-                        title: `${currentUser.name} ถ่ายรูปลงทะเบียนกิจกรรม`,
-                        time: new Date().toLocaleTimeString('th-TH'),
-                        icon: '📸'
-                    };
-                    addActivity(activity);
-                }
+                const activity = {
+                    title: `${currentUser.name} ส่งรูปภาพเพื่อลงทะเบียนกิจกรรม`,
+                    time: new Date().toLocaleTimeString('th-TH'),
+                    icon: '📸'
+                };
+                addActivity(activity);
                 
-                console.log("บันทึกรูปภาพสำเร็จ:", photoData.substring(0, 100) + "...");
+                // กลับไปหน้าแดชบอร์ดหลังจาก 2 วินาที
+                setTimeout(() => {
+                    showPage('dashboard-page');
+                }, 2000);
                 
             }, 1500);
         }
@@ -1678,9 +1629,9 @@
         // โหลดกิจกรรม
         function loadActivities() {
             const activities = [
-                { title: "นางสาวสมชาย ใจดี ลงทะเบียนกิจกรรม", time: "11:20:02 น.", icon: "📸" },
-                { title: "นายก้องภพ ศรีสวัสดิ์ อัพเดทรูปโปรไฟล์", time: "10:45:15 น.", icon: "🖼️" },
-                { title: "ครูสมหมาย อนุมัติการลงทะเบียน", time: "09:30:45 น.", icon: "✅" },
+                { title: "นางสาวสมชาย ใจดี ส่งรูปภาพเพื่อลงทะเบียน", time: "11:20:02 น.", icon: "📸" },
+                { title: "นายก้องภพ ศรีสวัสดิ์ อนุมัติการลงทะเบียนแล้ว", time: "10:45:15 น.", icon: "✅" },
+                { title: "ครูสมหมาย อนุมัติการลงทะเบียนให้นักเรียน 5 คน", time: "09:30:45 น.", icon: "👨‍🏫" },
                 { title: "ระบบทำการสำรองข้อมูลอัตโนมัติ", time: "08:00:00 น.", icon: "💾" },
                 { title: "นางสาววรรณษา พันธ์แสง ส่งคำร้องขอลงทะเบียน", time: "07:15:20 น.", icon: "📝" }
             ];
@@ -1694,82 +1645,214 @@
             }
         }
 
-        // โหลดข้อมูลนักเรียนสำหรับหน้า Admin/Teacher
-        function loadStudentsData() {
+        // อัพเดตข้อมูลแดชบอร์ด
+        function updateDashboardStats() {
             const students = allUsers.filter(user => user.role === 'student');
-            const tableBody = document.getElementById('students-table-body');
+            const totalStudents = students.length;
             
-            if (tableBody) {
-                tableBody.innerHTML = '';
+            // นับจำนวนนักเรียนตามสถานะ
+            const pendingCount = students.filter(s => s.photoStatus === 'pending').length;
+            const approvedCount = students.filter(s => s.photoStatus === 'approved').length;
+            const notSubmittedCount = students.filter(s => !s.photoStatus || s.photoStatus === 'not-submitted').length;
+            
+            // อัพเดตสถิติ
+            document.getElementById('stat-registered').textContent = totalStudents;
+            document.getElementById('stat-pending').textContent = pendingCount;
+            document.getElementById('stat-approved').textContent = approvedCount;
+            
+            // อัพเดตข้อความแดชบอร์ด
+            const dashboardMessage = document.getElementById('dashboard-message');
+            const dashboardTitle = document.getElementById('dashboard-title');
+            const dashboardDesc = document.getElementById('dashboard-desc');
+            
+            if (currentUser.role === 'student') {
+                document.getElementById('stat1-title').textContent = 'นักเรียนทั้งหมด';
+                document.getElementById('stat2-title').textContent = 'รออนุมัติ';
+                document.getElementById('stat3-title').textContent = 'อนุมัติแล้ว';
+                document.getElementById('stat4-title').textContent = 'สถานะของคุณ';
                 
-                students.forEach(student => {
-                    const row = document.createElement('tr');
-                    
-                    const statusClass = 
-                        student.status === 'registered' ? 'status-registered' : 
-                        student.status === 'pending' ? 'status-pending' : 'status-not-registered';
-                    
-                    const statusText = 
-                        student.status === 'registered' ? 'ลงทะเบียนแล้ว' : 
-                        student.status === 'pending' ? 'รอการยืนยัน' : 'ยังไม่ได้ลงทะเบียน';
-                    
-                    row.innerHTML = `
-                        <td class="student-id">${student.id}</td>
-                        <td>${student.name}</td>
-                        <td>${student.class || 'ไม่ระบุ'}</td>
-                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                        <td>${student.regDate || 'ไม่ระบุ'}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn view-btn">ดู</button>
-                                <button class="action-btn edit-btn">แก้ไข</button>
-                                <button class="action-btn delete-btn">ลบ</button>
-                            </div>
-                        </td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
+                const userStatus = currentUser.photoStatus || 'not-submitted';
+                let statusText = '';
+                let statusColor = '';
+                
+                if (userStatus === 'approved') {
+                    statusText = 'อนุมัติแล้ว';
+                    statusColor = '#2e7d32';
+                    dashboardTitle.textContent = 'ลงทะเบียนสำเร็จ!';
+                    dashboardDesc.textContent = 'คุณได้ลงทะเบียนกิจกรรมเรียบร้อยแล้ว';
+                    dashboardMessage.style.display = 'flex';
+                } else if (userStatus === 'pending') {
+                    statusText = 'รออนุมัติ';
+                    statusColor = '#ef6c00';
+                    dashboardTitle.textContent = 'รอการอนุมัติ';
+                    dashboardDesc.textContent = 'รูปภาพของคุณกำลังรอการอนุมัติจากอาจารย์';
+                    dashboardMessage.style.display = 'flex';
+                } else {
+                    statusText = 'ยังไม่ได้ส่ง';
+                    statusColor = '#c62828';
+                    dashboardMessage.style.display = 'none';
+                }
+                
+                document.getElementById('stat-status').textContent = statusText;
+                document.getElementById('stat-status').style.color = statusColor;
+                document.getElementById('stat4-change').textContent = 'กรุณาส่งรูปภาพเพื่อลงทะเบียน';
+                
+            } else if (currentUser.role === 'teacher') {
+                document.getElementById('stat1-title').textContent = 'นักเรียนทั้งหมด';
+                document.getElementById('stat2-title').textContent = 'รออนุมัติ';
+                document.getElementById('stat3-title').textContent = 'อนุมัติแล้ว';
+                document.getElementById('stat4-title').textContent = 'ยังไม่ได้ส่ง';
+                
+                document.getElementById('stat-status').textContent = notSubmittedCount;
+                document.getElementById('stat4-change').textContent = 'นักเรียนที่ยังไม่ได้ส่งรูป';
+                
+                dashboardTitle.textContent = 'ระบบจัดการนักเรียน';
+                dashboardDesc.textContent = 'คุณสามารถอนุมัติรูปภาพนักเรียนได้ที่เมนู "อนุมัติรูปภาพ"';
+                dashboardMessage.style.display = 'flex';
             }
         }
 
-        // โหลดข้อมูลห้องเรียน
-        function loadClassesData() {
-            const classList = document.querySelector('.class-list');
-            if (!classList) return;
+        // อัพเดตข้อมูลโปรไฟล์
+        function updateProfileInfo() {
+            if (!currentUser) return;
             
-            const classes = [
-                { name: "ม.6/1", total: 40, registered: 38, pending: 2, teacher: "ครูสมหมาย ใจดี" },
-                { name: "ม.6/2", total: 42, registered: 35, pending: 5, teacher: "ครูวรรณา ศรีสุข" },
-                { name: "ม.6/3", total: 38, registered: 36, pending: 2, teacher: "ครูชัยวัฒน์ พันธ์ทอง" },
-                { name: "ม.6/4", total: 45, registered: 40, pending: 3, teacher: "ครูเพ็ญพิชชา ทรัพย์สมบูรณ์" }
-            ];
+            document.getElementById('profile-name').textContent = currentUser.name;
+            document.getElementById('profile-id').textContent = currentUser.id;
+            document.getElementById('profile-class').textContent = currentUser.class || 'ไม่ระบุ';
             
-            classList.innerHTML = '';
+            const statusElement = document.getElementById('profile-status');
+            const userStatus = currentUser.photoStatus || 'not-submitted';
             
-            classes.forEach(cls => {
-                const classCard = document.createElement('div');
-                classCard.className = 'class-card';
-                classCard.innerHTML = `
-                    <h3>${cls.name}</h3>
-                    <p>ครูผู้สอน: ${cls.teacher}</p>
-                    <div class="class-stats">
-                        <div class="stat">
-                            <div class="stat-value">${cls.total}</div>
-                            <div class="stat-label">ทั้งหมด</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${cls.registered}</div>
-                            <div class="stat-label">ลงทะเบียนแล้ว</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${cls.pending}</div>
-                            <div class="stat-label">รอการยืนยัน</div>
-                        </div>
+            if (userStatus === 'approved') {
+                statusElement.textContent = 'อนุมัติแล้ว';
+                statusElement.className = 'status-badge status-registered';
+            } else if (userStatus === 'pending') {
+                statusElement.textContent = 'รออนุมัติ';
+                statusElement.className = 'status-badge status-pending';
+            } else {
+                statusElement.textContent = 'ยังไม่ได้ส่งรูป';
+                statusElement.className = 'status-badge status-not-registered';
+            }
+            
+            document.getElementById('profile-reg-date').textContent = currentUser.photoDate || 'ยังไม่ได้ส่งรูป';
+        }
+
+        // โหลดรูปภาพสำหรับอาจารย์อนุมัติ
+        function loadPhotosForApproval() {
+            const photoGrid = document.getElementById('photo-grid');
+            if (!photoGrid) return;
+            
+            // กรองรูปภาพตามสถานะ
+            const filterStatus = document.getElementById('filter-status').value;
+            const searchText = document.getElementById('search-photos').value.toLowerCase();
+            
+            let filteredPhotos = studentPhotos;
+            
+            if (filterStatus !== 'all') {
+                filteredPhotos = filteredPhotos.filter(photo => photo.status === filterStatus);
+            }
+            
+            if (searchText) {
+                filteredPhotos = filteredPhotos.filter(photo => 
+                    photo.studentName.toLowerCase().includes(searchText) || 
+                    photo.studentId.toLowerCase().includes(searchText)
+                );
+            }
+            
+            photoGrid.innerHTML = '';
+            
+            if (filteredPhotos.length === 0) {
+                photoGrid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1 / -1;">ไม่พบรูปภาพ</p>';
+                return;
+            }
+            
+            filteredPhotos.forEach(photo => {
+                const photoCard = document.createElement('div');
+                photoCard.className = 'photo-card';
+                
+                let statusBadge = '';
+                if (photo.status === 'approved') {
+                    statusBadge = '<span class="status-badge status-registered" style="display: inline-block; margin-bottom: 5px;">อนุมัติแล้ว</span>';
+                } else if (photo.status === 'rejected') {
+                    statusBadge = '<span class="status-badge status-not-registered" style="display: inline-block; margin-bottom: 5px;">ปฏิเสธแล้ว</span>';
+                } else {
+                    statusBadge = '<span class="status-badge status-pending" style="display: inline-block; margin-bottom: 5px;">รออนุมัติ</span>';
+                }
+                
+                photoCard.innerHTML = `
+                    <img src="${photo.photoData || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'}" alt="รูปนักเรียน">
+                    <div class="photo-info">
+                        ${statusBadge}
+                        <div class="photo-name">${photo.studentName}</div>
+                        <div class="photo-time">รหัส: ${photo.studentId}</div>
+                        <div class="photo-time">ชั้น: ${photo.studentClass}</div>
+                        <div class="photo-time">ส่งเมื่อ: ${photo.submitDate}</div>
+                        ${photo.status === 'pending' ? `
+                            <button class="approve-btn" data-id="${photo.studentId}">อนุมัติ</button>
+                            <button class="reject-btn" data-id="${photo.studentId}">ปฏิเสธ</button>
+                        ` : ''}
+                        ${photo.teacherComment ? `<div style="font-size: 11px; color: #666; margin-top: 5px;">หมายเหตุ: ${photo.teacherComment}</div>` : ''}
                     </div>
                 `;
-                classList.appendChild(classCard);
+                
+                photoGrid.appendChild(photoCard);
             });
+            
+            // เพิ่ม event listener สำหรับปุ่มอนุมัติ/ปฏิเสธ
+            document.querySelectorAll('.approve-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const studentId = this.getAttribute('data-id');
+                    approvePhoto(studentId, true);
+                });
+            });
+            
+            document.querySelectorAll('.reject-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const studentId = this.getAttribute('data-id');
+                    approvePhoto(studentId, false);
+                });
+            });
+        }
+
+        // อนุมัติหรือปฏิเสธรูปภาพ (สำหรับอาจารย์)
+        function approvePhoto(studentId, isApprove) {
+            const comment = prompt(isApprove ? 'กรอกหมายเหตุ (ถ้ามี):' : 'กรอกรายละเอียดการปฏิเสธ:');
+            
+            // อัพเดตสถานะรูปภาพ
+            const photoIndex = studentPhotos.findIndex(p => p.studentId === studentId);
+            if (photoIndex !== -1) {
+                studentPhotos[photoIndex].status = isApprove ? 'approved' : 'rejected';
+                studentPhotos[photoIndex].teacherComment = comment || '';
+                
+                // อัพเดตข้อมูลผู้ใช้
+                const userIndex = allUsers.findIndex(u => u.id === studentId && u.role === 'student');
+                if (userIndex !== -1) {
+                    allUsers[userIndex].photoStatus = isApprove ? 'approved' : 'rejected';
+                }
+                
+                // บันทึกลง localStorage
+                localStorage.setItem('studentPhotos', JSON.stringify(studentPhotos));
+                
+                // โหลดรูปภาพใหม่
+                loadPhotosForApproval();
+                
+                // อัพเดตแดชบอร์ด
+                updateDashboardStats();
+                
+                // แสดงข้อความสำเร็จ
+                alert(isApprove ? 'อนุมัติรูปภาพสำเร็จ!' : 'ปฏิเสธรูปภาพสำเร็จ!');
+                
+                // บันทึกกิจกรรม
+                const student = allUsers.find(u => u.id === studentId);
+                if (student) {
+                    const activity = {
+                        title: `${currentUser.name} ${isApprove ? 'อนุมัติ' : 'ปฏิเสธ'} รูปภาพของ ${student.name}`,
+                        time: new Date().toLocaleTimeString('th-TH'),
+                        icon: isApprove ? '✅' : '❌'
+                    };
+                    addActivity(activity);
+                }
+            }
         }
 
         // สลับหน้า
@@ -1798,12 +1881,11 @@
                 if (pageTitle) {
                     const titles = {
                         'dashboard': 'แดชบอร์ด',
-                        'camera': 'ถ่ายรูปลงทะเบียน',
+                        'camera': currentUser.role === 'student' ? 'ถ่ายรูปลงทะเบียน' : 'ดูรูปภาพทั้งหมด',
                         'profile': 'ข้อมูลส่วนตัว',
+                        'approve': 'อนุมัติรูปภาพ',
                         'students': 'จัดการนักเรียน',
-                        'classes': 'จัดการห้องเรียน',
-                        'reports': 'รายงานสถิติ',
-                        'settings': 'ตั้งค่าระบบ'
+                        'classes': 'จัดการห้องเรียน'
                     };
                     pageTitle.textContent = titles[pageName] || 'แดชบอร์ด';
                 }
@@ -1811,14 +1893,24 @@
                 // โหลดข้อมูลหน้า
                 if (pageId === 'dashboard-page') {
                     loadActivities();
-                } else if (pageId === 'students-page') {
-                    loadStudentsData();
-                } else if (pageId === 'classes-page') {
-                    loadClassesData();
+                    updateDashboardStats();
+                } else if (pageId === 'approve-page') {
+                    loadPhotosForApproval();
                 } else if (pageId === 'camera-page') {
-                    setTimeout(() => {
-                        startCamera();
-                    }, 100);
+                    if (currentUser.role === 'student') {
+                        setTimeout(() => {
+                            startCamera();
+                        }, 100);
+                    } else {
+                        // สำหรับครู ให้แสดงรูปภาพทั้งหมด
+                        document.getElementById('camera-page').innerHTML = `
+                            <h3>รูปภาพนักเรียนทั้งหมด</h3>
+                            <div class="photo-grid" id="teacher-photo-grid">
+                                <!-- รูปภาพจะถูกเพิ่มโดย JavaScript -->
+                            </div>
+                        `;
+                        loadPhotosForApproval();
+                    }
                 }
             }
         }
@@ -1836,10 +1928,9 @@
             
             // รีเซ็ตฟอร์มล็อกอิน
             document.getElementById('login-form').reset();
-            showForm('login');
             
             // ซ่อนข้อความทั้งหมด
-            ['login-message', 'register-message', 'forgot-message'].forEach(id => {
+            ['login-message'].forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
                     element.style.display = 'none';
@@ -1863,107 +1954,6 @@
                     passwordField.type = this.checked ? 'text' : 'password';
                 });
             }
-            
-            // ตรวจสอบความแข็งแรงรหัสผ่าน
-            const registerPasswordField = document.getElementById('register-password');
-            if (registerPasswordField) {
-                registerPasswordField.addEventListener('input', function() {
-                    updatePasswordStrength(this.value);
-                });
-            }
-            
-            // ลิงก์ลืมรหัสผ่าน
-            document.getElementById('forgot-password-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                showForm('forgot');
-            });
-            
-            // ลิงก์สมัครสมาชิก
-            document.getElementById('register-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                showForm('register');
-            });
-            
-            // ปุ่มกลับไปหน้าเข้าสู่ระบบ
-            document.getElementById('back-to-login').addEventListener('click', function() {
-                showForm('login');
-            });
-            
-            document.getElementById('back-to-login-from-forgot').addEventListener('click', function() {
-                showForm('login');
-            });
-            
-            // ฟอร์มสมัครสมาชิก
-            document.getElementById('register-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const role = document.getElementById('register-role').value;
-                const id = document.getElementById('register-id').value.trim();
-                const name = document.getElementById('register-name').value.trim();
-                const email = document.getElementById('register-email').value.trim();
-                const phone = document.getElementById('register-phone').value.trim();
-                const studentClass = document.getElementById('register-class').value.trim();
-                const password = document.getElementById('register-password').value;
-                const confirmPassword = document.getElementById('register-confirm-password').value;
-                const agreeTerms = document.getElementById('agree-terms').checked;
-                
-                if (!agreeTerms) {
-                    showMessage('register-message', 'กรุณายอมรับข้อตกลงและเงื่อนไข', 'error');
-                    return;
-                }
-                
-                const result = registerUser({
-                    role,
-                    id,
-                    name,
-                    email,
-                    phone,
-                    class: studentClass,
-                    password,
-                    confirmPassword
-                });
-                
-                if (result.success) {
-                    showMessage('register-message', result.message, 'success');
-                    
-                    setTimeout(() => {
-                        showForm('login');
-                        document.getElementById('login-id').value = id;
-                        document.getElementById('login-role').value = role;
-                        document.getElementById('register-form').reset();
-                        document.getElementById('password-strength').textContent = '';
-                        document.getElementById('password-strength').className = 'password-strength';
-                    }, 2000);
-                } else {
-                    showMessage('register-message', result.message, 'error');
-                }
-            });
-            
-            // ฟอร์มลืมรหัสผ่าน
-            document.getElementById('forgot-password-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const role = document.getElementById('forgot-role').value;
-                const id = document.getElementById('forgot-id').value.trim();
-                const email = document.getElementById('forgot-email').value.trim();
-                const newPassword = document.getElementById('new-password').value;
-                const confirmNewPassword = document.getElementById('confirm-new-password').value;
-                
-                const result = resetPassword(role, id, email, newPassword, confirmNewPassword);
-                
-                if (result.success) {
-                    showMessage('forgot-message', result.message, 'success');
-                    
-                    setTimeout(() => {
-                        showForm('login');
-                        document.getElementById('login-id').value = id;
-                        document.getElementById('login-role').value = role;
-                        document.getElementById('forgot-password-form').reset();
-                    }, 2000);
-                } else {
-                    showMessage('forgot-message', result.message, 'error');
-                }
-            });
             
             // ฟอร์มล็อกอิน
             document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -2004,29 +1994,34 @@
                 });
             });
             
-            // ปุ่มกล้อง
+            // ปุ่มกล้อง (สำหรับนักเรียน)
             document.getElementById('capture-btn').addEventListener('click', startCountdown);
             document.getElementById('retake-btn').addEventListener('click', retakePhoto);
             document.getElementById('confirm-btn').addEventListener('click', confirmPhoto);
             
+            // ปุ่มดูรูปของฉัน
+            document.getElementById('view-my-photo').addEventListener('click', function() {
+                if (currentUser && currentUser.photoData) {
+                    window.open(currentUser.photoData, '_blank');
+                } else {
+                    alert('คุณยังไม่ได้ส่งรูปภาพ');
+                }
+            });
+            
+            // ปุ่มค้นหารูปภาพ
+            const searchPhotoBtn = document.getElementById('search-photo-btn');
+            if (searchPhotoBtn) {
+                searchPhotoBtn.addEventListener('click', loadPhotosForApproval);
+            }
+            
+            // ปุ่มกรองสถานะรูปภาพ
+            const filterStatus = document.getElementById('filter-status');
+            if (filterStatus) {
+                filterStatus.addEventListener('change', loadPhotosForApproval);
+            }
+            
             // ออกจากระบบ
             document.getElementById('logout-btn').addEventListener('click', logout);
-            
-            // ปุ่มค้นหาในหน้าจัดการนักเรียน
-            const searchButton = document.querySelector('#students-page .btn-primary');
-            if (searchButton) {
-                searchButton.addEventListener('click', function() {
-                    loadStudentsData();
-                });
-            }
-            
-            // ปุ่มเพิ่มนักเรียน
-            const addStudentButton = document.querySelector('#students-page .btn-secondary');
-            if (addStudentButton) {
-                addStudentButton.addEventListener('click', function() {
-                    alert('หน้าสำหรับเพิ่มนักเรียนใหม่');
-                });
-            }
             
             // ปิดกล้องเมื่อออกจากหน้า
             window.addEventListener('beforeunload', function() {
