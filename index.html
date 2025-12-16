@@ -1,3 +1,7 @@
+# ระบบเช็คชื่อนักเรียนออนไลน์ (สมบูรณ์)
+ระบบเดียวสำหรับ นักเรียน, อาจารย์, และแอดมิน พร้อมระบบสมัครสมาชิกและล็อกอิน
+
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -71,7 +75,7 @@
             padding: 40px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
         }
         
         .login-title {
@@ -136,6 +140,18 @@
             border-color: var(--primary-blue);
         }
         
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .form-check input {
+            width: 18px;
+            height: 18px;
+        }
+        
         .btn {
             padding: 12px 25px;
             border: none;
@@ -172,6 +188,11 @@
         
         .btn-danger {
             background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray);
             color: white;
         }
         
@@ -390,6 +411,63 @@
             border-left: 4px solid var(--danger);
         }
         
+        .alert-info {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--info);
+            border-left: 4px solid var(--info);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Toggle between login and register */
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+        
+        .auth-toggle a {
+            color: var(--primary-blue);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -428,39 +506,103 @@
         
         <div class="login-container">
             <div class="login-box">
-                <h2 class="login-title">ลงชื่อเข้าใช้งาน</h2>
+                <h2 class="login-title" id="authTitle">ลงชื่อเข้าใช้งาน</h2>
                 
-                <div class="form-group">
-                    <label class="form-label">เลือกระบบการใช้งาน</label>
-                    <div class="role-selector">
-                        <button class="role-btn active" onclick="selectRole('student')">
-                            <i class="fas fa-user-graduate"></i>
-                            <span>นักเรียน</span>
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">เลือกระบบการใช้งาน</label>
+                        <div class="role-selector">
+                            <button class="role-btn active" onclick="selectRole('student')">
+                                <i class="fas fa-user-graduate"></i>
+                                <span>นักเรียน</span>
+                            </button>
+                            <button class="role-btn" onclick="selectRole('teacher')">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>อาจารย์</span>
+                            </button>
+                            <button class="role-btn" onclick="selectRole('admin')">
+                                <i class="fas fa-user-cog"></i>
+                                <span>แอดมิน</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="usernameLabel">อีเมลหรือรหัสนักเรียน</label>
+                        <input type="text" id="username" class="form-control" placeholder="กรอกอีเมลหรือรหัสประจำตัว">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">รหัสผ่าน</label>
+                        <input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน">
+                    </div>
+                    
+                    <div class="form-check">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">จำรหัสผ่าน</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="login()">
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
-                        <button class="role-btn" onclick="selectRole('teacher')">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                            <span>อาจารย์</span>
-                        </button>
-                        <button class="role-btn" onclick="selectRole('admin')">
-                            <i class="fas fa-user-cog"></i>
-                            <span>แอดมิน</span>
-                        </button>
+                    </div>
+                    
+                    <div class="auth-toggle">
+                        ยังไม่มีบัญชี? <a onclick="showRegister()">สมัครสมาชิก</a>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label" id="usernameLabel">รหัสนักเรียน</label>
-                    <input type="text" id="username" class="form-control" placeholder="กรอกรหัสนักเรียน">
+                <div id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">เลือกระบบการใช้งาน</label>
+                        <div class="role-selector">
+                            <button class="role-btn active" onclick="selectRole('student')">
+                                <i class="fas fa-user-graduate"></i>
+                                <span>นักเรียน</span>
+                            </button>
+                            <button class="role-btn" onclick="selectRole('teacher')">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>อาจารย์</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" id="regUsernameLabel">รหัสนักเรียน/อาจารย์</label>
+                        <input type="text" id="regUsername" class="form-control" placeholder="กรอกรหัสประจำตัว">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">อีเมลวิทยาลัย</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="เช่น student@surat.ac.th">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ชื่อ-สกุล</label>
+                        <input type="text" id="regName" class="form-control" placeholder="กรอกชื่อ-สกุล">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">รหัสผ่าน</label>
+                        <input type="password" id="regPassword" class="form-control" placeholder="กรอกรหัสผ่าน">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">ยืนยันรหัสผ่าน</label>
+                        <input type="password" id="regConfirmPassword" class="form-control" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                    </div>
+                    
+                    <div class="form-group">
+                        <button class="btn btn-success" onclick="register()">
+                            <i class="fas fa-user-plus"></i> สมัครสมาชิก
+                        </button>
+                    </div>
+                    
+                    <div class="auth-toggle">
+                        มีบัญชีอยู่แล้ว? <a onclick="showLogin()">เข้าสู่ระบบ</a>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label">รหัสผ่าน</label>
-                    <input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน">
-                </div>
-                
-                <button class="btn btn-primary" onclick="login()">
-                    <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                </button>
             </div>
         </div>
     </div>
@@ -517,6 +659,33 @@
                         <div id="studentHistory">
                             <!-- History will be loaded here -->
                         </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-user-cog"></i> จัดการบัญชีผู้ใช้
+                        </h2>
+                        <div class="filter-row">
+                            <div class="form-group">
+                                <label class="form-label">ชื่อผู้ใช้ปัจจุบัน</label>
+                                <input type="text" class="form-control" value="" id="currentUsername" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">อีเมล</label>
+                                <input type="email" class="form-control" value="" id="currentEmail" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">รหัสผ่านใหม่</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="กรอกรหัสผ่านใหม่">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                                <input type="password" class="form-control" id="confirmNewPassword" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="changePassword()">
+                            <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
+                        </button>
                     </div>
                 </div>
                 
@@ -681,6 +850,36 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Tab 4: Teacher Account -->
+                    <div id="teacherAccount" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title">
+                                <i class="fas fa-user-cog"></i> จัดการบัญชีผู้ใช้
+                            </h2>
+                            <div class="filter-row">
+                                <div class="form-group">
+                                    <label class="form-label">ชื่อผู้ใช้ปัจจุบัน</label>
+                                    <input type="text" class="form-control" value="" id="teacherCurrentUsername" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">อีเมล</label>
+                                    <input type="email" class="form-control" value="" id="teacherCurrentEmail" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">รหัสผ่านใหม่</label>
+                                    <input type="password" class="form-control" id="teacherNewPassword" placeholder="กรอกรหัสผ่านใหม่">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                                    <input type="password" class="form-control" id="teacherConfirmNewPassword" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="teacherChangePassword()">
+                                <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Admin Content -->
@@ -717,12 +916,34 @@
                             <!-- Activities will be loaded here -->
                         </div>
                     </div>
+                    
+                    <div class="card">
+                        <h2 class="card-title">
+                            <i class="fas fa-info-circle"></i> ข้อมูลระบบแอดมิน
+                        </h2>
+                        <p><strong>รหัสผ่านแอดมินตายตัว:</strong> 1234</p>
+                        <p><strong>หมายเหตุ:</strong> รหัสผ่านแอดมินไม่สามารถเปลี่ยนได้และเป็นรหัสผ่านเดียวกันทุกคน</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- PHP Backend Simulation (Using JavaScript to simulate PHP) -->
+    <!-- Password Change Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: var(--primary-blue);"><i class="fas fa-key"></i> เปลี่ยนรหัสผ่านสำเร็จ</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <p>รหัสผ่านของคุณถูกเปลี่ยนเรียบร้อยแล้ว</p>
+            <p>กรุณาเข้าสู่ระบบอีกครั้งด้วยรหัสผ่านใหม่</p>
+            <button class="btn btn-primary" onclick="closeModalAndLogout()">
+                <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบอีกครั้ง
+            </button>
+        </div>
+    </div>
+    
     <script>
         // ============================
         // GLOBAL VARIABLES
@@ -743,6 +964,9 @@
             document.getElementById('reportEndDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('activityDate').value = new Date().toISOString().split('T')[0];
             
+            // Load saved credentials if any
+            loadSavedCredentials();
+            
             // Load initial data
             loadInitialData();
             
@@ -755,7 +979,7 @@
         });
         
         // ============================
-        // LOGIN FUNCTIONS
+        // AUTHENTICATION FUNCTIONS
         // ============================
         function selectRole(role) {
             currentRole = role;
@@ -764,313 +988,54 @@
             document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            // Update label
+            // Update labels
             const labelMap = {
+                'student': 'รหัสนักเรียนหรืออีเมล',
+                'teacher': 'รหัสอาจารย์หรืออีเมล',
+                'admin': 'รหัสแอดมิน'
+            };
+            
+            const regLabelMap = {
                 'student': 'รหัสนักเรียน',
                 'teacher': 'รหัสอาจารย์',
                 'admin': 'รหัสแอดมิน'
             };
+            
             document.getElementById('usernameLabel').textContent = labelMap[role];
+            document.getElementById('regUsernameLabel').textContent = regLabelMap[role];
+            
+            // Clear password fields
+            document.getElementById('password').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            
+            // Load saved credentials for this role
+            loadSavedCredentialsForRole(role);
         }
         
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('authTitle').textContent = 'สมัครสมาชิก';
             
-            if (!username || !password) {
-                showAlert('กรุณากรอกข้อมูลให้ครบถ้วน', 'danger');
-                return;
-            }
-            
-            // Simple authentication (in real app, this would be server-side)
-            let userData = null;
-            
-            switch(currentRole) {
-                case 'student':
-                    if (username === 'student001' && password === '1234') {
-                        userData = {
-                            id: 'ST001',
-                            name: 'นักเรียนตัวอย่าง',
-                            role: 'student',
-                            class: 'ปวช.1/1'
-                        };
-                    }
-                    break;
-                    
-                case 'teacher':
-                    if (username === 'teacher001' && password === '1234') {
-                        userData = {
-                            id: 'T001',
-                            name: 'อาจารย์ผู้สอน',
-                            role: 'teacher',
-                            department: 'วิชาการ'
-                        };
-                    }
-                    break;
-                    
-                case 'admin':
-                    if (username === 'admin001' && password === '1234') {
-                        userData = {
-                            id: 'AD001',
-                            name: 'ผู้ดูแลระบบ',
-                            role: 'admin'
-                        };
-                    }
-                    break;
-            }
-            
-            if (userData) {
-                currentUser = userData;
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                showDashboard(currentRole);
-                showAlert('เข้าสู่ระบบสำเร็จ', 'success');
-            } else {
-                showAlert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger');
-            }
-        }
-        
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            document.getElementById('mainDashboard').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'block';
-        }
-        
-        // ============================
-        // DASHBOARD FUNCTIONS
-        // ============================
-        function showDashboard(role) {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainDashboard').style.display = 'block';
-            
-            // Set dashboard title
-            const roleNames = {
-                'student': 'ระบบสำหรับนักเรียน',
-                'teacher': 'ระบบสำหรับอาจารย์',
-                'admin': 'ระบบสำหรับแอดมิน'
-            };
-            
-            document.getElementById('dashboardTitle').textContent = roleNames[role];
-            document.getElementById('userRoleDisplay').textContent = currentUser.name;
-            
-            // Show appropriate content
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Setup navigation tabs based on role
-            setupNavigation(role);
-            
-            // Load initial data for the role
-            loadRoleData(role);
-        }
-        
-        function setupNavigation(role) {
-            const navTabs = document.getElementById('navTabs');
-            navTabs.innerHTML = '';
-            
-            const tabs = {
-                'student': [
-                    { id: 'studentContent', icon: 'fa-camera', text: 'ถ่ายรูปเช็คชื่อ' }
-                ],
-                'teacher': [
-                    { id: 'teacherCheckin', icon: 'fa-calendar-check', text: 'เช็คชื่อนักเรียน' },
-                    { id: 'teacherManageStudents', icon: 'fa-users', text: 'จัดการนักเรียน' },
-                    { id: 'teacherReports', icon: 'fa-chart-bar', text: 'รายงาน' }
-                ],
-                'admin': [
-                    { id: 'adminContent', icon: 'fa-calendar-plus', text: 'จัดการกิจกรรม' }
-                ]
-            };
-            
-            tabs[role].forEach(tab => {
-                const button = document.createElement('button');
-                button.className = 'tab-btn';
-                button.innerHTML = `<i class="fas ${tab.icon}"></i> ${tab.text}`;
-                button.onclick = () => switchTab(tab.id);
-                
-                // Make first tab active by default
-                if (navTabs.children.length === 0) {
-                    button.classList.add('active');
+            // Hide admin option in register
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                if (btn.querySelector('span').textContent === 'แอดมิน') {
+                    btn.style.display = 'none';
                 }
-                
-                navTabs.appendChild(button);
             });
-            
-            // Show first tab
-            if (tabs[role].length > 0) {
-                document.getElementById(tabs[role][0].id).classList.add('active');
-            }
         }
         
-        function switchTab(tabId) {
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('authTitle').textContent = 'ลงชื่อเข้าใช้งาน';
             
-            // Show selected content
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
+            // Show all role buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.style.display = 'flex';
             });
-            document.getElementById(tabId).classList.add('active');
         }
         
-        // ============================
-        // STUDENT FUNCTIONS
-        // ============================
-        function capturePhoto() {
-            // In a real app, this would use the device camera
-            // For demo purposes, we'll simulate a photo capture
-            
-            const preview = document.getElementById('cameraPreview');
-            preview.innerHTML = `
-                <div class="camera-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <i class="fas fa-check-circle fa-3x" style="color: white;"></i>
-                    <p style="margin-top: 10px; color: white;">ถ่ายรูปสำเร็จ!</p>
-                    <p style="font-size: 0.9rem; margin-top: 5px;">${new Date().toLocaleTimeString('th-TH')}</p>
-                </div>
-            `;
-            
-            // Record check-in
-            const checkinRecord = {
-                studentId: currentUser.id,
-                studentName: currentUser.name,
-                activity: 'กิจกรรมประจำวัน',
-                timestamp: new Date().toISOString(),
-                status: 'เช็คชื่อแล้ว'
-            };
-            
-            // Save to localStorage
-            const checkins = JSON.parse(localStorage.getItem('studentCheckins') || '[]');
-            checkins.push(checkinRecord);
-            localStorage.setItem('studentCheckins', JSON.stringify(checkins));
-            
-            // Update history
-            loadStudentHistory();
-            
-            showAlert('ถ่ายรูปเช็คชื่อสำเร็จแล้ว!', 'success');
-        }
-        
-        function loadStudentHistory() {
-            const checkins = JSON.parse(localStorage.getItem('studentCheckins') || '[]');
-            const historyDiv = document.getElementById('studentHistory');
-            
-            if (checkins.length === 0) {
-                historyDiv.innerHTML = '<p style="color: var(--gray); text-align: center;">ยังไม่มีประวัติการเช็คชื่อ</p>';
-                return;
-            }
-            
-            let html = '<div class="activity-list">';
-            checkins.reverse().forEach((checkin, index) => {
-                const date = new Date(checkin.timestamp).toLocaleDateString('th-TH');
-                const time = new Date(checkin.timestamp).toLocaleTimeString('th-TH');
-                
-                html += `
-                    <div class="activity-item">
-                        <div>
-                            <strong>${checkin.activity}</strong>
-                            <p style="font-size: 0.9rem; color: var(--gray);">${date} ${time}</p>
-                        </div>
-                        <span style="color: var(--success);">
-                            <i class="fas fa-check-circle"></i> ${checkin.status}
-                        </span>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            
-            historyDiv.innerHTML = html;
-        }
-        
-        // ============================
-        // TEACHER FUNCTIONS
-        // ============================
-        function loadStudentsForCheckin() {
-            const activityId = document.getElementById('checkinActivity').value;
-            const className = document.getElementById('checkinClass').value;
-            
-            if (!activityId) {
-                showAlert('กรุณาเลือกกิจกรรม', 'danger');
-                return;
-            }
-            
-            // Filter students by class
-            let filteredStudents = students;
-            if (className) {
-                filteredStudents = students.filter(s => s.class === className);
-            }
-            
-            // Display students
-            const tbody = document.getElementById('studentCheckinList');
-            tbody.innerHTML = '';
-            
-            filteredStudents.forEach((student, index) => {
-                const row = document.createElement('tr');
-                
-                // Check if student already checked in
-                const checkinKey = `${student.id}_${activityId}`;
-                const savedStatus = localStorage.getItem(checkinKey) || 'absent';
-                
-                row.innerHTML = `
-                    <td>${student.number}</td>
-                    <td>${student.name}</td>
-                    <td>${student.class}</td>
-                    <td>
-                        <div class="status-buttons">
-                            <button class="status-btn btn-present ${savedStatus === 'present' ? 'active' : ''}" 
-                                    onclick="setCheckinStatus('${student.id}', 'present', '${activityId}')">
-                                <i class="fas fa-check"></i> มา
-                            </button>
-                            <button class="status-btn btn-late ${savedStatus === 'late' ? 'active' : ''}" 
-                                    onclick="setCheckinStatus('${student.id}', 'late', '${activityId}')">
-                                <i class="fas fa-clock"></i> สาย
-                            </button>
-                            <button class="status-btn btn-absent ${savedStatus === 'absent' ? 'active' : ''}" 
-                                    onclick="setCheckinStatus('${student.id}', 'absent', '${activityId}')">
-                                <i class="fas fa-times"></i> ขาด
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tbody.appendChild(row);
-                
-                // Store in checkinData
-                if (!checkinData[student.id]) {
-                    checkinData[student.id] = {};
-                }
-                checkinData[student.id][activityId] = {
-                    status: savedStatus,
-                    date: document.getElementById('checkinDate').value
-                };
-            });
-            
-            showAlert(`พบนักเรียน ${filteredStudents.length} คน`, 'success');
-        }
-        
-        function setCheckinStatus(studentId, status, activityId) {
-            // Update UI
-            const row = event.target.closest('tr');
-            row.querySelectorAll('.status-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update checkinData
-            if (!checkinData[studentId]) {
-                checkinData[studentId] = {};
-            }
-            checkinData[studentId][activityId] = {
-                status: status,
-                date: document.getElementById('checkinDate').value,
-                timestamp: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            localStorage.setItem(`${studentId}_${activityId}`, status);
-        }
-        
-        function saveCheckinData() {
-            const activityId
+        function loadSavedCredentials() {
+            const savedUsername = localStorage.getItem('savedUsername
