@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบถ่ายรูปนักเรียน - ค่ายรูปเช็คซ์อ</title>
+    <title>ระบบลงทะเบียนกิจกรรมค่ายรูปเช็คซ์อ</title>
     <style>
         * {
             margin: 0;
@@ -16,76 +16,277 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 800px;
-            overflow: hidden;
         }
         
         .header {
             background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
             color: white;
-            padding: 25px 30px;
-            text-align: center;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
-        .header h1 {
+        .header-left h1 {
             font-size: 28px;
             margin-bottom: 5px;
-            font-weight: 700;
         }
         
-        .header .subtitle {
+        .header-left .subtitle {
             font-size: 16px;
             opacity: 0.9;
         }
         
-        .success-message {
-            background-color: #e8f5e9;
-            border-left: 5px solid #4CAF50;
-            padding: 15px 20px;
-            margin: 20px 30px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
+        .user-info {
+            text-align: right;
         }
         
-        .success-icon {
-            color: #4CAF50;
-            font-size: 24px;
-            margin-right: 15px;
-        }
-        
-        .success-text h3 {
-            color: #2e7d32;
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 5px;
         }
         
-        .success-text p {
-            color: #555;
+        .user-role {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 14px;
+            display: inline-block;
+        }
+        
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .container {
+            display: flex;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .role-selector {
+            margin-bottom: 25px;
+        }
+        
+        .role-selector h3 {
+            color: #182848;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .role-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .role-btn {
+            padding: 12px 15px;
+            background-color: #f0f4ff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .role-btn:hover {
+            background-color: #e4eaff;
+        }
+        
+        .role-btn.active {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .role-icon {
+            font-size: 18px;
+        }
+        
+        .menu-section {
+            margin-top: 25px;
+        }
+        
+        .menu-section h3 {
+            color: #182848;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .menu-item {
+            padding: 12px 15px;
+            background-color: #f9f9f9;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .menu-item.active {
+            background-color: #eef2ff;
+            color: #4b6cb7;
+            font-weight: 600;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .menu-icon {
+            font-size: 18px;
+        }
+        
+        .main-content {
+            flex: 1;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            min-height: 600px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .content-header h2 {
+            color: #182848;
+            font-size: 24px;
         }
         
         .time-stamp {
-            background-color: #f0f4ff;
-            padding: 10px 20px;
-            margin: 0 30px 20px;
-            border-radius: 8px;
-            text-align: center;
-            color: #4b6cb7;
-            font-weight: 500;
+            color: #666;
+            font-size: 14px;
         }
         
+        /* สไตล์สำหรับหน้า Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #f9f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-card h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #182848;
+            margin-bottom: 5px;
+        }
+        
+        .stat-change {
+            font-size: 14px;
+            color: #4CAF50;
+        }
+        
+        .recent-activities {
+            background-color: #f9f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .recent-activities h3 {
+            color: #182848;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background-color: white;
+            border-radius: 8px;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .activity-icon {
+            font-size: 20px;
+            color: #4b6cb7;
+        }
+        
+        .activity-details {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .activity-time {
+            font-size: 13px;
+            color: #777;
+        }
+        
+        /* สไตล์สำหรับหน้า Camera */
         .camera-section {
-            padding: 20px 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -93,7 +294,7 @@
         
         .camera-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             margin-bottom: 25px;
             border-radius: 12px;
             overflow: hidden;
@@ -103,14 +304,14 @@
         
         #camera-view {
             width: 100%;
-            height: 350px;
+            height: 400px;
             background-color: #333;
             display: block;
         }
         
         #photo-preview {
             width: 100%;
-            height: 350px;
+            height: 400px;
             background-color: #f5f5f5;
             display: none;
             object-fit: contain;
@@ -134,6 +335,7 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            gap: 8px;
         }
         
         .btn-primary {
@@ -157,11 +359,6 @@
             background-color: #e4eaff;
         }
         
-        .btn-icon {
-            margin-right: 8px;
-            font-size: 18px;
-        }
-        
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -169,10 +366,313 @@
             box-shadow: none !important;
         }
         
+        .countdown {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4b6cb7;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        /* สไตล์สำหรับหน้า Admin */
+        .admin-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        
+        .filter-select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: white;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th {
+            background-color: #f0f4ff;
+            color: #182848;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f9f9ff;
+        }
+        
+        .student-id {
+            font-weight: 600;
+            color: #182848;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .status-registered {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .status-not-registered {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .view-btn {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .edit-btn {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .delete-btn {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        /* สไตล์สำหรับหน้า Teacher */
+        .class-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .class-card {
+            background-color: #f9f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .class-card h3 {
+            color: #182848;
+            margin-bottom: 10px;
+        }
+        
+        .class-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4b6cb7;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* สไตล์สำหรับหน้า Profile */
+        .profile-section {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f0f4ff;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h3 {
+            color: #182848;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .info-label {
+            width: 150px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .info-value {
+            flex: 1;
+            color: #333;
+        }
+        
+        /* หน้า Login */
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #182848;
+            margin-bottom: 10px;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .login-form input, .login-form select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        /* สไตล์ทั่วไป */
+        .hidden {
+            display: none !important;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4CAF50;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .success-icon {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .success-text h3 {
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+        
+        .status-message {
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-error {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
         .instructions {
             background-color: #f9f9ff;
             padding: 20px;
-            margin: 20px 30px;
+            margin-top: 20px;
             border-radius: 12px;
             border-left: 4px solid #4b6cb7;
         }
@@ -180,8 +680,6 @@
         .instructions h3 {
             color: #182848;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
         }
         
         .instructions ul {
@@ -194,46 +692,29 @@
             line-height: 1.5;
         }
         
-        .status-message {
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
         }
         
-        .status-success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            display: block;
-        }
-        
-        .status-error {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-        
-        .countdown {
-            font-size: 18px;
-            font-weight: bold;
-            color: #4b6cb7;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
-            border-top: 1px solid #eee;
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 22px;
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .user-info {
+                text-align: center;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
             }
             
             .camera-container {
@@ -252,251 +733,332 @@
             .btn {
                 width: 100%;
             }
+            
+            .admin-controls {
+                flex-direction: column;
+            }
+            
+            .profile-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- หน้า Login (เริ่มต้น) -->
+    <div id="login-page" class="login-container">
+        <div class="login-header">
+            <h1>ระบบลงทะเบียนกิจกรรม</h1>
+            <p>ค่ายรูปเช็คซ์อ</p>
+        </div>
+        
+        <form id="login-form" class="login-form">
+            <div class="form-group">
+                <label for="login-role">ประเภทผู้ใช้งาน</label>
+                <select id="login-role" class="login-select">
+                    <option value="student">นักเรียน</option>
+                    <option value="teacher">อาจารย์</option>
+                    <option value="admin">ผู้ดูแลระบบ</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="login-id">รหัสผู้ใช้งาน</label>
+                <input type="text" id="login-id" placeholder="กรอกรหัสประจำตัว" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="login-password">รหัสผ่าน</label>
+                <input type="password" id="login-password" placeholder="กรอกรหัสผ่าน" required>
+            </div>
+            
+            <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
+        </form>
+        
+        <div class="login-footer">
+            <p>สำหรับผู้เข้าร่วมกิจกรรมค่ายรูปเช็คซ์อเท่านั้น</p>
+        </div>
+    </div>
+    
+    <!-- หน้าหลักระบบ (หลังจากล็อกอิน) -->
+    <div id="main-system" class="hidden">
         <div class="header">
-            <h1>ค่ายรูปเช็คซ์อ</h1>
-            <div class="subtitle">ระบบถ่ายรูปนักเรียนสำหรับลงทะเบียนกิจกรรม</div>
-        </div>
-        
-        <div class="success-message">
-            <div class="success-icon">✓</div>
-            <div class="success-text">
-                <h3>ค่ายรูปสำเร็จ!</h3>
-                <p>ระบบได้บันทึกรูปภาพของคุณเรียบร้อยแล้ว</p>
+            <div class="header-left">
+                <h1>ค่ายรูปเช็คซ์อ</h1>
+                <div class="subtitle">ระบบลงทะเบียนกิจกรรมสำหรับนักเรียน</div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-name" id="current-user-name">กำลังโหลด...</div>
+                <div class="user-role" id="current-user-role">นักเรียน</div>
+                <button class="logout-btn" id="logout-btn">ออกจากระบบ</button>
             </div>
         </div>
         
-        <div class="time-stamp" id="time-stamp">
-            วันที่และเวลา: กำลังโหลด...
-        </div>
-        
-        <div class="camera-section">
-            <h2 style="color: #182848; margin-bottom: 20px; text-align: center;">กล้องถ่ายภาพนักเรียน</h2>
-            
-            <div class="camera-container">
-                <video id="camera-view" autoplay playsinline></video>
-                <img id="photo-preview" alt="ภาพที่ถ่าย">
+        <div class="container">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="role-selector">
+                    <h3>👤 ประเภทผู้ใช้</h3>
+                    <div class="role-options">
+                        <button class="role-btn" data-role="student">
+                            <span class="role-icon">🎓</span> นักเรียน
+                        </button>
+                        <button class="role-btn" data-role="teacher">
+                            <span class="role-icon">👨‍🏫</span> อาจารย์
+                        </button>
+                        <button class="role-btn" data-role="admin">
+                            <span class="role-icon">⚙️</span> ผู้ดูแลระบบ
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <h3>📋 เมนูระบบ</h3>
+                    <div class="menu-items">
+                        <button class="menu-item active" data-page="dashboard">
+                            <span class="menu-icon">📊</span> แดชบอร์ด
+                        </button>
+                        <button class="menu-item" data-page="camera">
+                            <span class="menu-icon">📷</span> ถ่ายรูปลงทะเบียน
+                        </button>
+                        <button class="menu-item" data-page="profile">
+                            <span class="menu-icon">👤</span> ข้อมูลส่วนตัว
+                        </button>
+                        <button class="menu-item teacher-admin-only" data-page="students">
+                            <span class="menu-icon">👥</span> จัดการนักเรียน
+                        </button>
+                        <button class="menu-item teacher-admin-only" data-page="classes">
+                            <span class="menu-icon">🏫</span> จัดการห้องเรียน
+                        </button>
+                        <button class="menu-item admin-only" data-page="reports">
+                            <span class="menu-icon">📈</span> รายงานสถิติ
+                        </button>
+                        <button class="menu-item admin-only" data-page="settings">
+                            <span class="menu-icon">⚙️</span> ตั้งค่าระบบ
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <div class="camera-controls">
-                <button id="capture-btn" class="btn btn-primary">
-                    <span class="btn-icon">📷</span> ถ่ายภาพตอนนี้
-                </button>
-                <button id="retake-btn" class="btn btn-secondary" disabled>
-                    <span class="btn-icon">🔄</span> ถ่ายภาพใหม่
-                </button>
-                <button id="confirm-btn" class="btn btn-primary" disabled>
-                    <span class="btn-icon">✓</span> ยืนยันภาพนี้
-                </button>
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <div class="content-header">
+                    <h2 id="page-title">แดชบอร์ด</h2>
+                    <div class="time-stamp" id="time-stamp">วันที่และเวลา: กำลังโหลด...</div>
+                </div>
+                
+                <!-- หน้า Dashboard -->
+                <div id="dashboard-page" class="page-content">
+                    <div class="success-message">
+                        <div class="success-icon">✓</div>
+                        <div class="success-text">
+                            <h3>ค่ายรูปสำเร็จ!</h3>
+                            <p>ระบบได้บันทึกรูปภาพของคุณเรียบร้อยแล้ว</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>นักเรียนลงทะเบียนแล้ว</h3>
+                            <div class="stat-value" id="stat-registered">125</div>
+                            <div class="stat-change">เพิ่มขึ้น 8% จากสัปดาห์ที่แล้ว</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <h3>รอการยืนยัน</h3>
+                            <div class="stat-value" id="stat-pending">18</div>
+                            <div class="stat-change">ลดลง 3% จากเมื่อวาน</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <h3>ยังไม่ได้ลงทะเบียน</h3>
+                            <div class="stat-value" id="stat-not-registered">42</div>
+                            <div class="stat-change">คงที่จากเมื่อวาน</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <h3>อัตราการเข้าร่วม</h3>
+                            <div class="stat-value" id="stat-participation">78%</div>
+                            <div class="stat-change">เพิ่มขึ้น 5% จากเดือนที่แล้ว</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-activities">
+                        <h3>กิจกรรมล่าสุด</h3>
+                        <div class="activity-list" id="activity-list">
+                            <!-- กิจกรรมจะถูกเพิ่มโดย JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- หน้า Camera -->
+                <div id="camera-page" class="page-content hidden">
+                    <div class="camera-section">
+                        <div class="camera-container">
+                            <video id="camera-view" autoplay playsinline></video>
+                            <img id="photo-preview" alt="ภาพที่ถ่าย">
+                        </div>
+                        
+                        <div class="camera-controls">
+                            <button id="capture-btn" class="btn btn-primary">
+                                <span>📷</span> ถ่ายภาพตอนนี้
+                            </button>
+                            <button id="retake-btn" class="btn btn-secondary" disabled>
+                                <span>🔄</span> ถ่ายภาพใหม่
+                            </button>
+                            <button id="confirm-btn" class="btn btn-primary" disabled>
+                                <span>✓</span> ยืนยันภาพนี้
+                            </button>
+                        </div>
+                        
+                        <div class="countdown" id="countdown">3</div>
+                        
+                        <div id="camera-status" class="status-message"></div>
+                    </div>
+                    
+                    <div class="instructions">
+                        <h3>📋 คำแนะนำการถ่ายภาพ</h3>
+                        <ul>
+                            <li>กดปุ่ม "ถ่ายภาพตอนนี้" เพื่อถ่ายรูปเช็คซ์อเข้าร่วมกิจกรรม</li>
+                            <li>ระบบจะนับถอยหลัง 3 วินาที ก่อนถ่ายภาพอัตโนมัติ</li>
+                            <li>หลังจากถ่ายภาพแล้ว ภาพจะแสดงให้คุณเห็นทันที</li>
+                            <li>หากภาพไม่พอใจ กดปุ่ม "ถ่ายภาพใหม่" เพื่อลองอีกครั้ง</li>
+                            <li>เมื่อพอใจกับภาพแล้ว กดปุ่ม "ยืนยันภาพนี้" เพื่อส่งภาพเข้าระบบ</li>
+                            <li>โปรดยืนให้อยู่ในกรอบและมองตรงไปที่กล้อง</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- หน้า Profile -->
+                <div id="profile-page" class="page-content hidden">
+                    <div class="profile-section">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Profile Picture" class="profile-pic" id="profile-pic">
+                        
+                        <div class="profile-info">
+                            <h3 id="profile-name">นางสาวสมชาย ใจดี</h3>
+                            
+                            <div class="info-row">
+                                <div class="info-label">รหัสประจำตัว:</div>
+                                <div class="info-value" id="profile-id">STD2024001</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">ชั้นเรียน:</div>
+                                <div class="info-value" id="profile-class">ม.6/1</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">สถานะการลงทะเบียน:</div>
+                                <div class="info-value">
+                                    <span class="status-badge status-registered">ลงทะเบียนแล้ว</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">วันที่ลงทะเบียน:</div>
+                                <div class="info-value" id="profile-reg-date">15 มีนาคม 2567</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">อีเมล:</div>
+                                <div class="info-value" id="profile-email">somchai.j@example.com</div>
+                            </div>
+                            
+                            <div class="info-row">
+                                <div class="info-label">เบอร์โทรศัพท์:</div>
+                                <div class="info-value" id="profile-phone">081-234-5678</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- หน้า Students (สำหรับครูและแอดมิน) -->
+                <div id="students-page" class="page-content hidden">
+                    <h3>จัดการข้อมูลนักเรียน</h3>
+                    
+                    <div class="admin-controls">
+                        <input type="text" class="search-box" placeholder="ค้นหานักเรียนด้วยชื่อหรือรหัสประจำตัว...">
+                        <select class="filter-select">
+                            <option value="all">ทั้งหมด</option>
+                            <option value="registered">ลงทะเบียนแล้ว</option>
+                            <option value="pending">รอการยืนยัน</option>
+                            <option value="not-registered">ยังไม่ได้ลงทะเบียน</option>
+                        </select>
+                        <button class="btn btn-primary">ค้นหา</button>
+                        <button class="btn btn-secondary">เพิ่มนักเรียน</button>
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>รหัสประจำตัว</th>
+                                <th>ชื่อ-สกุล</th>
+                                <th>ชั้นเรียน</th>
+                                <th>สถานะ</th>
+                                <th>วันที่ลงทะเบียน</th>
+                                <th>การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table-body">
+                            <!-- ข้อมูลนักเรียนจะถูกเพิ่มโดย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- หน้า Classes (สำหรับครูและแอดมิน) -->
+                <div id="classes-page" class="page-content hidden">
+                    <h3>จัดการห้องเรียน</h3>
+                    
+                    <div class="class-list">
+                        <!-- ห้องเรียนจะถูกเพิ่มโดย JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- หน้า Reports (สำหรับแอดมิน) -->
+                <div id="reports-page" class="page-content hidden">
+                    <h3>รายงานสถิติระบบ</h3>
+                    <p>หน้าสำหรับผู้ดูแลระบบเพื่อดูรายงานและสถิติต่างๆ</p>
+                    <!-- สามารถเพิ่มกราฟและรายงานได้ที่นี่ -->
+                </div>
+                
+                <!-- หน้า Settings (สำหรับแอดมิน) -->
+                <div id="settings-page" class="page-content hidden">
+                    <h3>ตั้งค่าระบบ</h3>
+                    <p>หน้าสำหรับผู้ดูแลระบบเพื่อตั้งค่าต่างๆ ของระบบ</p>
+                    <!-- สามารถเพิ่มฟอร์มตั้งค่าได้ที่นี่ -->
+                </div>
             </div>
-            
-            <div class="countdown" id="countdown">3</div>
-            
-            <div id="status-message" class="status-message"></div>
-        </div>
-        
-        <div class="instructions">
-            <h3><span style="margin-right: 8px;">📋</span> คำแนะนำการถ่ายภาพ</h3>
-            <ul>
-                <li>กดปุ่ม "ถ่ายภาพตอนนี้" เพื่อถ่ายรูปเช็คซ์อเข้าร่วมกิจกรรม</li>
-                <li>ระบบจะนับถอยหลัง 3 วินาที ก่อนถ่ายภาพอัตโนมัติ</li>
-                <li>หลังจากถ่ายภาพแล้ว ภาพจะแสดงให้คุณเห็นทันที</li>
-                <li>หากภาพไม่พอใจ กดปุ่ม "ถ่ายภาพใหม่" เพื่อลองอีกครั้ง</li>
-                <li>เมื่อพอใจกับภาพแล้ว กดปุ่ม "ยืนยันภาพนี้" เพื่อส่งภาพเข้าระบบ</li>
-                <li>โปรดยืนให้อยู่ในกรอบและมองตรงไปที่กล้อง</li>
-            </ul>
-        </div>
-        
-        <div class="footer">
-            ระบบลงทะเบียนกิจกรรมค่ายรูปเช็คซ์อ | สำหรับนักเรียนเท่านั้น
         </div>
     </div>
 
     <script>
-        // องค์ประกอบ HTML
-        const cameraView = document.getElementById('camera-view');
-        const photoPreview = document.getElementById('photo-preview');
-        const captureBtn = document.getElementById('capture-btn');
-        const retakeBtn = document.getElementById('retake-btn');
-        const confirmBtn = document.getElementById('confirm-btn');
-        const statusMessage = document.getElementById('status-message');
-        const countdownElement = document.getElementById('countdown');
-        const timeStampElement = document.getElementById('time-stamp');
-        
-        // ตัวแปรสำหรับจัดการกล้อง
-        let cameraStream = null;
-        let photoData = null;
-        let countdownTimer = null;
-        
-        // อัพเดทเวลาปัจจุบัน
-        function updateTimeStamp() {
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('th-TH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            const timeStr = now.toLocaleTimeString('th-TH');
-            timeStampElement.textContent = `วันที่และเวลา: ${dateStr} ${timeStr}`;
-        }
-        
-        // อัพเดทเวลาทุกวินาที
-        updateTimeStamp();
-        setInterval(updateTimeStamp, 1000);
-        
-        // เริ่มใช้งานกล้อง
-        async function startCamera() {
-            try {
-                statusMessage.textContent = "กำลังเริ่มใช้งานกล้อง...";
-                statusMessage.className = "status-message";
-                statusMessage.style.display = "block";
-                
-                // ขออนุญาตใช้กล้อง
-                cameraStream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 },
-                        facingMode: 'user'
-                    },
-                    audio: false
-                });
-                
-                // แสดงภาพจากกล้อง
-                cameraView.srcObject = cameraStream;
-                statusMessage.style.display = "none";
-                
-            } catch (error) {
-                console.error("เกิดข้อผิดพลาดในการเข้าถึงกล้อง: ", error);
-                statusMessage.textContent = "ไม่สามารถเข้าถึงกล้องได้ กรุณาอนุญาตการใช้งานกล้อง";
-                statusMessage.className = "status-message status-error";
-                statusMessage.style.display = "block";
-                
-                // แสดงภาพตัวอย่างแทน (สำหรับทดสอบ)
-                cameraView.style.display = "none";
-                photoPreview.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80";
-                photoPreview.style.display = "block";
-                photoPreview.style.objectFit = "cover";
-            }
-        }
-        
-        // เริ่มนับถอยก่อนถ่ายภาพ
-        function startCountdown() {
-            let count = 3;
-            countdownElement.textContent = count;
-            countdownElement.style.display = "block";
-            captureBtn.disabled = true;
-            
-            countdownTimer = setInterval(() => {
-                count--;
-                countdownElement.textContent = count;
-                
-                if (count <= 0) {
-                    clearInterval(countdownTimer);
-                    countdownElement.style.display = "none";
-                    capturePhoto();
-                }
-            }, 1000);
-        }
-        
-        // ถ่ายภาพ
-        function capturePhoto() {
-            try {
-                // สร้าง canvas เพื่อบันทึกภาพจากวิดีโอ
-                const canvas = document.createElement('canvas');
-                canvas.width = cameraView.videoWidth;
-                canvas.height = cameraView.videoHeight;
-                
-                const context = canvas.getContext('2d');
-                
-                // วาดภาพจากวิดีโอลงใน canvas
-                context.drawImage(cameraView, 0, 0, canvas.width, canvas.height);
-                
-                // แปลง canvas เป็นข้อมูลรูปภาพ
-                photoData = canvas.toDataURL('image/png');
-                
-                // แสดงภาพที่ถ่ายให้ผู้ใช้เห็นทันที
-                photoPreview.src = photoData;
-                photoPreview.style.display = "block";
-                cameraView.style.display = "none";
-                
-                // เปลี่ยนสถานะปุ่ม
-                captureBtn.disabled = true;
-                retakeBtn.disabled = false;
-                confirmBtn.disabled = false;
-                
-                // แจ้งเตือนสำเร็จ
-                statusMessage.textContent = "ถ่ายภาพสำเร็จ! กรุณาตรวจสอบภาพด้านบน";
-                statusMessage.className = "status-message status-success";
-                statusMessage.style.display = "block";
-                
-            } catch (error) {
-                console.error("เกิดข้อผิดพลาดในการถ่ายภาพ: ", error);
-                statusMessage.textContent = "เกิดข้อผิดพลาดในการถ่ายภาพ กรุณาลองอีกครั้ง";
-                statusMessage.className = "status-message status-error";
-                statusMessage.style.display = "block";
-                
-                captureBtn.disabled = false;
-                countdownElement.style.display = "none";
-            }
-        }
-        
-        // ถ่ายภาพใหม่
-        function retakePhoto() {
-            // ซ่อนภาพที่ถ่ายและแสดงกล้องอีกครั้ง
-            photoPreview.style.display = "none";
-            cameraView.style.display = "block";
-            
-            // รีเซ็ตปุ่ม
-            captureBtn.disabled = false;
-            retakeBtn.disabled = true;
-            confirmBtn.disabled = true;
-            
-            // ซ่อนข้อความสถานะ
-            statusMessage.style.display = "none";
-        }
-        
-        // ยืนยันภาพ
-        function confirmPhoto() {
-            statusMessage.textContent = "กำลังบันทึกรูปภาพลงระบบ...";
-            statusMessage.className = "status-message";
-            statusMessage.style.display = "block";
-            
-            // จำลองการส่งข้อมูลไปยังเซิร์ฟเวอร์
-            setTimeout(() => {
-                statusMessage.textContent = "บันทึกรูปภาพสำเร็จ! รูปภาพของคุณได้ถูกบันทึกเข้าระบบกิจกรรมแล้ว";
-                statusMessage.className = "status-message status-success";
-                
-                // ปิดการใช้งานปุ่ม
-                confirmBtn.disabled = true;
-                retakeBtn.disabled = true;
-                
-                // แสดงเวลาเสร็จสิ้น
-                updateTimeStamp();
-                
-                // จำลองส่งข้อมูลไปยังเซิร์ฟเวอร์ (ในระบบจริงควรใช้ fetch หรือ XMLHttpRequest)
-                console.log("ข้อมูลรูปภาพที่ส่งไปยังเซิร์ฟเวอร์:", photoData.substring(0, 100) + "...");
-                
-            }, 1500);
-        }
-        
-        // เพิ่ม Event Listeners
-        captureBtn.addEventListener('click', startCountdown);
-        retakeBtn.addEventListener('click', retakePhoto);
-        confirmBtn.addEventListener('click', confirmPhoto);
-        
-        // เริ่มระบบเมื่อโหลดหน้าเว็บเสร็จ
-        window.addEventListener('load', startCamera);
-        
-        // ปิดสตรีมกล้องเมื่อออกจากหน้าเว็บ
-        window.addEventListener('beforeunload', () => {
-            if (cameraStream) {
-                cameraStream.getTracks().forEach(track => track.stop());
-            }
-        });
-    </script>
-</body>
-</html>
+        // ข้อมูลตัวอย่างสำหรับระบบ
+        const sampleData = {
+            students: [
+                { id: "STD2024001", name: "นางสาวสมชาย ใจดี", class: "ม.6/1", status: "registered", regDate: "15 มีนาคม 2567", email: "somchai.j@example.com", phone: "081-234-5678" },
+                { id: "STD2024002", name: "นายก้องภพ ศรีสวัสดิ์", class: "ม.6/1", status: "registered", regDate: "16 มีนาคม 2567", email: "kongpop.s@example.com", phone: "082-345-6789" },
+                { id: "STD2024003", name: "นางสาววรรณษา พันธ์แสง", class: "ม.6/2", status: "pending", regDate: "17 มีนาคม 2567", email: "wannasa.p@example.com", phone: "083-456-7890" },
+                { id: "STD2024004", name: "นายภูวดล เทพทอง", class: "ม.6/2", status: "not-registered", regDate: "-", email: "phuwadol.t@example.com", phone: "084-567-8901" },
+                { id: "STD2024005", name: "นางสาวสุภาวดี ดีมาก", class: "ม.6/3", status: "registered", regDate: "14 มีนาคม 2567", email: "supawadee.d@example.com", phone: "085-678-9012" }
+            ],
+            classes: [
+                { name: "ม.6/1", total: 40, registered: 38, pending: 2, teacher: "ครูสมหมาย ใจดี" },
+                { name: "ม.6/2", total: 42, registered: 35, pending: 5, teacher: "ครูวรรณา ศรีสุข" },
+                { name: "ม.6/3", total: 38, registered: 36, pending: 2, teacher: "ครูชัยวัฒน์ พันธุ์ทอง" },
+                { name: "ม.6/4", total: 45, registered: 40, pending: 3, teacher: "ครูเพ็ญพิชชา ทรัพย์สมบูรณ์" },
+                { name: "ม.6/5", total: 39, registered: 32, pending: 4, teacher: "ครูอนุชา เมืองสุข" },
+                { name: "ม.6/6", total: 41, registered: 39, pending: 1, teacher: "ครูเกศราภรณ์ สุขสวัสดิ์" }
+            ],
+            activities: [
+                { title: "นางสาวสมชาย ใจดี ลงทะเบียนกิจกรรม", time: "11:20:02 น.", icon: "📸" },
+                { title: "นายก้องภพ ศรีสวัสดิ์ อัพเดทรูปโปรไฟล์", time: "10:45:15 น.", icon: "🖼️" },
+                { title: "ครูสมหมาย อนุมัติการลงทะเบียน", time: "09:30:45 น.", icon: "✅" },
+                { title: "ระบบทำการสำรองข้อมูลอัตโนมัติ", time: "08:00:00 น.", icon: "💾" },
+                { title: "นางสาววรรณษา พันธ์
