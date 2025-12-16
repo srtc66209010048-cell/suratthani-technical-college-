@@ -204,7 +204,6 @@
             font-size: 14px;
         }
         
-        /* สไตล์สำหรับหน้า Dashboard */
         .dashboard-stats {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -285,7 +284,6 @@
             color: #777;
         }
         
-        /* สไตล์สำหรับหน้า Camera */
         .camera-section {
             display: flex;
             flex-direction: column;
@@ -374,7 +372,6 @@
             display: none;
         }
         
-        /* สไตล์สำหรับหน้า Admin */
         .admin-controls {
             display: flex;
             gap: 15px;
@@ -476,7 +473,6 @@
             color: #c62828;
         }
         
-        /* สไตล์สำหรับหน้า Teacher */
         .class-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -522,7 +518,6 @@
             color: #666;
         }
         
-        /* สไตล์สำหรับหน้า Profile */
         .profile-section {
             display: flex;
             gap: 30px;
@@ -563,7 +558,6 @@
             color: #333;
         }
         
-        /* หน้า Login */
         .login-container {
             max-width: 400px;
             margin: 50px auto;
@@ -625,7 +619,6 @@
             color: #666;
         }
         
-        /* สไตล์ทั่วไป */
         .hidden {
             display: none !important;
         }
@@ -690,6 +683,103 @@
         .instructions li {
             margin-bottom: 8px;
             line-height: 1.5;
+        }
+        
+        .password-toggle {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+        
+        .password-toggle input {
+            margin-right: 5px;
+        }
+        
+        .password-strength {
+            height: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+            transition: all 0.3s;
+        }
+        
+        .password-weak {
+            background-color: #ff4444;
+            width: 25%;
+        }
+        
+        .password-medium {
+            background-color: #ffbb33;
+            width: 50%;
+        }
+        
+        .password-strong {
+            background-color: #00C851;
+            width: 100%;
+        }
+        
+        .terms-agreement {
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .terms-agreement input {
+            margin-right: 8px;
+            margin-top: 3px;
+        }
+        
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .info-message {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .remember-me input {
+            margin-right: 5px;
+        }
+        
+        .login-options {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .login-options a {
+            color: #4b6cb7;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+        
+        .login-options a:hover {
+            text-decoration: underline;
         }
         
         @media (max-width: 1024px) {
@@ -758,28 +848,150 @@
             <p>ค่ายรูปเช็คซ์อ</p>
         </div>
         
-        <form id="login-form" class="login-form">
-            <div class="form-group">
-                <label for="login-role">ประเภทผู้ใช้งาน</label>
-                <select id="login-role" class="login-select">
-                    <option value="student">นักเรียน</option>
-                    <option value="teacher">อาจารย์</option>
-                    <option value="admin">ผู้ดูแลระบบ</option>
-                </select>
-            </div>
+        <!-- ฟอร์มเข้าสู่ระบบ -->
+        <div id="login-form-section">
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-role">ประเภทผู้ใช้งาน</label>
+                    <select id="login-role" class="login-select">
+                        <option value="student">นักเรียน</option>
+                        <option value="teacher">อาจารย์</option>
+                        <option value="admin">ผู้ดูแลระบบ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-id">รหัสผู้ใช้งาน</label>
+                    <input type="text" id="login-id" placeholder="กรอกรหัสประจำตัว" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">รหัสผ่าน</label>
+                    <input type="password" id="login-password" placeholder="กรอกรหัสผ่าน" required>
+                    <div class="password-toggle">
+                        <input type="checkbox" id="show-password"> แสดงรหัสผ่าน
+                    </div>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">จดจำรหัสผ่าน</label>
+                </div>
+                
+                <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
+            </form>
             
-            <div class="form-group">
-                <label for="login-id">รหัสผู้ใช้งาน</label>
-                <input type="text" id="login-id" placeholder="กรอกรหัสประจำตัว" required>
-            </div>
+            <div id="login-message" class="message hidden"></div>
             
-            <div class="form-group">
-                <label for="login-password">รหัสผ่าน</label>
-                <input type="password" id="login-password" placeholder="กรอกรหัสผ่าน" required>
+            <div class="login-options">
+                <a href="#" id="forgot-password-link">ลืมรหัสผ่าน?</a>
+                <a href="#" id="register-link">สมัครสมาชิกใหม่</a>
             </div>
+        </div>
+        
+        <!-- ฟอร์มสมัครสมาชิก (ซ่อนไว้) -->
+        <div id="register-form-section" class="hidden">
+            <form id="register-form" class="login-form">
+                <h3 style="color: #182848; margin-bottom: 20px; text-align: center;">สมัครสมาชิกใหม่</h3>
+                
+                <div class="form-group">
+                    <label for="register-role">ประเภทผู้ใช้งาน</label>
+                    <select id="register-role" class="login-select">
+                        <option value="student">นักเรียน</option>
+                        <option value="teacher">อาจารย์</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-id">รหัสประจำตัว</label>
+                    <input type="text" id="register-id" placeholder="เช่น STD2024001" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-name">ชื่อ-สกุล</label>
+                    <input type="text" id="register-name" placeholder="กรอกชื่อ-สกุล" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">อีเมล</label>
+                    <input type="email" id="register-email" placeholder="กรอกอีเมล" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-phone">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="register-phone" placeholder="กรอกเบอร์โทรศัพท์">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-class">ชั้นเรียน (สำหรับนักเรียน)</label>
+                    <input type="text" id="register-class" placeholder="เช่น ม.6/1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">รหัสผ่าน</label>
+                    <input type="password" id="register-password" placeholder="กรอกรหัสผ่าน" required>
+                    <div class="password-strength" id="password-strength"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm-password">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="register-confirm-password" placeholder="กรอกรหัสผ่านอีกครั้ง" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="agree-terms" required>
+                        <label for="agree-terms">ฉันยอมรับ <a href="#" style="color: #4b6cb7;">ข้อตกลงและเงื่อนไข</a> ของระบบ</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn">สมัครสมาชิก</button>
+                <button type="button" id="back-to-login" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">กลับไปหน้าเข้าสู่ระบบ</button>
+            </form>
             
-            <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
-        </form>
+            <div id="register-message" class="message hidden"></div>
+        </div>
+        
+        <!-- ฟอร์มลืมรหัสผ่าน (ซ่อนไว้) -->
+        <div id="forgot-password-section" class="hidden">
+            <form id="forgot-password-form" class="login-form">
+                <h3 style="color: #182848; margin-bottom: 20px; text-align: center;">ลืมรหัสผ่าน</h3>
+                
+                <div class="form-group">
+                    <label for="forgot-role">ประเภทผู้ใช้งาน</label>
+                    <select id="forgot-role" class="login-select">
+                        <option value="student">นักเรียน</option>
+                        <option value="teacher">อาจารย์</option>
+                        <option value="admin">ผู้ดูแลระบบ</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="forgot-id">รหัสประจำตัว</label>
+                    <input type="text" id="forgot-id" placeholder="กรอกรหัสประจำตัว" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="forgot-email">อีเมลที่ลงทะเบียน</label>
+                    <input type="email" id="forgot-email" placeholder="กรอกอีเมลที่ลงทะเบียนไว้" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new-password">รหัสผ่านใหม่</label>
+                    <input type="password" id="new-password" placeholder="กรอกรหัสผ่านใหม่" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-new-password">ยืนยันรหัสผ่านใหม่</label>
+                    <input type="password" id="confirm-new-password" placeholder="กรอกรหัสผ่านใหม่อีกครั้ง" required>
+                </div>
+                
+                <button type="submit" class="login-btn">รีเซ็ตรหัสผ่าน</button>
+                <button type="button" id="back-to-login-from-forgot" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">กลับไปหน้าเข้าสู่ระบบ</button>
+            </form>
+            
+            <div id="forgot-message" class="message hidden"></div>
+        </div>
         
         <div class="login-footer">
             <p>สำหรับผู้เข้าร่วมกิจกรรมค่ายรูปเช็คซ์อเท่านั้น</p>
@@ -1039,26 +1251,586 @@
     </div>
 
     <script>
-        // ข้อมูลตัวอย่างสำหรับระบบ
-        const sampleData = {
-            students: [
-                { id: "STD2024001", name: "นางสาวสมชาย ใจดี", class: "ม.6/1", status: "registered", regDate: "15 มีนาคม 2567", email: "somchai.j@example.com", phone: "081-234-5678" },
-                { id: "STD2024002", name: "นายก้องภพ ศรีสวัสดิ์", class: "ม.6/1", status: "registered", regDate: "16 มีนาคม 2567", email: "kongpop.s@example.com", phone: "082-345-6789" },
-                { id: "STD2024003", name: "นางสาววรรณษา พันธ์แสง", class: "ม.6/2", status: "pending", regDate: "17 มีนาคม 2567", email: "wannasa.p@example.com", phone: "083-456-7890" },
-                { id: "STD2024004", name: "นายภูวดล เทพทอง", class: "ม.6/2", status: "not-registered", regDate: "-", email: "phuwadol.t@example.com", phone: "084-567-8901" },
-                { id: "STD2024005", name: "นางสาวสุภาวดี ดีมาก", class: "ม.6/3", status: "registered", regDate: "14 มีนาคม 2567", email: "supawadee.d@example.com", phone: "085-678-9012" }
+        // ข้อมูลผู้ใช้งานตัวอย่าง
+        const sampleUsers = {
+            student: [
+                { id: "STD2024001", password: "student123", name: "นางสาวสมชาย ใจดี", role: "student", email: "somchai.j@example.com", phone: "081-234-5678", class: "ม.6/1", regDate: "15 มีนาคม 2567", status: "registered" },
+                { id: "STD2024002", password: "password456", name: "นายก้องภพ ศรีสวัสดิ์", role: "student", email: "kongpop.s@example.com", phone: "082-345-6789", class: "ม.6/1", regDate: "16 มีนาคม 2567", status: "registered" },
+                { id: "STD2024003", password: "std2024003", name: "นางสาววรรณษา พันธ์แสง", role: "student", email: "wannasa.p@example.com", phone: "083-456-7890", class: "ม.6/2", regDate: "17 มีนาคม 2567", status: "pending" },
             ],
-            classes: [
-                { name: "ม.6/1", total: 40, registered: 38, pending: 2, teacher: "ครูสมหมาย ใจดี" },
-                { name: "ม.6/2", total: 42, registered: 35, pending: 5, teacher: "ครูวรรณา ศรีสุข" },
-                { name: "ม.6/3", total: 38, registered: 36, pending: 2, teacher: "ครูชัยวัฒน์ พันธุ์ทอง" },
-                { name: "ม.6/4", total: 45, registered: 40, pending: 3, teacher: "ครูเพ็ญพิชชา ทรัพย์สมบูรณ์" },
-                { name: "ม.6/5", total: 39, registered: 32, pending: 4, teacher: "ครูอนุชา เมืองสุข" },
-                { name: "ม.6/6", total: 41, registered: 39, pending: 1, teacher: "ครูเกศราภรณ์ สุขสวัสดิ์" }
+            teacher: [
+                { id: "TEA001", password: "teacherpass", name: "ครูสมหมาย ใจดี", role: "teacher", email: "sommaijai@school.ac.th", phone: "083-456-7890" },
+                { id: "TEA002", password: "edu2024", name: "ครูวรรณา ศรีสุข", role: "teacher", email: "wannasrisuk@school.ac.th", phone: "084-567-8901" },
             ],
-            activities: [
-                { title: "นางสาวสมชาย ใจดี ลงทะเบียนกิจกรรม", time: "11:20:02 น.", icon: "📸" },
-                { title: "นายก้องภพ ศรีสวัสดิ์ อัพเดทรูปโปรไฟล์", time: "10:45:15 น.", icon: "🖼️" },
-                { title: "ครูสมหมาย อนุมัติการลงทะเบียน", time: "09:30:45 น.", icon: "✅" },
-                { title: "ระบบทำการสำรองข้อมูลอัตโนมัติ", time: "08:00:00 น.", icon: "💾" },
-                { title: "นางสาววรรณษา พันธ์
+            admin: [
+                { id: "ADMIN01", password: "admin1234", name: "ผู้ดูแลระบบ", role: "admin", email: "admin@school.ac.th" },
+                { id: "SUPERADMIN", password: "superadmin", name: "ผู้ดูแลระบบหลัก", role: "admin", email: "superadmin@school.ac.th" },
+            ]
+        };
+
+        // ตัวแปรระบบ
+        let allUsers = [];
+        let currentUser = null;
+        let cameraStream = null;
+        let photoData = null;
+        let countdownTimer = null;
+
+        // รวมข้อมูลผู้ใช้จากทุกกลุ่ม
+        for (const role in sampleUsers) {
+            allUsers = allUsers.concat(sampleUsers[role]);
+        }
+
+        // โหลดข้อมูลผู้ใช้จาก localStorage
+        function loadUsersFromStorage() {
+            try {
+                const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                allUsers = allUsers.concat(storedUsers);
+            } catch (e) {
+                console.log("ไม่สามารถโหลดข้อมูลจาก localStorage:", e);
+            }
+        }
+
+        // ตรวจสอบความแข็งแรงของรหัสผ่าน
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            return strength;
+        }
+
+        // แสดงความแข็งแรงของรหัสผ่าน
+        function updatePasswordStrength(password) {
+            const strengthElement = document.getElementById('password-strength');
+            const strength = checkPasswordStrength(password);
+            
+            if (password.length === 0) {
+                strengthElement.textContent = '';
+                strengthElement.className = 'password-strength';
+                return;
+            }
+            
+            if (strength <= 2) {
+                strengthElement.textContent = 'ความแข็งแรง: อ่อน';
+                strengthElement.className = 'password-strength password-weak';
+            } else if (strength <= 4) {
+                strengthElement.textContent = 'ความแข็งแรง: ปานกลาง';
+                strengthElement.className = 'password-strength password-medium';
+            } else {
+                strengthElement.textContent = 'ความแข็งแรง: แข็งแรง';
+                strengthElement.className = 'password-strength password-strong';
+            }
+        }
+
+        // จดจำรหัสผ่าน
+        function saveCredentials(userId, password, role, remember) {
+            if (remember) {
+                localStorage.setItem('rememberedUserId', userId);
+                localStorage.setItem('rememberedUserRole', role);
+                localStorage.setItem('rememberMe', 'true');
+                // เก็บรหัสผ่าน (ในระบบจริงควรเข้ารหัส)
+                sessionStorage.setItem('tempPassword', password);
+            } else {
+                localStorage.removeItem('rememberedUserId');
+                localStorage.removeItem('rememberedUserRole');
+                localStorage.removeItem('rememberMe');
+                sessionStorage.removeItem('tempPassword');
+            }
+        }
+
+        // โหลดข้อมูลที่จดจำไว้
+        function loadRememberedCredentials() {
+            const remembered = localStorage.getItem('rememberMe');
+            if (remembered === 'true') {
+                const userId = localStorage.getItem('rememberedUserId');
+                const role = localStorage.getItem('rememberedUserRole');
+                const password = sessionStorage.getItem('tempPassword');
+                
+                if (userId && role) {
+                    document.getElementById('login-id').value = userId;
+                    document.getElementById('login-role').value = role;
+                    document.getElementById('remember-me').checked = true;
+                    
+                    if (password) {
+                        document.getElementById('login-password').value = password;
+                    }
+                }
+            }
+        }
+
+        // สมัครสมาชิก
+        function registerUser(userData) {
+            // ตรวจสอบรหัสผู้ใช้ซ้ำ
+            const existingUser = allUsers.find(user => user.id === userData.id);
+            if (existingUser) {
+                return { success: false, message: 'รหัสผู้ใช้งานนี้มีอยู่ในระบบแล้ว' };
+            }
+            
+            // ตรวจสอบรหัสผ่านตรงกัน
+            if (userData.password !== userData.confirmPassword) {
+                return { success: false, message: 'รหัสผ่านไม่ตรงกัน' };
+            }
+            
+            // ตรวจสอบความแข็งแรงรหัสผ่าน
+            if (checkPasswordStrength(userData.password) < 3) {
+                return { success: false, message: 'รหัสผ่านไม่แข็งแรงพอ กรุณาใช้รหัสผ่านที่ซับซ้อนมากขึ้น' };
+            }
+            
+            // สร้างผู้ใช้ใหม่
+            const newUser = {
+                id: userData.id,
+                password: userData.password,
+                name: userData.name,
+                role: userData.role,
+                email: userData.email,
+                phone: userData.phone || '',
+                class: userData.class || '',
+                regDate: new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }),
+                status: 'registered'
+            };
+            
+            // เพิ่มผู้ใช้ใหม่
+            allUsers.push(newUser);
+            
+            // บันทึกลง localStorage
+            const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            storedUsers.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+            
+            return { success: true, message: 'สมัครสมาชิกสำเร็จ! คุณสามารถเข้าสู่ระบบได้ทันที', user: newUser };
+        }
+
+        // ลืมรหัสผ่าน
+        function resetPassword(role, userId, email, newPassword, confirmPassword) {
+            // ตรวจสอบรหัสผ่านตรงกัน
+            if (newPassword !== confirmPassword) {
+                return { success: false, message: 'รหัสผ่านใหม่ไม่ตรงกัน' };
+            }
+            
+            // ตรวจสอบความแข็งแรงรหัสผ่าน
+            if (checkPasswordStrength(newPassword) < 3) {
+                return { success: false, message: 'รหัสผ่านไม่แข็งแรงพอ กรุณาใช้รหัสผ่านที่ซับซ้อนมากขึ้น' };
+            }
+            
+            // ค้นหาผู้ใช้
+            let user = allUsers.find(u => u.id === userId && u.role === role && u.email === email);
+            
+            if (!user) {
+                return { success: false, message: 'ไม่พบข้อมูลผู้ใช้งาน กรุณาตรวจสอบข้อมูลอีกครั้ง' };
+            }
+            
+            // อัปเดตรหัสผ่าน
+            user.password = newPassword;
+            
+            // อัปเดตใน localStorage
+            const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            const userIndex = storedUsers.findIndex(u => u.id === userId && u.role === role);
+            if (userIndex !== -1) {
+                storedUsers[userIndex].password = newPassword;
+                localStorage.setItem('registeredUsers', JSON.stringify(storedUsers));
+            }
+            
+            return { success: true, message: 'รีเซ็ตรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้ทันที' };
+        }
+
+        // แสดง/ซ่อนฟอร์ม
+        function showForm(formType) {
+            document.getElementById('login-form-section').classList.add('hidden');
+            document.getElementById('register-form-section').classList.add('hidden');
+            document.getElementById('forgot-password-section').classList.add('hidden');
+            
+            if (formType === 'login') {
+                document.getElementById('login-form-section').classList.remove('hidden');
+            } else if (formType === 'register') {
+                document.getElementById('register-form-section').classList.remove('hidden');
+            } else if (formType === 'forgot') {
+                document.getElementById('forgot-password-section').classList.remove('hidden');
+            }
+        }
+
+        // แสดงข้อความ
+        function showMessage(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}-message`;
+            element.style.display = 'block';
+            
+            if (type !== 'error') {
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // อัปเดตข้อมูลผู้ใช้ในระบบ
+        function updateUserInfo(user) {
+            currentUser = user;
+            
+            document.getElementById('current-user-name').textContent = user.name;
+            document.getElementById('current-user-role').textContent = 
+                user.role === 'student' ? 'นักเรียน' : 
+                user.role === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ';
+            
+            // อัปเดตโปรไฟล์
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-id').textContent = user.id;
+            document.getElementById('profile-class').textContent = user.class || 'ไม่ระบุ';
+            document.getElementById('profile-email').textContent = user.email || 'ไม่ระบุ';
+            document.getElementById('profile-phone').textContent = user.phone || 'ไม่ระบุ';
+            document.getElementById('profile-reg-date').textContent = user.regDate || 'ไม่ระบุ';
+            
+            // อัปเดตเมนูตามบทบาท
+            updateMenuBasedOnRole(user.role);
+        }
+
+        // อัปเดตเมนูตามบทบาท
+        function updateMenuBasedOnRole(role) {
+            const teacherAdminItems = document.querySelectorAll('.teacher-admin-only');
+            const adminOnlyItems = document.querySelectorAll('.admin-only');
+            
+            teacherAdminItems.forEach(item => item.style.display = 'none');
+            adminOnlyItems.forEach(item => item.style.display = 'none');
+            
+            if (role === 'teacher' || role === 'admin') {
+                teacherAdminItems.forEach(item => item.style.display = 'flex');
+            }
+            
+            if (role === 'admin') {
+                adminOnlyItems.forEach(item => item.style.display = 'flex');
+            }
+        }
+
+        // อัปเดตเวลา
+        function updateTimeStamp() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const timeStr = now.toLocaleTimeString('th-TH');
+            document.getElementById('time-stamp').textContent = `วันที่และเวลา: ${dateStr} ${timeStr}`;
+        }
+
+        // เริ่มกล้อง
+        async function startCamera() {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    },
+                    audio: false
+                });
+                
+                const cameraView = document.getElementById('camera-view');
+                cameraView.srcObject = cameraStream;
+                
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการเข้าถึงกล้อง:", error);
+                showMessage('camera-status', "ไม่สามารถเข้าถึงกล้องได้ กรุณาอนุญาตการใช้งานกล้อง", 'error');
+            }
+        }
+
+        // ถ่ายภาพ
+        function capturePhoto() {
+            try {
+                const cameraView = document.getElementById('camera-view');
+                const canvas = document.createElement('canvas');
+                canvas.width = cameraView.videoWidth;
+                canvas.height = cameraView.videoHeight;
+                
+                const context = canvas.getContext('2d');
+                context.drawImage(cameraView, 0, 0, canvas.width, canvas.height);
+                
+                photoData = canvas.toDataURL('image/png');
+                
+                const photoPreview = document.getElementById('photo-preview');
+                photoPreview.src = photoData;
+                photoPreview.style.display = 'block';
+                cameraView.style.display = 'none';
+                
+                document.getElementById('capture-btn').disabled = true;
+                document.getElementById('retake-btn').disabled = false;
+                document.getElementById('confirm-btn').disabled = false;
+                
+                showMessage('camera-status', 'ถ่ายภาพสำเร็จ! กรุณาตรวจสอบภาพด้านบน', 'success');
+                
+            } catch (error) {
+                console.error("เกิดข้อผิดพลาดในการถ่ายภาพ:", error);
+                showMessage('camera-status', 'เกิดข้อผิดพลาดในการถ่ายภาพ กรุณาลองอีกครั้ง', 'error');
+            }
+        }
+
+        // นับถอยก่อนถ่ายภาพ
+        function startCountdown() {
+            let count = 3;
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = count;
+            countdownElement.style.display = 'block';
+            document.getElementById('capture-btn').disabled = true;
+            
+            countdownTimer = setInterval(() => {
+                count--;
+                countdownElement.textContent = count;
+                
+                if (count <= 0) {
+                    clearInterval(countdownTimer);
+                    countdownElement.style.display = 'none';
+                    capturePhoto();
+                }
+            }, 1000);
+        }
+
+        // ถ่ายภาพใหม่
+        function retakePhoto() {
+            document.getElementById('photo-preview').style.display = 'none';
+            document.getElementById('camera-view').style.display = 'block';
+            
+            document.getElementById('capture-btn').disabled = false;
+            document.getElementById('retake-btn').disabled = true;
+            document.getElementById('confirm-btn').disabled = true;
+            
+            const statusElement = document.getElementById('camera-status');
+            statusElement.style.display = 'none';
+        }
+
+        // ยืนยันภาพ
+        function confirmPhoto() {
+            showMessage('camera-status', 'กำลังบันทึกรูปภาพลงระบบ...', 'info');
+            
+            setTimeout(() => {
+                showMessage('camera-status', 'บันทึกรูปภาพสำเร็จ! รูปภาพของคุณได้ถูกบันทึกเข้าระบบกิจกรรมแล้ว', 'success');
+                
+                document.getElementById('confirm-btn').disabled = true;
+                document.getElementById('retake-btn').disabled = true;
+                
+                updateTimeStamp();
+                
+                console.log("บันทึกรูปภาพ:", photoData.substring(0, 100) + "...");
+                
+            }, 1500);
+        }
+
+        // สลับหน้า
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById('page-title').textContent = 
+                pageId === 'dashboard-page' ? 'แดชบอร์ด' :
+                pageId === 'camera-page' ? 'ถ่ายรูปลงทะเบียน' :
+                pageId === 'profile-page' ? 'ข้อมูลส่วนตัว' :
+                pageId === 'students-page' ? 'จัดการนักเรียน' :
+                pageId === 'classes-page' ? 'จัดการห้องเรียน' :
+                pageId === 'reports-page' ? 'รายงานสถิติ' :
+                pageId === 'settings-page' ? 'ตั้งค่าระบบ' : 'แดชบอร์ด';
+            
+            // ถ้าเป็นหน้ากล้อง ให้เริ่มกล้อง
+            if (pageId === 'camera-page') {
+                setTimeout(() => {
+                    startCamera();
+                }, 100);
+            }
+        }
+
+        // ออกจากระบบ
+        function logout() {
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
+            
+            currentUser = null;
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('main-system').classList.add('hidden');
+            
+            // รีเซ็ตฟอร์มล็อกอิน
+            document.getElementById('login-form').reset();
+            showForm('login');
+        }
+
+        // เมื่อ DOM โหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', function() {
+            // โหลดข้อมูล
+            loadUsersFromStorage();
+            loadRememberedCredentials();
+            updateTimeStamp();
+            setInterval(updateTimeStamp, 60000);
+            
+            // Event Listeners สำหรับล็อกอิน
+            const showPasswordCheckbox = document.getElementById('show-password');
+            if (showPasswordCheckbox) {
+                showPasswordCheckbox.addEventListener('change', function() {
+                    const passwordField = document.getElementById('login-password');
+                    passwordField.type = this.checked ? 'text' : 'password';
+                });
+            }
+            
+            // ตรวจสอบความแข็งแรงรหัสผ่าน
+            const registerPasswordField = document.getElementById('register-password');
+            if (registerPasswordField) {
+                registerPasswordField.addEventListener('input', function() {
+                    updatePasswordStrength(this.value);
+                });
+            }
+            
+            // ลิงก์ลืมรหัสผ่าน
+            document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showForm('forgot');
+            });
+            
+            // ลิงก์สมัครสมาชิก
+            document.getElementById('register-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                showForm('register');
+            });
+            
+            // ปุ่มกลับไปหน้าเข้าสู่ระบบ
+            document.getElementById('back-to-login').addEventListener('click', function() {
+                showForm('login');
+            });
+            
+            document.getElementById('back-to-login-from-forgot').addEventListener('click', function() {
+                showForm('login');
+            });
+            
+            // ฟอร์มสมัครสมาชิก
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const role = document.getElementById('register-role').value;
+                const id = document.getElementById('register-id').value.trim();
+                const name = document.getElementById('register-name').value.trim();
+                const email = document.getElementById('register-email').value.trim();
+                const phone = document.getElementById('register-phone').value.trim();
+                const studentClass = document.getElementById('register-class').value.trim();
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                const agreeTerms = document.getElementById('agree-terms').checked;
+                
+                if (!agreeTerms) {
+                    showMessage('register-message', 'กรุณายอมรับข้อตกลงและเงื่อนไข', 'error');
+                    return;
+                }
+                
+                const result = registerUser({
+                    role,
+                    id,
+                    name,
+                    email,
+                    phone,
+                    class: studentClass,
+                    password,
+                    confirmPassword
+                });
+                
+                if (result.success) {
+                    showMessage('register-message', result.message, 'success');
+                    
+                    setTimeout(() => {
+                        showForm('login');
+                        document.getElementById('login-id').value = id;
+                        document.getElementById('login-role').value = role;
+                        document.getElementById('register-form').reset();
+                        document.getElementById('password-strength').textContent = '';
+                        document.getElementById('password-strength').className = 'password-strength';
+                    }, 2000);
+                } else {
+                    showMessage('register-message', result.message, 'error');
+                }
+            });
+            
+            // ฟอร์มลืมรหัสผ่าน
+            document.getElementById('forgot-password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const role = document.getElementById('forgot-role').value;
+                const id = document.getElementById('forgot-id').value.trim();
+                const email = document.getElementById('forgot-email').value.trim();
+                const newPassword = document.getElementById('new-password').value;
+                const confirmNewPassword = document.getElementById('confirm-new-password').value;
+                
+                const result = resetPassword(role, id, email, newPassword, confirmNewPassword);
+                
+                if (result.success) {
+                    showMessage('forgot-message', result.message, 'success');
+                    
+                    setTimeout(() => {
+                        showForm('login');
+                        document.getElementById('login-id').value = id;
+                        document.getElementById('login-role').value = role;
+                        document.getElementById('forgot-password-form').reset();
+                    }, 2000);
+                } else {
+                    showMessage('forgot-message', result.message, 'error');
+                }
+            });
+            
+            // ฟอร์มล็อกอิน
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const role = document.getElementById('login-role').value;
+                const id = document.getElementById('login-id').value.trim();
+                const password = document.getElementById('login-password').value;
+                const rememberMe = document.getElementById('remember-me').checked;
+                
+                const user = allUsers.find(u => u.id === id && u.role === role && u.password === password);
+                
+                if (user) {
+                    saveCredentials(id, password, role, rememberMe);
+                    
+                    updateUserInfo(user);
+                    document.getElementById('login-page').classList.add('hidden');
+                    document.getElementById('main-system').classList.remove('hidden');
+                    showPage('dashboard-page');
+                } else {
+                    showMessage('login-message', 'รหัสผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง', 'error');
+                }
+            });
+            
+            // เมนูในระบบ
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const page = this.getAttribute('data-page');
+                    showPage(page + '-page');
+                });
+            });
+            
+            // ปุ่มเปลี่ยนบทบาท
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // ปุ่มกล้อง
+            document.getElementById('capture-btn').addEventListener('click', startCountdown);
+            document.getElementById('retake-btn').addEventListener('click', retakePhoto);
+            document.getElementById('confirm-btn').addEventListener('click', confirmPhoto);
+            
+            // ออกจากระบบ
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // ปิดกล้องเมื่อออกจากหน้า
+            window.addEventListener('beforeunload', function() {
+                if (cameraStream) {
+                    cameraStream.getTracks().forEach(track => track.stop());
+                }
+            });
+        });
+    </script>
+</body>
+</html>
