@@ -1424,7 +1424,7 @@
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelChangePasswordBtn">ยกเลิก</button>
-                                <button class="btn btn-success" id="saveChangePasswordBtn">บันทึก</button>
+                <button class="btn btn-success" id="saveChangePasswordBtn">บันทึก</button>
             </div>
         </div>
     </div>
@@ -1459,15 +1459,6 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // รหัสสมัครสมาชิก (รหัสจริงควรเก็บในฐานข้อมูล)
-        const VALID_REGISTRATION_CODES = [
-            "COLLEGE2024",
-            "STUDENT123",
-            "REGISTER456",
-            "ENROLL789",
-            "COLLEGE999"
-        ];
-
         // ข้อมูลผู้ใช้และนักเรียน
         const users = {
             students: [
@@ -1479,8 +1470,7 @@
                     email: "somchai@college.ac.th",
                     class: "ปี 3",
                     securityQuestion: "ชื่อสัตว์เลี้ยงตัวแรกของคุณคืออะไร?",
-                    securityAnswer: "หมา",
-                    registered: true
+                    securityAnswer: "หมา"
                 },
                 { 
                     username: "STU002", 
@@ -1490,8 +1480,7 @@
                     email: "somying@college.ac.th",
                     class: "ปี 2",
                     securityQuestion: "โรงเรียนประถมของคุณชื่ออะไร?",
-                    securityAnswer: "วัดสระเกศ",
-                    registered: true
+                    securityAnswer: "วัดสระเกศ"
                 }
             ],
             teachers: [
@@ -1499,15 +1488,13 @@
                     username: "teacher", 
                     password: "123456", 
                     name: "อาจารย์ ผู้สอน",
-                    email: "teacher@college.ac.th",
-                    registered: true
+                    email: "teacher@college.ac.th"
                 },
                 { 
                     username: "admin", 
                     password: "college123", 
                     name: "ผู้ดูแลระบบ",
-                    email: "admin@college.ac.th",
-                    registered: true
+                    email: "admin@college.ac.th"
                 }
             ]
         };
@@ -1568,7 +1555,6 @@
         const registerStudentId = document.getElementById('registerStudentId');
         const registerClass = document.getElementById('registerClass');
         const registerEmail = document.getElementById('registerEmail');
-        const registerCode = document.getElementById('registerCode'); // เพิ่มฟิลด์รหัสสมัคร
         const registerPassword = document.getElementById('registerPassword');
         const registerConfirmPassword = document.getElementById('registerConfirmPassword');
         
@@ -1791,19 +1777,12 @@
             const studentId = registerStudentId.value.trim();
             const studentClass = registerClass.value;
             const email = registerEmail.value.trim();
-            const registrationCode = registerCode.value.trim(); // ดึงรหัสสมัคร
             const password = registerPassword.value;
             const confirmPassword = registerConfirmPassword.value;
             
             // ตรวจสอบข้อมูล
-            if (!fullName || !studentId || !studentClass || !email || !registrationCode || !password || !confirmPassword) {
+            if (!fullName || !studentId || !studentClass || !email || !password || !confirmPassword) {
                 showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-                return;
-            }
-            
-            // ตรวจสอบรหัสสมัคร
-            if (!VALID_REGISTRATION_CODES.includes(registrationCode)) {
-                showNotification('รหัสสมัครสมาชิกไม่ถูกต้อง', 'error');
                 return;
             }
             
@@ -1849,8 +1828,7 @@
                 email: email,
                 class: studentClass,
                 securityQuestion: randomQuestion,
-                securityAnswer: "", // ผู้ใช้จะตั้งค่าตอนกู้รหัสผ่านครั้งแรก
-                registered: true
+                securityAnswer: "" // ผู้ใช้จะตั้งค่าตอนกู้รหัสผ่านครั้งแรก
             };
             
             users.students.push(newUser);
@@ -1868,7 +1846,6 @@
             registerStudentId.value = '';
             registerClass.value = '';
             registerEmail.value = '';
-            registerCode.value = '';
             registerPassword.value = '';
             registerConfirmPassword.value = '';
             
@@ -2821,9 +2798,6 @@
 
         // เริ่มต้นแสดงข้อมูล
         // หน้าเริ่มต้นคือหน้า login
-        
-        // แสดงตัวอย่างรหัสสมัครใน console สำหรับการทดสอบ
-        console.log('รหัสสมัครสมาชิกตัวอย่าง:', VALID_REGISTRATION_CODES);
     </script>
 </body>
 </html>
