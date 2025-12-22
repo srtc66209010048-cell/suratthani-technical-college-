@@ -75,45 +75,150 @@
             opacity: 0.9;
         }
 
-        .mode-selector {
+        /* ส่วนล็อกอิน */
+        .login-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            align-items: center;
+            min-height: 500px;
         }
 
-        .mode-btn {
-            padding: 12px 28px;
-            font-size: 1.1rem;
+        .login-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-card h2 {
+            color: #1a73e8;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .login-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .login-tab.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 1rem;
             font-weight: 600;
             border: none;
-            border-radius: 50px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
         }
 
-        .mode-btn.student {
+        .btn-primary {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .btn-success {
             background-color: #34a853;
             color: white;
         }
 
-        .mode-btn.teacher {
+        .btn-warning {
+            background-color: #fbbc05;
+            color: white;
+        }
+
+        .btn-danger {
             background-color: #ea4335;
             color: white;
         }
 
-        .mode-btn.active {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
         }
 
-        .mode-btn:hover {
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
         }
 
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* ส่วนของนักเรียน */
         .content-area {
             display: none;
         }
@@ -140,7 +245,6 @@
             gap: 10px;
         }
 
-        /* ส่วนของนักเรียน */
         .camera-container {
             text-align: center;
             margin-bottom: 25px;
@@ -193,60 +297,6 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: #1a73e8;
-            color: white;
-        }
-
-        .btn-success {
-            background-color: #34a853;
-            color: white;
-        }
-
-        .btn-warning {
-            background-color: #fbbc05;
-            color: white;
-        }
-
-        .btn-danger {
-            background-color: #ea4335;
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
         }
 
         /* ส่วนของอาจารย์ */
@@ -303,30 +353,6 @@
             gap: 15px;
             margin-bottom: 20px;
             align-items: end;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .form-group input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
         }
 
         .student-table {
@@ -444,18 +470,6 @@
             border-color: #c3e6cb;
         }
 
-        .status-select.rejected {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-color: #f5c6cb;
-        }
-
-        .status-select.pending {
-            background-color: #fff3cd;
-            color: #856404;
-            border-color: #ffeaa7;
-        }
-
         .status-select.absent {
             background-color: #e2e3e5;
             color: #383d41;
@@ -534,7 +548,6 @@
             margin-top: 20px;
         }
 
-        /* สไตล์สำหรับฟอร์มเช็คชื่อ */
         .attendance-controls {
             display: flex;
             justify-content: space-between;
@@ -568,6 +581,18 @@
             border-color: #1a73e8;
         }
 
+        .user-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -578,15 +603,17 @@
                 height: 70px;
             }
             
-            .mode-selector {
-                flex-direction: column;
-                align-items: center;
+            .login-card {
+                padding: 25px;
+                margin: 0 15px;
             }
             
-            .mode-btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
+            .logout-btn, .user-info {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                margin-bottom: 15px;
             }
             
             .submission-list {
@@ -630,33 +657,104 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-container">
-                <div class="logo-container">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
-                         alt="โลโก้วิทยาลัย" 
-                         class="college-logo">
+    <!-- หน้า Login -->
+    <div id="loginPage" class="content-area active">
+        <div class="container">
+            <header>
+                <div class="header-container">
+                    <div class="logo-container">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
+                             alt="โลโก้วิทยาลัย" 
+                             class="college-logo">
+                    </div>
+                    
+                    <div class="header-text">
+                        <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</h1>
+                        <p>ระบบสำหรับการเช็คกิจกรรมของนักเรียนด้วยการถ่ายรูปและส่งให้อาจารย์ตรวจสอบ</p>
+                    </div>
                 </div>
-                
-                <div class="header-text">
-                    <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</h1>
-                    <p>ระบบสำหรับการเช็คกิจกรรมของนักเรียนด้วยการถ่ายรูปและส่งให้อาจารย์ตรวจสอบ</p>
+            </header>
+
+            <div class="login-container">
+                <div class="login-card">
+                    <h2>เข้าสู่ระบบ</h2>
+                    
+                    <div class="login-tabs">
+                        <div class="login-tab active" id="studentTab">นักเรียน</div>
+                        <div class="login-tab" id="teacherTab">อาจารย์</div>
+                    </div>
+
+                    <!-- ฟอร์มล็อกอินนักเรียน -->
+                    <div id="studentLoginForm" class="login-form active">
+                        <div class="form-group">
+                            <label for="studentUsername"><i class="fas fa-user-graduate"></i> รหัสนักเรียน</label>
+                            <input type="text" id="studentUsername" placeholder="กรอกรหัสนักเรียน">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
+                            <input type="password" id="studentPassword" placeholder="กรอกรหัสผ่าน">
+                        </div>
+                        <button class="btn btn-primary" id="studentLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                        </button>
+                        
+                        <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
+                            <p>ตัวอย่างบัญชีนักเรียน:</p>
+                            <p>รหัส: STU001 | รหัสผ่าน: 1234</p>
+                        </div>
+                    </div>
+
+                    <!-- ฟอร์มล็อกอินอาจารย์ -->
+                    <div id="teacherLoginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="teacherUsername"><i class="fas fa-chalkboard-teacher"></i> ชื่อผู้ใช้</label>
+                            <input type="text" id="teacherUsername" placeholder="กรอกชื่อผู้ใช้">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacherPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
+                            <input type="password" id="teacherPassword" placeholder="กรอกรหัสผ่าน">
+                        </div>
+                        <button class="btn btn-danger" id="teacherLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                        </button>
+                        
+                        <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
+                            <p>ตัวอย่างบัญชีอาจารย์:</p>
+                            <p>ชื่อผู้ใช้: teacher | รหัสผ่าน: 1234</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </header>
-
-        <div class="mode-selector">
-            <button class="mode-btn student active" id="studentModeBtn">
-                <i class="fas fa-user-graduate"></i> โหมดนักเรียน
-            </button>
-            <button class="mode-btn teacher" id="teacherModeBtn">
-                <i class="fas fa-chalkboard-teacher"></i> โหมดอาจารย์
-            </button>
         </div>
+    </div>
 
-        <!-- โหมดนักเรียน -->
-        <div id="studentContent" class="content-area active">
+    <!-- หน้าหลักนักเรียน -->
+    <div id="studentPage" class="content-area">
+        <div class="container">
+            <!-- ส่วนหัวสำหรับนักเรียน -->
+            <div style="position: relative;">
+                <button class="btn btn-secondary logout-btn" id="studentLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </button>
+                <div class="user-info" id="studentUserInfo"></div>
+                
+                <header>
+                    <div class="header-container">
+                        <div class="logo-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
+                                 alt="โลโก้วิทยาลัย" 
+                                 class="college-logo">
+                        </div>
+                        
+                        <div class="header-text">
+                            <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียน</h1>
+                            <p>ยินดีต้อนรับนักเรียน เข้าสู่ระบบเช็คกิจกรรมด้วยการถ่ายรูป</p>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
+            <!-- เนื้อหาหลักนักเรียน -->
             <div class="card">
                 <h2><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
                 <div class="camera-container">
@@ -694,9 +792,34 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- โหมดอาจารย์ -->
-        <div id="teacherContent" class="content-area">
+    <!-- หน้าหลักอาจารย์ -->
+    <div id="teacherPage" class="content-area">
+        <div class="container">
+            <!-- ส่วนหัวสำหรับอาจารย์ -->
+            <div style="position: relative;">
+                <button class="btn btn-secondary logout-btn" id="teacherLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </button>
+                <div class="user-info" id="teacherUserInfo"></div>
+                
+                <header>
+                    <div class="header-container">
+                        <div class="logo-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
+                                 alt="โลโก้วิทยาลัย" 
+                                 class="college-logo">
+                        </div>
+                        
+                        <div class="header-text">
+                            <h1><i class="fas fa-user-check"></i> ระบบจัดการเช็คกิจกรรม</h1>
+                            <p>ยินดีต้อนรับอาจารย์ เข้าสู่ระบบจัดการเช็คกิจกรรมนักเรียน</p>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
             <!-- ส่วนจัดการนักเรียน -->
             <div class="card student-management">
                 <h2><i class="fas fa-users"></i> จัดการรายชื่อนักเรียน</h2>
@@ -778,7 +901,7 @@
         </div>
     </div>
 
-    <!-- Modal สำหรับแก้ไขนักเรียน -->
+    <!-- Modal ต่างๆ -->
     <div class="modal" id="editStudentModal">
         <div class="modal-content">
             <h3><i class="fas fa-edit"></i> แก้ไขข้อมูลนักเรียน</h3>
@@ -797,7 +920,6 @@
         </div>
     </div>
 
-    <!-- Modal สำหรับเพิ่มเช็คชื่อด้วยตนเอง -->
     <div class="modal" id="addAttendanceModal">
         <div class="modal-content">
             <h3><i class="fas fa-user-plus"></i> เพิ่มรายการเช็คชื่อ</h3>
@@ -828,9 +950,21 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // ข้อมูลเริ่มต้น
+        // ข้อมูลผู้ใช้
+        const users = {
+            students: [
+                { username: "STU001", password: "1234", name: "สมชาย ใจดี", studentId: "STU001" },
+                { username: "STU002", password: "1234", name: "สมหญิง สวยงาม", studentId: "STU002" }
+            ],
+            teachers: [
+                { username: "teacher", password: "1234", name: "อาจารย์ ผู้สอน" }
+            ]
+        };
+
+        // ข้อมูลนักเรียนในระบบ
         let students = [
-            { id: 1, name: "สมชาย ใจดี", studentId: "STU001" }
+            { id: 1, name: "สมชาย ใจดี", studentId: "STU001" },
+            { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002" }
         ];
 
         let submissions = [
@@ -848,21 +982,35 @@
             { id: 1, studentId: "STU001", studentName: "สมชาย ใจดี", timestamp: "2023-10-15 09:30", status: "approved" }
         ];
 
-        // ตัวแปรสำหรับระบบ
-        let currentMode = 'student';
+        // ตัวแปรระบบ
+        let currentUser = null;
+        let currentUserType = null;
         let stream = null;
         let capturedImageData = null;
         let editingStudentId = null;
         let currentAttendanceFilter = 'all';
         let searchQuery = '';
 
-        // DOM Elements
-        const studentModeBtn = document.getElementById('studentModeBtn');
-        const teacherModeBtn = document.getElementById('teacherModeBtn');
-        const studentContent = document.getElementById('studentContent');
-        const teacherContent = document.getElementById('teacherContent');
-        
-        // Student elements
+        // DOM Elements - Login
+        const loginPage = document.getElementById('loginPage');
+        const studentPage = document.getElementById('studentPage');
+        const teacherPage = document.getElementById('teacherPage');
+        const studentTab = document.getElementById('studentTab');
+        const teacherTab = document.getElementById('teacherTab');
+        const studentLoginForm = document.getElementById('studentLoginForm');
+        const teacherLoginForm = document.getElementById('teacherLoginForm');
+        const studentUsername = document.getElementById('studentUsername');
+        const studentPassword = document.getElementById('studentPassword');
+        const teacherUsername = document.getElementById('teacherUsername');
+        const teacherPassword = document.getElementById('teacherPassword');
+        const studentLoginBtn = document.getElementById('studentLoginBtn');
+        const teacherLoginBtn = document.getElementById('teacherLoginBtn');
+        const studentLogoutBtn = document.getElementById('studentLogoutBtn');
+        const teacherLogoutBtn = document.getElementById('teacherLogoutBtn');
+        const studentUserInfo = document.getElementById('studentUserInfo');
+        const teacherUserInfo = document.getElementById('teacherUserInfo');
+
+        // DOM Elements - Student
         const camera = document.getElementById('camera');
         const cameraPlaceholder = document.getElementById('cameraPlaceholder');
         const capturedImage = document.getElementById('capturedImage');
@@ -872,7 +1020,7 @@
         const sendBtn = document.getElementById('sendBtn');
         const studentHistory = document.getElementById('studentHistory');
         
-        // Teacher elements
+        // DOM Elements - Teacher
         const studentNameInput = document.getElementById('studentName');
         const studentIdInput = document.getElementById('studentId');
         const addStudentBtn = document.getElementById('addStudentBtn');
@@ -889,7 +1037,6 @@
         const cancelEditBtn = document.getElementById('cancelEditBtn');
         const saveEditBtn = document.getElementById('saveEditBtn');
         
-        // Attendance Modal elements
         const addAttendanceModal = document.getElementById('addAttendanceModal');
         const selectStudent = document.getElementById('selectStudent');
         const manualTimestamp = document.getElementById('manualTimestamp');
@@ -900,28 +1047,6 @@
         // Notification
         const notification = document.getElementById('notification');
 
-        // ฟังก์ชันสำหรับสลับโหมด
-        function switchMode(mode) {
-            currentMode = mode;
-            
-            studentModeBtn.classList.toggle('active', mode === 'student');
-            teacherModeBtn.classList.toggle('active', mode === 'teacher');
-            
-            studentContent.classList.toggle('active', mode === 'student');
-            teacherContent.classList.toggle('active', mode === 'teacher');
-            
-            if (mode === 'teacher') {
-                renderStudents();
-                renderSubmissions();
-                renderAttendanceList();
-                updateStudentSelect();
-            }
-            
-            if (mode === 'student') {
-                renderStudentHistory();
-            }
-        }
-
         // ฟังก์ชันแสดงการแจ้งเตือน
         function showNotification(message, type = 'success') {
             notification.textContent = message;
@@ -931,6 +1056,129 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
+        }
+
+        // ฟังก์ชันสลับแท็บล็อกอิน
+        studentTab.addEventListener('click', () => {
+            studentTab.classList.add('active');
+            teacherTab.classList.remove('active');
+            studentLoginForm.classList.add('active');
+            teacherLoginForm.classList.remove('active');
+        });
+
+        teacherTab.addEventListener('click', () => {
+            teacherTab.classList.add('active');
+            studentTab.classList.remove('active');
+            teacherLoginForm.classList.add('active');
+            studentLoginForm.classList.remove('active');
+        });
+
+        // ฟังก์ชันล็อกอินนักเรียน
+        function loginStudent() {
+            const username = studentUsername.value.trim();
+            const password = studentPassword.value.trim();
+            
+            if (!username || !password) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            
+            const student = users.students.find(u => 
+                u.username === username && u.password === password
+            );
+            
+            if (student) {
+                currentUser = student;
+                currentUserType = 'student';
+                
+                // อัพเดทข้อมูลนักเรียนในระบบถ้ายังไม่มี
+                const existingStudent = students.find(s => s.studentId === student.studentId);
+                if (!existingStudent) {
+                    students.push({
+                        id: students.length + 1,
+                        name: student.name,
+                        studentId: student.studentId
+                    });
+                }
+                
+                // แสดงหน้านักเรียน
+                loginPage.classList.remove('active');
+                studentPage.classList.add('active');
+                teacherPage.classList.remove('active');
+                
+                // อัพเดทข้อมูลผู้ใช้
+                studentUserInfo.textContent = `นักเรียน: ${student.name} (${student.studentId})`;
+                
+                // ล้างฟอร์ม
+                studentUsername.value = '';
+                studentPassword.value = '';
+                
+                // โหลดข้อมูลนักเรียน
+                renderStudentHistory();
+                
+                showNotification(`ยินดีต้อนรับ ${student.name}`, 'success');
+            } else {
+                showNotification('รหัสนักเรียนหรือรหัสผ่านไม่ถูกต้อง', 'error');
+            }
+        }
+
+        // ฟังก์ชันล็อกอินอาจารย์
+        function loginTeacher() {
+            const username = teacherUsername.value.trim();
+            const password = teacherPassword.value.trim();
+            
+            if (!username || !password) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            
+            const teacher = users.teachers.find(u => 
+                u.username === username && u.password === password
+            );
+            
+            if (teacher) {
+                currentUser = teacher;
+                currentUserType = 'teacher';
+                
+                // แสดงหน้าอาจารย์
+                loginPage.classList.remove('active');
+                teacherPage.classList.add('active');
+                studentPage.classList.remove('active');
+                
+                // อัพเดทข้อมูลผู้ใช้
+                teacherUserInfo.textContent = `อาจารย์: ${teacher.name}`;
+                
+                // ล้างฟอร์ม
+                teacherUsername.value = '';
+                teacherPassword.value = '';
+                
+                // โหลดข้อมูล
+                renderStudents();
+                renderSubmissions();
+                renderAttendanceList();
+                updateStudentSelect();
+                addAttendanceControls();
+                
+                showNotification(`ยินดีต้อนรับ ${teacher.name}`, 'success');
+            } else {
+                showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
+            }
+        }
+
+        // ฟังก์ชันออกจากระบบ
+        function logout() {
+            currentUser = null;
+            currentUserType = null;
+            
+            // กลับไปหน้า login
+            loginPage.classList.add('active');
+            studentPage.classList.remove('active');
+            teacherPage.classList.remove('active');
+            
+            // รีเซ็ตค่าเริ่มต้น
+            studentTab.click();
+            
+            showNotification('ออกจากระบบสำเร็จ', 'success');
         }
 
         // ฟังก์ชันสำหรับเพิ่มนักเรียน
@@ -956,13 +1204,23 @@
             
             students.push(newStudent);
             
+            // เพิ่มบัญชีผู้ใช้สำหรับนักเรียน
+            if (!users.students.some(s => s.studentId === studentId)) {
+                users.students.push({
+                    username: studentId,
+                    password: "1234",
+                    name: name,
+                    studentId: studentId
+                });
+            }
+            
             studentNameInput.value = '';
             studentIdInput.value = '';
             
             renderStudents();
             updateStudentSelect();
             
-            showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
+            showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ (รหัสผ่านเริ่มต้น: 1234)`, 'success');
         }
 
         // ฟังก์ชันสำหรับลบนักเรียน
@@ -974,9 +1232,13 @@
             const studentIndex = students.findIndex(s => s.id === studentId);
             if (studentIndex !== -1) {
                 const studentName = students[studentIndex].name;
+                const studentIdToDelete = students[studentIndex].studentId;
                 
                 // ลบรายการเช็คชื่อของนักเรียนนี้ด้วย
-                attendanceList = attendanceList.filter(a => a.studentId !== students[studentIndex].studentId);
+                attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
+                
+                // ลบบัญชีผู้ใช้
+                users.students = users.students.filter(s => s.studentId !== studentIdToDelete);
                 
                 students.splice(studentIndex, 1);
                 renderStudents();
@@ -1030,6 +1292,14 @@
                         item.studentName = name;
                     }
                 });
+                
+                // อัพเดทข้อมูลผู้ใช้
+                const userIndex = users.students.findIndex(s => s.studentId === oldStudentId);
+                if (userIndex !== -1) {
+                    users.students[userIndex].username = studentId;
+                    users.students[userIndex].studentId = studentId;
+                    users.students[userIndex].name = name;
+                }
                 
                 students[studentIndex].name = name;
                 students[studentIndex].studentId = studentId;
@@ -1092,7 +1362,6 @@
 
         // ฟังก์ชันสำหรับเพิ่มรายการเช็คชื่อด้วยตนเอง
         function openAddAttendanceModal() {
-            // ตั้งค่าเวลาปัจจุบันเป็นค่าเริ่มต้น
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -1126,15 +1395,12 @@
                 return;
             }
             
-            // แปลงเวลาเป็นรูปแบบไทย
             const date = new Date(timestamp);
             const thaiTimestamp = date.toLocaleString('th-TH');
             
-            // ตรวจสอบว่านักเรียนมีรายการเช็คชื่ออยู่แล้วหรือไม่
             const existingIndex = attendanceList.findIndex(a => a.studentId === studentId);
             
             if (existingIndex !== -1) {
-                // อัพเดทรายการที่มีอยู่
                 attendanceList[existingIndex] = {
                     ...attendanceList[existingIndex],
                     timestamp: thaiTimestamp,
@@ -1142,7 +1408,6 @@
                 };
                 showNotification('อัพเดทรายการเช็คชื่อสำเร็จ', 'success');
             } else {
-                // เพิ่มรายการใหม่
                 const newAttendance = {
                     id: attendanceList.length > 0 ? Math.max(...attendanceList.map(a => a.id)) + 1 : 1,
                     studentId: studentId,
@@ -1195,14 +1460,12 @@
         function filterAttendanceList() {
             let filtered = attendanceList;
             
-            // กรองตามสถานะ
             if (currentAttendanceFilter === 'approved') {
                 filtered = filtered.filter(a => a.status === 'approved');
             } else if (currentAttendanceFilter === 'absent') {
                 filtered = filtered.filter(a => a.status === 'absent');
             }
             
-            // ค้นหาจากชื่อหรือรหัสนักเรียน
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
                 filtered = filtered.filter(a => 
@@ -1341,17 +1604,15 @@
                 return;
             }
             
-            if (students.length === 0) {
-                showNotification('ไม่มีข้อมูลนักเรียนในระบบ', 'error');
+            if (!currentUser) {
+                showNotification('กรุณาล็อกอินก่อนใช้งาน', 'error');
                 return;
             }
             
-            const currentStudent = students[0];
-            
             const newSubmission = {
                 id: submissions.length + 1,
-                studentId: currentStudent.studentId,
-                studentName: currentStudent.name,
+                studentId: currentUser.studentId,
+                studentName: currentUser.name,
                 imageUrl: capturedImageData,
                 timestamp: new Date().toLocaleString('th-TH'),
                 status: 'pending'
@@ -1407,7 +1668,6 @@
             
             submission.status = 'rejected';
             
-            // ถ้าปฏิเสธ ให้เปลี่ยนสถานะในรายการเช็คชื่อเป็น absent
             const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
             if (existingAttendance) {
                 existingAttendance.status = 'absent';
@@ -1459,18 +1719,9 @@
 
         // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
         function renderStudentHistory() {
-            if (students.length === 0) {
-                studentHistory.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-history"></i>
-                        <p>ยังไม่มีประวัติการส่งรูป</p>
-                    </div>
-                `;
-                return;
-            }
+            if (!currentUser) return;
             
-            const currentStudent = students[0];
-            const studentSubmissions = submissions.filter(s => s.studentId === currentStudent.studentId);
+            const studentSubmissions = submissions.filter(s => s.studentId === currentUser.studentId);
             
             if (studentSubmissions.length === 0) {
                 studentHistory.innerHTML = `
@@ -1505,12 +1756,35 @@
         }
 
         // ตั้งค่า Event Listeners
-        studentModeBtn.addEventListener('click', () => switchMode('student'));
-        teacherModeBtn.addEventListener('click', () => switchMode('teacher'));
+        studentLoginBtn.addEventListener('click', loginStudent);
+        teacherLoginBtn.addEventListener('click', loginTeacher);
+        studentLogoutBtn.addEventListener('click', logout);
+        teacherLogoutBtn.addEventListener('click', logout);
+
+        // ล็อกอินด้วย Enter
+        studentUsername.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginStudent();
+        });
+        
+        studentPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginStudent();
+        });
+        
+        teacherUsername.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginTeacher();
+        });
+        
+        teacherPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginTeacher();
+        });
+
+        // ฟังก์ชันกล้อง
         startCameraBtn.addEventListener('click', startCamera);
         captureBtn.addEventListener('click', captureImage);
         retakeBtn.addEventListener('click', retakePhoto);
         sendBtn.addEventListener('click', sendPhoto);
+
+        // ฟังก์ชันจัดการนักเรียน
         addStudentBtn.addEventListener('click', addStudent);
         cancelEditBtn.addEventListener('click', closeEditModal);
         saveEditBtn.addEventListener('click', saveEditStudent);
@@ -1535,15 +1809,6 @@
             if (e.key === 'Enter') addStudent();
         });
 
-        // อนุญาตกด Enter ใน modal
-        editStudentName.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') saveEditStudent();
-        });
-        
-        editStudentId.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') saveEditStudent();
-        });
-
         // การค้นหาและกรองรายการเช็คชื่อ
         searchAttendanceInput.addEventListener('input', (e) => {
             searchQuery = e.target.value.trim().toLowerCase();
@@ -1560,15 +1825,8 @@
             });
         });
 
-        // เพิ่มปุ่มเพิ่มรายการเช็คชื่อ
-        setTimeout(addAttendanceControls, 100);
-
         // เริ่มต้นแสดงข้อมูล
-        renderStudents();
-        renderSubmissions();
-        renderAttendanceList();
-        renderStudentHistory();
-        updateStudentSelect();
+        // หน้าเริ่มต้นคือหน้า login
     </script>
 </body>
 </html>
