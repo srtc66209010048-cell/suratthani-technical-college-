@@ -440,6 +440,7 @@
             object-fit: cover;
             display: none;
             border: 3px solid #3498db;
+            transform: scaleX(-1); /* ฟลิปภาพสำหรับให้เหมือนกระจก */
         }
 
         .camera-placeholder {
@@ -474,6 +475,7 @@
             display: none;
             border: 3px solid #27ae60;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transform: scaleX(-1); /* ฟลิปภาพที่ถ่ายแล้ว */
         }
 
         .controls {
@@ -858,37 +860,6 @@
             font-style: italic;
         }
 
-        /* ปุ่มเพิ่มในฟอร์มสมัครสมาชิก */
-        .register-code-group {
-            position: relative;
-        }
-
-        .register-code-hint {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #3498db;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            cursor: help;
-        }
-
-        .tooltip {
-            position: absolute;
-            background: #2c3e50;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            width: 250px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            display: none;
-        }
-
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -964,6 +935,40 @@
             .profile-actions {
                 flex-direction: column;
             }
+            
+            #camera, .captured-image, .camera-placeholder {
+                height: 300px;
+                max-width: 100%;
+            }
+        }
+
+        /* สำหรับอุปกรณ์มือถือ */
+        @media (max-width: 480px) {
+            #camera, .captured-image, .camera-placeholder {
+                height: 250px;
+            }
+            
+            .camera-placeholder i {
+                font-size: 3rem;
+            }
+            
+            .login-card {
+                padding: 20px 15px;
+            }
+            
+            .login-tabs {
+                flex-direction: column;
+            }
+            
+            .login-tab {
+                min-width: auto;
+                padding: 10px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
         }
     </style>
     <!-- เพิ่มฟอนต์ไทย -->
@@ -995,8 +1000,6 @@
                     <div class="login-tabs">
                         <div class="login-tab active" id="studentTab">นักเรียน</div>
                         <div class="login-tab" id="teacherTab">อาจารย์</div>
-                        <div class="login-tab" id="registerTab">สมัครสมาชิก</div>
-                        <div class="login-tab" id="forgotTab">ลืมรหัสผ่าน</div>
                     </div>
 
                     <!-- ฟอร์มล็อกอินนักเรียน -->
@@ -1015,11 +1018,6 @@
                         <button class="btn btn-primary" id="studentLoginBtn">
                             <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
-                        
-                        <div class="form-links">
-                            <span class="form-link" onclick="switchToTab('registerTab')">สมัครสมาชิกใหม่</span> | 
-                            <span class="form-link" onclick="switchToTab('forgotTab')">ลืมรหัสผ่าน?</span>
-                        </div>
                     </div>
 
                     <!-- ฟอร์มล็อกอินอาจารย์ -->
@@ -1038,116 +1036,6 @@
                         <button class="btn btn-danger" id="teacherLoginBtn">
                             <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
-                        
-                        <div class="form-links">
-                            <span class="form-link" onclick="switchToTab('registerTab')">สมัครสมาชิกใหม่</span> | 
-                            <span class="form-link" onclick="switchToTab('forgotTab')">ลืมรหัสผ่าน?</span>
-                        </div>
-                    </div>
-
-                    <!-- ฟอร์มสมัครสมาชิก - แก้ไขแล้ว -->
-                    <div id="registerForm" class="login-form">
-                        <div class="form-group">
-                            <label for="registerFullName"><i class="fas fa-user"></i> ชื่อ-นามสกุล</label>
-                            <input type="text" id="registerFullName" placeholder="กรอกชื่อ-นามสกุล">
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="registerStudentId"><i class="fas fa-id-card"></i> รหัสนักเรียน</label>
-                                <input type="text" id="registerStudentId" placeholder="กรอกรหัสนักเรียน เช่น STU001">
-                            </div>
-                            <div class="form-group">
-                                <label for="registerClass"><i class="fas fa-school"></i> ชั้นปี</label>
-                                <select id="registerClass">
-                                    <option value="">เลือกชั้นปี</option>
-                                    <option value="ปี 1">ปี 1</option>
-                                    <option value="ปี 2">ปี 2</option>
-                                    <option value="ปี 3">ปี 3</option>
-                                    <option value="ปี 4">ปี 4</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerEmail"><i class="fas fa-envelope"></i> อีเมล</label>
-                            <input type="email" id="registerEmail" placeholder="กรอกอีเมล เช่น student@college.ac.th">
-                            <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
-                        </div>
-                        
-                        <!-- เพิ่มฟิลด์รหัสสมัครสมาชิก -->
-                        <div class="form-group register-code-group">
-                            <label for="registerCode"><i class="fas fa-key"></i> รหัสสมัครสมาชิก</label>
-                            <input type="text" id="registerCode" placeholder="กรอกรหัสสมัครสมาชิก">
-                            <div class="help-text">ขอรับรหัสสมัครได้ที่ฝ่ายทะเบียนนักศึกษา</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="registerPassword" placeholder="กรอกรหัสผ่าน (อย่างน้อย 6 ตัว)">
-                                <i class="fas fa-eye" id="toggleRegisterPassword"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="registerConfirmPassword"><i class="fas fa-lock"></i> ยืนยันรหัสผ่าน</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="registerConfirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
-                                <i class="fas fa-eye" id="toggleRegisterConfirmPassword"></i>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-success" id="registerBtn">
-                            <i class="fas fa-user-plus"></i> สมัครสมาชิก
-                        </button>
-                        
-                        <div class="form-links">
-                            <span class="form-link" onclick="switchToTab('studentTab')">กลับไปเข้าสู่ระบบ</span>
-                        </div>
-                    </div>
-
-                    <!-- ฟอร์มกู้รหัสผ่าน -->
-                    <div id="forgotPasswordForm" class="login-form">
-                        <div class="form-group">
-                            <label for="forgotStudentId"><i class="fas fa-id-card"></i> รหัสนักเรียน</label>
-                            <input type="text" id="forgotStudentId" placeholder="กรอกรหัสนักเรียน">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="forgotEmail"><i class="fas fa-envelope"></i> อีเมลที่ลงทะเบียน</label>
-                            <input type="email" id="forgotEmail" placeholder="กรอกอีเมลที่ใช้สมัคร">
-                        </div>
-                        
-                        <div class="form-group" id="securityQuestionGroup" style="display: none;">
-                            <label for="securityAnswer"><i class="fas fa-question-circle"></i> คำถามความปลอดภัย</label>
-                            <div id="securityQuestionText" style="margin-bottom: 10px; color: #555; font-weight: 500;"></div>
-                            <input type="text" id="securityAnswer" placeholder="กรอกคำตอบ">
-                        </div>
-                        
-                        <div class="form-group" id="newPasswordGroup" style="display: none;">
-                            <label for="newPassword"><i class="fas fa-lock"></i> รหัสผ่านใหม่</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="newPassword" placeholder="กรอกรหัสผ่านใหม่">
-                                <i class="fas fa-eye" id="toggleNewPassword"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group" id="confirmNewPasswordGroup" style="display: none;">
-                            <label for="confirmNewPassword"><i class="fas fa-lock"></i> ยืนยันรหัสผ่านใหม่</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="confirmNewPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
-                                <i class="fas fa-eye" id="toggleConfirmNewPassword"></i>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-warning" id="forgotPasswordBtn">
-                            <i class="fas fa-key"></i> ดำเนินการต่อ
-                        </button>
-                        
-                        <div class="form-links">
-                            <span class="form-link" onclick="switchToTab('studentTab')">กลับไปเข้าสู่ระบบ</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1207,12 +1095,13 @@
             <div class="card">
                 <h2><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
                 <div class="camera-container">
-                    <video id="camera" autoplay></video>
+                    <video id="camera" autoplay playsinline></video>
                     <div class="camera-placeholder" id="cameraPlaceholder">
                         <i class="fas fa-camera"></i>
                         <p>กล้องจะแสดงที่นี่หลังจากกดปุ่ม "เปิดกล้อง"</p>
                     </div>
                     <img id="capturedImage" class="captured-image" alt="รูปภาพที่ถ่าย">
+                    <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;">
                 </div>
 
                 <div class="controls">
@@ -1221,6 +1110,9 @@
                     </button>
                     <button class="btn btn-warning" id="captureBtn" disabled>
                         <i class="fas fa-camera-retro"></i> ถ่ายรูป
+                    </button>
+                    <button class="btn btn-warning" id="useFileBtn">
+                        <i class="fas fa-upload"></i> อัปโหลดรูป
                     </button>
                     <button class="btn btn-danger" id="retakeBtn" disabled>
                         <i class="fas fa-redo"></i> ถ่ายใหม่
@@ -1468,9 +1360,7 @@
                     name: "สมชาย ใจดี", 
                     studentId: "STU001",
                     email: "somchai@college.ac.th",
-                    class: "ปี 3",
-                    securityQuestion: "ชื่อสัตว์เลี้ยงตัวแรกของคุณคืออะไร?",
-                    securityAnswer: "หมา"
+                    class: "ปี 3"
                 },
                 { 
                     username: "STU002", 
@@ -1478,9 +1368,7 @@
                     name: "สมหญิง สวยงาม", 
                     studentId: "STU002",
                     email: "somying@college.ac.th",
-                    class: "ปี 2",
-                    securityQuestion: "โรงเรียนประถมของคุณชื่ออะไร?",
-                    securityAnswer: "วัดสระเกศ"
+                    class: "ปี 2"
                 }
             ],
             teachers: [
@@ -1528,8 +1416,6 @@
         let editingStudentId = null;
         let currentAttendanceFilter = 'all';
         let searchQuery = '';
-        let forgotPasswordStep = 1; // 1=กรอกข้อมูล, 2=คำถามความปลอดภัย, 3=รหัสผ่านใหม่
-        let forgotPasswordUser = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -1537,12 +1423,8 @@
         const teacherPage = document.getElementById('teacherPage');
         const studentTab = document.getElementById('studentTab');
         const teacherTab = document.getElementById('teacherTab');
-        const registerTab = document.getElementById('registerTab');
-        const forgotTab = document.getElementById('forgotTab');
         const studentLoginForm = document.getElementById('studentLoginForm');
         const teacherLoginForm = document.getElementById('teacherLoginForm');
-        const registerForm = document.getElementById('registerForm');
-        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
         
         // Input fields
         const studentUsername = document.getElementById('studentUsername');
@@ -1550,30 +1432,9 @@
         const teacherUsername = document.getElementById('teacherUsername');
         const teacherPassword = document.getElementById('teacherPassword');
         
-        // Register fields
-        const registerFullName = document.getElementById('registerFullName');
-        const registerStudentId = document.getElementById('registerStudentId');
-        const registerClass = document.getElementById('registerClass');
-        const registerEmail = document.getElementById('registerEmail');
-        const registerPassword = document.getElementById('registerPassword');
-        const registerConfirmPassword = document.getElementById('registerConfirmPassword');
-        
-        // Forgot password fields
-        const forgotStudentId = document.getElementById('forgotStudentId');
-        const forgotEmail = document.getElementById('forgotEmail');
-        const securityQuestionGroup = document.getElementById('securityQuestionGroup');
-        const securityQuestionText = document.getElementById('securityQuestionText');
-        const securityAnswer = document.getElementById('securityAnswer');
-        const newPasswordGroup = document.getElementById('newPasswordGroup');
-        const newPassword = document.getElementById('newPassword');
-        const confirmNewPasswordGroup = document.getElementById('confirmNewPasswordGroup');
-        const confirmNewPassword = document.getElementById('confirmNewPassword');
-        
         // Buttons
         const studentLoginBtn = document.getElementById('studentLoginBtn');
         const teacherLoginBtn = document.getElementById('teacherLoginBtn');
-        const registerBtn = document.getElementById('registerBtn');
-        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
         const studentLogoutBtn = document.getElementById('studentLogoutBtn');
         const teacherLogoutBtn = document.getElementById('teacherLogoutBtn');
         
@@ -1589,6 +1450,8 @@
         const capturedImage = document.getElementById('capturedImage');
         const startCameraBtn = document.getElementById('startCameraBtn');
         const captureBtn = document.getElementById('captureBtn');
+        const useFileBtn = document.getElementById('useFileBtn');
+        const fileInput = document.getElementById('fileInput');
         const retakeBtn = document.getElementById('retakeBtn');
         const sendBtn = document.getElementById('sendBtn');
         const studentHistory = document.getElementById('studentHistory');
@@ -1648,32 +1511,12 @@
         // ฟังก์ชันสลับแท็บ
         function switchToTab(tabName) {
             // รีเซ็ตแท็บทั้งหมด
-            [studentTab, teacherTab, registerTab, forgotTab].forEach(tab => tab.classList.remove('active'));
-            [studentLoginForm, teacherLoginForm, registerForm, forgotPasswordForm].forEach(form => form.classList.remove('active'));
+            [studentTab, teacherTab].forEach(tab => tab.classList.remove('active'));
+            [studentLoginForm, teacherLoginForm].forEach(form => form.classList.remove('active'));
             
             // ตั้งค่าแท็บที่เลือก
             document.getElementById(tabName + 'Tab').classList.add('active');
-            document.getElementById(tabName + (tabName === 'student' || tabName === 'teacher' ? 'LoginForm' : tabName === 'register' ? 'Form' : 'PasswordForm')).classList.add('active');
-            
-            // รีเซ็ตฟอร์มกู้รหัสผ่านถ้าสลับไปแท็บอื่น
-            if (tabName !== 'forgot') {
-                resetForgotPasswordForm();
-            }
-        }
-
-        // รีเซ็ตฟอร์มกู้รหัสผ่าน
-        function resetForgotPasswordForm() {
-            forgotPasswordStep = 1;
-            forgotPasswordUser = null;
-            forgotStudentId.value = '';
-            forgotEmail.value = '';
-            securityQuestionGroup.style.display = 'none';
-            securityAnswer.value = '';
-            newPasswordGroup.style.display = 'none';
-            newPassword.value = '';
-            confirmNewPasswordGroup.style.display = 'none';
-            confirmNewPassword.value = '';
-            forgotPasswordBtn.innerHTML = '<i class="fas fa-key"></i> ดำเนินการต่อ';
+            document.getElementById(tabName + 'LoginForm').classList.add('active');
         }
 
         // ฟังก์ชันล็อกอินนักเรียน
@@ -1771,180 +1614,16 @@
             }
         }
 
-        // ฟังก์ชันสมัครสมาชิก
-        function registerUser() {
-            const fullName = registerFullName.value.trim();
-            const studentId = registerStudentId.value.trim();
-            const studentClass = registerClass.value;
-            const email = registerEmail.value.trim();
-            const password = registerPassword.value;
-            const confirmPassword = registerConfirmPassword.value;
-            
-            // ตรวจสอบข้อมูล
-            if (!fullName || !studentId || !studentClass || !email || !password || !confirmPassword) {
-                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showNotification('รหัสผ่านไม่ตรงกัน', 'error');
-                return;
-            }
-            
-            // ตรวจสอบอีเมล
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showNotification('กรุณากรอกอีเมลให้ถูกต้อง', 'error');
-                return;
-            }
-            
-            // ตรวจสอบว่ารหัสนักเรียนซ้ำหรือไม่
-            if (users.students.some(u => u.username === studentId)) {
-                showNotification('รหัสนักเรียนนี้มีผู้ใช้งานแล้ว', 'error');
-                return;
-            }
-            
-            // คำถามความปลอดภัยแบบสุ่ม
-            const securityQuestions = [
-                "ชื่อสัตว์เลี้ยงตัวแรกของคุณคืออะไร?",
-                "โรงเรียนประถมของคุณชื่ออะไร?",
-                "ชื่อกลางของคุณคืออะไร?",
-                "เมืองที่คุณเกิดชื่ออะไร?",
-                "อาหารจานโปรดของคุณคืออะไร?"
-            ];
-            const randomQuestion = securityQuestions[Math.floor(Math.random() * securityQuestions.length)];
-            
-            // สร้างบัญชีผู้ใช้ใหม่
-            const newUser = {
-                username: studentId,
-                password: password,
-                name: fullName,
-                studentId: studentId,
-                email: email,
-                class: studentClass,
-                securityQuestion: randomQuestion,
-                securityAnswer: "" // ผู้ใช้จะตั้งค่าตอนกู้รหัสผ่านครั้งแรก
-            };
-            
-            users.students.push(newUser);
-            
-            // เพิ่มในรายชื่อนักเรียน
-            students.push({
-                id: students.length + 1,
-                name: fullName,
-                studentId: studentId,
-                class: studentClass
-            });
-            
-            // ล้างฟอร์ม
-            registerFullName.value = '';
-            registerStudentId.value = '';
-            registerClass.value = '';
-            registerEmail.value = '';
-            registerPassword.value = '';
-            registerConfirmPassword.value = '';
-            
-            // สลับไปหน้า login
-            switchToTab('studentTab');
-            
-            showNotification(`สมัครสมาชิกสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว`, 'success');
-        }
-
-        // ฟังก์ชันกู้รหัสผ่าน
-        function processForgotPassword() {
-            if (forgotPasswordStep === 1) {
-                // ขั้นตอนที่ 1: ตรวจสอบข้อมูล
-                const studentId = forgotStudentId.value.trim();
-                const email = forgotEmail.value.trim();
-                
-                if (!studentId || !email) {
-                    showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-                    return;
-                }
-                
-                // ค้นหาผู้ใช้
-                const user = users.students.find(u => 
-                    u.username === studentId && u.email === email
-                );
-                
-                if (!user) {
-                    showNotification('ไม่พบข้อมูลผู้ใช้หรืออีเมลไม่ถูกต้อง', 'error');
-                    return;
-                }
-                
-                forgotPasswordUser = user;
-                forgotPasswordStep = 2;
-                
-                // แสดงคำถามความปลอดภัย
-                securityQuestionText.textContent = user.securityQuestion || "คุณยังไม่ได้ตั้งคำถามความปลอดภัย กรุณาติดต่อผู้ดูแลระบบ";
-                securityQuestionGroup.style.display = 'block';
-                forgotPasswordBtn.innerHTML = '<i class="fas fa-check"></i> ตรวจสอบคำตอบ';
-                
-            } else if (forgotPasswordStep === 2) {
-                // ขั้นตอนที่ 2: ตรวจสอบคำตอบความปลอดภัย
-                const answer = securityAnswer.value.trim();
-                
-                if (!answer) {
-                    showNotification('กรุณากรอกคำตอบ', 'error');
-                    return;
-                }
-                
-                // ถ้ายังไม่มีคำตอบความปลอดภัย (กรณีสมัครใหม่) ให้บันทึกคำตอบนี้
-                if (!forgotPasswordUser.securityAnswer) {
-                    forgotPasswordUser.securityAnswer = answer;
-                    showNotification('ตั้งค่าคำตอบความปลอดภัยสำเร็จ', 'success');
-                } else if (forgotPasswordUser.securityAnswer !== answer) {
-                    showNotification('คำตอบไม่ถูกต้อง', 'error');
-                    return;
-                }
-                
-                forgotPasswordStep = 3;
-                
-                // แสดงฟอร์มกรอกรหัสผ่านใหม่
-                newPasswordGroup.style.display = 'block';
-                confirmNewPasswordGroup.style.display = 'block';
-                forgotPasswordBtn.innerHTML = '<i class="fas fa-save"></i> เปลี่ยนรหัสผ่าน';
-                
-            } else if (forgotPasswordStep === 3) {
-                // ขั้นตอนที่ 3: เปลี่ยนรหัสผ่าน
-                const password = newPassword.value;
-                const confirmPassword = confirmNewPassword.value;
-                
-                if (!password || !confirmPassword) {
-                    showNotification('กรุณากรอกรหัสผ่านให้ครบถ้วน', 'error');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
-                    return;
-                }
-                
-                if (password !== confirmPassword) {
-                    showNotification('รหัสผ่านไม่ตรงกัน', 'error');
-                    return;
-                }
-                
-                // เปลี่ยนรหัสผ่าน
-                forgotPasswordUser.password = password;
-                
-                // รีเซ็ตฟอร์มและสลับไปหน้า login
-                resetForgotPasswordForm();
-                switchToTab('studentTab');
-                
-                showNotification('เปลี่ยนรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้แล้ว', 'success');
-            }
-        }
-
         // ฟังก์ชันออกจากระบบ
         function logout() {
             currentUser = null;
             currentUserType = null;
+            
+            // ปิดกล้องถ้าเปิดอยู่
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
             
             // กลับไปหน้า login
             loginPage.classList.add('active');
@@ -2411,12 +2090,30 @@
             }
         }
 
-        // ฟังก์ชันสำหรับเปิดกล้อง
+        // ฟังก์ชันสำหรับเปิดกล้อง - ปรับปรุงสำหรับมือถือ
         async function startCamera() {
             try {
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { width: 600, height: 400 } 
-                });
+                // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์
+                const constraints = {
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: isMobile ? { exact: "environment" } : "user" // ใช้กล้องหลังบนมือถือ
+                    },
+                    audio: false
+                };
+                
+                // ลองใช้กล้องหลังก่อน ถ้าไม่ได้ใช้กล้องหน้า
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (err) {
+                    // ถ้าใช้กล้องหลังไม่ได้ ให้ลองกล้องหน้า
+                    constraints.video.facingMode = "user";
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                }
                 
                 camera.srcObject = stream;
                 camera.style.display = 'block';
@@ -2425,6 +2122,7 @@
                 
                 startCameraBtn.disabled = true;
                 captureBtn.disabled = false;
+                useFileBtn.disabled = true;
                 retakeBtn.disabled = true;
                 sendBtn.disabled = true;
                 
@@ -2432,46 +2130,120 @@
             } catch (error) {
                 console.error('Error accessing camera:', error);
                 showNotification('ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบการอนุญาตการเข้าถึงกล้อง', 'error');
+                
+                // ถ้าเปิดกล้องไม่ได้ ให้เปิดตัวเลือกอัปโหลดรูป
+                startCameraBtn.disabled = true;
+                useFileBtn.disabled = false;
             }
         }
 
         // ฟังก์ชันสำหรับถ่ายรูป
         function captureImage() {
-            const canvas = document.createElement('canvas');
-            canvas.width = camera.videoWidth;
-            canvas.height = camera.videoHeight;
+            try {
+                const canvas = document.createElement('canvas');
+                
+                // ตั้งค่าขนาด canvas ให้ตรงกับวิดีโอ
+                const videoWidth = camera.videoWidth;
+                const videoHeight = camera.videoHeight;
+                
+                // สำหรับมือถือ ให้ปรับขนาดเพื่อให้ได้รูปภาพที่ดี
+                if (videoWidth > 0 && videoHeight > 0) {
+                    canvas.width = videoWidth;
+                    canvas.height = videoHeight;
+                    
+                    const context = canvas.getContext('2d');
+                    
+                    // วาดภาพจากวิดีโอลง canvas
+                    context.drawImage(camera, 0, 0, canvas.width, canvas.height);
+                    
+                    // รับข้อมูลรูปภาพ
+                    capturedImageData = canvas.toDataURL('image/jpeg', 0.8); // ใช้ JPEG สำหรับขนาดไฟล์ที่ดีกว่า
+                    capturedImage.src = capturedImageData;
+                    
+                    camera.style.display = 'none';
+                    capturedImage.style.display = 'block';
+                    
+                    captureBtn.disabled = true;
+                    useFileBtn.disabled = true;
+                    retakeBtn.disabled = false;
+                    sendBtn.disabled = false;
+                    
+                    showNotification('ถ่ายรูปสำเร็จแล้ว', 'success');
+                } else {
+                    showNotification('ไม่สามารถถ่ายรูปได้ กรุณาลองอีกครั้ง', 'error');
+                }
+            } catch (error) {
+                console.error('Error capturing image:', error);
+                showNotification('เกิดข้อผิดพลาดในการถ่ายรูป', 'error');
+            }
+        }
+
+        // ฟังก์ชันสำหรับใช้ไฟล์รูปภาพ
+        function useFile() {
+            fileInput.click();
+        }
+
+        // ฟังก์ชันสำหรับอัปโหลดรูปภาพ
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
             
-            const context = canvas.getContext('2d');
-            context.drawImage(camera, 0, 0, canvas.width, canvas.height);
-            
-            capturedImageData = canvas.toDataURL('image/png');
-            capturedImage.src = capturedImageData;
-            
-            camera.style.display = 'none';
-            capturedImage.style.display = 'block';
-            
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
+            // ตรวจสอบว่าเป็นไฟล์รูปภาพ
+            if (!file.type.match('image.*')) {
+                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
+                return;
             }
             
-            captureBtn.disabled = true;
-            retakeBtn.disabled = false;
-            sendBtn.disabled = false;
+            const reader = new FileReader();
             
-            showNotification('ถ่ายรูปสำเร็จแล้ว', 'success');
+            reader.onload = function(e) {
+                capturedImageData = e.target.result;
+                capturedImage.src = capturedImageData;
+                
+                camera.style.display = 'none';
+                cameraPlaceholder.style.display = 'none';
+                capturedImage.style.display = 'block';
+                
+                startCameraBtn.disabled = false;
+                captureBtn.disabled = true;
+                useFileBtn.disabled = false;
+                retakeBtn.disabled = false;
+                sendBtn.disabled = false;
+                
+                showNotification('อัปโหลดรูปภาพสำเร็จ', 'success');
+            };
+            
+            reader.readAsDataURL(file);
+            fileInput.value = ''; // รีเซ็ต input
         }
 
         // ฟังก์ชันสำหรับถ่ายรูปใหม่
         function retakePhoto() {
             capturedImage.style.display = 'none';
-            cameraPlaceholder.style.display = 'flex';
-            
+            capturedImage.src = '';
             capturedImageData = null;
             
-            startCameraBtn.disabled = false;
-            captureBtn.disabled = true;
-            retakeBtn.disabled = true;
-            sendBtn.disabled = true;
+            if (stream) {
+                // ถ้ามีกล้องเปิดอยู่ แสดงกล้อง
+                camera.style.display = 'block';
+                cameraPlaceholder.style.display = 'none';
+                
+                startCameraBtn.disabled = true;
+                captureBtn.disabled = false;
+                useFileBtn.disabled = true;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
+            } else {
+                // ถ้าไม่มีกล้อง แสดง placeholder
+                camera.style.display = 'none';
+                cameraPlaceholder.style.display = 'flex';
+                
+                startCameraBtn.disabled = false;
+                captureBtn.disabled = true;
+                useFileBtn.disabled = false;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
+            }
             
             showNotification('พร้อมถ่ายรูปใหม่แล้ว', 'warning');
         }
@@ -2479,7 +2251,7 @@
         // ฟังก์ชันสำหรับส่งรูป
         function sendPhoto() {
             if (!capturedImageData) {
-                showNotification('กรุณาถ่ายรูปก่อนส่ง', 'error');
+                showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
                 return;
             }
             
@@ -2501,12 +2273,19 @@
             
             renderStudentHistory();
             
+            // ปิดกล้องถ้าเปิดอยู่
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
             capturedImage.style.display = 'none';
             cameraPlaceholder.style.display = 'flex';
             capturedImageData = null;
             
             startCameraBtn.disabled = false;
             captureBtn.disabled = true;
+            useFileBtn.disabled = false;
             retakeBtn.disabled = true;
             sendBtn.disabled = true;
             
@@ -2653,13 +2432,9 @@
         // ตั้งค่า Event Listeners
         studentTab.addEventListener('click', () => switchToTab('student'));
         teacherTab.addEventListener('click', () => switchToTab('teacher'));
-        registerTab.addEventListener('click', () => switchToTab('register'));
-        forgotTab.addEventListener('click', () => switchToTab('forgot'));
 
         studentLoginBtn.addEventListener('click', loginStudent);
         teacherLoginBtn.addEventListener('click', loginTeacher);
-        registerBtn.addEventListener('click', registerUser);
-        forgotPasswordBtn.addEventListener('click', processForgotPassword);
         studentLogoutBtn.addEventListener('click', logout);
         teacherLogoutBtn.addEventListener('click', logout);
 
@@ -2680,20 +2455,6 @@
             if (e.key === 'Enter') loginTeacher();
         });
 
-        // สมัครสมาชิกด้วย Enter
-        registerFullName.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') registerUser();
-        });
-        
-        registerStudentId.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') registerUser();
-        });
-
-        // กู้รหัสผ่านด้วย Enter
-        forgotStudentId.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') processForgotPassword();
-        });
-
         // สลับแสดงรหัสผ่าน
         document.getElementById('toggleStudentPassword').addEventListener('click', () => {
             togglePasswordVisibility('studentPassword', 'toggleStudentPassword');
@@ -2701,22 +2462,6 @@
         
         document.getElementById('toggleTeacherPassword').addEventListener('click', () => {
             togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword');
-        });
-        
-        document.getElementById('toggleRegisterPassword').addEventListener('click', () => {
-            togglePasswordVisibility('registerPassword', 'toggleRegisterPassword');
-        });
-        
-        document.getElementById('toggleRegisterConfirmPassword').addEventListener('click', () => {
-            togglePasswordVisibility('registerConfirmPassword', 'toggleRegisterConfirmPassword');
-        });
-        
-        document.getElementById('toggleNewPassword').addEventListener('click', () => {
-            togglePasswordVisibility('newPassword', 'toggleNewPassword');
-        });
-        
-        document.getElementById('toggleConfirmNewPassword').addEventListener('click', () => {
-            togglePasswordVisibility('confirmNewPassword', 'toggleConfirmNewPassword');
         });
         
         document.getElementById('toggleCurrentPassword').addEventListener('click', () => {
@@ -2734,6 +2479,8 @@
         // ฟังก์ชันกล้อง
         startCameraBtn.addEventListener('click', startCamera);
         captureBtn.addEventListener('click', captureImage);
+        useFileBtn.addEventListener('click', useFile);
+        fileInput.addEventListener('change', handleFileSelect);
         retakeBtn.addEventListener('click', retakePhoto);
         sendBtn.addEventListener('click', sendPhoto);
 
@@ -2796,8 +2543,22 @@
             });
         });
 
+        // ปิดกล้องเมื่อออกจากหน้า
+        window.addEventListener('beforeunload', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+
         // เริ่มต้นแสดงข้อมูล
         // หน้าเริ่มต้นคือหน้า login
+        
+        // ข้อมูลทดสอบระบบ
+        console.log('ข้อมูลทดสอบระบบ:');
+        console.log('- นักเรียน: STU001 / 123456');
+        console.log('- นักเรียน: STU002 / 123456');
+        console.log('- อาจารย์: teacher / 123456');
+        console.log('- ผู้ดูแล: admin / college123');
     </script>
 </body>
 </html>
