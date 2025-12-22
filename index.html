@@ -88,7 +88,7 @@
             border-radius: 12px;
             padding: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
@@ -103,6 +103,7 @@
             display: flex;
             margin-bottom: 25px;
             border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
         }
 
         .login-tab {
@@ -113,6 +114,7 @@
             cursor: pointer;
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
+            min-width: 100px;
         }
 
         .login-tab.active {
@@ -139,7 +141,7 @@
             color: #555;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -148,10 +150,36 @@
             transition: all 0.3s ease;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             outline: none;
             border-color: #1a73e8;
             box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .form-group .input-with-icon {
+            position: relative;
+        }
+
+        .form-group .input-with-icon input {
+            padding-right: 40px;
+        }
+
+        .form-group .input-with-icon i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
         }
 
         .btn {
@@ -218,6 +246,25 @@
             font-size: 0.9rem;
         }
 
+        /* ลิงค์ต่างๆ */
+        .form-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .form-link:hover {
+            text-decoration: underline;
+        }
+
         /* ส่วนของนักเรียน */
         .content-area {
             display: none;
@@ -243,6 +290,50 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        /* ส่วนจัดการโปรไฟล์นักเรียน */
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .profile-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .profile-info p {
+            color: #666;
+            font-size: 0.9rem;
         }
 
         .camera-container {
@@ -593,6 +684,20 @@
             color: #1a73e8;
         }
 
+        /* ปุ่มเปลี่ยนรหัสผ่าน/แก้ไขโปรไฟล์ */
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* ข้อความช่วยเหลือ */
+        .help-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -614,6 +719,11 @@
                 left: auto;
                 right: auto;
                 margin-bottom: 15px;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
             }
             
             .submission-list {
@@ -653,6 +763,15 @@
             .filter-options {
                 justify-content: center;
             }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -682,6 +801,8 @@
                     <div class="login-tabs">
                         <div class="login-tab active" id="studentTab">นักเรียน</div>
                         <div class="login-tab" id="teacherTab">อาจารย์</div>
+                        <div class="login-tab" id="registerTab">สมัครสมาชิก</div>
+                        <div class="login-tab" id="forgotTab">ลืมรหัสผ่าน</div>
                     </div>
 
                     <!-- ฟอร์มล็อกอินนักเรียน -->
@@ -692,15 +813,18 @@
                         </div>
                         <div class="form-group">
                             <label for="studentPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <input type="password" id="studentPassword" placeholder="กรอกรหัสผ่าน">
+                            <div class="input-with-icon">
+                                <input type="password" id="studentPassword" placeholder="กรอกรหัสผ่าน">
+                                <i class="fas fa-eye" id="toggleStudentPassword"></i>
+                            </div>
                         </div>
                         <button class="btn btn-primary" id="studentLoginBtn">
                             <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
                         
-                        <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
-                            <p>ตัวอย่างบัญชีนักเรียน:</p>
-                            <p>รหัส: STU001 | รหัสผ่าน: 1234</p>
+                        <div class="form-links">
+                            <span class="form-link" onclick="switchToTab('registerTab')">สมัครสมาชิกใหม่</span> | 
+                            <span class="form-link" onclick="switchToTab('forgotTab')">ลืมรหัสผ่าน?</span>
                         </div>
                     </div>
 
@@ -712,15 +836,116 @@
                         </div>
                         <div class="form-group">
                             <label for="teacherPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <input type="password" id="teacherPassword" placeholder="กรอกรหัสผ่าน">
+                            <div class="input-with-icon">
+                                <input type="password" id="teacherPassword" placeholder="กรอกรหัสผ่าน">
+                                <i class="fas fa-eye" id="toggleTeacherPassword"></i>
+                            </div>
                         </div>
                         <button class="btn btn-danger" id="teacherLoginBtn">
                             <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
                         
-                        <div style="margin-top: 20px; text-align: center; color: #666; font-size: 0.9rem;">
-                            <p>ตัวอย่างบัญชีอาจารย์:</p>
-                            <p>ชื่อผู้ใช้: teacher | รหัสผ่าน: 1234</p>
+                        <div class="form-links">
+                            <span class="form-link" onclick="switchToTab('registerTab')">สมัครสมาชิกใหม่</span> | 
+                            <span class="form-link" onclick="switchToTab('forgotTab')">ลืมรหัสผ่าน?</span>
+                        </div>
+                    </div>
+
+                    <!-- ฟอร์มสมัครสมาชิก -->
+                    <div id="registerForm" class="login-form">
+                        <div class="form-group">
+                            <label for="registerFullName"><i class="fas fa-user"></i> ชื่อ-นามสกุล</label>
+                            <input type="text" id="registerFullName" placeholder="กรอกชื่อ-นามสกุล">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="registerStudentId"><i class="fas fa-id-card"></i> รหัสนักเรียน</label>
+                                <input type="text" id="registerStudentId" placeholder="กรอกรหัสนักเรียน">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerClass"><i class="fas fa-school"></i> ชั้นปี</label>
+                                <select id="registerClass">
+                                    <option value="">เลือกชั้นปี</option>
+                                    <option value="ปี 1">ปี 1</option>
+                                    <option value="ปี 2">ปี 2</option>
+                                    <option value="ปี 3">ปี 3</option>
+                                    <option value="ปี 4">ปี 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerEmail"><i class="fas fa-envelope"></i> อีเมล</label>
+                            <input type="email" id="registerEmail" placeholder="กรอกอีเมล">
+                            <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
+                            <div class="input-with-icon">
+                                <input type="password" id="registerPassword" placeholder="กรอกรหัสผ่าน (อย่างน้อย 6 ตัว)">
+                                <i class="fas fa-eye" id="toggleRegisterPassword"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerConfirmPassword"><i class="fas fa-lock"></i> ยืนยันรหัสผ่าน</label>
+                            <div class="input-with-icon">
+                                <input type="password" id="registerConfirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                                <i class="fas fa-eye" id="toggleRegisterConfirmPassword"></i>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-success" id="registerBtn">
+                            <i class="fas fa-user-plus"></i> สมัครสมาชิก
+                        </button>
+                        
+                        <div class="form-links">
+                            <span class="form-link" onclick="switchToTab('studentTab')">กลับไปเข้าสู่ระบบ</span>
+                        </div>
+                    </div>
+
+                    <!-- ฟอร์มกู้รหัสผ่าน -->
+                    <div id="forgotPasswordForm" class="login-form">
+                        <div class="form-group">
+                            <label for="forgotStudentId"><i class="fas fa-id-card"></i> รหัสนักเรียน</label>
+                            <input type="text" id="forgotStudentId" placeholder="กรอกรหัสนักเรียน">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="forgotEmail"><i class="fas fa-envelope"></i> อีเมลที่ลงทะเบียน</label>
+                            <input type="email" id="forgotEmail" placeholder="กรอกอีเมลที่ใช้สมัคร">
+                        </div>
+                        
+                        <div class="form-group" id="securityQuestionGroup" style="display: none;">
+                            <label for="securityAnswer"><i class="fas fa-question-circle"></i> คำถามความปลอดภัย</label>
+                            <div id="securityQuestionText" style="margin-bottom: 10px; color: #555;"></div>
+                            <input type="text" id="securityAnswer" placeholder="กรอกคำตอบ">
+                        </div>
+                        
+                        <div class="form-group" id="newPasswordGroup" style="display: none;">
+                            <label for="newPassword"><i class="fas fa-lock"></i> รหัสผ่านใหม่</label>
+                            <div class="input-with-icon">
+                                <input type="password" id="newPassword" placeholder="กรอกรหัสผ่านใหม่">
+                                <i class="fas fa-eye" id="toggleNewPassword"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" id="confirmNewPasswordGroup" style="display: none;">
+                            <label for="confirmNewPassword"><i class="fas fa-lock"></i> ยืนยันรหัสผ่านใหม่</label>
+                            <div class="input-with-icon">
+                                <input type="password" id="confirmNewPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                                <i class="fas fa-eye" id="toggleConfirmNewPassword"></i>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-warning" id="forgotPasswordBtn">
+                            <i class="fas fa-key"></i> ดำเนินการต่อ
+                        </button>
+                        
+                        <div class="form-links">
+                            <span class="form-link" onclick="switchToTab('studentTab')">กลับไปเข้าสู่ระบบ</span>
                         </div>
                     </div>
                 </div>
@@ -752,6 +977,29 @@
                         </div>
                     </div>
                 </header>
+            </div>
+
+            <!-- ส่วนโปรไฟล์นักเรียน -->
+            <div class="profile-section">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="studentProfileName"></h3>
+                            <p id="studentProfileInfo"></p>
+                            <div class="profile-actions">
+                                <button class="btn btn-primary btn-small" onclick="openEditProfileModal()">
+                                    <i class="fas fa-edit"></i> แก้ไขโปรไฟล์
+                                </button>
+                                <button class="btn btn-warning btn-small" onclick="openChangePasswordModal()">
+                                    <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- เนื้อหาหลักนักเรียน -->
@@ -920,6 +1168,66 @@
         </div>
     </div>
 
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-user-edit"></i> แก้ไขโปรไฟล์</h3>
+            <div class="form-group">
+                <label for="editProfileName">ชื่อ-นามสกุล</label>
+                <input type="text" id="editProfileName" placeholder="กรอกชื่อ-นามสกุล">
+            </div>
+            <div class="form-group">
+                <label for="editProfileEmail">อีเมล</label>
+                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
+                <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
+            </div>
+            <div class="form-group">
+                <label for="editProfileClass">ชั้นปี</label>
+                <select id="editProfileClass">
+                    <option value="">เลือกชั้นปี</option>
+                    <option value="ปี 1">ปี 1</option>
+                    <option value="ปี 2">ปี 2</option>
+                    <option value="ปี 3">ปี 3</option>
+                    <option value="ปี 4">ปี 4</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelEditProfileBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveEditProfileBtn">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน</h3>
+            <div class="form-group">
+                <label for="currentPassword">รหัสผ่านปัจจุบัน</label>
+                <div class="input-with-icon">
+                    <input type="password" id="currentPassword" placeholder="กรอกรหัสผ่านปัจจุบัน">
+                    <i class="fas fa-eye" id="toggleCurrentPassword"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newStudentPassword">รหัสผ่านใหม่</label>
+                <div class="input-with-icon">
+                    <input type="password" id="newStudentPassword" placeholder="กรอกรหัสผ่านใหม่ (อย่างน้อย 6 ตัว)">
+                    <i class="fas fa-eye" id="toggleNewStudentPassword"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirmStudentPassword">ยืนยันรหัสผ่านใหม่</label>
+                <div class="input-with-icon">
+                    <input type="password" id="confirmStudentPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                    <i class="fas fa-eye" id="toggleConfirmStudentPassword"></i>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelChangePasswordBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveChangePasswordBtn">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="addAttendanceModal">
         <div class="modal-content">
             <h3><i class="fas fa-user-plus"></i> เพิ่มรายการเช็คชื่อ</h3>
@@ -950,21 +1258,47 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // ข้อมูลผู้ใช้
+        // ข้อมูลผู้ใช้และนักเรียน
         const users = {
             students: [
-                { username: "STU001", password: "1234", name: "สมชาย ใจดี", studentId: "STU001" },
-                { username: "STU002", password: "1234", name: "สมหญิง สวยงาม", studentId: "STU002" }
+                { 
+                    username: "STU001", 
+                    password: "123456", 
+                    name: "สมชาย ใจดี", 
+                    studentId: "STU001",
+                    email: "somchai@example.com",
+                    class: "ปี 3",
+                    securityQuestion: "ชื่อสัตว์เลี้ยงตัวแรกของคุณคืออะไร?",
+                    securityAnswer: "หมา",
+                    registered: true
+                },
+                { 
+                    username: "STU002", 
+                    password: "123456", 
+                    name: "สมหญิง สวยงาม", 
+                    studentId: "STU002",
+                    email: "somying@example.com",
+                    class: "ปี 2",
+                    securityQuestion: "โรงเรียนประถมของคุณชื่ออะไร?",
+                    securityAnswer: "วัดสระเกศ",
+                    registered: true
+                }
             ],
             teachers: [
-                { username: "teacher", password: "1234", name: "อาจารย์ ผู้สอน" }
+                { 
+                    username: "teacher", 
+                    password: "123456", 
+                    name: "อาจารย์ ผู้สอน",
+                    email: "teacher@college.ac.th",
+                    registered: true
+                }
             ]
         };
 
         // ข้อมูลนักเรียนในระบบ
         let students = [
-            { id: 1, name: "สมชาย ใจดี", studentId: "STU001" },
-            { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002" }
+            { id: 1, name: "สมชาย ใจดี", studentId: "STU001", class: "ปี 3" },
+            { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002", class: "ปี 2" }
         ];
 
         let submissions = [
@@ -990,6 +1324,8 @@
         let editingStudentId = null;
         let currentAttendanceFilter = 'all';
         let searchQuery = '';
+        let forgotPasswordStep = 1; // 1=กรอกข้อมูล, 2=คำถามความปลอดภัย, 3=รหัสผ่านใหม่
+        let forgotPasswordUser = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -997,18 +1333,51 @@
         const teacherPage = document.getElementById('teacherPage');
         const studentTab = document.getElementById('studentTab');
         const teacherTab = document.getElementById('teacherTab');
+        const registerTab = document.getElementById('registerTab');
+        const forgotTab = document.getElementById('forgotTab');
         const studentLoginForm = document.getElementById('studentLoginForm');
         const teacherLoginForm = document.getElementById('teacherLoginForm');
+        const registerForm = document.getElementById('registerForm');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        
+        // Input fields
         const studentUsername = document.getElementById('studentUsername');
         const studentPassword = document.getElementById('studentPassword');
         const teacherUsername = document.getElementById('teacherUsername');
         const teacherPassword = document.getElementById('teacherPassword');
+        
+        // Register fields
+        const registerFullName = document.getElementById('registerFullName');
+        const registerStudentId = document.getElementById('registerStudentId');
+        const registerClass = document.getElementById('registerClass');
+        const registerEmail = document.getElementById('registerEmail');
+        const registerPassword = document.getElementById('registerPassword');
+        const registerConfirmPassword = document.getElementById('registerConfirmPassword');
+        
+        // Forgot password fields
+        const forgotStudentId = document.getElementById('forgotStudentId');
+        const forgotEmail = document.getElementById('forgotEmail');
+        const securityQuestionGroup = document.getElementById('securityQuestionGroup');
+        const securityQuestionText = document.getElementById('securityQuestionText');
+        const securityAnswer = document.getElementById('securityAnswer');
+        const newPasswordGroup = document.getElementById('newPasswordGroup');
+        const newPassword = document.getElementById('newPassword');
+        const confirmNewPasswordGroup = document.getElementById('confirmNewPasswordGroup');
+        const confirmNewPassword = document.getElementById('confirmNewPassword');
+        
+        // Buttons
         const studentLoginBtn = document.getElementById('studentLoginBtn');
         const teacherLoginBtn = document.getElementById('teacherLoginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
         const studentLogoutBtn = document.getElementById('studentLogoutBtn');
         const teacherLogoutBtn = document.getElementById('teacherLogoutBtn');
+        
+        // Profile elements
         const studentUserInfo = document.getElementById('studentUserInfo');
         const teacherUserInfo = document.getElementById('teacherUserInfo');
+        const studentProfileName = document.getElementById('studentProfileName');
+        const studentProfileInfo = document.getElementById('studentProfileInfo');
 
         // DOM Elements - Student
         const camera = document.getElementById('camera');
@@ -1037,6 +1406,20 @@
         const cancelEditBtn = document.getElementById('cancelEditBtn');
         const saveEditBtn = document.getElementById('saveEditBtn');
         
+        const editProfileModal = document.getElementById('editProfileModal');
+        const editProfileName = document.getElementById('editProfileName');
+        const editProfileEmail = document.getElementById('editProfileEmail');
+        const editProfileClass = document.getElementById('editProfileClass');
+        const cancelEditProfileBtn = document.getElementById('cancelEditProfileBtn');
+        const saveEditProfileBtn = document.getElementById('saveEditProfileBtn');
+        
+        const changePasswordModal = document.getElementById('changePasswordModal');
+        const currentPassword = document.getElementById('currentPassword');
+        const newStudentPassword = document.getElementById('newStudentPassword');
+        const confirmStudentPassword = document.getElementById('confirmStudentPassword');
+        const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
+        const saveChangePasswordBtn = document.getElementById('saveChangePasswordBtn');
+        
         const addAttendanceModal = document.getElementById('addAttendanceModal');
         const selectStudent = document.getElementById('selectStudent');
         const manualTimestamp = document.getElementById('manualTimestamp');
@@ -1058,20 +1441,36 @@
             }, 3000);
         }
 
-        // ฟังก์ชันสลับแท็บล็อกอิน
-        studentTab.addEventListener('click', () => {
-            studentTab.classList.add('active');
-            teacherTab.classList.remove('active');
-            studentLoginForm.classList.add('active');
-            teacherLoginForm.classList.remove('active');
-        });
+        // ฟังก์ชันสลับแท็บ
+        function switchToTab(tabName) {
+            // รีเซ็ตแท็บทั้งหมด
+            [studentTab, teacherTab, registerTab, forgotTab].forEach(tab => tab.classList.remove('active'));
+            [studentLoginForm, teacherLoginForm, registerForm, forgotPasswordForm].forEach(form => form.classList.remove('active'));
+            
+            // ตั้งค่าแท็บที่เลือก
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            document.getElementById(tabName + (tabName === 'student' || tabName === 'teacher' ? 'LoginForm' : tabName === 'register' ? 'Form' : 'PasswordForm')).classList.add('active');
+            
+            // รีเซ็ตฟอร์มกู้รหัสผ่านถ้าสลับไปแท็บอื่น
+            if (tabName !== 'forgot') {
+                resetForgotPasswordForm();
+            }
+        }
 
-        teacherTab.addEventListener('click', () => {
-            teacherTab.classList.add('active');
-            studentTab.classList.remove('active');
-            teacherLoginForm.classList.add('active');
-            studentLoginForm.classList.remove('active');
-        });
+        // รีเซ็ตฟอร์มกู้รหัสผ่าน
+        function resetForgotPasswordForm() {
+            forgotPasswordStep = 1;
+            forgotPasswordUser = null;
+            forgotStudentId.value = '';
+            forgotEmail.value = '';
+            securityQuestionGroup.style.display = 'none';
+            securityAnswer.value = '';
+            newPasswordGroup.style.display = 'none';
+            newPassword.value = '';
+            confirmNewPasswordGroup.style.display = 'none';
+            confirmNewPassword.value = '';
+            forgotPasswordBtn.innerHTML = '<i class="fas fa-key"></i> ดำเนินการต่อ';
+        }
 
         // ฟังก์ชันล็อกอินนักเรียน
         function loginStudent() {
@@ -1097,7 +1496,8 @@
                     students.push({
                         id: students.length + 1,
                         name: student.name,
-                        studentId: student.studentId
+                        studentId: student.studentId,
+                        class: student.class || 'ปี 1'
                     });
                 }
                 
@@ -1107,7 +1507,9 @@
                 teacherPage.classList.remove('active');
                 
                 // อัพเดทข้อมูลผู้ใช้
-                studentUserInfo.textContent = `นักเรียน: ${student.name} (${student.studentId})`;
+                studentUserInfo.textContent = `นักเรียน: ${student.name}`;
+                studentProfileName.textContent = student.name;
+                studentProfileInfo.textContent = `รหัสนักเรียน: ${student.studentId} | ชั้นปี: ${student.class || 'ปี 1'}`;
                 
                 // ล้างฟอร์ม
                 studentUsername.value = '';
@@ -1140,7 +1542,7 @@
                 currentUser = teacher;
                 currentUserType = 'teacher';
                 
-                // แสดงหน้าอาจารย์
+                // แสดงหน้าออาจารย์
                 loginPage.classList.remove('active');
                 teacherPage.classList.add('active');
                 studentPage.classList.remove('active');
@@ -1165,6 +1567,177 @@
             }
         }
 
+        // ฟังก์ชันสมัครสมาชิก
+        function registerUser() {
+            const fullName = registerFullName.value.trim();
+            const studentId = registerStudentId.value.trim();
+            const studentClass = registerClass.value;
+            const email = registerEmail.value.trim();
+            const password = registerPassword.value;
+            const confirmPassword = registerConfirmPassword.value;
+            
+            // ตรวจสอบข้อมูล
+            if (!fullName || !studentId || !studentClass || !email || !password || !confirmPassword) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('รหัสผ่านไม่ตรงกัน', 'error');
+                return;
+            }
+            
+            // ตรวจสอบอีเมล
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('กรุณากรอกอีเมลให้ถูกต้อง', 'error');
+                return;
+            }
+            
+            // ตรวจสอบว่ารหัสนักเรียนซ้ำหรือไม่
+            if (users.students.some(u => u.username === studentId)) {
+                showNotification('รหัสนักเรียนนี้มีผู้ใช้งานแล้ว', 'error');
+                return;
+            }
+            
+            // คำถามความปลอดภัยแบบสุ่ม
+            const securityQuestions = [
+                "ชื่อสัตว์เลี้ยงตัวแรกของคุณคืออะไร?",
+                "โรงเรียนประถมของคุณชื่ออะไร?",
+                "ชื่อกลางของคุณคืออะไร?",
+                "เมืองที่คุณเกิดชื่ออะไร?",
+                "อาหารจานโปรดของคุณคืออะไร?"
+            ];
+            const randomQuestion = securityQuestions[Math.floor(Math.random() * securityQuestions.length)];
+            
+            // สร้างบัญชีผู้ใช้ใหม่
+            const newUser = {
+                username: studentId,
+                password: password,
+                name: fullName,
+                studentId: studentId,
+                email: email,
+                class: studentClass,
+                securityQuestion: randomQuestion,
+                securityAnswer: "", // ผู้ใช้จะตั้งค่าตอนกู้รหัสผ่านครั้งแรก
+                registered: true
+            };
+            
+            users.students.push(newUser);
+            
+            // เพิ่มในรายชื่อนักเรียน
+            students.push({
+                id: students.length + 1,
+                name: fullName,
+                studentId: studentId,
+                class: studentClass
+            });
+            
+            // ล้างฟอร์ม
+            registerFullName.value = '';
+            registerStudentId.value = '';
+            registerClass.value = '';
+            registerEmail.value = '';
+            registerPassword.value = '';
+            registerConfirmPassword.value = '';
+            
+            // สลับไปหน้า login
+            switchToTab('studentTab');
+            
+            showNotification(`สมัครสมาชิกสำเร็จ! คุณสามารถเข้าสู่ระบบได้แล้ว`, 'success');
+        }
+
+        // ฟังก์ชันกู้รหัสผ่าน
+        function processForgotPassword() {
+            if (forgotPasswordStep === 1) {
+                // ขั้นตอนที่ 1: ตรวจสอบข้อมูล
+                const studentId = forgotStudentId.value.trim();
+                const email = forgotEmail.value.trim();
+                
+                if (!studentId || !email) {
+                    showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                    return;
+                }
+                
+                // ค้นหาผู้ใช้
+                const user = users.students.find(u => 
+                    u.username === studentId && u.email === email
+                );
+                
+                if (!user) {
+                    showNotification('ไม่พบข้อมูลผู้ใช้หรืออีเมลไม่ถูกต้อง', 'error');
+                    return;
+                }
+                
+                forgotPasswordUser = user;
+                forgotPasswordStep = 2;
+                
+                // แสดงคำถามความปลอดภัย
+                securityQuestionText.textContent = user.securityQuestion || "คุณยังไม่ได้ตั้งคำถามความปลอดภัย กรุณาติดต่อผู้ดูแลระบบ";
+                securityQuestionGroup.style.display = 'block';
+                forgotPasswordBtn.innerHTML = '<i class="fas fa-check"></i> ตรวจสอบคำตอบ';
+                
+            } else if (forgotPasswordStep === 2) {
+                // ขั้นตอนที่ 2: ตรวจสอบคำตอบความปลอดภัย
+                const answer = securityAnswer.value.trim();
+                
+                if (!answer) {
+                    showNotification('กรุณากรอกคำตอบ', 'error');
+                    return;
+                }
+                
+                // ถ้ายังไม่มีคำตอบความปลอดภัย (กรณีสมัครใหม่) ให้บันทึกคำตอบนี้
+                if (!forgotPasswordUser.securityAnswer) {
+                    forgotPasswordUser.securityAnswer = answer;
+                    showNotification('ตั้งค่าคำตอบความปลอดภัยสำเร็จ', 'success');
+                } else if (forgotPasswordUser.securityAnswer !== answer) {
+                    showNotification('คำตอบไม่ถูกต้อง', 'error');
+                    return;
+                }
+                
+                forgotPasswordStep = 3;
+                
+                // แสดงฟอร์มกรอกรหัสผ่านใหม่
+                newPasswordGroup.style.display = 'block';
+                confirmNewPasswordGroup.style.display = 'block';
+                forgotPasswordBtn.innerHTML = '<i class="fas fa-save"></i> เปลี่ยนรหัสผ่าน';
+                
+            } else if (forgotPasswordStep === 3) {
+                // ขั้นตอนที่ 3: เปลี่ยนรหัสผ่าน
+                const password = newPassword.value;
+                const confirmPassword = confirmNewPassword.value;
+                
+                if (!password || !confirmPassword) {
+                    showNotification('กรุณากรอกรหัสผ่านให้ครบถ้วน', 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showNotification('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showNotification('รหัสผ่านไม่ตรงกัน', 'error');
+                    return;
+                }
+                
+                // เปลี่ยนรหัสผ่าน
+                forgotPasswordUser.password = password;
+                
+                // รีเซ็ตฟอร์มและสลับไปหน้า login
+                resetForgotPasswordForm();
+                switchToTab('studentTab');
+                
+                showNotification('เปลี่ยนรหัสผ่านสำเร็จ! คุณสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้แล้ว', 'success');
+            }
+        }
+
         // ฟังก์ชันออกจากระบบ
         function logout() {
             currentUser = null;
@@ -1176,12 +1749,108 @@
             teacherPage.classList.remove('active');
             
             // รีเซ็ตค่าเริ่มต้น
-            studentTab.click();
+            switchToTab('studentTab');
             
             showNotification('ออกจากระบบสำเร็จ', 'success');
         }
 
-        // ฟังก์ชันสำหรับเพิ่มนักเรียน
+        // ฟังก์ชันเปิด modal แก้ไขโปรไฟล์
+        function openEditProfileModal() {
+            if (!currentUser || currentUserType !== 'student') return;
+            
+            editProfileName.value = currentUser.name;
+            editProfileEmail.value = currentUser.email || '';
+            editProfileClass.value = currentUser.class || '';
+            editProfileModal.style.display = 'flex';
+        }
+
+        // ฟังก์ชันบันทึกการแก้ไขโปรไฟล์
+        function saveEditProfile() {
+            if (!currentUser || currentUserType !== 'student') return;
+            
+            const name = editProfileName.value.trim();
+            const email = editProfileEmail.value.trim();
+            const studentClass = editProfileClass.value;
+            
+            if (!name || !email || !studentClass) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            
+            // อัพเดทข้อมูลผู้ใช้
+            currentUser.name = name;
+            currentUser.email = email;
+            currentUser.class = studentClass;
+            
+            // อัพเดทรายชื่อนักเรียนในระบบ
+            const studentIndex = students.findIndex(s => s.studentId === currentUser.studentId);
+            if (studentIndex !== -1) {
+                students[studentIndex].name = name;
+                students[studentIndex].class = studentClass;
+                
+                // อัพเดทรายการเช็คชื่อ
+                attendanceList.forEach(item => {
+                    if (item.studentId === currentUser.studentId) {
+                        item.studentName = name;
+                    }
+                });
+            }
+            
+            // อัพเดท UI
+            studentUserInfo.textContent = `นักเรียน: ${name}`;
+            studentProfileName.textContent = name;
+            studentProfileInfo.textContent = `รหัสนักเรียน: ${currentUser.studentId} | ชั้นปี: ${studentClass}`;
+            
+            // ปิด modal
+            editProfileModal.style.display = 'none';
+            
+            showNotification('แก้ไขโปรไฟล์สำเร็จ', 'success');
+        }
+
+        // ฟังก์ชันเปิด modal เปลี่ยนรหัสผ่าน
+        function openChangePasswordModal() {
+            changePasswordModal.style.display = 'flex';
+        }
+
+        // ฟังก์ชันบันทึกรหัสผ่านใหม่
+        function saveChangePassword() {
+            const currentPass = currentPassword.value;
+            const newPass = newStudentPassword.value;
+            const confirmPass = confirmStudentPassword.value;
+            
+            if (!currentPass || !newPass || !confirmPass) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                showNotification('รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
+                return;
+            }
+            
+            if (newPass !== confirmPass) {
+                showNotification('รหัสผ่านใหม่ไม่ตรงกัน', 'error');
+                return;
+            }
+            
+            if (currentUser.password !== currentPass) {
+                showNotification('รหัสผ่านปัจจุบันไม่ถูกต้อง', 'error');
+                return;
+            }
+            
+            // เปลี่ยนรหัสผ่าน
+            currentUser.password = newPass;
+            
+            // ล้างฟอร์มและปิด modal
+            currentPassword.value = '';
+            newStudentPassword.value = '';
+            confirmStudentPassword.value = '';
+            changePasswordModal.style.display = 'none';
+            
+            showNotification('เปลี่ยนรหัสผ่านสำเร็จ', 'success');
+        }
+
+        // ฟังก์ชันสำหรับเพิ่มนักเรียน (อาจารย์)
         function addStudent() {
             const name = studentNameInput.value.trim();
             const studentId = studentIdInput.value.trim();
@@ -1199,20 +1868,11 @@
             const newStudent = {
                 id: students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1,
                 name: name,
-                studentId: studentId
+                studentId: studentId,
+                class: "ปี 1"
             };
             
             students.push(newStudent);
-            
-            // เพิ่มบัญชีผู้ใช้สำหรับนักเรียน
-            if (!users.students.some(s => s.studentId === studentId)) {
-                users.students.push({
-                    username: studentId,
-                    password: "1234",
-                    name: name,
-                    studentId: studentId
-                });
-            }
             
             studentNameInput.value = '';
             studentIdInput.value = '';
@@ -1220,7 +1880,7 @@
             renderStudents();
             updateStudentSelect();
             
-            showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ (รหัสผ่านเริ่มต้น: 1234)`, 'success');
+            showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
         }
 
         // ฟังก์ชันสำหรับลบนักเรียน
@@ -1237,8 +1897,11 @@
                 // ลบรายการเช็คชื่อของนักเรียนนี้ด้วย
                 attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
                 
-                // ลบบัญชีผู้ใช้
-                users.students = users.students.filter(s => s.studentId !== studentIdToDelete);
+                // ลบบัญชีผู้ใช้ถ้ามี
+                const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
+                if (userIndex !== -1) {
+                    users.students.splice(userIndex, 1);
+                }
                 
                 students.splice(studentIndex, 1);
                 renderStudents();
@@ -1249,7 +1912,7 @@
             }
         }
 
-        // ฟังก์ชันสำหรับเปิด modal แก้ไขนักเรียน
+        // ฟังก์ชันสำหรับเปิด modal แก้ไขนักเรียน (อาจารย์)
         function openEditModal(studentId) {
             const student = students.find(s => s.id === studentId);
             if (!student) return;
@@ -1260,7 +1923,7 @@
             editStudentModal.style.display = 'flex';
         }
 
-        // ฟังก์ชันสำหรับบันทึกการแก้ไขนักเรียน
+        // ฟังก์ชันสำหรับบันทึกการแก้ไขนักเรียน (อาจารย์)
         function saveEditStudent() {
             if (!editingStudentId) return;
             
@@ -1318,6 +1981,19 @@
             editingStudentId = null;
             editStudentName.value = '';
             editStudentId.value = '';
+        }
+
+        // ฟังก์ชันปิด modal แก้ไขโปรไฟล์
+        function closeEditProfileModal() {
+            editProfileModal.style.display = 'none';
+        }
+
+        // ฟังก์ชันปิด modal เปลี่ยนรหัสผ่าน
+        function closeChangePasswordModal() {
+            changePasswordModal.style.display = 'none';
+            currentPassword.value = '';
+            newStudentPassword.value = '';
+            confirmStudentPassword.value = '';
         }
 
         // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน
@@ -1755,9 +2431,32 @@
             `;
         }
 
+        // ฟังก์ชันสลับแสดง/ซ่อนรหัสผ่าน
+        function togglePasswordVisibility(inputId, toggleIconId) {
+            const input = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleIconId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
         // ตั้งค่า Event Listeners
+        studentTab.addEventListener('click', () => switchToTab('student'));
+        teacherTab.addEventListener('click', () => switchToTab('teacher'));
+        registerTab.addEventListener('click', () => switchToTab('register'));
+        forgotTab.addEventListener('click', () => switchToTab('forgot'));
+
         studentLoginBtn.addEventListener('click', loginStudent);
         teacherLoginBtn.addEventListener('click', loginTeacher);
+        registerBtn.addEventListener('click', registerUser);
+        forgotPasswordBtn.addEventListener('click', processForgotPassword);
         studentLogoutBtn.addEventListener('click', logout);
         teacherLogoutBtn.addEventListener('click', logout);
 
@@ -1778,6 +2477,57 @@
             if (e.key === 'Enter') loginTeacher();
         });
 
+        // สมัครสมาชิกด้วย Enter
+        registerFullName.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') registerUser();
+        });
+        
+        registerStudentId.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') registerUser();
+        });
+
+        // กู้รหัสผ่านด้วย Enter
+        forgotStudentId.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') processForgotPassword();
+        });
+
+        // สลับแสดงรหัสผ่าน
+        document.getElementById('toggleStudentPassword').addEventListener('click', () => {
+            togglePasswordVisibility('studentPassword', 'toggleStudentPassword');
+        });
+        
+        document.getElementById('toggleTeacherPassword').addEventListener('click', () => {
+            togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword');
+        });
+        
+        document.getElementById('toggleRegisterPassword').addEventListener('click', () => {
+            togglePasswordVisibility('registerPassword', 'toggleRegisterPassword');
+        });
+        
+        document.getElementById('toggleRegisterConfirmPassword').addEventListener('click', () => {
+            togglePasswordVisibility('registerConfirmPassword', 'toggleRegisterConfirmPassword');
+        });
+        
+        document.getElementById('toggleNewPassword').addEventListener('click', () => {
+            togglePasswordVisibility('newPassword', 'toggleNewPassword');
+        });
+        
+        document.getElementById('toggleConfirmNewPassword').addEventListener('click', () => {
+            togglePasswordVisibility('confirmNewPassword', 'toggleConfirmNewPassword');
+        });
+        
+        document.getElementById('toggleCurrentPassword').addEventListener('click', () => {
+            togglePasswordVisibility('currentPassword', 'toggleCurrentPassword');
+        });
+        
+        document.getElementById('toggleNewStudentPassword').addEventListener('click', () => {
+            togglePasswordVisibility('newStudentPassword', 'toggleNewStudentPassword');
+        });
+        
+        document.getElementById('toggleConfirmStudentPassword').addEventListener('click', () => {
+            togglePasswordVisibility('confirmStudentPassword', 'toggleConfirmStudentPassword');
+        });
+
         // ฟังก์ชันกล้อง
         startCameraBtn.addEventListener('click', startCamera);
         captureBtn.addEventListener('click', captureImage);
@@ -1788,12 +2538,30 @@
         addStudentBtn.addEventListener('click', addStudent);
         cancelEditBtn.addEventListener('click', closeEditModal);
         saveEditBtn.addEventListener('click', saveEditStudent);
+        
+        // ฟังก์ชันจัดการโปรไฟล์
+        cancelEditProfileBtn.addEventListener('click', closeEditProfileModal);
+        saveEditProfileBtn.addEventListener('click', saveEditProfile);
+        
+        // ฟังก์ชันเปลี่ยนรหัสผ่าน
+        cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
+        saveChangePasswordBtn.addEventListener('click', saveChangePassword);
+        
+        // ฟังก์ชันเช็คชื่อ
         cancelAddAttendanceBtn.addEventListener('click', closeAddAttendanceModal);
         saveAddAttendanceBtn.addEventListener('click', saveAddAttendance);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
             if (e.target === editStudentModal) closeEditModal();
+        });
+        
+        editProfileModal.addEventListener('click', (e) => {
+            if (e.target === editProfileModal) closeEditProfileModal();
+        });
+        
+        changePasswordModal.addEventListener('click', (e) => {
+            if (e.target === changePasswordModal) closeChangePasswordModal();
         });
         
         addAttendanceModal.addEventListener('click', (e) => {
