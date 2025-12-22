@@ -36,12 +36,19 @@
 
         .logo-container {
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .college-logo {
             height: 80px;
             width: auto;
             object-fit: contain;
+            border-radius: 8px;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-text {
@@ -402,10 +409,12 @@
     <div class="container">
         <header>
             <div class="header-container">
-                <!-- ส่วนสำหรับโลโก้วิทยาลัย -->
+                <!-- ส่วนสำหรับโลโก้วิทยาลัย (แก้ไขแล้ว) -->
                 <div class="logo-container">
-                    <!-- เปลี่ยนลิงก์ src ไปยังโลโก้ของวิทยาลัยคุณ -->
-                    <img src="college_logo.png" alt="โลโก้วิทยาลัย" class="college-logo">
+                    <!-- ใช้โลโก้ตัวอย่างจากอินเทอร์เน็ต ถ้าไม่มีไฟล์ college_logo.png -->
+                    <img src="https://cdn-icons-png.flaticon.com/512/3716/3716765.png" 
+                         alt="โลโก้วิทยาลัย" 
+                         class="college-logo">
                 </div>
                 
                 <div class="header-text">
