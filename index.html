@@ -233,6 +233,11 @@
             color: white;
         }
 
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
         .btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
@@ -382,11 +387,19 @@
             background-color: #f8f9fa;
         }
 
+        .attendance-actions {
+            display: flex;
+            gap: 8px;
+        }
+
         .status {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
+            display: inline-block;
+            min-width: 100px;
+            text-align: center;
         }
 
         .status.approved {
@@ -402,6 +415,51 @@
         .status.pending {
             background-color: #fff3cd;
             color: #856404;
+        }
+
+        .status.absent {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .status-select {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            min-width: 100px;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .status-select.approved {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .status-select.rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .status-select.pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffeaa7;
+        }
+
+        .status-select.absent {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border-color: #d6d8db;
         }
 
         .empty-state {
@@ -476,6 +534,40 @@
             margin-top: 20px;
         }
 
+        /* สไตล์สำหรับฟอร์มเช็คชื่อ */
+        .attendance-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 250px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background-color: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+
         @media (max-width: 768px) {
             .header-container {
                 flex-direction: column;
@@ -519,6 +611,20 @@
             .modal-content {
                 width: 95%;
                 padding: 20px;
+            }
+            
+            .attendance-controls {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .filter-options {
+                justify-content: center;
             }
         }
     </style>
@@ -617,7 +723,6 @@
                         </tr>
                     </thead>
                     <tbody id="studentList">
-                        <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
                         <tr>
                             <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
                                 ยังไม่มีรายชื่อนักเรียน
@@ -638,6 +743,17 @@
             </div>
 
             <div class="card attendance-list">
+                <div class="attendance-controls">
+                    <div>
+                        <input type="text" class="search-box" id="searchAttendance" placeholder="ค้นหานักเรียน...">
+                    </div>
+                    <div class="filter-options">
+                        <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+                        <button class="filter-btn" data-filter="approved">เช็คชื่อแล้ว</button>
+                        <button class="filter-btn" data-filter="absent">ยังไม่เช็คชื่อ</button>
+                    </div>
+                </div>
+                
                 <h2><i class="fas fa-clipboard-check"></i> รายการเช็คชื่อ</h2>
                 <table class="attendance-table">
                     <thead>
@@ -647,11 +763,12 @@
                             <th>รหัสนักเรียน</th>
                             <th>เวลาที่ส่ง</th>
                             <th>สถานะ</th>
+                            <th>จัดการ</th>
                         </tr>
                     </thead>
                     <tbody id="attendanceList">
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 30px; color: #777;">
+                            <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
                                 ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ
                             </td>
                         </tr>
@@ -676,6 +793,34 @@
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelEditBtn">ยกเลิก</button>
                 <button class="btn btn-success" id="saveEditBtn">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal สำหรับเพิ่มเช็คชื่อด้วยตนเอง -->
+    <div class="modal" id="addAttendanceModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-user-plus"></i> เพิ่มรายการเช็คชื่อ</h3>
+            <div class="form-group">
+                <label for="selectStudent">เลือกนักเรียน</label>
+                <select id="selectStudent" class="form-group input">
+                    <option value="">-- เลือกนักเรียน --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="manualTimestamp">วันที่และเวลา</label>
+                <input type="datetime-local" id="manualTimestamp">
+            </div>
+            <div class="form-group">
+                <label for="manualStatus">สถานะ</label>
+                <select id="manualStatus" class="status-select">
+                    <option value="approved">เช็คชื่อแล้ว</option>
+                    <option value="absent">ยังไม่เช็คชื่อ</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelAddAttendanceBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveAddAttendanceBtn">เพิ่มรายการ</button>
             </div>
         </div>
     </div>
@@ -708,6 +853,8 @@
         let stream = null;
         let capturedImageData = null;
         let editingStudentId = null;
+        let currentAttendanceFilter = 'all';
+        let searchQuery = '';
 
         // DOM Elements
         const studentModeBtn = document.getElementById('studentModeBtn');
@@ -732,6 +879,8 @@
         const studentList = document.getElementById('studentList');
         const submissionsContainer = document.getElementById('submissionsContainer');
         const attendanceListElement = document.getElementById('attendanceList');
+        const searchAttendanceInput = document.getElementById('searchAttendance');
+        const filterButtons = document.querySelectorAll('.filter-btn');
         
         // Modal elements
         const editStudentModal = document.getElementById('editStudentModal');
@@ -739,6 +888,14 @@
         const editStudentId = document.getElementById('editStudentId');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
         const saveEditBtn = document.getElementById('saveEditBtn');
+        
+        // Attendance Modal elements
+        const addAttendanceModal = document.getElementById('addAttendanceModal');
+        const selectStudent = document.getElementById('selectStudent');
+        const manualTimestamp = document.getElementById('manualTimestamp');
+        const manualStatus = document.getElementById('manualStatus');
+        const cancelAddAttendanceBtn = document.getElementById('cancelAddAttendanceBtn');
+        const saveAddAttendanceBtn = document.getElementById('saveAddAttendanceBtn');
         
         // Notification
         const notification = document.getElementById('notification');
@@ -757,6 +914,7 @@
                 renderStudents();
                 renderSubmissions();
                 renderAttendanceList();
+                updateStudentSelect();
             }
             
             if (mode === 'student') {
@@ -785,7 +943,6 @@
                 return;
             }
             
-            // ตรวจสอบว่ารหัสซ้ำหรือไม่
             if (students.some(student => student.studentId === studentId)) {
                 showNotification('รหัสนักเรียนนี้มีอยู่แล้ว', 'error');
                 return;
@@ -799,12 +956,11 @@
             
             students.push(newStudent);
             
-            // เคลียร์ฟอร์ม
             studentNameInput.value = '';
             studentIdInput.value = '';
             
-            // รีเฟรชรายการ
             renderStudents();
+            updateStudentSelect();
             
             showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
         }
@@ -818,8 +974,15 @@
             const studentIndex = students.findIndex(s => s.id === studentId);
             if (studentIndex !== -1) {
                 const studentName = students[studentIndex].name;
+                
+                // ลบรายการเช็คชื่อของนักเรียนนี้ด้วย
+                attendanceList = attendanceList.filter(a => a.studentId !== students[studentIndex].studentId);
+                
                 students.splice(studentIndex, 1);
                 renderStudents();
+                renderAttendanceList();
+                updateStudentSelect();
+                
                 showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
             }
         }
@@ -847,7 +1010,6 @@
                 return;
             }
             
-            // ตรวจสอบว่ารหัสซ้ำหรือไม่ (ยกเว้นตัวเอง)
             const duplicate = students.find(s => 
                 s.studentId === studentId && s.id !== editingStudentId
             );
@@ -859,10 +1021,22 @@
             
             const studentIndex = students.findIndex(s => s.id === editingStudentId);
             if (studentIndex !== -1) {
+                const oldStudentId = students[studentIndex].studentId;
+                
+                // อัพเดทรายการเช็คชื่อที่เกี่ยวข้อง
+                attendanceList.forEach(item => {
+                    if (item.studentId === oldStudentId) {
+                        item.studentId = studentId;
+                        item.studentName = name;
+                    }
+                });
+                
                 students[studentIndex].name = name;
                 students[studentIndex].studentId = studentId;
                 
                 renderStudents();
+                renderAttendanceList();
+                updateStudentSelect();
                 closeEditModal();
                 showNotification('แก้ไขข้อมูลนักเรียนสำเร็จ', 'success');
             }
@@ -906,6 +1080,193 @@
                     </td>
                 </tr>
             `).join('');
+        }
+
+        // ฟังก์ชันสำหรับอัพเดท dropdown เลือกนักเรียน
+        function updateStudentSelect() {
+            selectStudent.innerHTML = '<option value="">-- เลือกนักเรียน --</option>' +
+                students.map(student => `
+                    <option value="${student.studentId}">${student.name} (${student.studentId})</option>
+                `).join('');
+        }
+
+        // ฟังก์ชันสำหรับเพิ่มรายการเช็คชื่อด้วยตนเอง
+        function openAddAttendanceModal() {
+            // ตั้งค่าเวลาปัจจุบันเป็นค่าเริ่มต้น
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            manualTimestamp.value = `${year}-${month}-${day}T${hours}:${minutes}`;
+            addAttendanceModal.style.display = 'flex';
+        }
+
+        // ฟังก์ชันสำหรับบันทึกรายการเช็คชื่อด้วยตนเอง
+        function saveAddAttendance() {
+            const studentId = selectStudent.value;
+            const timestamp = manualTimestamp.value;
+            const status = manualStatus.value;
+            
+            if (!studentId) {
+                showNotification('กรุณาเลือกนักเรียน', 'error');
+                return;
+            }
+            
+            if (!timestamp) {
+                showNotification('กรุณากรอกวันที่และเวลา', 'error');
+                return;
+            }
+            
+            const student = students.find(s => s.studentId === studentId);
+            if (!student) {
+                showNotification('ไม่พบข้อมูลนักเรียน', 'error');
+                return;
+            }
+            
+            // แปลงเวลาเป็นรูปแบบไทย
+            const date = new Date(timestamp);
+            const thaiTimestamp = date.toLocaleString('th-TH');
+            
+            // ตรวจสอบว่านักเรียนมีรายการเช็คชื่ออยู่แล้วหรือไม่
+            const existingIndex = attendanceList.findIndex(a => a.studentId === studentId);
+            
+            if (existingIndex !== -1) {
+                // อัพเดทรายการที่มีอยู่
+                attendanceList[existingIndex] = {
+                    ...attendanceList[existingIndex],
+                    timestamp: thaiTimestamp,
+                    status: status
+                };
+                showNotification('อัพเดทรายการเช็คชื่อสำเร็จ', 'success');
+            } else {
+                // เพิ่มรายการใหม่
+                const newAttendance = {
+                    id: attendanceList.length > 0 ? Math.max(...attendanceList.map(a => a.id)) + 1 : 1,
+                    studentId: studentId,
+                    studentName: student.name,
+                    timestamp: thaiTimestamp,
+                    status: status
+                };
+                attendanceList.push(newAttendance);
+                showNotification('เพิ่มรายการเช็คชื่อสำเร็จ', 'success');
+            }
+            
+            renderAttendanceList();
+            closeAddAttendanceModal();
+        }
+
+        // ฟังก์ชันสำหรับปิด modal เพิ่มเช็คชื่อ
+        function closeAddAttendanceModal() {
+            addAttendanceModal.style.display = 'none';
+            selectStudent.value = '';
+            manualTimestamp.value = '';
+            manualStatus.value = 'approved';
+        }
+
+        // ฟังก์ชันสำหรับแก้ไขสถานะเช็คชื่อ
+        function updateAttendanceStatus(attendanceId, newStatus) {
+            const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
+            if (attendanceIndex !== -1) {
+                attendanceList[attendanceIndex].status = newStatus;
+                renderAttendanceList();
+                showNotification('อัพเดทสถานะเช็คชื่อสำเร็จ', 'success');
+            }
+        }
+
+        // ฟังก์ชันสำหรับลบรายการเช็คชื่อ
+        function deleteAttendance(attendanceId) {
+            if (!confirm('คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?')) {
+                return;
+            }
+            
+            const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
+            if (attendanceIndex !== -1) {
+                const studentName = attendanceList[attendanceIndex].studentName;
+                attendanceList.splice(attendanceIndex, 1);
+                renderAttendanceList();
+                showNotification(`ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`, 'success');
+            }
+        }
+
+        // ฟังก์ชันสำหรับกรองและค้นหารายการเช็คชื่อ
+        function filterAttendanceList() {
+            let filtered = attendanceList;
+            
+            // กรองตามสถานะ
+            if (currentAttendanceFilter === 'approved') {
+                filtered = filtered.filter(a => a.status === 'approved');
+            } else if (currentAttendanceFilter === 'absent') {
+                filtered = filtered.filter(a => a.status === 'absent');
+            }
+            
+            // ค้นหาจากชื่อหรือรหัสนักเรียน
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(a => 
+                    a.studentName.toLowerCase().includes(query) || 
+                    a.studentId.toLowerCase().includes(query)
+                );
+            }
+            
+            return filtered;
+        }
+
+        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ
+        function renderAttendanceList() {
+            const filteredAttendance = filterAttendanceList();
+            
+            if (filteredAttendance.length === 0) {
+                attendanceListElement.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
+                            ${attendanceList.length === 0 ? 'ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ' : 'ไม่พบข้อมูลที่ค้นหา'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            attendanceListElement.innerHTML = filteredAttendance.map((attendance, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${attendance.studentName}</td>
+                    <td>${attendance.studentId}</td>
+                    <td>${attendance.timestamp}</td>
+                    <td>
+                        <select class="status-select ${attendance.status}" 
+                                onchange="updateAttendanceStatus(${attendance.id}, this.value)"
+                                style="width: 120px;">
+                            <option value="approved" ${attendance.status === 'approved' ? 'selected' : ''}>เช็คชื่อแล้ว</option>
+                            <option value="absent" ${attendance.status === 'absent' ? 'selected' : ''}>ยังไม่เช็คชื่อ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="attendance-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteAttendance(${attendance.id})">
+                                <i class="fas fa-trash"></i> ลบ
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ฟังก์ชันสำหรับเพิ่มปุ่มเพิ่มรายการเช็คชื่อ
+        function addAttendanceControls() {
+            const attendanceHeader = document.querySelector('.attendance-list h2');
+            if (attendanceHeader && !document.getElementById('addAttendanceBtn')) {
+                const addButton = document.createElement('button');
+                addButton.id = 'addAttendanceBtn';
+                addButton.className = 'btn btn-info';
+                addButton.innerHTML = '<i class="fas fa-plus"></i> เพิ่มรายการเช็คชื่อ';
+                addButton.style.marginLeft = '10px';
+                addButton.onclick = openAddAttendanceModal;
+                
+                attendanceHeader.parentNode.insertBefore(addButton, attendanceHeader.nextSibling);
+            }
         }
 
         // ฟังก์ชันสำหรับเปิดกล้อง
@@ -985,7 +1346,6 @@
                 return;
             }
             
-            // ใช้คนแรกในรายการ (สมชาย ใจดี)
             const currentStudent = students[0];
             
             const newSubmission = {
@@ -1029,6 +1389,9 @@
                     timestamp: submission.timestamp,
                     status: 'approved'
                 });
+            } else {
+                existingAttendance.timestamp = submission.timestamp;
+                existingAttendance.status = 'approved';
             }
             
             renderSubmissions();
@@ -1044,7 +1407,14 @@
             
             submission.status = 'rejected';
             
+            // ถ้าปฏิเสธ ให้เปลี่ยนสถานะในรายการเช็คชื่อเป็น absent
+            const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
+            if (existingAttendance) {
+                existingAttendance.status = 'absent';
+            }
+            
             renderSubmissions();
+            renderAttendanceList();
             
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
@@ -1085,30 +1455,6 @@
                     `).join('')}
                 </div>
             `;
-        }
-
-        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ
-        function renderAttendanceList() {
-            if (attendanceList.length === 0) {
-                attendanceListElement.innerHTML = `
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 30px; color: #777;">
-                            ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            attendanceListElement.innerHTML = attendanceList.map((student, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${student.studentName}</td>
-                    <td>${student.studentId}</td>
-                    <td>${student.timestamp}</td>
-                    <td><span class="status approved">เช็คชื่อแล้ว</span></td>
-                </tr>
-            `).join('');
         }
 
         // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
@@ -1168,12 +1514,16 @@
         addStudentBtn.addEventListener('click', addStudent);
         cancelEditBtn.addEventListener('click', closeEditModal);
         saveEditBtn.addEventListener('click', saveEditStudent);
+        cancelAddAttendanceBtn.addEventListener('click', closeAddAttendanceModal);
+        saveAddAttendanceBtn.addEventListener('click', saveAddAttendance);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
-            if (e.target === editStudentModal) {
-                closeEditModal();
-            }
+            if (e.target === editStudentModal) closeEditModal();
+        });
+        
+        addAttendanceModal.addEventListener('click', (e) => {
+            if (e.target === addAttendanceModal) closeAddAttendanceModal();
         });
 
         // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
@@ -1194,11 +1544,31 @@
             if (e.key === 'Enter') saveEditStudent();
         });
 
+        // การค้นหาและกรองรายการเช็คชื่อ
+        searchAttendanceInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            renderAttendanceList();
+        });
+
+        // กรองรายการเช็คชื่อ
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentAttendanceFilter = button.dataset.filter;
+                renderAttendanceList();
+            });
+        });
+
+        // เพิ่มปุ่มเพิ่มรายการเช็คชื่อ
+        setTimeout(addAttendanceControls, 100);
+
         // เริ่มต้นแสดงข้อมูล
         renderStudents();
         renderSubmissions();
         renderAttendanceList();
         renderStudentHistory();
+        updateStudentSelect();
     </script>
 </body>
 </html>
