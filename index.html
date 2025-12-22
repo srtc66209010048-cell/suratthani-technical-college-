@@ -409,9 +409,7 @@
     <div class="container">
         <header>
             <div class="header-container">
-                <!-- ส่วนสำหรับโลโก้วิทยาลัย (แก้ไขแล้ว) -->
                 <div class="logo-container">
-                    <!-- ใช้ลิงก์โลโก้ที่คุณให้มา -->
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
                          alt="โลโก้วิทยาลัย" 
                          class="college-logo">
@@ -465,7 +463,6 @@
             <div class="card">
                 <h2><i class="fas fa-history"></i> ประวัติการส่ง</h2>
                 <div id="studentHistory">
-                    <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
                     <div class="empty-state">
                         <i class="fas fa-history"></i>
                         <p>ยังไม่มีประวัติการส่งรูป</p>
@@ -479,7 +476,6 @@
             <div class="card">
                 <h2><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา</h2>
                 <div id="submissionsContainer">
-                    <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
                     <div class="empty-state">
                         <i class="fas fa-images"></i>
                         <p>ยังไม่มีนักเรียนส่งรูปมา</p>
@@ -500,7 +496,6 @@
                         </tr>
                     </thead>
                     <tbody id="attendanceList">
-                        <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
                         <tr>
                             <td colspan="5" style="text-align: center; padding: 30px; color: #777;">
                                 ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ
@@ -515,14 +510,8 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // ข้อมูลเริ่มต้น
-        const mockStudents = [
-            { id: 1, name: "สมชาย ใจดี", studentId: "STU001" },
-            { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002" },
-            { id: 3, name: "John Doe", studentId: "STU003" },
-            { id: 4, name: "Jane Smith", studentId: "STU004" },
-            { id: 5, name: "山田 太郎", studentId: "STU005" }
-        ];
+        // ข้อมูลนักเรียน (เฉพาะของเรา)
+        const currentStudent = { id: 1, name: "สมชาย ใจดี", studentId: "STU001" };
 
         let submissions = [
             {
@@ -532,14 +521,6 @@
                 imageUrl: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
                 timestamp: "2023-10-15 09:30",
                 status: "approved"
-            },
-            {
-                id: 2,
-                studentId: "STU002",
-                studentName: "สมหญิง สวยงาม",
-                imageUrl: "https://images.unsplash.com/photo-1494790108755-2616b786d4d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-                timestamp: "2023-10-15 09:45",
-                status: "pending"
             }
         ];
 
@@ -683,14 +664,11 @@
                 return;
             }
             
-            // สุ่มนักเรียนตัวอย่าง
-            const randomStudent = mockStudents[Math.floor(Math.random() * mockStudents.length)];
-            
             // สร้างข้อมูลการส่ง
             const newSubmission = {
                 id: submissions.length + 1,
-                studentId: randomStudent.studentId,
-                studentName: randomStudent.name,
+                studentId: currentStudent.studentId,
+                studentName: currentStudent.name,
                 imageUrl: capturedImageData,
                 timestamp: new Date().toLocaleString('th-TH'),
                 status: 'pending'
@@ -819,8 +797,7 @@
 
         // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
         function renderStudentHistory() {
-            // สำหรับตัวอย่าง เราจะแสดงประวัติจากข้อมูล submissions
-            const studentSubmissions = submissions.filter(s => s.studentId === "STU001" || s.studentId === "STU002");
+            const studentSubmissions = submissions.filter(s => s.studentId === currentStudent.studentId);
             
             if (studentSubmissions.length === 0) {
                 studentHistory.innerHTML = `
@@ -866,26 +843,6 @@
         renderSubmissions();
         renderAttendanceList();
         renderStudentHistory();
-
-        // จำลองการส่งรูปจากนักเรียนอื่น
-        setTimeout(() => {
-            const newStudent = mockStudents.find(s => s.studentId === "STU003");
-            if (newStudent) {
-                submissions.push({
-                    id: submissions.length + 1,
-                    studentId: newStudent.studentId,
-                    studentName: newStudent.name,
-                    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-                    timestamp: new Date().toLocaleString('th-TH'),
-                    status: 'pending'
-                });
-                
-                if (currentMode === 'teacher') {
-                    renderSubmissions();
-                    showNotification(`มีนักเรียนส่งรูปใหม่จาก ${newStudent.name}`, 'warning');
-                }
-            }
-        }, 10000);
     </script>
 </body>
 </html>
