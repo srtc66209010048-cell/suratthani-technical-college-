@@ -2248,7 +2248,7 @@
             showNotification('พร้อมถ่ายรูปใหม่แล้ว', 'warning');
         }
 
-        // ฟังก์ชันสำหรับส่งรูป
+        // ฟังก์ชันสำหรับส่งรูป - แก้ไขแล้ว
         function sendPhoto() {
             if (!capturedImageData) {
                 showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
@@ -2260,17 +2260,22 @@
                 return;
             }
             
+            // สร้าง timestamp
+            const now = new Date();
+            const thaiTimestamp = now.toLocaleString('th-TH');
+            
             const newSubmission = {
                 id: submissions.length + 1,
                 studentId: currentUser.studentId,
                 studentName: currentUser.name,
                 imageUrl: capturedImageData,
-                timestamp: new Date().toLocaleString('th-TH'),
+                timestamp: thaiTimestamp,
                 status: 'pending'
             };
             
             submissions.push(newSubmission);
             
+            // แสดงประวัติใหม่ทันที
             renderStudentHistory();
             
             // ปิดกล้องถ้าเปิดอยู่
@@ -2289,7 +2294,14 @@
             retakeBtn.disabled = true;
             sendBtn.disabled = true;
             
-            showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว', 'success');
+            showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว! รอการอนุมัติจากอาจารย์', 'success');
+            
+            // แสดงข้อความแจ้งเตือนเพิ่มเติมสำหรับมือถือ
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    showNotification('รูปของคุณถูกบันทึกไว้ในประวัติการส่งแล้ว', 'success');
+                }, 1500);
+            }
         }
 
         // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
@@ -2337,7 +2349,7 @@
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
 
-        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน - แก้ไขแล้ว
         function renderSubmissions() {
             const pendingSubmissions = submissions.filter(s => s.status === 'pending');
             
@@ -2375,7 +2387,7 @@
             `;
         }
 
-        // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
+        // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน - แก้ไขแล้ว
         function renderStudentHistory() {
             if (!currentUser) return;
             
@@ -2391,9 +2403,12 @@
                 return;
             }
             
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            const sortedSubmissions = studentSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
             studentHistory.innerHTML = `
                 <div class="submission-list">
-                    ${studentSubmissions.map(submission => `
+                    ${sortedSubmissions.map(submission => `
                         <div class="submission-item">
                             <img src="${submission.imageUrl}" alt="รูปที่ส่ง" class="submission-image">
                             <div class="submission-info">
@@ -2559,6 +2574,55 @@
         console.log('- นักเรียน: STU002 / 123456');
         console.log('- อาจารย์: teacher / 123456');
         console.log('- ผู้ดูแล: admin / college123');
+        
+        // เพิ่มฟังก์ชันสำหรับปุ่มยกเลิก (ถ้ามี)
+        document.addEventListener('DOMContentLoaded', function() {
+            // ปุ่มย้อนกลับบนมือถือ
+            const backButton = document.createElement('button');
+            backButton.className = 'btn btn-secondary';
+            backButton.innerHTML = '<i class="fas fa-arrow-left"></i> ย้อนกลับ';
+            backButton.style.display = 'none';
+            backButton.style.position = 'fixed';
+            backButton.style.bottom = '20px';
+            backButton.style.left = '20px';
+            backButton.style.zIndex = '1000';
+            backButton.onclick = function() {
+                if (stream) {
+                    retakePhoto();
+                }
+            };
+            
+            // เพิ่มปุ่มลงใน body
+            document.body.appendChild(backButton);
+            
+            // ซ่อน/แสดงปุ่มย้อนกลับตามสถานะ
+            const updateBackButton = () => {
+                if (stream || capturedImage.style.display === 'block') {
+                    backButton.style.display = 'block';
+                } else {
+                    backButton.style.display = 'none';
+                }
+            };
+            
+            // เรียกใช้งานเมื่อมีการเปลี่ยนแปลงสถานะ
+            const originalStartCamera = startCamera;
+            startCamera = async function() {
+                await originalStartCamera();
+                updateBackButton();
+            };
+            
+            const originalCaptureImage = captureImage;
+            captureImage = function() {
+                originalCaptureImage();
+                updateBackButton();
+            };
+            
+            const originalRetakePhoto = retakePhoto;
+            retakePhoto = function() {
+                originalRetakePhoto();
+                updateBackButton();
+            };
+        });
     </script>
 </body>
 </html>
