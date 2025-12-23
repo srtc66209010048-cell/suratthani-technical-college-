@@ -451,7 +451,7 @@
             object-fit: cover;
             display: none;
             border: 3px solid #3498db;
-            transform: scaleX(-1); /* ฟลิปภาพสำหรับให้เหมือนกระจก */
+            transform: scaleX(1); /* แสดงภาพปกติ ไม่กลับด้าน */
         }
 
         .camera-placeholder {
@@ -486,7 +486,7 @@
             display: none;
             border: 3px solid #27ae60;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transform: scaleX(-1); /* ฟลิปภาพที่ถ่ายแล้ว */
+            transform: scaleX(1); /* แสดงภาพปกติ ไม่กลับด้าน */
         }
 
         .controls {
@@ -2453,30 +2453,49 @@
                 // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 
-                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์
+                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์ - แก้ไขให้ใช้กล้องหลังโดย default
                 const constraints = {
                     video: {
                         width: { ideal: 1280 },
                         height: { ideal: 720 },
+                        // ใช้กล้องหลังสำหรับมือถือ, ใช้กล้องหน้า/ปกติสำหรับคอมพิวเตอร์
                         facingMode: isMobile ? { exact: "environment" } : "user"
                     },
                     audio: false
                 };
                 
                 try {
+                    // พยายามใช้กล้องหลังก่อน
                     stream = await navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
+                    // ถ้าใช้กล้องหลังไม่ได้ ให้ลองใช้กล้องหน้า
+                    console.log('Cannot use back camera, trying front camera:', err);
                     constraints.video.facingMode = "user";
                     stream = await navigator.mediaDevices.getUserMedia(constraints);
                 }
                 
                 camera.srcObject = stream;
                 camera.style.display = 'block';
+                
+                // แก้ไขภาพให้แสดงปกติ ไม่เบี้ยว
+                camera.style.transform = 'scaleX(1)'; // ป้องกันการกลับด้าน
+                camera.style.objectFit = 'cover'; // ทำให้ภาพเต็มเฟรม
+                
                 cameraPlaceholder.style.display = 'none';
                 capturedImage.style.display = 'none';
                 
                 startCameraBtn.disabled = true;
-                captureBtn.disabled = false;
+                
+                // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
+                const confirmCheckbox = document.getElementById('confirmAttendance');
+                if (confirmCheckbox && confirmCheckbox.checked) {
+                    captureBtn.disabled = false;
+                    showNotification('สามารถถ่ายรูปได้แล้ว', 'success');
+                } else {
+                    captureBtn.disabled = true;
+                    showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อน', 'warning');
+                }
+                
                 useFileBtn.disabled = true;
                 retakeBtn.disabled = true;
                 sendBtn.disabled = true;
@@ -2493,6 +2512,13 @@
 
         // ฟังก์ชันสำหรับถ่ายรูป
         function captureImage() {
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (!confirmCheckbox || !confirmCheckbox.checked) {
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนถ่ายรูป', 'error');
+                return;
+            }
+            
             try {
                 const canvas = document.createElement('canvas');
                 const videoWidth = camera.videoWidth;
@@ -2503,10 +2529,16 @@
                     canvas.height = videoHeight;
                     
                     const context = canvas.getContext('2d');
+                    
+                    // วาดภาพปกติ (ไม่ต้องกลับด้าน)
                     context.drawImage(camera, 0, 0, canvas.width, canvas.height);
                     
                     capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
                     capturedImage.src = capturedImageData;
+                    
+                    // แสดงภาพที่ถ่าย (ไม่ต้องกลับด้าน)
+                    capturedImage.style.transform = 'scaleX(1)';
+                    capturedImage.style.objectFit = 'cover';
                     
                     camera.style.display = 'none';
                     capturedImage.style.display = 'block';
@@ -2528,6 +2560,13 @@
 
         // ฟังก์ชันสำหรับใช้ไฟล์รูปภาพ
         function useFile() {
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (!confirmCheckbox || !confirmCheckbox.checked) {
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนอัปโหลดรูป', 'error');
+                return;
+            }
+            
             fileInput.click();
         }
 
@@ -2595,6 +2634,13 @@
 
         // ฟังก์ชันสำหรับส่งรูป
         function sendPhoto() {
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (!confirmCheckbox || !confirmCheckbox.checked) {
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนส่งรูป', 'error');
+                return;
+            }
+            
             if (!capturedImageData) {
                 showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
                 return;
@@ -2689,6 +2735,12 @@
             capturedImage.style.display = 'none';
             cameraPlaceholder.style.display = 'flex';
             capturedImageData = null;
+            
+            // รีเซ็ต checkbox การยืนยันกิจกรรม
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (confirmCheckbox) {
+                confirmCheckbox.checked = false;
+            }
             
             startCameraBtn.disabled = false;
             captureBtn.disabled = true;
@@ -2821,12 +2873,50 @@
                                 <span class="badge badge-active">กำลังดำเนินการ</span>
                             </div>
                         </div>
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">ขั้นตอนการเข้าร่วม:</div>
+                            <div class="activity-detail-value">
+                                <div style="margin-top: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                        <input type="checkbox" id="confirmAttendance" style="width: 20px; height: 20px;">
+                                        <label for="confirmAttendance" style="font-weight: 600; color: #2c3e50;">
+                                            ✅ ยืนยันเข้าร่วมกิจกรรมนี้
+                                        </label>
+                                    </div>
+                                    <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">
+                                        ⚠️ กรุณาติ๊กยืนยันก่อน จึงจะสามารถถ่ายรูปได้
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 15px;">
-                    <p class="help-text">กรุณาถ่ายรูปเพื่อเช็คชื่อเข้าร่วมกิจกรรมนี้</p>
+                    <p class="help-text">หลังจากติ๊กยืนยันแล้ว สามารถถ่ายรูปเพื่อเช็คชื่อได้</p>
                 </div>
             `;
+            
+            // เพิ่ม Event Listener สำหรับ checkbox
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (confirmCheckbox) {
+                confirmCheckbox.addEventListener('change', function() {
+                    const captureBtn = document.getElementById('captureBtn');
+                    const useFileBtn = document.getElementById('useFileBtn');
+                    
+                    if (this.checked) {
+                        // ตรวจสอบว่ากล้องเปิดอยู่หรือไม่
+                        if (stream) {
+                            captureBtn.disabled = false;
+                        }
+                        useFileBtn.disabled = false;
+                        showNotification('ยืนยันเข้าร่วมกิจกรรมเรียบร้อยแล้ว ตอนนี้สามารถถ่ายรูปได้', 'success');
+                    } else {
+                        captureBtn.disabled = true;
+                        useFileBtn.disabled = true;
+                        showNotification('ยกเลิกการยืนยันเข้าร่วมกิจกรรมแล้ว', 'warning');
+                    }
+                });
+            }
         }
 
         // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
