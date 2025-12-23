@@ -1354,11 +1354,8 @@
             ]
         };
 
-        // ข้อมูลนักเรียนในระบบ
-        let students = [
-            { id: 1, name: "สมชาย ใจดี", studentId: "STU001", class: "ปี 3" },
-            { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002", class: "ปี 2" }
-        ];
+        // ข้อมูลนักเรียนในระบบ - เริ่มต้นด้วยข้อมูลว่าง
+        let students = [];
 
         // ข้อมูลการส่งรูป - เริ่มต้นด้วยข้อมูลว่าง
         let submissions = [];
@@ -2437,13 +2434,32 @@
         });
 
         // เริ่มต้นแสดงข้อมูล
-        // เริ่มต้นด้วยการโหลดข้อมูลนักเรียน
-        renderStudents();
+        // เริ่มต้นด้วยการโหลดข้อมูลนักเรียนจาก users
+        function initializeStudents() {
+            // ล้าง students array ก่อน
+            students = [];
+            
+            // เพิ่มนักเรียนจาก users.students เข้าไปใน students array
+            users.students.forEach((student, index) => {
+                students.push({
+                    id: index + 1,
+                    name: student.name,
+                    studentId: student.studentId,
+                    class: student.class || 'ปี 1'
+                });
+            });
+            
+            renderStudents();
+        }
+
+        // เรียกใช้ฟังก์ชันเริ่มต้น
+        initializeStudents();
 
         // ข้อมูลทดสอบระบบ
-        console.log('ข้อมูลทดสอบระบบ:');
-        console.log('- นักเรียน: STU001 / 123456 (สมชาย ใจดี)');
-        console.log('- นักเรียน: STU002 / 123456 (สมหญิง สวยงาม)');
+        console.log('ข้อมูลระบบ:');
+        console.log('- นักเรียน 1: SRTC048 / 123456');
+        console.log('- นักเรียน 2: SRTC046 / tae046');
+        console.log('- นักเรียน 3: SRTC055 / we055');
         console.log('- อาจารย์: teacher / 123456');
         console.log('- ผู้ดูแล: admin / college123');
     </script>
