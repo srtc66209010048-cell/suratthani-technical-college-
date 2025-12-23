@@ -1126,10 +1126,7 @@
             <div class="card">
                 <h2><i class="fas fa-history"></i> ประวัติการส่ง</h2>
                 <div id="studentHistory">
-                    <div class="empty-state">
-                        <i class="fas fa-history"></i>
-                        <p>ยังไม่มีประวัติการส่งรูป</p>
-                    </div>
+                    <!-- ข้อมูลประวัติจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
         </div>
@@ -1187,11 +1184,7 @@
                         </tr>
                     </thead>
                     <tbody id="studentList">
-                        <tr>
-                            <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
-                                ยังไม่มีรายชื่อนักเรียน
-                            </td>
-                        </tr>
+                        <!-- ข้อมูลนักเรียนจะถูกแสดงที่นี่โดย JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -1199,10 +1192,7 @@
             <div class="card">
                 <h2><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา</h2>
                 <div id="submissionsContainer">
-                    <div class="empty-state">
-                        <i class="fas fa-images"></i>
-                        <p>ยังไม่มีนักเรียนส่งรูปมา</p>
-                    </div>
+                    <!-- รูปที่นักเรียนส่งจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
 
@@ -1231,11 +1221,7 @@
                         </tr>
                     </thead>
                     <tbody id="attendanceList">
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
-                                ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ
-                            </td>
-                        </tr>
+                        <!-- รายการเช็คชื่อจะถูกแสดงที่นี่โดย JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -1321,33 +1307,6 @@
         </div>
     </div>
 
-    <div class="modal" id="addAttendanceModal">
-        <div class="modal-content">
-            <h3><i class="fas fa-user-plus"></i> เพิ่มรายการเช็คชื่อ</h3>
-            <div class="form-group">
-                <label for="selectStudent">เลือกนักเรียน</label>
-                <select id="selectStudent" class="form-group input">
-                    <option value="">-- เลือกนักเรียน --</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="manualTimestamp">วันที่และเวลา</label>
-                <input type="datetime-local" id="manualTimestamp">
-            </div>
-            <div class="form-group">
-                <label for="manualStatus">สถานะ</label>
-                <select id="manualStatus" class="status-select">
-                    <option value="approved">เช็คชื่อแล้ว</option>
-                    <option value="absent">ยังไม่เช็คชื่อ</option>
-                </select>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelAddAttendanceBtn">ยกเลิก</button>
-                <button class="btn btn-success" id="saveAddAttendanceBtn">เพิ่มรายการ</button>
-            </div>
-        </div>
-    </div>
-
     <div id="notification" class="notification"></div>
 
     <script>
@@ -1393,20 +1352,11 @@
             { id: 2, name: "สมหญิง สวยงาม", studentId: "STU002", class: "ปี 2" }
         ];
 
-        let submissions = [
-            {
-                id: 1,
-                studentId: "STU001",
-                studentName: "สมชาย ใจดี",
-                imageUrl: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
-                timestamp: "2023-10-15 09:30",
-                status: "approved"
-            }
-        ];
+        // ข้อมูลการส่งรูป - เริ่มต้นด้วยข้อมูลว่าง
+        let submissions = [];
 
-        let attendanceList = [
-            { id: 1, studentId: "STU001", studentName: "สมชาย ใจดี", timestamp: "2023-10-15 09:30", status: "approved" }
-        ];
+        // ข้อมูลการเช็คชื่อ - เริ่มต้นด้วยข้อมูลว่าง
+        let attendanceList = [];
 
         // ตัวแปรระบบ
         let currentUser = null;
@@ -1486,13 +1436,6 @@
         const confirmStudentPassword = document.getElementById('confirmStudentPassword');
         const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
         const saveChangePasswordBtn = document.getElementById('saveChangePasswordBtn');
-        
-        const addAttendanceModal = document.getElementById('addAttendanceModal');
-        const selectStudent = document.getElementById('selectStudent');
-        const manualTimestamp = document.getElementById('manualTimestamp');
-        const manualStatus = document.getElementById('manualStatus');
-        const cancelAddAttendanceBtn = document.getElementById('cancelAddAttendanceBtn');
-        const saveAddAttendanceBtn = document.getElementById('saveAddAttendanceBtn');
         
         // Notification
         const notification = document.getElementById('notification');
@@ -1605,8 +1548,6 @@
                 renderStudents();
                 renderSubmissions();
                 renderAttendanceList();
-                updateStudentSelect();
-                addAttendanceControls();
                 
                 showNotification(`ยินดีต้อนรับ ${teacher.name}`, 'success');
             } else {
@@ -1676,6 +1617,13 @@
                         item.studentName = name;
                     }
                 });
+                
+                // อัพเดทข้อมูลการส่ง
+                submissions.forEach(sub => {
+                    if (sub.studentId === currentUser.studentId) {
+                        sub.studentName = name;
+                    }
+                });
             }
             
             // อัพเดท UI
@@ -1685,6 +1633,10 @@
             
             // ปิด modal
             editProfileModal.style.display = 'none';
+            
+            // อัพเดทประวัติ
+            renderStudentHistory();
+            renderSubmissions();
             
             showNotification('แก้ไขโปรไฟล์สำเร็จ', 'success');
         }
@@ -1756,11 +1708,20 @@
             
             students.push(newStudent);
             
+            // เพิ่มบัญชีผู้ใช้สำหรับนักเรียน
+            users.students.push({
+                username: studentId,
+                password: "123456",
+                name: name,
+                studentId: studentId,
+                email: `${studentId.toLowerCase()}@college.ac.th`,
+                class: "ปี 1"
+            });
+            
             studentNameInput.value = '';
             studentIdInput.value = '';
             
             renderStudents();
-            updateStudentSelect();
             
             showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
         }
@@ -1779,7 +1740,10 @@
                 // ลบรายการเช็คชื่อของนักเรียนนี้ด้วย
                 attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
                 
-                // ลบบัญชีผู้ใช้ถ้ามี
+                // ลบข้อมูลการส่งของนักเรียนนี้
+                submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
+                
+                // ลบบัญชีผู้ใช้
                 const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
                 if (userIndex !== -1) {
                     users.students.splice(userIndex, 1);
@@ -1788,7 +1752,7 @@
                 students.splice(studentIndex, 1);
                 renderStudents();
                 renderAttendanceList();
-                updateStudentSelect();
+                renderSubmissions();
                 
                 showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
             }
@@ -1838,6 +1802,14 @@
                     }
                 });
                 
+                // อัพเดทข้อมูลการส่ง
+                submissions.forEach(sub => {
+                    if (sub.studentId === oldStudentId) {
+                        sub.studentId = studentId;
+                        sub.studentName = name;
+                    }
+                });
+                
                 // อัพเดทข้อมูลผู้ใช้
                 const userIndex = users.students.findIndex(s => s.studentId === oldStudentId);
                 if (userIndex !== -1) {
@@ -1851,7 +1823,7 @@
                 
                 renderStudents();
                 renderAttendanceList();
-                updateStudentSelect();
+                renderSubmissions();
                 closeEditModal();
                 showNotification('แก้ไขข้อมูลนักเรียนสำเร็จ', 'success');
             }
@@ -1910,83 +1882,335 @@
             `).join('');
         }
 
-        // ฟังก์ชันสำหรับอัพเดท dropdown เลือกนักเรียน
-        function updateStudentSelect() {
-            selectStudent.innerHTML = '<option value="">-- เลือกนักเรียน --</option>' +
-                students.map(student => `
-                    <option value="${student.studentId}">${student.name} (${student.studentId})</option>
-                `).join('');
-        }
-
-        // ฟังก์ชันสำหรับเพิ่มรายการเช็คชื่อด้วยตนเอง
-        function openAddAttendanceModal() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            
-            manualTimestamp.value = `${year}-${month}-${day}T${hours}:${minutes}`;
-            addAttendanceModal.style.display = 'flex';
-        }
-
-        // ฟังก์ชันสำหรับบันทึกรายการเช็คชื่อด้วยตนเอง
-        function saveAddAttendance() {
-            const studentId = selectStudent.value;
-            const timestamp = manualTimestamp.value;
-            const status = manualStatus.value;
-            
-            if (!studentId) {
-                showNotification('กรุณาเลือกนักเรียน', 'error');
-                return;
-            }
-            
-            if (!timestamp) {
-                showNotification('กรุณากรอกวันที่และเวลา', 'error');
-                return;
-            }
-            
-            const student = students.find(s => s.studentId === studentId);
-            if (!student) {
-                showNotification('ไม่พบข้อมูลนักเรียน', 'error');
-                return;
-            }
-            
-            const date = new Date(timestamp);
-            const thaiTimestamp = date.toLocaleString('th-TH');
-            
-            const existingIndex = attendanceList.findIndex(a => a.studentId === studentId);
-            
-            if (existingIndex !== -1) {
-                attendanceList[existingIndex] = {
-                    ...attendanceList[existingIndex],
-                    timestamp: thaiTimestamp,
-                    status: status
+        // ฟังก์ชันสำหรับเปิดกล้อง
+        async function startCamera() {
+            try {
+                // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์
+                const constraints = {
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: isMobile ? { exact: "environment" } : "user"
+                    },
+                    audio: false
                 };
-                showNotification('อัพเดทรายการเช็คชื่อสำเร็จ', 'success');
+                
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                } catch (err) {
+                    constraints.video.facingMode = "user";
+                    stream = await navigator.mediaDevices.getUserMedia(constraints);
+                }
+                
+                camera.srcObject = stream;
+                camera.style.display = 'block';
+                cameraPlaceholder.style.display = 'none';
+                capturedImage.style.display = 'none';
+                
+                startCameraBtn.disabled = true;
+                captureBtn.disabled = false;
+                useFileBtn.disabled = true;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
+                
+                showNotification('เปิดกล้องสำเร็จแล้ว', 'success');
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                showNotification('ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบการอนุญาตการเข้าถึงกล้อง', 'error');
+                
+                startCameraBtn.disabled = true;
+                useFileBtn.disabled = false;
+            }
+        }
+
+        // ฟังก์ชันสำหรับถ่ายรูป
+        function captureImage() {
+            try {
+                const canvas = document.createElement('canvas');
+                const videoWidth = camera.videoWidth;
+                const videoHeight = camera.videoHeight;
+                
+                if (videoWidth > 0 && videoHeight > 0) {
+                    canvas.width = videoWidth;
+                    canvas.height = videoHeight;
+                    
+                    const context = canvas.getContext('2d');
+                    context.drawImage(camera, 0, 0, canvas.width, canvas.height);
+                    
+                    capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
+                    capturedImage.src = capturedImageData;
+                    
+                    camera.style.display = 'none';
+                    capturedImage.style.display = 'block';
+                    
+                    captureBtn.disabled = true;
+                    useFileBtn.disabled = true;
+                    retakeBtn.disabled = false;
+                    sendBtn.disabled = false;
+                    
+                    showNotification('ถ่ายรูปสำเร็จแล้ว', 'success');
+                } else {
+                    showNotification('ไม่สามารถถ่ายรูปได้ กรุณาลองอีกครั้ง', 'error');
+                }
+            } catch (error) {
+                console.error('Error capturing image:', error);
+                showNotification('เกิดข้อผิดพลาดในการถ่ายรูป', 'error');
+            }
+        }
+
+        // ฟังก์ชันสำหรับใช้ไฟล์รูปภาพ
+        function useFile() {
+            fileInput.click();
+        }
+
+        // ฟังก์ชันสำหรับอัปโหลดรูปภาพ
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                capturedImageData = e.target.result;
+                capturedImage.src = capturedImageData;
+                
+                camera.style.display = 'none';
+                cameraPlaceholder.style.display = 'none';
+                capturedImage.style.display = 'block';
+                
+                startCameraBtn.disabled = false;
+                captureBtn.disabled = true;
+                useFileBtn.disabled = false;
+                retakeBtn.disabled = false;
+                sendBtn.disabled = false;
+                
+                showNotification('อัปโหลดรูปภาพสำเร็จ', 'success');
+            };
+            
+            reader.readAsDataURL(file);
+            fileInput.value = '';
+        }
+
+        // ฟังก์ชันสำหรับถ่ายรูปใหม่
+        function retakePhoto() {
+            capturedImage.style.display = 'none';
+            capturedImage.src = '';
+            capturedImageData = null;
+            
+            if (stream) {
+                camera.style.display = 'block';
+                cameraPlaceholder.style.display = 'none';
+                
+                startCameraBtn.disabled = true;
+                captureBtn.disabled = false;
+                useFileBtn.disabled = true;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
             } else {
-                const newAttendance = {
-                    id: attendanceList.length > 0 ? Math.max(...attendanceList.map(a => a.id)) + 1 : 1,
-                    studentId: studentId,
-                    studentName: student.name,
-                    timestamp: thaiTimestamp,
-                    status: status
-                };
-                attendanceList.push(newAttendance);
-                showNotification('เพิ่มรายการเช็คชื่อสำเร็จ', 'success');
+                camera.style.display = 'none';
+                cameraPlaceholder.style.display = 'flex';
+                
+                startCameraBtn.disabled = false;
+                captureBtn.disabled = true;
+                useFileBtn.disabled = false;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
             }
             
-            renderAttendanceList();
-            closeAddAttendanceModal();
+            showNotification('พร้อมถ่ายรูปใหม่แล้ว', 'warning');
         }
 
-        // ฟังก์ชันสำหรับปิด modal เพิ่มเช็คชื่อ
-        function closeAddAttendanceModal() {
-            addAttendanceModal.style.display = 'none';
-            selectStudent.value = '';
-            manualTimestamp.value = '';
-            manualStatus.value = 'approved';
+        // ฟังก์ชันสำหรับส่งรูป
+        function sendPhoto() {
+            if (!capturedImageData) {
+                showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
+                return;
+            }
+            
+            if (!currentUser) {
+                showNotification('กรุณาล็อกอินก่อนใช้งาน', 'error');
+                return;
+            }
+            
+            // สร้าง timestamp
+            const now = new Date();
+            const thaiTimestamp = now.toLocaleString('th-TH', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            // สร้าง ID สำหรับ submission ใหม่
+            const newId = submissions.length > 0 ? Math.max(...submissions.map(s => s.id)) + 1 : 1;
+            
+            const newSubmission = {
+                id: newId,
+                studentId: currentUser.studentId,
+                studentName: currentUser.name,
+                imageUrl: capturedImageData,
+                timestamp: thaiTimestamp,
+                status: 'pending'
+            };
+            
+            submissions.push(newSubmission);
+            
+            // แสดงประวัติใหม่ทันที
+            renderStudentHistory();
+            
+            // ปิดกล้องถ้าเปิดอยู่
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            capturedImage.style.display = 'none';
+            cameraPlaceholder.style.display = 'flex';
+            capturedImageData = null;
+            
+            startCameraBtn.disabled = false;
+            captureBtn.disabled = true;
+            useFileBtn.disabled = false;
+            retakeBtn.disabled = true;
+            sendBtn.disabled = true;
+            
+            showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว!', 'success');
+        }
+
+        // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
+        function renderStudentHistory() {
+            if (!currentUser) return;
+            
+            const studentSubmissions = submissions.filter(s => s.studentId === currentUser.studentId);
+            
+            if (studentSubmissions.length === 0) {
+                studentHistory.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>ยังไม่มีประวัติการส่งรูป</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            const sortedSubmissions = studentSubmissions.sort((a, b) => b.id - a.id);
+            
+            studentHistory.innerHTML = `
+                <div class="submission-list">
+                    ${sortedSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปที่ส่งโดย ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p><strong>สถานะ:</strong> 
+                                    <span class="status ${submission.status}">
+                                        ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
+                                          submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
+                                          'รอตรวจสอบ'}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
+        function approveSubmission(submissionId) {
+            const submission = submissions.find(s => s.id === submissionId);
+            if (!submission) return;
+            
+            submission.status = 'approved';
+            
+            // เพิ่มหรืออัพเดทใน attendance list
+            const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
+            if (!existingAttendance) {
+                attendanceList.push({
+                    id: attendanceList.length > 0 ? Math.max(...attendanceList.map(a => a.id)) + 1 : 1,
+                    studentId: submission.studentId,
+                    studentName: submission.studentName,
+                    timestamp: submission.timestamp,
+                    status: 'approved'
+                });
+            } else {
+                existingAttendance.timestamp = submission.timestamp;
+                existingAttendance.status = 'approved';
+            }
+            
+            renderSubmissions();
+            renderAttendanceList();
+            
+            showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
+        }
+
+        // ฟังก์ชันสำหรับปฏิเสธการเช็คชื่อ
+        function rejectSubmission(submissionId) {
+            const submission = submissions.find(s => s.id === submissionId);
+            if (!submission) return;
+            
+            submission.status = 'rejected';
+            
+            const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
+            if (existingAttendance) {
+                existingAttendance.status = 'absent';
+            }
+            
+            renderSubmissions();
+            renderAttendanceList();
+            
+            showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
+        }
+
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
+        function renderSubmissions() {
+            const pendingSubmissions = submissions.filter(s => s.status === 'pending');
+            
+            if (pendingSubmissions.length === 0) {
+                submissionsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-images"></i>
+                        <p>ยังไม่มีนักเรียนส่งรูปมา</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            submissionsContainer.innerHTML = `
+                <div class="submission-list">
+                    ${pendingSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <div class="submission-actions">
+                                    <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                        <i class="fas fa-check"></i> อนุมัติ
+                                    </button>
+                                    <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                        <i class="fas fa-times"></i> ปฏิเสธ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         // ฟังก์ชันสำหรับแก้ไขสถานะเช็คชื่อ
@@ -2075,359 +2299,6 @@
             `).join('');
         }
 
-        // ฟังก์ชันสำหรับเพิ่มปุ่มเพิ่มรายการเช็คชื่อ
-        function addAttendanceControls() {
-            const attendanceHeader = document.querySelector('.attendance-list h2');
-            if (attendanceHeader && !document.getElementById('addAttendanceBtn')) {
-                const addButton = document.createElement('button');
-                addButton.id = 'addAttendanceBtn';
-                addButton.className = 'btn btn-info';
-                addButton.innerHTML = '<i class="fas fa-plus"></i> เพิ่มรายการเช็คชื่อ';
-                addButton.style.marginLeft = '10px';
-                addButton.onclick = openAddAttendanceModal;
-                
-                attendanceHeader.parentNode.insertBefore(addButton, attendanceHeader.nextSibling);
-            }
-        }
-
-        // ฟังก์ชันสำหรับเปิดกล้อง - ปรับปรุงสำหรับมือถือ
-        async function startCamera() {
-            try {
-                // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                
-                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์
-                const constraints = {
-                    video: {
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 },
-                        facingMode: isMobile ? { exact: "environment" } : "user" // ใช้กล้องหลังบนมือถือ
-                    },
-                    audio: false
-                };
-                
-                // ลองใช้กล้องหลังก่อน ถ้าไม่ได้ใช้กล้องหน้า
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia(constraints);
-                } catch (err) {
-                    // ถ้าใช้กล้องหลังไม่ได้ ให้ลองกล้องหน้า
-                    constraints.video.facingMode = "user";
-                    stream = await navigator.mediaDevices.getUserMedia(constraints);
-                }
-                
-                camera.srcObject = stream;
-                camera.style.display = 'block';
-                cameraPlaceholder.style.display = 'none';
-                capturedImage.style.display = 'none';
-                
-                startCameraBtn.disabled = true;
-                captureBtn.disabled = false;
-                useFileBtn.disabled = true;
-                retakeBtn.disabled = true;
-                sendBtn.disabled = true;
-                
-                showNotification('เปิดกล้องสำเร็จแล้ว', 'success');
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-                showNotification('ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบการอนุญาตการเข้าถึงกล้อง', 'error');
-                
-                // ถ้าเปิดกล้องไม่ได้ ให้เปิดตัวเลือกอัปโหลดรูป
-                startCameraBtn.disabled = true;
-                useFileBtn.disabled = false;
-            }
-        }
-
-        // ฟังก์ชันสำหรับถ่ายรูป
-        function captureImage() {
-            try {
-                const canvas = document.createElement('canvas');
-                
-                // ตั้งค่าขนาด canvas ให้ตรงกับวิดีโอ
-                const videoWidth = camera.videoWidth;
-                const videoHeight = camera.videoHeight;
-                
-                // สำหรับมือถือ ให้ปรับขนาดเพื่อให้ได้รูปภาพที่ดี
-                if (videoWidth > 0 && videoHeight > 0) {
-                    canvas.width = videoWidth;
-                    canvas.height = videoHeight;
-                    
-                    const context = canvas.getContext('2d');
-                    
-                    // วาดภาพจากวิดีโอลง canvas
-                    context.drawImage(camera, 0, 0, canvas.width, canvas.height);
-                    
-                    // รับข้อมูลรูปภาพ
-                    capturedImageData = canvas.toDataURL('image/jpeg', 0.8); // ใช้ JPEG สำหรับขนาดไฟล์ที่ดีกว่า
-                    capturedImage.src = capturedImageData;
-                    
-                    camera.style.display = 'none';
-                    capturedImage.style.display = 'block';
-                    
-                    captureBtn.disabled = true;
-                    useFileBtn.disabled = true;
-                    retakeBtn.disabled = false;
-                    sendBtn.disabled = false;
-                    
-                    showNotification('ถ่ายรูปสำเร็จแล้ว', 'success');
-                } else {
-                    showNotification('ไม่สามารถถ่ายรูปได้ กรุณาลองอีกครั้ง', 'error');
-                }
-            } catch (error) {
-                console.error('Error capturing image:', error);
-                showNotification('เกิดข้อผิดพลาดในการถ่ายรูป', 'error');
-            }
-        }
-
-        // ฟังก์ชันสำหรับใช้ไฟล์รูปภาพ
-        function useFile() {
-            fileInput.click();
-        }
-
-        // ฟังก์ชันสำหรับอัปโหลดรูปภาพ
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            // ตรวจสอบว่าเป็นไฟล์รูปภาพ
-            if (!file.type.match('image.*')) {
-                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                capturedImageData = e.target.result;
-                capturedImage.src = capturedImageData;
-                
-                camera.style.display = 'none';
-                cameraPlaceholder.style.display = 'none';
-                capturedImage.style.display = 'block';
-                
-                startCameraBtn.disabled = false;
-                captureBtn.disabled = true;
-                useFileBtn.disabled = false;
-                retakeBtn.disabled = false;
-                sendBtn.disabled = false;
-                
-                showNotification('อัปโหลดรูปภาพสำเร็จ', 'success');
-            };
-            
-            reader.readAsDataURL(file);
-            fileInput.value = ''; // รีเซ็ต input
-        }
-
-        // ฟังก์ชันสำหรับถ่ายรูปใหม่
-        function retakePhoto() {
-            capturedImage.style.display = 'none';
-            capturedImage.src = '';
-            capturedImageData = null;
-            
-            if (stream) {
-                // ถ้ามีกล้องเปิดอยู่ แสดงกล้อง
-                camera.style.display = 'block';
-                cameraPlaceholder.style.display = 'none';
-                
-                startCameraBtn.disabled = true;
-                captureBtn.disabled = false;
-                useFileBtn.disabled = true;
-                retakeBtn.disabled = true;
-                sendBtn.disabled = true;
-            } else {
-                // ถ้าไม่มีกล้อง แสดง placeholder
-                camera.style.display = 'none';
-                cameraPlaceholder.style.display = 'flex';
-                
-                startCameraBtn.disabled = false;
-                captureBtn.disabled = true;
-                useFileBtn.disabled = false;
-                retakeBtn.disabled = true;
-                sendBtn.disabled = true;
-            }
-            
-            showNotification('พร้อมถ่ายรูปใหม่แล้ว', 'warning');
-        }
-
-        // ฟังก์ชันสำหรับส่งรูป - แก้ไขแล้ว
-        function sendPhoto() {
-            if (!capturedImageData) {
-                showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
-                return;
-            }
-            
-            if (!currentUser) {
-                showNotification('กรุณาล็อกอินก่อนใช้งาน', 'error');
-                return;
-            }
-            
-            // สร้าง timestamp
-            const now = new Date();
-            const thaiTimestamp = now.toLocaleString('th-TH');
-            
-            const newSubmission = {
-                id: submissions.length + 1,
-                studentId: currentUser.studentId,
-                studentName: currentUser.name,
-                imageUrl: capturedImageData,
-                timestamp: thaiTimestamp,
-                status: 'pending'
-            };
-            
-            submissions.push(newSubmission);
-            
-            // แสดงประวัติใหม่ทันที
-            renderStudentHistory();
-            
-            // ปิดกล้องถ้าเปิดอยู่
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            
-            capturedImage.style.display = 'none';
-            cameraPlaceholder.style.display = 'flex';
-            capturedImageData = null;
-            
-            startCameraBtn.disabled = false;
-            captureBtn.disabled = true;
-            useFileBtn.disabled = false;
-            retakeBtn.disabled = true;
-            sendBtn.disabled = true;
-            
-            showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว! รอการอนุมัติจากอาจารย์', 'success');
-            
-            // แสดงข้อความแจ้งเตือนเพิ่มเติมสำหรับมือถือ
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                setTimeout(() => {
-                    showNotification('รูปของคุณถูกบันทึกไว้ในประวัติการส่งแล้ว', 'success');
-                }, 1500);
-            }
-        }
-
-        // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
-        function approveSubmission(submissionId) {
-            const submission = submissions.find(s => s.id === submissionId);
-            if (!submission) return;
-            
-            submission.status = 'approved';
-            
-            const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
-            if (!existingAttendance) {
-                attendanceList.push({
-                    id: attendanceList.length + 1,
-                    studentId: submission.studentId,
-                    studentName: submission.studentName,
-                    timestamp: submission.timestamp,
-                    status: 'approved'
-                });
-            } else {
-                existingAttendance.timestamp = submission.timestamp;
-                existingAttendance.status = 'approved';
-            }
-            
-            renderSubmissions();
-            renderAttendanceList();
-            
-            showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
-        }
-
-        // ฟังก์ชันสำหรับปฏิเสธการเช็คชื่อ
-        function rejectSubmission(submissionId) {
-            const submission = submissions.find(s => s.id === submissionId);
-            if (!submission) return;
-            
-            submission.status = 'rejected';
-            
-            const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
-            if (existingAttendance) {
-                existingAttendance.status = 'absent';
-            }
-            
-            renderSubmissions();
-            renderAttendanceList();
-            
-            showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
-        }
-
-        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน - แก้ไขแล้ว
-        function renderSubmissions() {
-            const pendingSubmissions = submissions.filter(s => s.status === 'pending');
-            
-            if (pendingSubmissions.length === 0) {
-                submissionsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-images"></i>
-                        <p>ยังไม่มีนักเรียนส่งรูปมา</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            submissionsContainer.innerHTML = `
-                <div class="submission-list">
-                    ${pendingSubmissions.map(submission => `
-                        <div class="submission-item">
-                            <img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
-                            <div class="submission-info">
-                                <h3>${submission.studentName}</h3>
-                                <p>รหัสนักเรียน: ${submission.studentId}</p>
-                                <p>เวลาส่ง: ${submission.timestamp}</p>
-                                <div class="submission-actions">
-                                    <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
-                                        <i class="fas fa-check"></i> อนุมัติ
-                                    </button>
-                                    <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
-                                        <i class="fas fa-times"></i> ปฏิเสธ
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน - แก้ไขแล้ว
-        function renderStudentHistory() {
-            if (!currentUser) return;
-            
-            const studentSubmissions = submissions.filter(s => s.studentId === currentUser.studentId);
-            
-            if (studentSubmissions.length === 0) {
-                studentHistory.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-history"></i>
-                        <p>ยังไม่มีประวัติการส่งรูป</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // เรียงลำดับจากล่าสุดไปเก่าสุด
-            const sortedSubmissions = studentSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            studentHistory.innerHTML = `
-                <div class="submission-list">
-                    ${sortedSubmissions.map(submission => `
-                        <div class="submission-item">
-                            <img src="${submission.imageUrl}" alt="รูปที่ส่ง" class="submission-image">
-                            <div class="submission-info">
-                                <h3>${submission.studentName}</h3>
-                                <p>รหัสนักเรียน: ${submission.studentId}</p>
-                                <p>เวลาส่ง: ${submission.timestamp}</p>
-                                <p>สถานะ: 
-                                    <span class="status ${submission.status}">
-                                        ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
-                                          submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
         // ฟังก์ชันสลับแสดง/ซ่อนรหัสผ่าน
         function togglePasswordVisibility(inputId, toggleIconId) {
             const input = document.getElementById(inputId);
@@ -2511,10 +2382,6 @@
         // ฟังก์ชันเปลี่ยนรหัสผ่าน
         cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
         saveChangePasswordBtn.addEventListener('click', saveChangePassword);
-        
-        // ฟังก์ชันเช็คชื่อ
-        cancelAddAttendanceBtn.addEventListener('click', closeAddAttendanceModal);
-        saveAddAttendanceBtn.addEventListener('click', saveAddAttendance);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
@@ -2527,10 +2394,6 @@
         
         changePasswordModal.addEventListener('click', (e) => {
             if (e.target === changePasswordModal) closeChangePasswordModal();
-        });
-        
-        addAttendanceModal.addEventListener('click', (e) => {
-            if (e.target === addAttendanceModal) closeAddAttendanceModal();
         });
 
         // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
@@ -2566,63 +2429,15 @@
         });
 
         // เริ่มต้นแสดงข้อมูล
-        // หน้าเริ่มต้นคือหน้า login
-        
+        // เริ่มต้นด้วยการโหลดข้อมูลนักเรียน
+        renderStudents();
+
         // ข้อมูลทดสอบระบบ
         console.log('ข้อมูลทดสอบระบบ:');
-        console.log('- นักเรียน: STU001 / 123456');
-        console.log('- นักเรียน: STU002 / 123456');
+        console.log('- นักเรียน: STU001 / 123456 (สมชาย ใจดี)');
+        console.log('- นักเรียน: STU002 / 123456 (สมหญิง สวยงาม)');
         console.log('- อาจารย์: teacher / 123456');
         console.log('- ผู้ดูแล: admin / college123');
-        
-        // เพิ่มฟังก์ชันสำหรับปุ่มยกเลิก (ถ้ามี)
-        document.addEventListener('DOMContentLoaded', function() {
-            // ปุ่มย้อนกลับบนมือถือ
-            const backButton = document.createElement('button');
-            backButton.className = 'btn btn-secondary';
-            backButton.innerHTML = '<i class="fas fa-arrow-left"></i> ย้อนกลับ';
-            backButton.style.display = 'none';
-            backButton.style.position = 'fixed';
-            backButton.style.bottom = '20px';
-            backButton.style.left = '20px';
-            backButton.style.zIndex = '1000';
-            backButton.onclick = function() {
-                if (stream) {
-                    retakePhoto();
-                }
-            };
-            
-            // เพิ่มปุ่มลงใน body
-            document.body.appendChild(backButton);
-            
-            // ซ่อน/แสดงปุ่มย้อนกลับตามสถานะ
-            const updateBackButton = () => {
-                if (stream || capturedImage.style.display === 'block') {
-                    backButton.style.display = 'block';
-                } else {
-                    backButton.style.display = 'none';
-                }
-            };
-            
-            // เรียกใช้งานเมื่อมีการเปลี่ยนแปลงสถานะ
-            const originalStartCamera = startCamera;
-            startCamera = async function() {
-                await originalStartCamera();
-                updateBackButton();
-            };
-            
-            const originalCaptureImage = captureImage;
-            captureImage = function() {
-                originalCaptureImage();
-                updateBackButton();
-            };
-            
-            const originalRetakePhoto = retakePhoto;
-            retakePhoto = function() {
-                originalRetakePhoto();
-                updateBackButton();
-            };
-        });
     </script>
 </body>
 </html>
