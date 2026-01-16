@@ -1746,6 +1746,22 @@
         </div>
     </div>
 
+    <!-- Modal สำหรับพิมพ์เอกสาร -->
+    <div class="modal" id="printDocumentModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <h3><i class="fas fa-print"></i> พิมพ์เอกสารยืนยันการเข้าร่วมกิจกรรม</h3>
+            <div id="printDocumentContent">
+                <!-- เนื้อหาเอกสารจะถูกแสดงที่นี่ -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closePrintModalBtn">ยกเลิก</button>
+                <button class="btn btn-success" onclick="printDocument()">
+                    <i class="fas fa-print"></i> พิมพ์เอกสาร
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="notification" class="notification"></div>
 
     <script>
@@ -1847,6 +1863,7 @@
         let editingActivityId = null;
         let currentAttendanceFilter = 'all';
         let searchQuery = '';
+        let currentPrintSubmissionId = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -1953,6 +1970,11 @@
         const activityDetailModal = document.getElementById('activityDetailModal');
         const activityDetailContent = document.getElementById('activityDetailContent');
         const closeActivityDetailBtn = document.getElementById('closeActivityDetailBtn');
+        
+        // Modal พิมพ์เอกสาร
+        const printDocumentModal = document.getElementById('printDocumentModal');
+        const printDocumentContent = document.getElementById('printDocumentContent');
+        const closePrintModalBtn = document.getElementById('closePrintModalBtn');
         
         // Notification
         const notification = document.getElementById('notification');
@@ -2966,6 +2988,13 @@
             saveToLocalStorage();
             
             showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
+            
+            // แสดงตัวเลือกในการพิมพ์เอกสาร
+            setTimeout(() => {
+                if (confirm(`อนุมัติการเช็คชื่อของ ${submission.studentName} สำเร็จ! ต้องการพิมพ์เอกสารยืนยันการเข้าร่วมกิจกรรมหรือไม่?`)) {
+                    openPrintDocumentModal(submissionId);
+                }
+            }, 500);
         }
 
         // ฟังก์ชันสำหรับปฏิเสธการเช็คชื่อ
@@ -3494,6 +3523,250 @@
             });
         }
 
+        // ฟังก์ชันสำหรับพิมพ์เอกสาร
+        function openPrintDocumentModal(submissionId) {
+            const submission = submissions.find(s => s.id === submissionId);
+            if (!submission) return;
+            
+            currentPrintSubmissionId = submissionId;
+            
+            // ตรวจสอบว่านักเรียนมีการเช็คชื่อหรือไม่
+            const attendanceRecord = attendanceList.find(a => a.studentId === submission.studentId);
+            
+            // หากุจกรรมปัจจุบัน
+            const activeActivity = activities.find(a => a.status === 'active');
+            
+            // ตรวจสอบข้อมูลนักเรียน
+            const studentInfo = users.students.find(s => s.studentId === submission.studentId);
+            const studentClass = studentInfo ? studentInfo.class : 'ปี 1';
+            
+            printDocumentContent.innerHTML = `
+                <div id="documentToPrint" style="background: white; padding: 30px; font-family: 'Sarabun', sans-serif;">
+                    <!-- ส่วนหัวเอกสาร -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50; margin-bottom: 5px;">วิทยาลัยเทคนิคระยอง</h1>
+                        <h2 style="color: #3498db; margin-bottom: 10px;">เอกสารยืนยันการเข้าร่วมกิจกรรม</h2>
+                        <p style="color: #555; font-size: 1.1rem;">เลขที่เอกสาร: ACT${submission.id.toString().padStart(4, '0')}</p>
+                    </div>
+                    
+                    <!-- ข้อมูลส่วนตัว -->
+                    <div style="border: 2px solid #3498db; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                        <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+                            <i class="fas fa-user"></i> ข้อมูลนักเรียน
+                        </h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>ชื่อ-นามสกุล:</strong> ${submission.studentName}</p>
+                                <p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>
+                            </div>
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>วันที่ส่งรูป:</strong> ${submission.timestamp}</p>
+                                <p style="margin-bottom: 8px;"><strong>สถานะ:</strong> <span style="color: #27ae60; font-weight: bold;">อนุมัติแล้ว</span></p>
+                                <p style="margin-bottom: 8px;"><strong>เลขที่เอกสาร:</strong> ACT${submission.id.toString().padStart(4, '0')}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ข้อมูลกิจกรรม -->
+                    ${activeActivity ? `
+                        <div style="border: 2px solid #27ae60; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">
+                                <i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
+                            </h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <p style="margin-bottom: 8px;"><strong>ชื่อกิจกรรม:</strong> ${activeActivity.name}</p>
+                                    <p style="margin-bottom: 8px;"><strong>วันที่:</strong> ${formatDate(activeActivity.date)}</p>
+                                    <p style="margin-bottom: 8px;"><strong>เวลา:</strong> ${activeActivity.time} น.</p>
+                                </div>
+                                <div>
+                                    <p style="margin-bottom: 8px;"><strong>สถานที่:</strong> ${activeActivity.location}</p>
+                                    <p style="margin-bottom: 8px;"><strong>สถานะกิจกรรม:</strong> กำลังดำเนินการ</p>
+                                    <p style="margin-bottom: 8px;"><strong>ผู้จัดกิจกรรม:</strong> วิทยาลัยเทคนิคระยอง</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <p><strong>รายละเอียดกิจกรรม:</strong> ${activeActivity.description}</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
+                                <i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
+                            </h3>
+                            <p style="text-align: center; color: #f39c12; font-style: italic;">
+                                ไม่พบข้อมูลกิจกรรมที่กำลังดำเนินการ
+                            </p>
+                        </div>
+                    `}
+                    
+                    <!-- ข้อมูลการเช็คชื่อ -->
+                    <div style="border: 2px solid #8e44ad; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                        <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #8e44ad; padding-bottom: 10px;">
+                            <i class="fas fa-check-circle"></i> ข้อมูลการเช็คชื่อ
+                        </h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>สถานะการเข้าร่วม:</strong> <span style="color: #27ae60; font-weight: bold;">เข้าร่วมกิจกรรม</span></p>
+                                <p style="margin-bottom: 8px;"><strong>วิธีการเช็คชื่อ:</strong> การถ่ายรูปยืนยันตัวตน</p>
+                            </div>
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>วันที่อนุมัติ:</strong> ${new Date().toLocaleString('th-TH', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</p>
+                                <p style="margin-bottom: 8px;"><strong>ผู้อนุมัติ:</strong> ${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'}</p>
+                            </div>
+                        </div>
+                        ${attendanceRecord ? `
+                            <div style="margin-top: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                <p><strong>บันทึกเวลาเข้าร่วม:</strong> ${attendanceRecord.timestamp}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- หมายเหตุและลายเซ็น -->
+                    <div style="border-top: 2px dashed #ddd; padding-top: 25px; margin-top: 25px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 10px;">หมายเหตุ</h4>
+                                <ul style="color: #555; padding-left: 20px;">
+                                    <li>เอกสารนี้เป็นเอกสารยืนยันการเข้าร่วมกิจกรรมอย่างเป็นทางการ</li>
+                                    <li>สามารถนำไปประกอบการขอรับหน่วยกิจกรรมได้</li>
+                                    <li>เอกสารมีอายุ 1 ปี นับจากวันที่อนุมัติ</li>
+                                    <li>กรณีสูญหายสามารถขอออกใหม่ได้ที่งานกิจกรรมนักศึกษา</li>
+                                </ul>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin-bottom: 20px;">
+                                    <p style="margin-bottom: 40px;">ลงชื่อ........................................................</p>
+                                    <p style="margin-bottom: 5px;">(${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'})</p>
+                                    <p>อาจารย์ผู้ดูแลกิจกรรม</p>
+                                </div>
+                                <div style="border: 1px solid #ddd; padding: 10px; display: inline-block;">
+                                    <p style="margin: 0; font-size: 0.9rem;">วันออกเอกสาร: ${new Date().toLocaleDateString('th-TH', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ตราประทับ -->
+                    <div style="text-align: center; margin-top: 30px;">
+                        <div style="display: inline-block; border: 3px solid #e74c3c; border-radius: 50%; width: 120px; height: 120px; position: relative; padding-top: 20px;">
+                            <div style="font-weight: bold; color: #e74c3c; font-size: 1.2rem;">ตราประทับ</div>
+                            <div style="color: #2c3e50; font-size: 0.9rem; margin-top: 5px;">วิทยาลัยเทคนิคระยอง</div>
+                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 3px;">กิจกรรมนักศึกษา</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            printDocumentModal.style.display = 'flex';
+        }
+
+        // ฟังก์ชันสำหรับพิมพ์เอกสาร
+        function printDocument() {
+            const printContent = document.getElementById('documentToPrint').innerHTML;
+            const originalContent = document.body.innerHTML;
+            
+            // สร้างหน้าพิมพ์เฉพาะ
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="th">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>เอกสารยืนยันการเข้าร่วมกิจกรรม</title>
+                    <style>
+                        body {
+                            font-family: 'Sarabun', sans-serif;
+                            margin: 20px;
+                            color: #333;
+                        }
+                        @media print {
+                            body {
+                                margin: 0;
+                                padding: 15px;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            @page {
+                                size: A4;
+                                margin: 20mm;
+                            }
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 2px solid #3498db;
+                            padding-bottom: 15px;
+                        }
+                        .section {
+                            margin-bottom: 25px;
+                            page-break-inside: avoid;
+                        }
+                        .signature-area {
+                            margin-top: 50px;
+                            text-align: right;
+                        }
+                        .stamp {
+                            border: 2px solid red;
+                            border-radius: 50%;
+                            width: 100px;
+                            height: 100px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            font-weight: bold;
+                            color: red;
+                        }
+                    </style>
+                    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                </head>
+                <body>
+                    ${printContent}
+                    <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.9rem;">
+                        <p>เอกสารฉบับนี้ถูกสร้างโดยระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</p>
+                        <p>วันที่พิมพ์: ${new Date().toLocaleString('th-TH')}</p>
+                    </div>
+                    <div class="no-print" style="text-align: center; margin-top: 30px;">
+                        <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                            <i class="fas fa-print"></i> พิมพ์เอกสาร
+                        </button>
+                        <button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;">
+                            ปิดหน้าต่าง
+                        </button>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            
+            // พิมพ์เอกสารหลังจากโหลดเสร็จ
+            printWindow.onload = function() {
+                printWindow.print();
+            };
+            
+            showNotification('กำลังเปิดหน้าต่างพิมพ์เอกสาร...', 'success');
+        }
+
+        // ฟังก์ชันปิด Modal พิมพ์เอกสาร
+        function closePrintDocumentModal() {
+            printDocumentModal.style.display = 'none';
+            currentPrintSubmissionId = null;
+        }
+
         // ตั้งค่า Event Listeners
         studentTab.addEventListener('click', () => switchToTab('student'));
         teacherTab.addEventListener('click', () => switchToTab('teacher'));
@@ -3582,6 +3855,9 @@
         cancelEditActivityBtn.addEventListener('click', closeEditActivityModal);
         saveEditActivityBtn.addEventListener('click', saveEditActivity);
         closeActivityDetailBtn.addEventListener('click', closeActivityDetailModal);
+        
+        // ฟังก์ชันพิมพ์เอกสาร
+        closePrintModalBtn.addEventListener('click', closePrintDocumentModal);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
@@ -3602,6 +3878,10 @@
         
         activityDetailModal.addEventListener('click', (e) => {
             if (e.target === activityDetailModal) closeActivityDetailModal();
+        });
+        
+        printDocumentModal.addEventListener('click', (e) => {
+            if (e.target === printDocumentModal) closePrintDocumentModal();
         });
 
         // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
