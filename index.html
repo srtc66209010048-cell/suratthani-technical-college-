@@ -2477,8 +2477,17 @@
                 camera.srcObject = stream;
                 camera.style.display = 'block';
                 
-                // แก้ไขภาพให้แสดงปกติ ไม่เบี้ยว
-                camera.style.transform = 'scaleX(1)'; // ป้องกันการกลับด้าน
+                // แก้ไข: สำหรับกล้องหน้า (facingMode = "user") ให้กลับด้านภาพแนวนอน
+                // แต่สำหรับกล้องหลัง (facingMode = "environment") ให้แสดงภาพปกติ
+                const isFrontCamera = stream.getVideoTracks()[0]?.getSettings()?.facingMode === 'user';
+                if (isFrontCamera) {
+                    // กล้องหน้า: กลับด้านให้เหมือนกระจก
+                    camera.style.transform = 'scaleX(-1)';
+                } else {
+                    // กล้องหลัง: แสดงปกติ
+                    camera.style.transform = 'scaleX(1)';
+                }
+                
                 camera.style.objectFit = 'cover'; // ทำให้ภาพเต็มเฟรม
                 
                 cameraPlaceholder.style.display = 'none';
@@ -2510,7 +2519,7 @@
             }
         }
 
-        // ฟังก์ชันสำหรับถ่ายรูป
+        // ฟังก์ชันสำหรับถ่ายรูป - แก้ไขแล้วให้ภาพไม่กลับด้านเมื่อถ่ายรูป
         function captureImage() {
             // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
@@ -2530,13 +2539,24 @@
                     
                     const context = canvas.getContext('2d');
                     
-                    // วาดภาพปกติ (ไม่ต้องกลับด้าน)
+                    // ตรวจสอบว่าเป็นกล้องหน้าหรือไม่
+                    const isFrontCamera = stream.getVideoTracks()[0]?.getSettings()?.facingMode === 'user';
+                    
+                    if (isFrontCamera) {
+                        // สำหรับกล้องหน้า: กลับด้านภาพแนวนอนเพื่อแก้ปัญหา mirror
+                        context.translate(videoWidth, 0);
+                        context.scale(-1, 1);
+                    } else {
+                        // สำหรับกล้องหลัง: ไม่ต้องทำอะไร
+                        context.setTransform(1, 0, 0, 1, 0, 0);
+                    }
+                    
                     context.drawImage(camera, 0, 0, canvas.width, canvas.height);
                     
                     capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
                     capturedImage.src = capturedImageData;
                     
-                    // แสดงภาพที่ถ่าย (ไม่ต้องกลับด้าน)
+                    // แสดงภาพที่ถ่ายตามปกติ
                     capturedImage.style.transform = 'scaleX(1)';
                     capturedImage.style.objectFit = 'cover';
                     
