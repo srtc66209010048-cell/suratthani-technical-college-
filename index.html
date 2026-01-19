@@ -2,7 +2,8 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ปรับปรุง viewport ให้รองรับมือถือได้ดีขึ้น -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,6 +19,8 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* พื้นหลังหน้า Login ที่สวยงาม */
@@ -113,6 +116,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            width: 100%;
         }
 
         .header-container {
@@ -168,6 +172,7 @@
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
         }
 
         header h1 {
@@ -188,6 +193,7 @@
             align-items: center;
             min-height: 500px;
             padding: 20px;
+            width: 100%;
         }
 
         .login-card {
@@ -316,6 +322,7 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.9);
+            -webkit-appearance: none;
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
@@ -376,6 +383,7 @@
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
         .btn-primary {
@@ -524,11 +532,13 @@
         /* ส่วนของนักเรียน */
         .content-area {
             display: none;
+            width: 100%;
         }
 
         .content-area.active {
             display: block;
             animation: fadeIn 0.5s ease;
+            width: 100%;
         }
 
         .card {
@@ -539,6 +549,8 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            width: 100%;
+            overflow: hidden;
         }
 
         .card h2 {
@@ -555,6 +567,7 @@
         /* ส่วนจัดการโปรไฟล์นักเรียน */
         .profile-section {
             margin-bottom: 30px;
+            width: 100%;
         }
 
         .profile-card {
@@ -565,6 +578,7 @@
             max-width: 600px;
             margin: 0 auto;
             border: 1px solid #e9ecef;
+            width: 100%;
         }
 
         .profile-header {
@@ -601,6 +615,7 @@
         .camera-container {
             text-align: center;
             margin-bottom: 25px;
+            width: 100%;
         }
 
         #camera {
@@ -656,6 +671,7 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            width: 100%;
         }
 
         /* ส่วนของอาจารย์ */
@@ -704,6 +720,7 @@
         .submission-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         /* ส่วนจัดการนักเรียน */
@@ -719,6 +736,12 @@
             align-items: end;
         }
 
+        .student-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .student-table {
             width: 100%;
             border-collapse: separate;
@@ -727,6 +750,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-width: 600px;
         }
 
         .student-table th, .student-table td {
@@ -751,6 +775,7 @@
         .student-actions {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .btn-small {
@@ -796,10 +821,17 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .attendance-list {
             margin-top: 20px;
+        }
+
+        .attendance-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .attendance-table {
@@ -810,6 +842,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-width: 600px;
         }
 
         .attendance-table th, .attendance-table td {
@@ -834,6 +867,7 @@
         .attendance-actions {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .status {
@@ -904,6 +938,7 @@
             text-align: center;
             padding: 50px 20px;
             color: #7f8c8d;
+            width: 100%;
         }
 
         .empty-state i {
@@ -926,6 +961,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: slideIn 0.5s ease;
+            max-width: 90%;
         }
 
         @keyframes slideIn {
@@ -957,6 +993,8 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -964,7 +1002,7 @@
             padding: 30px;
             border-radius: 15px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -1055,6 +1093,10 @@
             color: #2c3e50;
             border: 1px solid rgba(52, 152, 219, 0.3);
             backdrop-filter: blur(10px);
+            max-width: calc(100% - 150px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* ปุ่มเปลี่ยนรหัสผ่าน/แก้ไขโปรไฟล์ */
@@ -1062,6 +1104,7 @@
             display: flex;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         /* ข้อความช่วยเหลือ */
@@ -1133,11 +1176,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .activity-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .activity-details {
@@ -1167,6 +1213,12 @@
             margin-top: 20px;
         }
 
+        .user-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .user-table {
             width: 100%;
             border-collapse: separate;
@@ -1175,6 +1227,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-width: 600px;
         }
 
         .user-table th, .user-table td {
@@ -1278,6 +1331,7 @@
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
+            flex-wrap: wrap;
         }
 
         .activity-detail-label {
@@ -1289,21 +1343,44 @@
         .activity-detail-value {
             flex: 1;
             color: #555;
+            min-width: 200px;
         }
 
+        /* สำหรับอุปกรณ์มือถือขนาดเล็ก */
         @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
             .header-container {
                 flex-direction: column;
                 text-align: center;
+                padding: 15px 10px;
+                margin-bottom: 15px;
             }
             
             .college-logo {
-                height: 70px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.6rem;
+                line-height: 1.3;
+            }
+            
+            header p {
+                font-size: 0.95rem;
             }
             
             .login-card {
-                padding: 25px;
-                margin: 0 15px;
+                padding: 25px 15px;
+                margin: 0;
+                border-radius: 15px;
+            }
+            
+            .login-card h2 {
+                font-size: 1.5rem;
             }
             
             .logout-btn, .user-info {
@@ -1311,37 +1388,66 @@
                 top: auto;
                 left: auto;
                 right: auto;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
                 width: 100%;
+                max-width: none;
+                text-align: center;
+                display: block;
+            }
+            
+            .user-info {
+                margin-bottom: 15px;
+                padding: 10px;
+                font-size: 0.9rem;
+                max-width: 100%;
+                white-space: normal;
+                word-wrap: break-word;
             }
             
             .profile-header {
                 flex-direction: column;
                 text-align: center;
+                gap: 15px;
+            }
+            
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .profile-info h3 {
+                font-size: 1.3rem;
             }
             
             .submission-list {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .controls {
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
             }
             
             .btn {
                 width: 100%;
                 max-width: 300px;
                 justify-content: center;
+                padding: 12px 20px;
+                font-size: 0.95rem;
             }
             
             .student-form, .activity-form {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
             
             .modal-content {
-                width: 95%;
+                width: 100%;
                 padding: 20px;
+                max-height: 85vh;
             }
             
             .attendance-controls {
@@ -1354,8 +1460,9 @@
                 width: 100%;
             }
             
-            .filter-options {
+            .filter-options, .history-filters {
                 justify-content: center;
+                width: 100%;
             }
             
             .form-row {
@@ -1365,15 +1472,39 @@
             
             .profile-actions {
                 flex-direction: column;
+                width: 100%;
+            }
+            
+            .profile-actions .btn {
+                width: 100%;
             }
             
             #camera, .captured-image, .camera-placeholder {
                 height: 300px;
                 max-width: 100%;
+                border-radius: 10px;
+            }
+            
+            .camera-placeholder i {
+                font-size: 3rem;
+            }
+            
+            .camera-placeholder p {
+                font-size: 1rem;
+                padding: 0 10px;
             }
             
             .admin-dashboard {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-card h3 {
+                font-size: 2rem;
             }
             
             .activity-header {
@@ -1384,37 +1515,354 @@
             
             .activity-actions {
                 width: 100%;
-                justify-content: flex-end;
+                justify-content: flex-start;
+            }
+            
+            .activity-detail-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .activity-detail-value {
+                min-width: 100%;
+            }
+            
+            .modal h3 {
+                font-size: 1.3rem;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-actions .btn {
+                width: 100%;
+            }
+            
+            .submission-actions, .student-actions, .attendance-actions {
+                justify-content: center;
+            }
+            
+            .submission-info h3 {
+                font-size: 1.1rem;
+            }
+            
+            .history-search {
+                flex-direction: column;
+            }
+            
+            .history-search .btn {
+                max-width: none;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .activity-detail-item {
+                flex-direction: column;
             }
         }
 
-        /* สำหรับอุปกรณ์มือถือ */
+        /* สำหรับอุปกรณ์มือถือขนาดเล็กมาก */
         @media (max-width: 480px) {
-            #camera, .captured-image, .camera-placeholder {
-                height: 250px;
+            .container {
+                padding: 8px;
             }
             
-            .camera-placeholder i {
-                font-size: 3rem;
+            header {
+                padding: 15px 10px;
+                margin-bottom: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.4rem;
+            }
+            
+            header p {
+                font-size: 0.85rem;
+            }
+            
+            .college-logo {
+                height: 50px;
             }
             
             .login-card {
                 padding: 20px 15px;
             }
             
+            .login-card h2 {
+                font-size: 1.3rem;
+            }
+            
             .login-tabs {
                 flex-direction: column;
+                gap: 5px;
             }
             
             .login-tab {
                 min-width: auto;
                 padding: 10px;
+                font-size: 0.95rem;
             }
             
             .btn {
-                padding: 12px 20px;
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            #camera, .captured-image, .camera-placeholder {
+                height: 250px;
+            }
+            
+            .camera-placeholder i {
+                font-size: 2.5rem;
+            }
+            
+            .profile-card {
+                padding: 20px;
+            }
+            
+            .profile-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+            
+            .profile-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .card h2 {
+                font-size: 1.2rem;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .modal-content {
+                padding: 15px;
+            }
+            
+            .modal h3 {
+                font-size: 1.2rem;
+            }
+            
+            .form-group label {
+                font-size: 0.9rem;
+            }
+            
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 12px;
                 font-size: 0.95rem;
             }
+            
+            .notification {
+                left: 5%;
+                right: 5%;
+                width: 90%;
+                max-width: none;
+                text-align: center;
+                font-size: 0.9rem;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-card h3 {
+                font-size: 1.8rem;
+            }
+            
+            .stat-card i {
+                font-size: 1.5rem;
+            }
+            
+            .status {
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 5px 8px;
+            }
+            
+            .submission-info {
+                padding: 15px;
+            }
+            
+            .activity-item {
+                padding: 15px;
+            }
+            
+            .activity-details p {
+                font-size: 0.85rem;
+            }
+            
+            .badge {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+            
+            .user-type {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+        }
+
+        /* สำหรับแท็บเล็ต */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header-container {
+                padding: 20px;
+            }
+            
+            .college-logo {
+                height: 70px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .login-card {
+                padding: 30px;
+            }
+            
+            .submission-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            #camera, .captured-image, .camera-placeholder {
+                height: 350px;
+            }
+            
+            .admin-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ปรับปรุงสำหรับ landscape mode */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .login-container {
+                min-height: 300px;
+                padding: 10px;
+            }
+            
+            .login-card {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                max-height: 80vh;
+            }
+            
+            .camera-container {
+                margin-bottom: 15px;
+            }
+            
+            #camera, .captured-image, .camera-placeholder {
+                height: 250px;
+            }
+        }
+
+        /* ป้องกันการ zoom บนมือถือเมื่อกด input */
+        @media (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        /* ปรับปรุงตารางให้เลื่อนในแนวนอน */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 20px;
+        }
+
+        .table-responsive table {
+            min-width: 600px;
+        }
+
+        /* ปรับปรุงการแสดงผลของวันที่และเวลาบนมือถือ */
+        .datetime-display {
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        /* ปรับปรุงการแสดงรูปภาพในรายการส่ง */
+        .submission-image {
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        /* ปรับปรุง padding สำหรับเนื้อหาบนมือถือ */
+        .mobile-padding {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* ปรับปรุงการแสดงผลของฟอร์มบนมือถือ */
+        .mobile-form-stack .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* ปรับปรุงการแสดงผลของปุ่มบนมือถือ */
+        .mobile-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-btn-group .btn {
+            width: 100%;
+        }
+
+        /* ปรับปรุงการแสดงผลของเมนูแท็บบนมือถือ */
+        .mobile-tabs {
+            flex-direction: row !important;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 5px;
+        }
+
+        .mobile-tabs .login-tab {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+
+        /* ปรับปรุงการแสดงผลของตารางบนมือถือ */
+        .mobile-table th,
+        .mobile-table td {
+            padding: 10px 8px;
+            font-size: 0.85rem;
+        }
+
+        /* ปรับปรุงการแสดงผลของสถานะบนมือถือ */
+        .mobile-status {
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            min-width: 80px;
+        }
+
+        /* ปรับปรุงการแสดงผลของหัวข้อบนมือถือ */
+        .mobile-heading {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* ปรับปรุงการแสดงผลของการ์ดบนมือถือ */
+        .mobile-card {
+            padding: 15px;
+            margin-bottom: 15px;
         }
     </style>
     <!-- เพิ่มฟอนต์ไทย -->
@@ -1453,7 +1901,7 @@
                 <div class="login-card">
                     <h2>เข้าสู่ระบบ</h2>
                     
-                    <div class="login-tabs">
+                    <div class="login-tabs mobile-tabs">
                         <div class="login-tab active" id="studentTab">นักเรียน</div>
                         <div class="login-tab" id="teacherTab">อาจารย์</div>
                         <div class="login-tab" id="adminTab">ผู้ดูแลระบบ</div>
@@ -1545,7 +1993,7 @@
 
             <!-- ส่วนโปรไฟล์นักเรียน -->
             <div class="profile-section">
-                <div class="profile-card">
+                <div class="profile-card mobile-card">
                     <div class="profile-header">
                         <div class="profile-avatar">
                             <i class="fas fa-user-graduate"></i>
@@ -1553,7 +2001,7 @@
                         <div class="profile-info">
                             <h3 id="studentProfileName"></h3>
                             <p id="studentProfileInfo"></p>
-                            <div class="profile-actions">
+                            <div class="profile-actions mobile-btn-group">
                                 <button class="btn btn-primary btn-small" onclick="openEditProfileModal()">
                                     <i class="fas fa-edit"></i> แก้ไขโปรไฟล์
                                 </button>
@@ -1568,8 +2016,8 @@
 
             <!-- ส่วนแสดงกิจกรรมสำหรับนักเรียน -->
             <div class="activities-section">
-                <div class="card">
-                    <h2><i class="fas fa-calendar-check"></i> กิจกรรมปัจจุบัน</h2>
+                <div class="card mobile-card">
+                    <h2 class="mobile-heading"><i class="fas fa-calendar-check"></i> กิจกรรมปัจจุบัน</h2>
                     <div id="currentActivityContainer">
                         <!-- กิจกรรมปัจจุบันจะแสดงที่นี่ -->
                     </div>
@@ -1577,8 +2025,8 @@
             </div>
 
             <!-- เนื้อหาหลักนักเรียน -->
-            <div class="card">
-                <h2><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
                 <div class="camera-container">
                     <video id="camera" autoplay playsinline></video>
                     <div class="camera-placeholder" id="cameraPlaceholder">
@@ -1589,7 +2037,7 @@
                     <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;">
                 </div>
 
-                <div class="controls">
+                <div class="controls mobile-btn-group">
                     <button class="btn btn-primary" id="startCameraBtn">
                         <i class="fas fa-video"></i> เปิดกล้อง
                     </button>
@@ -1608,8 +2056,8 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2><i class="fas fa-history"></i> ประวัติการส่ง</h2>
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-history"></i> ประวัติการส่ง</h2>
                 <div id="studentHistory">
                     <!-- ข้อมูลประวัติจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
@@ -1644,9 +2092,9 @@
             </div>
 
             <!-- ส่วนจัดการนักเรียน -->
-            <div class="card student-management">
-                <h2><i class="fas fa-users"></i> จัดการรายชื่อนักเรียน</h2>
-                <div class="student-form">
+            <div class="card mobile-card student-management">
+                <h2 class="mobile-heading"><i class="fas fa-users"></i> จัดการรายชื่อนักเรียน</h2>
+                <div class="student-form mobile-form-stack">
                     <div class="form-group">
                         <label for="studentName">ชื่อ-นามสกุล</label>
                         <input type="text" id="studentName" placeholder="กรอกชื่อนักเรียน">
@@ -1659,31 +2107,33 @@
                         <i class="fas fa-plus"></i> เพิ่มนักเรียน
                     </button>
                 </div>
-                <table class="student-table">
-                    <thead>
-                        <tr>
-                            <th>ลำดับ</th>
-                            <th>ชื่อนักเรียน</th>
-                            <th>รหัสนักเรียน</th>
-                            <th>จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentList">
-                        <!-- ข้อมูลนักเรียนจะถูกแสดงที่นี่โดย JavaScript -->
-                    </tbody>
-                </table>
+                <div class="student-table-container">
+                    <table class="student-table mobile-table">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>ชื่อนักเรียน</th>
+                                <th>รหัสนักเรียน</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentList">
+                            <!-- ข้อมูลนักเรียนจะถูกแสดงที่นี่โดย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <div class="card">
-                <h2><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา (รอตรวจสอบ)</h2>
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา (รอตรวจสอบ)</h2>
                 <div id="submissionsContainer">
                     <!-- รูปที่นักเรียนส่งจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
 
             <!-- ส่วนประวัติการส่งรูปทั้งหมด -->
-            <div class="card submission-history-section">
-                <h2><i class="fas fa-history"></i> ประวัติการส่งรูปทั้งหมด</h2>
+            <div class="card mobile-card submission-history-section">
+                <h2 class="mobile-heading"><i class="fas fa-history"></i> ประวัติการส่งรูปทั้งหมด</h2>
                 
                 <div class="history-filters">
                     <button class="history-filter-btn active" onclick="filterSubmissionHistory('all')">ทั้งหมด</button>
@@ -1706,7 +2156,7 @@
                 </div>
             </div>
 
-            <div class="card attendance-list">
+            <div class="card mobile-card attendance-list">
                 <div class="attendance-controls">
                     <div>
                         <input type="text" class="search-box" id="searchAttendance" placeholder="ค้นหานักเรียน...">
@@ -1718,22 +2168,24 @@
                     </div>
                 </div>
                 
-                <h2><i class="fas fa-clipboard-check"></i> รายการเช็คชื่อ</h2>
-                <table class="attendance-table">
-                    <thead>
-                        <tr>
-                            <th>ลำดับ</th>
-                            <th>ชื่อนักเรียน</th>
-                            <th>รหัสนักเรียน</th>
-                            <th>เวลาที่ส่ง</th>
-                            <th>สถานะ</th>
-                            <th>จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="attendanceList">
-                        <!-- รายการเช็คชื่อจะถูกแสดงที่นี่โดย JavaScript -->
-                    </tbody>
-                </table>
+                <h2 class="mobile-heading"><i class="fas fa-clipboard-check"></i> รายการเช็คชื่อ</h2>
+                <div class="attendance-table-container">
+                    <table class="attendance-table mobile-table">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>ชื่อนักเรียน</th>
+                                <th>รหัสนักเรียน</th>
+                                <th>เวลาที่ส่ง</th>
+                                <th>สถานะ</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceList">
+                            <!-- รายการเช็คชื่อจะถูกแสดงที่นี่โดย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -1789,9 +2241,9 @@
             </div>
 
             <!-- ส่วนจัดการกิจกรรม -->
-            <div class="card">
-                <h2><i class="fas fa-calendar-plus"></i> เพิ่มกิจกรรมใหม่</h2>
-                <div class="activity-form">
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-calendar-plus"></i> เพิ่มกิจกรรมใหม่</h2>
+                <div class="activity-form mobile-form-stack">
                     <div class="form-group">
                         <label for="activityName">ชื่อกิจกรรม</label>
                         <input type="text" id="activityName" placeholder="กรอกชื่อกิจกรรม">
@@ -1827,36 +2279,38 @@
             </div>
 
             <!-- รายการกิจกรรมทั้งหมด -->
-            <div class="card activity-list">
-                <h2><i class="fas fa-list"></i> รายการกิจกรรมทั้งหมด</h2>
+            <div class="card mobile-card activity-list">
+                <h2 class="mobile-heading"><i class="fas fa-list"></i> รายการกิจกรรมทั้งหมด</h2>
                 <div id="activitiesList">
                     <!-- กิจกรรมจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
 
             <!-- ส่วนจัดการผู้ใช้ -->
-            <div class="card user-management">
-                <h2><i class="fas fa-user-cog"></i> จัดการผู้ใช้ทั้งหมด</h2>
-                <table class="user-table">
-                    <thead>
-                        <tr>
-                            <th>ลำดับ</th>
-                            <th>ชื่อ</th>
-                            <th>ประเภทผู้ใช้</th>
-                            <th>อีเมล</th>
-                            <th>สถานะ</th>
-                            <th>จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userList">
-                        <!-- รายการผู้ใช้จะถูกแสดงที่นี่โดย JavaScript -->
-                    </tbody>
-                </table>
+            <div class="card mobile-card user-management">
+                <h2 class="mobile-heading"><i class="fas fa-user-cog"></i> จัดการผู้ใช้ทั้งหมด</h2>
+                <div class="user-table-container">
+                    <table class="user-table mobile-table">
+                        <thead>
+                            <tr>
+                                <th>ลำดับ</th>
+                                <th>ชื่อ</th>
+                                <th>ประเภทผู้ใช้</th>
+                                <th>อีเมล</th>
+                                <th>สถานะ</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userList">
+                            <!-- รายการผู้ใช้จะถูกแสดงที่นี่โดย JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- สถิติและรายงาน -->
-            <div class="card chart-container">
-                <h2><i class="fas fa-chart-bar"></i> สถิติการเข้าร่วมกิจกรรม</h2>
+            <div class="card mobile-card chart-container">
+                <h2 class="mobile-heading"><i class="fas fa-chart-bar"></i> สถิติการเข้าร่วมกิจกรรม</h2>
                 <div class="chart-placeholder">
                     <i class="fas fa-chart-line"></i>
                     <p>กราฟแสดงสถิติการเข้าร่วมกิจกรรม</p>
@@ -1878,7 +2332,7 @@
             </div>
             <div class="form-group">
                 <label for="editStudentId">รหัสนักเรียน</label>
-                <input type="text" id="editStudentId" placeholder="กรอกรหัสนักเรียน">
+                                <input type="text" id="editStudentId" placeholder="กรอกรหัสนักเรียน">
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelEditBtn">ยกเลิก</button>
@@ -1896,7 +2350,7 @@
             </div>
             <div class="form-group">
                 <label for="editProfileEmail">อีเมล</label>
-                                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
+                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
                 <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
             </div>
             <div class="form-group">
@@ -3128,7 +3582,7 @@
                             <div class="submission-info">
                                 <h3>${submission.studentName}</h3>
                                 <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
                                 <p><strong>สถานะ:</strong> 
                                     <span class="status ${submission.status}">
                                         ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
@@ -3305,7 +3759,7 @@
                             <div class="submission-info">
                                 <h3>${submission.studentName}</h3>
                                 <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
                                 <div class="submission-actions">
                                     <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
                                         <i class="fas fa-check"></i> อนุมัติ
@@ -3365,9 +3819,9 @@
                             <div class="submission-info">
                                 <h3>${submission.studentName}</h3>
                                 <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
                                 <p><strong>สถานะ:</strong> 
-                                    <span class="status ${submission.status}">
+                                    <span class="status ${submission.status} mobile-status">
                                         ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
                                           submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
                                           'รอตรวจสอบ'}
@@ -3561,7 +4015,7 @@
                     <td>${index + 1}</td>
                     <td>${attendance.studentName}</td>
                     <td>${attendance.studentId}</td>
-                    <td>${attendance.timestamp}</td>
+                    <td class="datetime-display">${attendance.timestamp}</td>
                     <td>
                         <select class="status-select ${attendance.status}" 
                                 onchange="updateAttendanceStatus(${attendance.id}, this.value)"
