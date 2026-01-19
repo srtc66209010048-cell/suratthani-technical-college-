@@ -2572,6 +2572,7 @@
         let currentHistoryFilter = 'all';
         let submissionHistorySearchQuery = '';
         let submissionToDelete = null;
+        let isInitialized = false;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -2706,6 +2707,180 @@
             }, 3000);
         }
 
+        // ฟังก์ชันโหลดข้อมูลจาก localStorage
+        function loadAllDataFromStorage() {
+            try {
+                const savedSubmissions = localStorage.getItem('student_submissions');
+                const savedAttendance = localStorage.getItem('student_attendance');
+                const savedStudents = localStorage.getItem('student_data');
+                const savedActivities = localStorage.getItem('student_activities');
+                
+                if (savedSubmissions) {
+                    submissions = JSON.parse(savedSubmissions);
+                    console.log('โหลดข้อมูล submissions จาก localStorage:', submissions.length, 'รายการ');
+                }
+                
+                if (savedAttendance) {
+                    attendanceList = JSON.parse(savedAttendance);
+                    console.log('โหลดข้อมูล attendance จาก localStorage:', attendanceList.length, 'รายการ');
+                }
+                
+                if (savedStudents) {
+                    students = JSON.parse(savedStudents);
+                    console.log('โหลดข้อมูล students จาก localStorage:', students.length, 'รายการ');
+                }
+                
+                if (savedActivities) {
+                    activities = JSON.parse(savedActivities);
+                    console.log('โหลดข้อมูล activities จาก localStorage:', activities.length, 'รายการ');
+                }
+            } catch (e) {
+                console.log('Error loading from localStorage:', e);
+                showNotification('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'error');
+            }
+        }
+
+        // ฟังก์ชันบันทึกข้อมูลลง localStorage
+        function saveAllDataToStorage() {
+            try {
+                localStorage.setItem('student_submissions', JSON.stringify(submissions));
+                localStorage.setItem('student_attendance', JSON.stringify(attendanceList));
+                localStorage.setItem('student_data', JSON.stringify(students));
+                localStorage.setItem('student_activities', JSON.stringify(activities));
+                console.log('บันทึกข้อมูลลง localStorage สำเร็จ');
+            } catch (e) {
+                console.log('Error saving to localStorage:', e);
+                
+                // ถ้า localStorage เต็ม ให้ลบข้อมูลเก่า
+                if (e.name === 'QuotaExceededError') {
+                    showNotification('พื้นที่เก็บข้อมูลเต็ม กรุณาลบข้อมูลเก่าบางส่วน', 'error');
+                    
+                    // ลบข้อมูลเก่า (เก็บเฉพาะ 20 รายการล่าสุด)
+                    if (submissions.length > 20) {
+                        submissions = submissions.slice(-20);
+                        saveAllDataToStorage();
+                    }
+                }
+            }
+        }
+
+        // ฟังก์ชันบีบอัดภาพ
+        function compressImage(imageData, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // คำนวณขนาดใหม่
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width *= maxHeight / height;
+                            height = maxHeight;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const compressedData = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressedData);
+                };
+                img.onerror = reject;
+                img.src = imageData;
+            });
+        }
+
+        // ฟังก์ชันตรวจสอบและล้างข้อมูลที่เสียหาย
+        function cleanCorruptedData() {
+            try {
+                // ตรวจสอบ submissions
+                submissions = submissions.filter(sub => 
+                    sub && 
+                    sub.id && 
+                    sub.studentId && 
+                    sub.studentName && 
+                    sub.imageUrl && 
+                    sub.imageUrl.startsWith('data:image')
+                );
+                
+                // ตรวจสอบ attendanceList
+                attendanceList = attendanceList.filter(att => 
+                    att && 
+                    att.id && 
+                    att.studentId && 
+                    att.studentName
+                );
+                
+                // ตรวจสอบ students
+                students = students.filter(student => 
+                    student && 
+                    student.id && 
+                    student.name && 
+                    student.studentId
+                );
+                
+                // ตรวจสอบ activities
+                activities = activities.filter(activity => 
+                    activity && 
+                    activity.id && 
+                    activity.name && 
+                    activity.date
+                );
+                
+                console.log('ทำความสะอาดข้อมูลเสร็จสิ้น');
+            } catch (e) {
+                console.log('Error cleaning data:', e);
+            }
+        }
+
+        // ฟังก์ชันตั้งค่าการซิงค์ข้อมูล
+        function setupDataSync() {
+            // ตรวจสอบการเปลี่ยนแปลงใน localStorage ทุก 2 วินาที
+            setInterval(() => {
+                if (currentUserType === 'teacher' || currentUserType === 'admin') {
+                    const oldSubmissionsLength = submissions.length;
+                    const oldAttendanceLength = attendanceList.length;
+                    
+                    loadAllDataFromStorage();
+                    
+                    if (currentUserType === 'teacher') {
+                        if (submissions.length !== oldSubmissionsLength) {
+                            renderSubmissions();
+                            renderSubmissionHistory();
+                            showNotification('มีข้อมูลใหม่จากนักเรียน', 'info');
+                        }
+                        
+                        if (attendanceList.length !== oldAttendanceLength) {
+                            renderAttendanceList();
+                        }
+                    }
+                }
+            }, 2000);
+            
+            // ตรวจสอบการเปลี่ยนแปลงจากหน้าต่างอื่น
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'student_submissions' || e.key === 'student_attendance') {
+                    if (currentUserType === 'teacher') {
+                        loadAllDataFromStorage();
+                        renderSubmissions();
+                        renderAttendanceList();
+                        renderSubmissionHistory();
+                        showNotification('มีการอัพเดทข้อมูลใหม่', 'info');
+                    }
+                }
+            });
+        }
+
         // ฟังก์ชันสลับแท็บ
         function switchToTab(tabName) {
             // รีเซ็ตแท็บทั้งหมด
@@ -2744,6 +2919,7 @@
                         studentId: student.studentId,
                         class: student.class || 'ปี 1'
                     });
+                    saveAllDataToStorage();
                 }
                 
                 // แสดงหน้านักเรียน
@@ -2803,6 +2979,7 @@
                 teacherPassword.value = '';
                 
                 // โหลดข้อมูล
+                loadAllDataFromStorage();
                 renderStudents();
                 renderSubmissions();
                 renderAttendanceList();
@@ -2846,6 +3023,7 @@
                 adminPassword.value = '';
                 
                 // โหลดข้อมูล Admin
+                loadAllDataFromStorage();
                 renderAdminDashboard();
                 renderActivities();
                 renderUserList();
@@ -2927,6 +3105,9 @@
                         sub.studentName = name;
                     }
                 });
+                
+                // บันทึกการเปลี่ยนแปลง
+                saveAllDataToStorage();
             }
             
             // อัพเดท UI
@@ -3025,6 +3206,7 @@
             studentNameInput.value = '';
             studentIdInput.value = '';
             
+            saveAllDataToStorage();
             renderStudents();
             
             showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
@@ -3054,6 +3236,8 @@
                 }
                 
                 students.splice(studentIndex, 1);
+                
+                saveAllDataToStorage();
                 renderStudents();
                 renderAttendanceList();
                 renderSubmissions();
@@ -3126,6 +3310,7 @@
                 students[studentIndex].name = name;
                 students[studentIndex].studentId = studentId;
                 
+                saveAllDataToStorage();
                 renderStudents();
                 renderAttendanceList();
                 renderSubmissions();
@@ -3260,7 +3445,7 @@
             }
         }
 
-        // ฟังก์ชันสำหรับถ่ายรูป - แก้ไขแล้วให้ภาพไม่กลับด้านเมื่อถ่ายรูป
+        // ฟังก์ชันสำหรับถ่ายรูป
         function captureImage() {
             // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
@@ -3341,6 +3526,11 @@
                 return;
             }
             
+            if (file.size > 10 * 1024 * 1024) { // จำกัดขนาดไฟล์ 10MB
+                showNotification('ไฟล์รูปภาพใหญ่เกินไป กรุณาเลือกรูปที่มีขนาดน้อยกว่า 10MB', 'error');
+                return;
+            }
+            
             const reader = new FileReader();
             
             reader.onload = function(e) {
@@ -3394,7 +3584,7 @@
         }
 
         // ฟังก์ชันสำหรับส่งรูป
-        function sendPhoto() {
+        async function sendPhoto() {
             // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
             if (!confirmCheckbox || !confirmCheckbox.checked) {
@@ -3412,146 +3602,68 @@
                 return;
             }
             
-            // สร้าง timestamp
-            const now = new Date();
-            const thaiTimestamp = now.toLocaleString('th-TH', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            // สร้าง ID สำหรับ submission ใหม่
-            const newId = submissions.length > 0 ? Math.max(...submissions.map(s => s.id)) + 1 : 1;
-            
-            // สำหรับมือถือ ให้ลดขนาดภาพเพื่อประสิทธิภาพ
-            let processedImageData = capturedImageData;
-            
-            // ปรับขนาดภาพสำหรับมือถือ
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile && capturedImageData.length > 1000000) { // ถ้ารูปใหญ่เกิน 1MB
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const maxWidth = 800;
-                    const maxHeight = 800;
-                    let width = img.width;
-                    let height = img.height;
-                    
-                    // คำนวณขนาดใหม่
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height *= maxWidth / width;
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width *= maxHeight / height;
-                            height = maxHeight;
-                        }
-                    }
-                    
-                    canvas.width = width;
-                    canvas.height = height;
-                    
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    
-                    processedImageData = canvas.toDataURL('image/jpeg', 0.7);
-                    
-                    // สร้าง submission ด้วยภาพที่ปรับขนาดแล้ว
-                    createSubmission(processedImageData, newId, thaiTimestamp);
+            try {
+                // บีบอัดภาพก่อนส่ง
+                const compressedImage = await compressImage(capturedImageData);
+                
+                // สร้าง timestamp
+                const now = new Date();
+                const thaiTimestamp = now.toLocaleString('th-TH', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                // สร้าง ID สำหรับ submission ใหม่
+                const newId = submissions.length > 0 ? Math.max(...submissions.map(s => s.id)) + 1 : 1;
+                
+                const newSubmission = {
+                    id: newId,
+                    studentId: currentUser.studentId,
+                    studentName: currentUser.name,
+                    imageUrl: compressedImage,
+                    timestamp: thaiTimestamp,
+                    status: 'pending'
                 };
-                img.src = capturedImageData;
-            } else {
-                // ใช้ภาพเดิม
-                createSubmission(processedImageData, newId, thaiTimestamp);
-            }
-        }
-
-        // ฟังก์ชันสร้าง submission
-        function createSubmission(imageData, id, timestamp) {
-            const newSubmission = {
-                id: id,
-                studentId: currentUser.studentId,
-                studentName: currentUser.name,
-                imageUrl: imageData,
-                timestamp: timestamp,
-                status: 'pending'
-            };
-            
-            submissions.push(newSubmission);
-            
-            // แสดงประวัติใหม่ทันที
-            renderStudentHistory();
-            
-            // ปิดกล้องถ้าเปิดอยู่
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            
-            capturedImage.style.display = 'none';
-            cameraPlaceholder.style.display = 'flex';
-            capturedImageData = null;
-            
-            // รีเซ็ต checkbox การยืนยันกิจกรรม
-            const confirmCheckbox = document.getElementById('confirmAttendance');
-            if (confirmCheckbox) {
-                confirmCheckbox.checked = false;
-            }
-            
-            startCameraBtn.disabled = false;
-            captureBtn.disabled = true;
-            useFileBtn.disabled = false;
-            retakeBtn.disabled = true;
-            sendBtn.disabled = true;
-            
-            showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว! รอการตรวจสอบ', 'success');
-            
-            // อัพเดทข้อมูลใน localStorage
-            saveToLocalStorage();
-        }
-
-        // ฟังก์ชันบันทึกลง localStorage
-        function saveToLocalStorage() {
-            try {
-                localStorage.setItem('student_submissions', JSON.stringify(submissions));
-                localStorage.setItem('student_attendance', JSON.stringify(attendanceList));
-                localStorage.setItem('student_data', JSON.stringify(students));
-                localStorage.setItem('student_activities', JSON.stringify(activities));
-            } catch (e) {
-                console.log('Error saving to localStorage:', e);
-            }
-        }
-
-        // ฟังก์ชันโหลดจาก localStorage
-        function loadFromLocalStorage() {
-            try {
-                const savedSubmissions = localStorage.getItem('student_submissions');
-                const savedAttendance = localStorage.getItem('student_attendance');
-                const savedStudents = localStorage.getItem('student_data');
-                const savedActivities = localStorage.getItem('student_activities');
                 
-                if (savedSubmissions) {
-                    submissions = JSON.parse(savedSubmissions);
+                submissions.push(newSubmission);
+                
+                // บันทึกลง localStorage
+                saveAllDataToStorage();
+                
+                // แสดงประวัติใหม่ทันที
+                renderStudentHistory();
+                
+                // ปิดกล้องถ้าเปิดอยู่
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
                 }
                 
-                if (savedAttendance) {
-                    attendanceList = JSON.parse(savedAttendance);
+                capturedImage.style.display = 'none';
+                cameraPlaceholder.style.display = 'flex';
+                capturedImageData = null;
+                
+                // รีเซ็ต checkbox การยืนยันกิจกรรม
+                const confirmCheckbox = document.getElementById('confirmAttendance');
+                if (confirmCheckbox) {
+                    confirmCheckbox.checked = false;
                 }
                 
-                if (savedStudents) {
-                    students = JSON.parse(savedStudents);
-                }
+                startCameraBtn.disabled = false;
+                captureBtn.disabled = true;
+                useFileBtn.disabled = false;
+                retakeBtn.disabled = true;
+                sendBtn.disabled = true;
                 
-                if (savedActivities) {
-                    activities = JSON.parse(savedActivities);
-                }
-            } catch (e) {
-                console.log('Error loading from localStorage:', e);
+                showNotification('ส่งรูปให้อาจารย์สำเร็จแล้ว! รอการตรวจสอบ', 'success');
+                
+            } catch (error) {
+                console.error('Error sending photo:', error);
+                showNotification('เกิดข้อผิดพลาดในการส่งรูป', 'error');
             }
         }
 
@@ -3702,10 +3814,10 @@
                 existingAttendance.status = 'approved';
             }
             
+            saveAllDataToStorage();
             renderSubmissions();
             renderAttendanceList();
             renderSubmissionHistory();
-            saveToLocalStorage();
             
             showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
             
@@ -3729,10 +3841,10 @@
                 existingAttendance.status = 'absent';
             }
             
+            saveAllDataToStorage();
             renderSubmissions();
             renderAttendanceList();
             renderSubmissionHistory();
-            saveToLocalStorage();
             
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
@@ -3914,11 +4026,13 @@
                     }
                 }
                 
+                // บันทึกการเปลี่ยนแปลง
+                saveAllDataToStorage();
+                
                 // อัพเดท UI
                 renderSubmissions();
                 renderAttendanceList();
                 renderSubmissionHistory();
-                saveToLocalStorage();
                 
                 showNotification(`ลบประวัติการส่งรูปของ ${submission.studentName} สำเร็จ`, 'success');
             }
@@ -3950,10 +4064,10 @@
                     }
                 });
                 
+                saveAllDataToStorage();
                 renderAttendanceList();
                 renderSubmissions();
                 renderSubmissionHistory();
-                saveToLocalStorage();
                 showNotification('อัพเดทสถานะเช็คชื่อสำเร็จ', 'success');
             }
         }
@@ -3968,8 +4082,10 @@
             if (attendanceIndex !== -1) {
                 const studentName = attendanceList[attendanceIndex].studentName;
                 attendanceList.splice(attendanceIndex, 1);
+                
+                saveAllDataToStorage();
                 renderAttendanceList();
-                saveToLocalStorage();
+                
                 showNotification(`ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`, 'success');
             }
         }
@@ -4102,13 +4218,13 @@
             activityDescription.value = '';
             activityStatus.value = 'active';
             
+            // บันทึกข้อมูล
+            saveAllDataToStorage();
+            
             // แสดงกิจกรรมใหม่
             renderActivities();
             renderActivityStats();
             renderAdminDashboard();
-            
-            // บันทึกลง localStorage
-            saveToLocalStorage();
             
             showNotification(`เพิ่มกิจกรรม "${name}" สำเร็จ`, 'success');
         }
@@ -4228,6 +4344,7 @@
                 activities[activityIndex].date = date;
                 activities[activityIndex].description = description;
                 
+                saveAllDataToStorage();
                 renderActivities();
                 closeEditActivityModal();
                 showNotification('แก้ไขกิจกรรมสำเร็จ', 'success');
@@ -4245,10 +4362,10 @@
                 const activityName = activities[activityIndex].name;
                 activities.splice(activityIndex, 1);
                 
+                saveAllDataToStorage();
                 renderActivities();
                 renderActivityStats();
                 renderAdminDashboard();
-                saveToLocalStorage();
                 
                 showNotification(`ลบกิจกรรม "${activityName}" สำเร็จ`, 'success');
             }
@@ -4354,9 +4471,11 @@
                     students = students.filter(s => s.studentId !== studentId);
                     
                     users.students.splice(userIndex, 1);
+                    
+                    saveAllDataToStorage();
                     renderUserList();
                     renderAdminDashboard();
-                    saveToLocalStorage();
+                    
                     showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
             } else {
@@ -4364,8 +4483,10 @@
                 if (userIndex !== -1) {
                     const userName = users.teachers[userIndex].name;
                     users.teachers.splice(userIndex, 1);
+                    
                     renderUserList();
                     renderAdminDashboard();
+                    
                     showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
             }
@@ -4679,6 +4800,63 @@
             currentPrintSubmissionId = null;
         }
 
+        // ฟังก์ชันเริ่มต้นระบบ
+        function initializeSystem() {
+            if (isInitialized) return;
+            
+            console.log('กำลังเริ่มต้นระบบ...');
+            
+            // โหลดข้อมูลจาก localStorage
+            loadAllDataFromStorage();
+            
+            // ทำความสะอาดข้อมูลที่เสียหาย
+            cleanCorruptedData();
+            
+            // ตั้งค่าการซิงค์ข้อมูล
+            setupDataSync();
+            
+            // เพิ่มนักเรียนจาก users.students ถ้ายังไม่มีในระบบ
+            users.students.forEach((student) => {
+                const existingStudent = students.find(s => s.studentId === student.studentId);
+                if (!existingStudent) {
+                    students.push({
+                        id: students.length + 1,
+                        name: student.name,
+                        studentId: student.studentId,
+                        class: student.class || 'ปี 1'
+                    });
+                }
+            });
+            
+            // บันทึกข้อมูลเริ่มต้น
+            saveAllDataToStorage();
+            
+            // แสดงข้อมูลนักเรียน
+            renderStudents();
+            
+            // ตั้งค่าวันที่เริ่มต้นในฟอร์มกิจกรรมเป็นวันนี้
+            const today = new Date().toISOString().split('T')[0];
+            if (activityDate) activityDate.value = today;
+            
+            isInitialized = true;
+            
+            console.log('ระบบได้เริ่มต้นแล้ว');
+            console.log('ข้อมูลระบบ:');
+            console.log('- นักเรียน 1: SRTC048 / 123456');
+            console.log('- นักเรียน 2: SRTC046 / tae046');
+            console.log('- นักเรียน 3: SRTC055 / we055');
+            console.log('- อาจารย์: teacher / 123456');
+            console.log('- ผู้ดูแล: admin / college123');
+            console.log('- กิจกรรม: มีกิจกรรมตัวอย่าง 3 รายการ');
+            console.log('- จำนวนข้อมูลในระบบ:');
+            console.log('  - submissions:', submissions.length);
+            console.log('  - attendance:', attendanceList.length);
+            console.log('  - students:', students.length);
+            console.log('  - activities:', activities.length);
+            console.log('- การใช้งาน: อาจารย์สามารถลบประวัติการส่งรูปได้จากส่วนประวัติการส่งรูปทั้งหมด');
+            console.log('- ระบบซิงค์ข้อมูล: ตรวจสอบข้อมูลใหม่ทุก 2 วินาที');
+        }
+
         // ตั้งค่า Event Listeners
         studentTab.addEventListener('click', () => switchToTab('student'));
         teacherTab.addEventListener('click', () => switchToTab('teacher'));
@@ -4838,42 +5016,6 @@
                 stream.getTracks().forEach(track => track.stop());
             }
         });
-
-        // ฟังก์ชันเริ่มต้นระบบ
-        function initializeSystem() {
-            // โหลดข้อมูลจาก localStorage
-            loadFromLocalStorage();
-            
-            // เพิ่มนักเรียนจาก users.students ถ้ายังไม่มีในระบบ
-            users.students.forEach((student) => {
-                const existingStudent = students.find(s => s.studentId === student.studentId);
-                if (!existingStudent) {
-                    students.push({
-                        id: students.length + 1,
-                        name: student.name,
-                        studentId: student.studentId,
-                        class: student.class || 'ปี 1'
-                    });
-                }
-            });
-            
-            // แสดงข้อมูลนักเรียน
-            renderStudents();
-            
-            // ตั้งค่าวันที่เริ่มต้นในฟอร์มกิจกรรมเป็นวันนี้
-            const today = new Date().toISOString().split('T')[0];
-            activityDate.value = today;
-            
-            console.log('ระบบได้เริ่มต้นแล้ว');
-            console.log('ข้อมูลระบบ:');
-            console.log('- นักเรียน 1: SRTC048 / 123456');
-            console.log('- นักเรียน 2: SRTC046 / tae046');
-            console.log('- นักเรียน 3: SRTC055 / we055');
-            console.log('- อาจารย์: teacher / 123456');
-            console.log('- ผู้ดูแล: admin / college123');
-            console.log('- กิจกรรม: มีกิจกรรมตัวอย่าง 3 รายการ');
-            console.log('- การใช้งาน: อาจารย์สามารถลบประวัติการส่งรูปได้จากส่วนประวัติการส่งรูปทั้งหมด');
-        }
 
         // เรียกใช้ฟังก์ชันเริ่มต้นเมื่อหน้าโหลดเสร็จ
         document.addEventListener('DOMContentLoaded', initializeSystem);
