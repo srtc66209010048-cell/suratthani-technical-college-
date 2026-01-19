@@ -15,13 +15,98 @@
 
         body {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+        }
+
+        /* พื้นหลังหน้า Login ที่สวยงาม */
+        .login-background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(52, 152, 219, 0.85) 0%, 
+                rgba(41, 128, 185, 0.8) 25%, 
+                rgba(44, 62, 80, 0.85) 75%, 
+                rgba(52, 73, 94, 0.9) 100%);
+            z-index: -1;
+        }
+
+        .login-background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px, 50px 50px;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+        }
+
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -3;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.2), transparent);
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 3s;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.15), transparent);
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 6s;
+            background: radial-gradient(circle, rgba(155, 89, 182, 0.15), transparent);
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            top: 20%;
+            left: 70%;
+            animation-delay: 9s;
+            background: radial-gradient(circle, rgba(241, 196, 15, 0.15), transparent);
         }
 
         .container {
@@ -58,8 +143,16 @@
             border-radius: 8px;
             background-color: white;
             padding: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border: 2px solid #2c3e50;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border: 3px solid #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .college-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(52, 152, 219, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
         .header-text {
@@ -98,14 +191,33 @@
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
             padding: 40px;
             width: 100%;
             max-width: 500px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                #3498db 0%, 
+                #2ecc71 33%, 
+                #9b59b6 66%, 
+                #f1c40f 100%);
+            border-radius: 20px 20px 0 0;
         }
 
         .login-card h2 {
@@ -120,11 +232,11 @@
         .login-tabs {
             display: flex;
             margin-bottom: 25px;
-            border-bottom: 2px solid #e0e0e0;
-            flex-wrap: wrap;
-            background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 5px;
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            flex-wrap: wrap;
         }
 
         .login-tab {
@@ -137,6 +249,9 @@
             transition: all 0.3s ease;
             min-width: 100px;
             color: #555;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
         }
 
         .login-tab.active {
@@ -145,8 +260,26 @@
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
+        .login-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { width: 0; }
+            to { width: 80%; }
+        }
+
         .login-tab:hover:not(.active) {
-            background-color: #e9ecef;
+            background-color: rgba(52, 152, 219, 0.1);
         }
 
         .login-form {
@@ -178,17 +311,20 @@
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 14px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid rgba(52, 152, 219, 0.2);
             border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background-color: white;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            background: white;
+            box-shadow: 
+                0 0 0 3px rgba(52, 152, 219, 0.2),
+                0 4px 15px rgba(52, 152, 219, 0.1);
         }
 
         .form-group .input-with-icon {
@@ -238,6 +374,8 @@
             width: 100%;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
@@ -249,6 +387,22 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        #studentLoginBtn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
+        }
+
+        #studentLoginBtn:hover::after {
+            left: 140%;
         }
 
         .btn-success {
@@ -271,6 +425,10 @@
         .btn-warning:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        #teacherLoginBtn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
 
         .btn-danger {
@@ -304,6 +462,10 @@
         .btn-info:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
+        }
+
+        #adminLoginBtn {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
         }
 
         .btn-purple {
@@ -595,6 +757,45 @@
             padding: 6px 12px;
             font-size: 0.85rem;
             border-radius: 6px;
+        }
+
+        /* ส่วนประวัติการส่งรูป (อาจารย์) */
+        .submission-history-section {
+            margin-top: 30px;
+        }
+
+        .history-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .history-filter-btn {
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #555;
+        }
+
+        .history-filter-btn.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border-color: #3498db;
+        }
+
+        .history-filter-btn:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+
+        .history-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .attendance-list {
@@ -1222,6 +1423,16 @@
 <body>
     <!-- หน้า Login -->
     <div id="loginPage" class="content-area active">
+        <!-- พื้นหลังหน้า Login -->
+        <div class="login-background-overlay"></div>
+        <div class="login-background-pattern"></div>
+        <div class="floating-shapes">
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+        </div>
+
         <div class="container">
             <header>
                 <div class="header-container">
@@ -1245,7 +1456,7 @@
                     <div class="login-tabs">
                         <div class="login-tab active" id="studentTab">นักเรียน</div>
                         <div class="login-tab" id="teacherTab">อาจารย์</div>
-                        <div class="login-tab" id="adminTab" style="background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%); color: white;">ผู้ดูแลระบบ</div>
+                        <div class="login-tab" id="adminTab">ผู้ดูแลระบบ</div>
                     </div>
 
                     <!-- ฟอร์มล็อกอินนักเรียน -->
@@ -1464,9 +1675,34 @@
             </div>
 
             <div class="card">
-                <h2><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา</h2>
+                <h2><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา (รอตรวจสอบ)</h2>
                 <div id="submissionsContainer">
                     <!-- รูปที่นักเรียนส่งจะถูกแสดงที่นี่โดย JavaScript -->
+                </div>
+            </div>
+
+            <!-- ส่วนประวัติการส่งรูปทั้งหมด -->
+            <div class="card submission-history-section">
+                <h2><i class="fas fa-history"></i> ประวัติการส่งรูปทั้งหมด</h2>
+                
+                <div class="history-filters">
+                    <button class="history-filter-btn active" onclick="filterSubmissionHistory('all')">ทั้งหมด</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('approved')">อนุมัติแล้ว</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('pending')">รอตรวจสอบ</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('rejected')">ปฏิเสธแล้ว</button>
+                </div>
+                
+                <div class="history-search">
+                    <input type="text" class="search-box" id="searchSubmissionHistory" 
+                           placeholder="ค้นหานักเรียนหรือรหัสนักเรียน..." 
+                           oninput="searchSubmissionHistory()">
+                    <button class="btn btn-secondary" onclick="clearSubmissionHistorySearch()">
+                        <i class="fas fa-times"></i> ล้าง
+                    </button>
+                </div>
+                
+                <div id="submissionHistoryContainer">
+                    <!-- ประวัติการส่งรูปทั้งหมดจะแสดงที่นี่ -->
                 </div>
             </div>
 
@@ -1660,7 +1896,7 @@
             </div>
             <div class="form-group">
                 <label for="editProfileEmail">อีเมล</label>
-                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
+                                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
                 <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
             </div>
             <div class="form-group">
@@ -1758,6 +1994,21 @@
                 <button class="btn btn-success" onclick="printDocument()">
                     <i class="fas fa-print"></i> พิมพ์เอกสาร
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ยืนยันการลบประวัติ -->
+    <div class="modal" id="confirmDeleteHistoryModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> ยืนยันการลบประวัติ</h3>
+            <div id="confirmDeleteHistoryContent">
+                <p>คุณต้องการลบประวัติการส่งรูปนี้ใช่หรือไม่?</p>
+                <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelDeleteHistoryBtn">ยกเลิก</button>
+                <button class="btn btn-danger" id="confirmDeleteHistoryBtn">ลบ</button>
             </div>
         </div>
     </div>
@@ -1864,6 +2115,9 @@
         let currentAttendanceFilter = 'all';
         let searchQuery = '';
         let currentPrintSubmissionId = null;
+        let currentHistoryFilter = 'all';
+        let submissionHistorySearchQuery = '';
+        let submissionToDelete = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -1922,6 +2176,8 @@
         const attendanceListElement = document.getElementById('attendanceList');
         const searchAttendanceInput = document.getElementById('searchAttendance');
         const filterButtons = document.querySelectorAll('.filter-btn');
+        const submissionHistoryContainer = document.getElementById('submissionHistoryContainer');
+        const searchSubmissionHistoryInput = document.getElementById('searchSubmissionHistory');
         
         // DOM Elements - Admin
         const activityName = document.getElementById('activityName');
@@ -1975,6 +2231,12 @@
         const printDocumentModal = document.getElementById('printDocumentModal');
         const printDocumentContent = document.getElementById('printDocumentContent');
         const closePrintModalBtn = document.getElementById('closePrintModalBtn');
+        
+        // Modal ยืนยันการลบประวัติ
+        const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
+        const confirmDeleteHistoryContent = document.getElementById('confirmDeleteHistoryContent');
+        const cancelDeleteHistoryBtn = document.getElementById('cancelDeleteHistoryBtn');
+        const confirmDeleteHistoryBtn = document.getElementById('confirmDeleteHistoryBtn');
         
         // Notification
         const notification = document.getElementById('notification');
@@ -2090,6 +2352,7 @@
                 renderStudents();
                 renderSubmissions();
                 renderAttendanceList();
+                renderSubmissionHistory();
                 
                 showNotification(`ยินดีต้อนรับ ${teacher.name}`, 'success');
             } else {
@@ -2340,6 +2603,7 @@
                 renderStudents();
                 renderAttendanceList();
                 renderSubmissions();
+                renderSubmissionHistory();
                 
                 showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
             }
@@ -2411,6 +2675,7 @@
                 renderStudents();
                 renderAttendanceList();
                 renderSubmissions();
+                renderSubmissionHistory();
                 closeEditModal();
                 showNotification('แก้ไขข้อมูลนักเรียนสำเร็จ', 'success');
             }
@@ -2985,6 +3250,7 @@
             
             renderSubmissions();
             renderAttendanceList();
+            renderSubmissionHistory();
             saveToLocalStorage();
             
             showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
@@ -3011,6 +3277,7 @@
             
             renderSubmissions();
             renderAttendanceList();
+            renderSubmissionHistory();
             saveToLocalStorage();
             
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
@@ -3054,12 +3321,184 @@
             `;
         }
 
+        // ฟังก์ชันแสดงประวัติการส่งรูปทั้งหมด (สำหรับอาจารย์)
+        function renderSubmissionHistory() {
+            let filteredSubmissions = [...submissions];
+            
+            // กรองตามสถานะ
+            if (currentHistoryFilter !== 'all') {
+                filteredSubmissions = filteredSubmissions.filter(s => s.status === currentHistoryFilter);
+            }
+            
+            // กรองตามคำค้นหา
+            if (submissionHistorySearchQuery) {
+                const query = submissionHistorySearchQuery.toLowerCase();
+                filteredSubmissions = filteredSubmissions.filter(s => 
+                    s.studentName.toLowerCase().includes(query) || 
+                    s.studentId.toLowerCase().includes(query)
+                );
+            }
+            
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
+            filteredSubmissions.sort((a, b) => {
+                // แปลง timestamp เป็นวันที่สำหรับการเรียงลำดับ
+                const dateA = new Date(a.timestamp.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+                const dateB = new Date(b.timestamp.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
+                return dateB - dateA;
+            });
+            
+            if (filteredSubmissions.length === 0) {
+                submissionHistoryContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>ไม่พบประวัติการส่งรูป</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            submissionHistoryContainer.innerHTML = `
+                <div class="submission-list">
+                    ${filteredSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p><strong>สถานะ:</strong> 
+                                    <span class="status ${submission.status}">
+                                        ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
+                                          submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
+                                          'รอตรวจสอบ'}
+                                    </span>
+                                </p>
+                                <div class="submission-actions">
+                                    ${submission.status === 'pending' ? `
+                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                            <i class="fas fa-check"></i> อนุมัติ
+                                        </button>
+                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                            <i class="fas fa-times"></i> ปฏิเสธ
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id})">
+                                        <i class="fas fa-trash"></i> ลบประวัติ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันกรองประวัติการส่งรูป
+        function filterSubmissionHistory(filter) {
+            currentHistoryFilter = filter;
+            
+            // อัพเดทปุ่มกรอง
+            const filterButtons = document.querySelectorAll('.history-filter-btn');
+            filterButtons.forEach(btn => {
+                if (btn.textContent.includes(getFilterText(filter))) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            renderSubmissionHistory();
+        }
+
+        // ฟังก์ชันค้นหาประวัติการส่งรูป
+        function searchSubmissionHistory() {
+            submissionHistorySearchQuery = searchSubmissionHistoryInput.value.trim().toLowerCase();
+            renderSubmissionHistory();
+        }
+
+        // ฟังก์ชันล้างการค้นหา
+        function clearSubmissionHistorySearch() {
+            searchSubmissionHistoryInput.value = '';
+            submissionHistorySearchQuery = '';
+            renderSubmissionHistory();
+        }
+
+        // ฟังก์ชันเปิด Modal ยืนยันการลบประวัติ
+        function openDeleteHistoryModal(submissionId) {
+            const submission = submissions.find(s => s.id === submissionId);
+            if (!submission) return;
+            
+            submissionToDelete = submissionId;
+            
+            confirmDeleteHistoryContent.innerHTML = `
+                <p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId}) ใช่หรือไม่?</p>
+                <p><strong>วันที่ส่ง:</strong> ${submission.timestamp}</p>
+                <p><strong>สถานะ:</strong> ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
+                  submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}</p>
+                <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            `;
+            
+            confirmDeleteHistoryModal.style.display = 'flex';
+        }
+
+        // ฟังก์ชันลบประวัติการส่งรูป
+        function deleteSubmissionHistory() {
+            if (!submissionToDelete) return;
+            
+            const submissionIndex = submissions.findIndex(s => s.id === submissionToDelete);
+            if (submissionIndex !== -1) {
+                const submission = submissions[submissionIndex];
+                
+                // ลบออกจากรายการ submissions
+                submissions.splice(submissionIndex, 1);
+                
+                // ถ้าลบ submission ที่อนุมัติแล้ว ให้ลบออกจาก attendance list ด้วย
+                if (submission.status === 'approved') {
+                    const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
+                    if (attendanceIndex !== -1) {
+                        attendanceList.splice(attendanceIndex, 1);
+                    }
+                }
+                
+                // อัพเดท UI
+                renderSubmissions();
+                renderAttendanceList();
+                renderSubmissionHistory();
+                saveToLocalStorage();
+                
+                showNotification(`ลบประวัติการส่งรูปของ ${submission.studentName} สำเร็จ`, 'success');
+            }
+            
+            // ปิด Modal
+            confirmDeleteHistoryModal.style.display = 'none';
+            submissionToDelete = null;
+        }
+
+        // ฟังก์ชันปิด Modal ลบประวัติ
+        function closeDeleteHistoryModal() {
+            confirmDeleteHistoryModal.style.display = 'none';
+            submissionToDelete = null;
+        }
+
         // ฟังก์ชันสำหรับแก้ไขสถานะเช็คชื่อ
         function updateAttendanceStatus(attendanceId, newStatus) {
             const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
             if (attendanceIndex !== -1) {
                 attendanceList[attendanceIndex].status = newStatus;
+                
+                // อัพเดทสถานะใน submissions ด้วย
+                const studentId = attendanceList[attendanceIndex].studentId;
+                submissions.forEach(sub => {
+                    if (sub.studentId === studentId && newStatus === 'approved') {
+                        sub.status = 'approved';
+                    } else if (sub.studentId === studentId && newStatus === 'absent') {
+                        sub.status = 'rejected';
+                    }
+                });
+                
                 renderAttendanceList();
+                renderSubmissions();
+                renderSubmissionHistory();
                 saveToLocalStorage();
                 showNotification('อัพเดทสถานะเช็คชื่อสำเร็จ', 'success');
             }
@@ -3453,9 +3892,17 @@
                 const userIndex = users.students.findIndex(u => u.username === username);
                 if (userIndex !== -1) {
                     const userName = users.students[userIndex].name;
+                    const studentId = users.students[userIndex].studentId;
+                    
+                    // ลบข้อมูลที่เกี่ยวข้อง
+                    submissions = submissions.filter(s => s.studentId !== studentId);
+                    attendanceList = attendanceList.filter(a => a.studentId !== studentId);
+                    students = students.filter(s => s.studentId !== studentId);
+                    
                     users.students.splice(userIndex, 1);
                     renderUserList();
                     renderAdminDashboard();
+                    saveToLocalStorage();
                     showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
             } else {
@@ -3521,6 +3968,17 @@
                 month: 'long',
                 day: 'numeric'
             });
+        }
+
+        // ฟังก์ชันช่วยเหลือ: แปลงข้อความกรอง
+        function getFilterText(filter) {
+            switch(filter) {
+                case 'all': return 'ทั้งหมด';
+                case 'approved': return 'อนุมัติแล้ว';
+                case 'pending': return 'รอตรวจสอบ';
+                case 'rejected': return 'ปฏิเสธแล้ว';
+                default: return filter;
+            }
         }
 
         // ฟังก์ชันสำหรับพิมพ์เอกสาร
@@ -3858,6 +4316,10 @@
         
         // ฟังก์ชันพิมพ์เอกสาร
         closePrintModalBtn.addEventListener('click', closePrintDocumentModal);
+        
+        // ฟังก์ชันลบประวัติ
+        cancelDeleteHistoryBtn.addEventListener('click', closeDeleteHistoryModal);
+        confirmDeleteHistoryBtn.addEventListener('click', deleteSubmissionHistory);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
@@ -3882,6 +4344,10 @@
         
         printDocumentModal.addEventListener('click', (e) => {
             if (e.target === printDocumentModal) closePrintDocumentModal();
+        });
+        
+        confirmDeleteHistoryModal.addEventListener('click', (e) => {
+            if (e.target === confirmDeleteHistoryModal) closeDeleteHistoryModal();
         });
 
         // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
@@ -3908,6 +4374,9 @@
                 renderAttendanceList();
             });
         });
+
+        // การค้นหาประวัติการส่งรูป
+        searchSubmissionHistoryInput.addEventListener('input', searchSubmissionHistory);
 
         // ปิดกล้องเมื่อออกจากหน้า
         window.addEventListener('beforeunload', () => {
@@ -3949,6 +4418,7 @@
             console.log('- อาจารย์: teacher / 123456');
             console.log('- ผู้ดูแล: admin / college123');
             console.log('- กิจกรรม: มีกิจกรรมตัวอย่าง 3 รายการ');
+            console.log('- การใช้งาน: อาจารย์สามารถลบประวัติการส่งรูปได้จากส่วนประวัติการส่งรูปทั้งหมด');
         }
 
         // เรียกใช้ฟังก์ชันเริ่มต้นเมื่อหน้าโหลดเสร็จ
