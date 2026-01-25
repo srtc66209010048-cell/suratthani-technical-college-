@@ -1864,6 +1864,83 @@
             padding: 15px;
             margin-bottom: 15px;
         }
+        
+        /* ใหม่: ส่วนอัปโหลดรูปสำหรับอาจารย์ */
+        .upload-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px dashed #3498db;
+        }
+        
+        .upload-area {
+            text-align: center;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area p {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .upload-help {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+        
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 15px auto;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #2c3e50;
+        }
+        
+        .share-link {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
     </style>
     <!-- เพิ่มฟอนต์ไทย -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -2124,6 +2201,80 @@
                             <!-- ข้อมูลนักเรียนจะถูกแสดงที่นี่โดย JavaScript -->
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- ส่วนใหม่: รับรูปภาพจากนักเรียน (อาจารย์) -->
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-share-alt"></i> รับรูปภาพจากนักเรียน</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    แชร์ลิงค์หรือ QR Code นี้ให้นักเรียน เพื่อให้นักเรียนสามารถส่งรูปภาพมายังระบบของคุณได้
+                </p>
+                
+                <!-- QR Code Section -->
+                <div class="qr-section">
+                    <h3><i class="fas fa-qrcode"></i> QR Code สำหรับส่งรูป</h3>
+                    <p>ให้นักเรียนสแกน QR Code เพื่อส่งรูปภาพ</p>
+                    <div class="qr-code" id="qrCode">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p class="help-text">นักเรียนสามารถสแกน QR Code เพื่อเปิดหน้ารับรูปภาพได้</p>
+                </div>
+                
+                <!-- Share Link Section -->
+                <div class="share-section" style="margin: 20px 0;">
+                    <h3><i class="fas fa-link"></i> ลิงค์สำหรับส่งรูป</h3>
+                    <div class="share-link" id="shareLink">
+                        <!-- ลิงค์จะถูกสร้างโดย JavaScript -->
+                    </div>
+                    <div class="share-buttons">
+                        <button class="btn btn-info btn-small" onclick="copyShareLink()">
+                            <i class="fas fa-copy"></i> คัดลอกลิงค์
+                        </button>
+                        <button class="btn btn-primary btn-small" onclick="shareViaWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> แชร์ผ่าน WhatsApp
+                        </button>
+                        <button class="btn btn-success btn-small" onclick="shareViaLine()">
+                            <i class="fab fa-line"></i> แชร์ผ่าน Line
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ส่วนใหม่: อัปโหลดรูปภาพโดยอาจารย์ (สำหรับกรณีนักเรียนไม่สามารถส่งเองได้) -->
+            <div class="card mobile-card">
+                <h2 class="mobile-heading"><i class="fas fa-upload"></i> อัปโหลดรูปภาพให้นักเรียน</h2>
+                <p style="margin-bottom: 20px; color: #555;">
+                    สำหรับกรณีนักเรียนไม่สามารถส่งรูปภาพเองได้ อาจารย์สามารถอัปโหลดรูปภาพแทนนักเรียนได้
+                </p>
+                
+                <div class="upload-section">
+                    <div class="form-group">
+                        <label for="selectStudentForUpload"><i class="fas fa-user-graduate"></i> เลือกนักเรียน</label>
+                        <select id="selectStudentForUpload" class="form-control">
+                            <option value="">เลือกนักเรียน</option>
+                        </select>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('teacherFileInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p><strong>คลิกที่นี่เพื่อเลือกรูปภาพ</strong></p>
+                        <p>หรือลากและวางไฟล์รูปภาพลงในบริเวณนี้</p>
+                        <p class="upload-help">รองรับไฟล์ JPG, PNG ขนาดไม่เกิน 10MB</p>
+                    </div>
+                    
+                    <input type="file" id="teacherFileInput" accept="image/*" style="display: none;">
+                    
+                    <div id="teacherImagePreview" style="display: none; margin-top: 20px;">
+                        <h4><i class="fas fa-image"></i> รูปภาพที่เลือก</h4>
+                        <img id="teacherPreviewImage" src="" alt="รูปภาพที่เลือก" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #3498db;">
+                    </div>
+                    
+                    <div class="controls" style="margin-top: 20px;">
+                        <button class="btn btn-success" id="submitForStudentBtn" disabled onclick="submitPhotoForStudent()">
+                            <i class="fas fa-check"></i> ส่งรูปภาพแทนนักเรียน
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -2470,6 +2621,54 @@
         </div>
     </div>
 
+    <!-- Modal ใหม่: หน้ารับรูปภาพจากนักเรียน -->
+    <div class="modal" id="receivePhotoModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <h3><i class="fas fa-camera-retro"></i> ส่งรูปภาพเช็คกิจกรรม</h3>
+            <p style="margin-bottom: 20px; color: #555;">
+                กรุณาเลือกนักเรียนและอัปโหลดรูปภาพของคุณเพื่อเช็คชื่อกิจกรรม
+            </p>
+            
+            <div class="form-group">
+                <label for="receiveStudentName"><i class="fas fa-user-graduate"></i> ชื่อ-นามสกุล</label>
+                <input type="text" id="receiveStudentName" placeholder="กรอกชื่อ-นามสกุลของท่าน">
+            </div>
+            
+            <div class="form-group">
+                <label for="receiveStudentId"><i class="fas fa-id-card"></i> รหัสนักเรียน</label>
+                <input type="text" id="receiveStudentId" placeholder="กรอกรหัสนักเรียน">
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-image"></i> อัปโหลดรูปภาพ</label>
+                <div class="upload-area" id="receiveUploadArea" onclick="document.getElementById('receiveFileInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p><strong>คลิกที่นี่เพื่อเลือกรูปภาพ</strong></p>
+                    <p>หรือลากและวางไฟล์รูปภาพลงในบริเวณนี้</p>
+                    <p class="upload-help">รองรับไฟล์ JPG, PNG ขนาดไม่เกิน 10MB</p>
+                </div>
+                <input type="file" id="receiveFileInput" accept="image/*" style="display: none;">
+            </div>
+            
+            <div id="receiveImagePreview" style="display: none; margin-top: 20px;">
+                <h4><i class="fas fa-image"></i> รูปภาพที่เลือก</h4>
+                <img id="receivePreviewImage" src="" alt="รูปภาพที่เลือก" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid #3498db;">
+            </div>
+            
+            <div class="form-group">
+                <label for="receiveActivityInfo"><i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม (ถ้ามี)</label>
+                <input type="text" id="receiveActivityInfo" placeholder="กรอกชื่อกิจกรรม (ถ้าทราบ)">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeReceivePhotoModal()">ยกเลิก</button>
+                <button class="btn btn-success" id="submitReceivedPhotoBtn" disabled onclick="submitReceivedPhoto()">
+                    <i class="fas fa-paper-plane"></i> ส่งรูปภาพ
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="notification" class="notification"></div>
 
     <script>
@@ -2480,7 +2679,7 @@
         class Database {
             constructor() {
                 this.dbName = 'college_activity_db';
-                this.dbVersion = 1;
+                this.dbVersion = 2; // เพิ่มเวอร์ชันเพื่อเพิ่ม object store ใหม่
                 this.db = null;
                 this.initPromise = this.init();
             }
@@ -2503,64 +2702,65 @@
                     
                     request.onupgradeneeded = (event) => {
                         const db = event.target.result;
+                        const oldVersion = event.oldVersion;
                         
-                        // ลบ object stores เก่าทิ้ง (ถ้ามี)
-                        if (db.objectStoreNames.contains('students')) {
-                            db.deleteObjectStore('students');
+                        // สำหรับเวอร์ชัน 2: เพิ่ม external_submissions store
+                        if (oldVersion < 2) {
+                            // เพิ่ม External Submissions store สำหรับรูปภาพจากภายนอก
+                            const externalSubmissionStore = db.createObjectStore('external_submissions', { keyPath: 'id', autoIncrement: true });
+                            externalSubmissionStore.createIndex('studentId', 'studentId');
+                            externalSubmissionStore.createIndex('studentName', 'studentName');
+                            externalSubmissionStore.createIndex('timestamp', 'timestamp');
+                            externalSubmissionStore.createIndex('status', 'status');
+                            externalSubmissionStore.createIndex('imageId', 'imageId');
+                            
+                            // เพิ่ม External Images store สำหรับรูปภาพจากภายนอก
+                            const externalImageStore = db.createObjectStore('external_images', { keyPath: 'id', autoIncrement: true });
+                            externalImageStore.createIndex('submissionId', 'submissionId', { unique: true });
+                            externalImageStore.createIndex('studentId', 'studentId');
+                            externalImageStore.createIndex('timestamp', 'timestamp');
+                            
+                            console.log('Added external_submissions and external_images stores');
                         }
-                        if (db.objectStoreNames.contains('submissions')) {
-                            db.deleteObjectStore('submissions');
+                        
+                        // หากเป็นเวอร์ชันแรก (ไม่มี object stores เก่า)
+                        if (!db.objectStoreNames.contains('students')) {
+                            // Students store
+                            const studentStore = db.createObjectStore('students', { keyPath: 'id', autoIncrement: true });
+                            studentStore.createIndex('studentId', 'studentId', { unique: true });
+                            studentStore.createIndex('name', 'name');
+                            
+                            // Submissions store
+                            const submissionStore = db.createObjectStore('submissions', { keyPath: 'id', autoIncrement: true });
+                            submissionStore.createIndex('studentId', 'studentId');
+                            submissionStore.createIndex('status', 'status');
+                            submissionStore.createIndex('timestamp', 'timestamp');
+                            submissionStore.createIndex('imageId', 'imageId');
+                            
+                            // Attendance store
+                            const attendanceStore = db.createObjectStore('attendance', { keyPath: 'id', autoIncrement: true });
+                            attendanceStore.createIndex('studentId', 'studentId', { unique: true });
+                            attendanceStore.createIndex('status', 'status');
+                            
+                            // Activities store
+                            const activityStore = db.createObjectStore('activities', { keyPath: 'id', autoIncrement: true });
+                            activityStore.createIndex('date', 'date');
+                            activityStore.createIndex('status', 'status');
+                            
+                            // Users store
+                            const userStore = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+                            userStore.createIndex('username', 'username', { unique: true });
+                            userStore.createIndex('type', 'type');
+                            userStore.createIndex('studentId', 'studentId', { unique: false });
+                            
+                            // Images store - สำหรับเก็บรูปภาพขนาดใหญ่
+                            const imageStore = db.createObjectStore('images', { keyPath: 'id', autoIncrement: true });
+                            imageStore.createIndex('submissionId', 'submissionId', { unique: true });
+                            imageStore.createIndex('studentId', 'studentId');
+                            imageStore.createIndex('timestamp', 'timestamp');
+                            
+                            console.log('Database structure created');
                         }
-                        if (db.objectStoreNames.contains('attendance')) {
-                            db.deleteObjectStore('attendance');
-                        }
-                        if (db.objectStoreNames.contains('activities')) {
-                            db.deleteObjectStore('activities');
-                        }
-                        if (db.objectStoreNames.contains('users')) {
-                            db.deleteObjectStore('users');
-                        }
-                        if (db.objectStoreNames.contains('images')) {
-                            db.deleteObjectStore('images');
-                        }
-                        
-                        // สร้าง object stores ใหม่
-                        
-                        // Students store
-                        const studentStore = db.createObjectStore('students', { keyPath: 'id', autoIncrement: true });
-                        studentStore.createIndex('studentId', 'studentId', { unique: true });
-                        studentStore.createIndex('name', 'name');
-                        
-                        // Submissions store
-                        const submissionStore = db.createObjectStore('submissions', { keyPath: 'id', autoIncrement: true });
-                        submissionStore.createIndex('studentId', 'studentId');
-                        submissionStore.createIndex('status', 'status');
-                        submissionStore.createIndex('timestamp', 'timestamp');
-                        submissionStore.createIndex('imageId', 'imageId');
-                        
-                        // Attendance store
-                        const attendanceStore = db.createObjectStore('attendance', { keyPath: 'id', autoIncrement: true });
-                        attendanceStore.createIndex('studentId', 'studentId', { unique: true });
-                        attendanceStore.createIndex('status', 'status');
-                        
-                        // Activities store
-                        const activityStore = db.createObjectStore('activities', { keyPath: 'id', autoIncrement: true });
-                        activityStore.createIndex('date', 'date');
-                        activityStore.createIndex('status', 'status');
-                        
-                        // Users store
-                        const userStore = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
-                        userStore.createIndex('username', 'username', { unique: true });
-                        userStore.createIndex('type', 'type');
-                        userStore.createIndex('studentId', 'studentId', { unique: false });
-                        
-                        // Images store - สำหรับเก็บรูปภาพขนาดใหญ่
-                        const imageStore = db.createObjectStore('images', { keyPath: 'id', autoIncrement: true });
-                        imageStore.createIndex('submissionId', 'submissionId', { unique: true });
-                        imageStore.createIndex('studentId', 'studentId');
-                        imageStore.createIndex('timestamp', 'timestamp');
-                        
-                        console.log('Database structure created');
                     };
                 });
             }
@@ -2714,7 +2914,7 @@
             }
 
             // บันทึกรูปภาพ
-            async saveImage(submissionId, studentId, imageData) {
+            async saveImage(submissionId, studentId, imageData, storeName = 'images') {
                 await this.ready();
                 
                 // บีบอัดภาพก่อนบันทึก
@@ -2728,28 +2928,28 @@
                     size: compressedImage.length
                 };
                 
-                return this.add('images', imageRecord);
+                return this.add(storeName, imageRecord);
             }
 
             // ดึงรูปภาพ
-            async getImage(imageId) {
-                return this.get('images', imageId);
+            async getImage(imageId, storeName = 'images') {
+                return this.get(storeName, imageId);
             }
 
             // ดึงรูปภาพตาม submissionId
-            async getImageBySubmissionId(submissionId) {
-                const images = await this.queryAll('images', 'submissionId', submissionId);
+            async getImageBySubmissionId(submissionId, storeName = 'images') {
+                const images = await this.queryAll(storeName, 'submissionId', submissionId);
                 return images.length > 0 ? images[0] : null;
             }
 
             // ดึงรูปภาพทั้งหมดของนักเรียน
-            async getStudentImages(studentId) {
-                return this.queryAll('images', 'studentId', studentId);
+            async getStudentImages(studentId, storeName = 'images') {
+                return this.queryAll(storeName, 'studentId', studentId);
             }
 
             // ลบรูปภาพ
-            async deleteImage(imageId) {
-                return this.delete('images', imageId);
+            async deleteImage(imageId, storeName = 'images') {
+                return this.delete(storeName, imageId);
             }
 
             // บีบอัดภาพ
@@ -2799,6 +2999,8 @@
                     activities: await this.getAll('activities'),
                     users: await this.getAll('users'),
                     images: await this.getAll('images'),
+                    external_submissions: await this.getAll('external_submissions'),
+                    external_images: await this.getAll('external_images'),
                     exportDate: new Date().toISOString(),
                     version: this.dbVersion
                 };
@@ -2810,7 +3012,14 @@
                     studentId: img.studentId,
                     timestamp: img.timestamp,
                     size: img.size
-                    // ไม่รวม imageData เพื่อลดขนาดไฟล์
+                }));
+                
+                exportData.external_images = exportData.external_images.map(img => ({
+                    id: img.id,
+                    submissionId: img.submissionId,
+                    studentId: img.studentId,
+                    timestamp: img.timestamp,
+                    size: img.size
                 }));
                 
                 return exportData;
@@ -2827,10 +3036,12 @@
                 await this.clear('activities');
                 await this.clear('users');
                 await this.clear('images');
+                if (data.external_submissions) await this.clear('external_submissions');
+                if (data.external_images) await this.clear('external_images');
                 
                 // นำเข้าข้อมูลใหม่
                 const transaction = this.db.transaction(
-                    ['students', 'submissions', 'attendance', 'activities', 'users', 'images'],
+                    ['students', 'submissions', 'attendance', 'activities', 'users', 'images', 'external_submissions', 'external_images'],
                     'readwrite'
                 );
                 
@@ -2840,7 +3051,7 @@
                         const store = transaction.objectStore(storeName);
                         let completed = 0;
                         
-                        if (items.length === 0) {
+                        if (!items || items.length === 0) {
                             resolve();
                             return;
                         }
@@ -2864,11 +3075,20 @@
                     await addBatch('attendance', data.attendance || []);
                     await addBatch('activities', data.activities || []);
                     await addBatch('users', data.users || []);
+                    
                     // images อาจมีเฉพาะ metadata
                     if (data.images && data.images.length > 0) {
                         // ถ้ามี imageData จริงให้บันทึก
                         const imagesWithData = data.images.filter(img => img.imageData);
                         await addBatch('images', imagesWithData);
+                    }
+                    
+                    // external data
+                    await addBatch('external_submissions', data.external_submissions || []);
+                    
+                    if (data.external_images && data.external_images.length > 0) {
+                        const externalImagesWithData = data.external_images.filter(img => img.imageData);
+                        await addBatch('external_images', externalImagesWithData);
                     }
                     
                     return true;
@@ -2932,7 +3152,9 @@
                     imageCount,
                     pendingCount,
                     approvedCount,
-                    rejectedCount
+                    rejectedCount,
+                    externalSubmissionCount,
+                    externalPendingCount
                 ] = await Promise.all([
                     this.count('students'),
                     this.count('submissions'),
@@ -2942,7 +3164,9 @@
                     this.count('images'),
                     this.count('submissions', 'status', 'pending'),
                     this.count('submissions', 'status', 'approved'),
-                    this.count('submissions', 'status', 'rejected')
+                    this.count('submissions', 'status', 'rejected'),
+                    this.count('external_submissions'),
+                    this.count('external_submissions', 'status', 'pending')
                 ]);
                 
                 // คำนวณขนาดฐานข้อมูลโดยประมาณ
@@ -2956,6 +3180,8 @@
                     pendingSubmissions: pendingCount,
                     approvedSubmissions: approvedCount,
                     rejectedSubmissions: rejectedCount,
+                    externalSubmissions: externalSubmissionCount,
+                    externalPending: externalPendingCount,
                     lastUpdated: new Date().toISOString()
                 };
                 
@@ -2963,17 +3189,23 @@
             }
 
             // ค้นหาแบบละเอียด
-            async searchSubmissions(query, status = null, dateRange = null) {
+            async searchSubmissions(query, status = null, dateRange = null, includeExternal = true) {
                 await this.ready();
                 
                 let allSubmissions = await this.getAll('submissions');
+                
+                // ถ้ารวม external submissions
+                if (includeExternal) {
+                    const externalSubmissions = await this.getAll('external_submissions');
+                    allSubmissions = [...allSubmissions, ...externalSubmissions];
+                }
                 
                 // กรองตามคำค้นหา
                 if (query) {
                     const q = query.toLowerCase();
                     allSubmissions = allSubmissions.filter(sub => 
-                        sub.studentName.toLowerCase().includes(q) ||
-                        sub.studentId.toLowerCase().includes(q)
+                        (sub.studentName && sub.studentName.toLowerCase().includes(q)) ||
+                        (sub.studentId && sub.studentId.toLowerCase().includes(q))
                     );
                 }
                 
@@ -3003,7 +3235,12 @@
                 for (const submission of allSubmissions) {
                     let imageData = null;
                     if (submission.imageId) {
-                        const image = await this.get('images', submission.imageId);
+                        // ตรวจสอบว่าเป็น external หรือ internal submission
+                        const isExternal = submission.store === 'external' || 
+                                          (await this.query('external_submissions', 'id', submission.id));
+                        
+                        const storeName = isExternal ? 'external_images' : 'images';
+                        const image = await this.get(storeName, submission.imageId);
                         if (image) {
                             imageData = image.imageData;
                         }
@@ -3011,11 +3248,127 @@
                     
                     results.push({
                         ...submission,
-                        imageData: imageData
+                        imageData: imageData,
+                        isExternal: submission.store === 'external' || 
+                                   (await this.query('external_submissions', 'id', submission.id)) !== undefined
                     });
                 }
                 
                 return results;
+            }
+
+            // เพิ่ม external submission (สำหรับรูปจากภายนอก)
+            async addExternalSubmission(studentName, studentId, imageData, activityInfo = '') {
+                await this.ready();
+                
+                // สร้าง timestamp
+                const now = new Date();
+                const thaiTimestamp = now.toLocaleString('th-TH', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                // บันทึกรูปภาพในฐานข้อมูล
+                const imageRecord = await this.saveImage(
+                    null, // submissionId จะอัพเดททีหลัง
+                    studentId,
+                    imageData,
+                    'external_images'
+                );
+                
+                // สร้าง submission record
+                const newSubmission = {
+                    studentId: studentId,
+                    studentName: studentName,
+                    imageId: imageRecord,
+                    timestamp: now.toISOString(),
+                    thaiTimestamp: thaiTimestamp,
+                    status: 'pending',
+                    activityInfo: activityInfo,
+                    store: 'external' // บ่งบอกว่านี่เป็น submission จากภายนอก
+                };
+                
+                // บันทึก submission
+                const submissionRecord = await this.add('external_submissions', newSubmission);
+                
+                // อัพเดท image record ด้วย submissionId
+                await this.update('external_images', imageRecord, {
+                    submissionId: submissionRecord
+                });
+                
+                return submissionRecord;
+            }
+
+            // อนุมัติ external submission
+            async approveExternalSubmission(submissionId) {
+                await this.ready();
+                
+                const submission = await this.get('external_submissions', submissionId);
+                if (!submission) {
+                    throw new Error('Submission not found');
+                }
+                
+                // อัพเดทสถานะ
+                submission.status = 'approved';
+                await this.update('external_submissions', submissionId, { status: 'approved' });
+                
+                // สร้าง attendance record
+                let attendanceRecord = await this.query('attendance', 'studentId', submission.studentId);
+                
+                if (!attendanceRecord) {
+                    // สร้าง attendance record ใหม่
+                    attendanceRecord = {
+                        studentId: submission.studentId,
+                        studentName: submission.studentName,
+                        timestamp: submission.timestamp,
+                        status: 'approved',
+                        submissionId: submissionId,
+                        isExternal: true
+                    };
+                    await this.add('attendance', attendanceRecord);
+                } else {
+                    // อัพเดท attendance record ที่มีอยู่
+                    attendanceRecord.timestamp = submission.timestamp;
+                    attendanceRecord.status = 'approved';
+                    attendanceRecord.submissionId = submissionId;
+                    attendanceRecord.isExternal = true;
+                    await this.update('attendance', attendanceRecord.id, attendanceRecord);
+                }
+                
+                return submission;
+            }
+
+            // ปฏิเสธ external submission
+            async rejectExternalSubmission(submissionId) {
+                await this.ready();
+                
+                const submission = await this.get('external_submissions', submissionId);
+                if (!submission) {
+                    throw new Error('Submission not found');
+                }
+                
+                // อัพเดทสถานะ
+                submission.status = 'rejected';
+                await this.update('external_submissions', submissionId, { status: 'rejected' });
+                
+                return submission;
+            }
+
+            // ดึง external submissions ทั้งหมด
+            async getAllExternalSubmissions(status = null) {
+                await this.ready();
+                
+                let externalSubmissions = await this.getAll('external_submissions');
+                
+                if (status) {
+                    externalSubmissions = externalSubmissions.filter(sub => sub.status === status);
+                }
+                
+                return externalSubmissions;
             }
         }
 
@@ -3041,6 +3394,11 @@
         let submissionHistorySearchQuery = '';
         let submissionToDelete = null;
         let isInitialized = false;
+        
+        // ตัวแปรใหม่สำหรับระบบรับรูปภาพจากภายนอก
+        let teacherImageForStudent = null;
+        let selectedStudentIdForUpload = null;
+        let receivedImageData = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -3103,6 +3461,15 @@
         const submissionHistoryContainer = document.getElementById('submissionHistoryContainer');
         const searchSubmissionHistoryInput = document.getElementById('searchSubmissionHistory');
         
+        // DOM Elements ใหม่สำหรับระบบรับรูปภาพ
+        const selectStudentForUpload = document.getElementById('selectStudentForUpload');
+        const teacherFileInput = document.getElementById('teacherFileInput');
+        const teacherPreviewImage = document.getElementById('teacherPreviewImage');
+        const teacherImagePreview = document.getElementById('teacherImagePreview');
+        const submitForStudentBtn = document.getElementById('submitForStudentBtn');
+        const qrCodeElement = document.getElementById('qrCode');
+        const shareLinkElement = document.getElementById('shareLink');
+        
         // DOM Elements - Admin
         const activityName = document.getElementById('activityName');
         const activityDate = document.getElementById('activityDate');
@@ -3161,6 +3528,13 @@
         const confirmDeleteHistoryContent = document.getElementById('confirmDeleteHistoryContent');
         const cancelDeleteHistoryBtn = document.getElementById('cancelDeleteHistoryBtn');
         const confirmDeleteHistoryBtn = document.getElementById('confirmDeleteHistoryBtn');
+        
+        // Modal ใหม่สำหรับรับรูปภาพจากนักเรียน
+        const receivePhotoModal = document.getElementById('receivePhotoModal');
+        const receiveFileInput = document.getElementById('receiveFileInput');
+        const receivePreviewImage = document.getElementById('receivePreviewImage');
+        const receiveImagePreview = document.getElementById('receiveImagePreview');
+        const submitReceivedPhotoBtn = document.getElementById('submitReceivedPhotoBtn');
         
         // Notification
         const notification = document.getElementById('notification');
@@ -3405,6 +3779,8 @@
                     
                     // โหลดข้อมูล
                     await renderStudents();
+                    await renderStudentDropdown();
+                    await generateShareLink();
                     await renderSubmissions();
                     await renderAttendanceList();
                     await renderSubmissionHistory();
@@ -3664,6 +4040,7 @@
                 studentIdInput.value = '';
                 
                 await renderStudents();
+                await renderStudentDropdown();
                 
                 showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
             } catch (error) {
@@ -3714,6 +4091,7 @@
                 }
                 
                 await renderStudents();
+                await renderStudentDropdown();
                 await renderAttendanceList();
                 await renderSubmissions();
                 await renderSubmissionHistory();
@@ -3801,6 +4179,7 @@
                 }
                 
                 await renderStudents();
+                await renderStudentDropdown();
                 await renderAttendanceList();
                 await renderSubmissions();
                 await renderSubmissionHistory();
@@ -3875,6 +4254,48 @@
                             เกิดข้อผิดพลาดในการโหลดข้อมูลนักเรียน
                         </td>
                     </tr>
+                `;
+            }
+        }
+
+        // ฟังก์ชันสำหรับแสดง dropdown นักเรียน (สำหรับอาจารย์อัปโหลดรูปแทน)
+        async function renderStudentDropdown() {
+            try {
+                const students = await db.getAll('students');
+                
+                if (students.length === 0) {
+                    selectStudentForUpload.innerHTML = `
+                        <option value="">ยังไม่มีรายชื่อนักเรียน</option>
+                    `;
+                    return;
+                }
+                
+                selectStudentForUpload.innerHTML = `
+                    <option value="">เลือกนักเรียน</option>
+                    ${students.map(student => `
+                        <option value="${student.studentId}" data-name="${student.name}">
+                            ${student.name} (${student.studentId})
+                        </option>
+                    `).join('')}
+                `;
+                
+                // เพิ่ม event listener สำหรับ dropdown
+                selectStudentForUpload.addEventListener('change', function() {
+                    selectedStudentIdForUpload = this.value;
+                    const selectedOption = this.options[this.selectedIndex];
+                    const studentName = selectedOption ? selectedOption.getAttribute('data-name') : '';
+                    
+                    // ตรวจสอบว่าเลือกรูปภาพแล้วหรือยัง
+                    if (teacherImageForStudent && selectedStudentIdForUpload) {
+                        submitForStudentBtn.disabled = false;
+                    } else {
+                        submitForStudentBtn.disabled = true;
+                    }
+                });
+            } catch (error) {
+                console.error('Error rendering student dropdown:', error);
+                selectStudentForUpload.innerHTML = `
+                    <option value="">เกิดข้อผิดพลาดในการโหลดข้อมูล</option>
                 `;
             }
         }
@@ -4407,34 +4828,42 @@
         }
 
         // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
-        async function approveSubmission(submissionId) {
+        async function approveSubmission(submissionId, isExternal = false) {
             try {
-                const submission = await db.get('submissions', submissionId);
-                if (!submission) return;
+                let submission;
                 
-                // อัพเดทสถานะ submission
-                submission.status = 'approved';
-                await db.update('submissions', submissionId, { status: 'approved' });
-                
-                // ตรวจสอบว่ามี attendance record อยู่แล้วหรือไม่
-                let attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
-                
-                if (!attendanceRecord) {
-                    // สร้าง attendance record ใหม่
-                    attendanceRecord = {
-                        studentId: submission.studentId,
-                        studentName: submission.studentName,
-                        timestamp: submission.timestamp,
-                        status: 'approved',
-                        submissionId: submissionId
-                    };
-                    await db.add('attendance', attendanceRecord);
+                if (isExternal) {
+                    // อนุมัติ external submission
+                    submission = await db.approveExternalSubmission(submissionId);
                 } else {
-                    // อัพเดท attendance record ที่มีอยู่
-                    attendanceRecord.timestamp = submission.timestamp;
-                    attendanceRecord.status = 'approved';
-                    attendanceRecord.submissionId = submissionId;
-                    await db.update('attendance', attendanceRecord.id, attendanceRecord);
+                    // อนุมัติ internal submission
+                    submission = await db.get('submissions', submissionId);
+                    if (!submission) return;
+                    
+                    // อัพเดทสถานะ submission
+                    submission.status = 'approved';
+                    await db.update('submissions', submissionId, { status: 'approved' });
+                    
+                    // ตรวจสอบว่ามี attendance record อยู่แล้วหรือไม่
+                    let attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
+                    
+                    if (!attendanceRecord) {
+                        // สร้าง attendance record ใหม่
+                        attendanceRecord = {
+                            studentId: submission.studentId,
+                            studentName: submission.studentName,
+                            timestamp: submission.timestamp,
+                            status: 'approved',
+                            submissionId: submissionId
+                        };
+                        await db.add('attendance', attendanceRecord);
+                    } else {
+                        // อัพเดท attendance record ที่มีอยู่
+                        attendanceRecord.timestamp = submission.timestamp;
+                        attendanceRecord.status = 'approved';
+                        attendanceRecord.submissionId = submissionId;
+                        await db.update('attendance', attendanceRecord.id, attendanceRecord);
+                    }
                 }
                 
                 await renderSubmissions();
@@ -4446,7 +4875,7 @@
                 // แสดงตัวเลือกในการพิมพ์เอกสาร
                 setTimeout(() => {
                     if (confirm(`อนุมัติการเช็คชื่อของ ${submission.studentName} สำเร็จ! ต้องการพิมพ์เอกสารยืนยันการเข้าร่วมกิจกรรมหรือไม่?`)) {
-                        openPrintDocumentModal(submissionId);
+                        openPrintDocumentModal(submissionId, isExternal);
                     }
                 }, 500);
             } catch (error) {
@@ -4456,19 +4885,27 @@
         }
 
         // ฟังก์ชันสำหรับปฏิเสธการเช็คชื่อ
-        async function rejectSubmission(submissionId) {
+        async function rejectSubmission(submissionId, isExternal = false) {
             try {
-                const submission = await db.get('submissions', submissionId);
-                if (!submission) return;
+                let submission;
                 
-                // อัพเดทสถานะ submission
-                submission.status = 'rejected';
-                await db.update('submissions', submissionId, { status: 'rejected' });
-                
-                // ตรวจสอบและอัพเดท attendance record
-                const attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
-                if (attendanceRecord) {
-                    await db.update('attendance', attendanceRecord.id, { status: 'absent' });
+                if (isExternal) {
+                    // ปฏิเสธ external submission
+                    submission = await db.rejectExternalSubmission(submissionId);
+                } else {
+                    // ปฏิเสธ internal submission
+                    submission = await db.get('submissions', submissionId);
+                    if (!submission) return;
+                    
+                    // อัพเดทสถานะ submission
+                    submission.status = 'rejected';
+                    await db.update('submissions', submissionId, { status: 'rejected' });
+                    
+                    // ตรวจสอบและอัพเดท attendance record
+                    const attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
+                    if (attendanceRecord) {
+                        await db.update('attendance', attendanceRecord.id, { status: 'absent' });
+                    }
                 }
                 
                 await renderSubmissions();
@@ -4485,9 +4922,15 @@
         // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
         async function renderSubmissions() {
             try {
+                // ดึง internal submissions
                 const pendingSubmissions = await db.queryAll('submissions', 'status', 'pending');
                 
-                if (pendingSubmissions.length === 0) {
+                // ดึง external submissions
+                const pendingExternalSubmissions = await db.getAllExternalSubmissions('pending');
+                
+                const allPendingSubmissions = [...pendingSubmissions, ...pendingExternalSubmissions];
+                
+                if (allPendingSubmissions.length === 0) {
                     submissionsContainer.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-images"></i>
@@ -4499,10 +4942,15 @@
                 
                 // ดึงรูปภาพสำหรับแต่ละ submission
                 const submissionsWithImages = [];
-                for (const submission of pendingSubmissions) {
+                for (const submission of allPendingSubmissions) {
                     let imageData = null;
                     if (submission.imageId) {
-                        const image = await db.get('images', submission.imageId);
+                        // ตรวจสอบว่าเป็น external หรือ internal
+                        const isExternal = submission.store === 'external' || 
+                                          (await db.query('external_submissions', 'id', submission.id));
+                        
+                        const storeName = isExternal ? 'external_images' : 'images';
+                        const image = await db.get(storeName, submission.imageId);
                         if (image) {
                             imageData = image.imageData;
                         }
@@ -4510,7 +4958,9 @@
                     
                     submissionsWithImages.push({
                         ...submission,
-                        imageData: imageData
+                        imageData: imageData,
+                        isExternal: submission.store === 'external' || 
+                                   (await db.query('external_submissions', 'id', submission.id)) !== undefined
                     });
                 }
                 
@@ -4527,13 +4977,15 @@
                                 `}
                                 <div class="submission-info">
                                     <h3>${submission.studentName}</h3>
-                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
+                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
                                     <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
+                                    ${submission.isExternal ? `<p><strong>แหล่งที่มา:</strong> <span class="status pending">ส่งจากภายนอก</span></p>` : ''}
                                     <div class="submission-actions">
-                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
                                             <i class="fas fa-check"></i> อนุมัติ
                                         </button>
-                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
                                             <i class="fas fa-times"></i> ปฏิเสธ
                                         </button>
                                     </div>
@@ -4559,7 +5011,8 @@
                 const searchResults = await db.searchSubmissions(
                     submissionHistorySearchQuery,
                     currentHistoryFilter !== 'all' ? currentHistoryFilter : null,
-                    null
+                    null,
+                    true // รวม external submissions ด้วย
                 );
                 
                 if (searchResults.length === 0) {
@@ -4585,7 +5038,8 @@
                                 `}
                                 <div class="submission-info">
                                     <h3>${submission.studentName}</h3>
-                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
+                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
                                     <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
                                     <p><strong>สถานะ:</strong> 
                                         <span class="status ${submission.status} mobile-status">
@@ -4593,17 +5047,18 @@
                                               submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
                                               'รอตรวจสอบ'}
                                         </span>
+                                        ${submission.isExternal ? ' <span class="status pending" style="background: #e3f2fd; color: #1565c0;">จากภายนอก</span>' : ''}
                                     </p>
                                     <div class="submission-actions">
                                         ${submission.status === 'pending' ? `
-                                            <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                            <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
                                                 <i class="fas fa-check"></i> อนุมัติ
                                             </button>
-                                            <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                            <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
                                                 <i class="fas fa-times"></i> ปฏิเสธ
                                             </button>
                                         ` : ''}
-                                        <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id})">
+                                        <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id}, ${submission.isExternal})">
                                             <i class="fas fa-trash"></i> ลบประวัติ
                                         </button>
                                     </div>
@@ -4654,18 +5109,32 @@
         }
 
         // ฟังก์ชันเปิด Modal ยืนยันการลบประวัติ
-        async function openDeleteHistoryModal(submissionId) {
+        async function openDeleteHistoryModal(submissionId, isExternal = false) {
             try {
-                const submission = await db.get('submissions', submissionId);
+                let submission;
+                let submissionType = 'submissions';
+                
+                if (isExternal) {
+                    submission = await db.get('external_submissions', submissionId);
+                    submissionType = 'external_submissions';
+                } else {
+                    submission = await db.get('submissions', submissionId);
+                }
+                
                 if (!submission) return;
                 
-                submissionToDelete = submissionId;
+                submissionToDelete = {
+                    id: submissionId,
+                    isExternal: isExternal,
+                    type: submissionType
+                };
                 
                 confirmDeleteHistoryContent.innerHTML = `
-                    <p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId}) ใช่หรือไม่?</p>
+                    <p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId || 'ไม่ระบุ'}) ใช่หรือไม่?</p>
                     <p><strong>วันที่ส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
                     <p><strong>สถานะ:</strong> ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
                       submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}</p>
+                    ${isExternal ? '<p><strong>แหล่งที่มา:</strong> ส่งจากภายนอก</p>' : ''}
                     <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
                 `;
                 
@@ -4681,21 +5150,29 @@
             if (!submissionToDelete) return;
             
             try {
-                const submission = await db.get('submissions', submissionToDelete);
+                let submission;
+                
+                if (submissionToDelete.isExternal) {
+                    submission = await db.get('external_submissions', submissionToDelete.id);
+                } else {
+                    submission = await db.get('submissions', submissionToDelete.id);
+                }
+                
                 if (!submission) return;
                 
                 // ลบรูปภาพ
                 if (submission.imageId) {
-                    await db.delete('images', submission.imageId);
+                    const storeName = submissionToDelete.isExternal ? 'external_images' : 'images';
+                    await db.delete(storeName, submission.imageId);
                 }
                 
                 // ลบ submission
-                await db.delete('submissions', submissionToDelete);
+                await db.delete(submissionToDelete.type, submissionToDelete.id);
                 
                 // ถ้าลบ submission ที่อนุมัติแล้ว ให้ลบหรืออัพเดท attendance record
                 if (submission.status === 'approved') {
                     const attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
-                    if (attendanceRecord && attendanceRecord.submissionId === submissionToDelete) {
+                    if (attendanceRecord && attendanceRecord.submissionId === submissionToDelete.id) {
                         await db.delete('attendance', attendanceRecord.id);
                     }
                 }
@@ -4735,7 +5212,13 @@
                 // อัพเดทสถานะใน submissions
                 if (attendanceRecord.submissionId) {
                     const submissionStatus = newStatus === 'approved' ? 'approved' : 'rejected';
-                    await db.update('submissions', attendanceRecord.submissionId, { status: submissionStatus });
+                    
+                    // ตรวจสอบว่าเป็น external หรือ internal
+                    if (attendanceRecord.isExternal) {
+                        await db.update('external_submissions', attendanceRecord.submissionId, { status: submissionStatus });
+                    } else {
+                        await db.update('submissions', attendanceRecord.submissionId, { status: submissionStatus });
+                    }
                 }
                 
                 await renderAttendanceList();
@@ -4864,6 +5347,287 @@
             }
         }
 
+        // ============================================
+        // ฟังก์ชันใหม่สำหรับระบบรับรูปภาพจากภายนอก
+        // ============================================
+
+        // ฟังก์ชันสร้างลิงค์สำหรับแชร์
+        async function generateShareLink() {
+            try {
+                // สร้าง URL สำหรับรับรูปภาพ
+                const baseUrl = window.location.origin + window.location.pathname;
+                const receiveUrl = `${baseUrl}?receivePhoto=true`;
+                
+                // แสดงลิงค์
+                shareLinkElement.innerHTML = `
+                    <p style="margin: 0; word-break: break-all;">${receiveUrl}</p>
+                `;
+                
+                // อัพเดท QR Code (จำลอง)
+                qrCodeElement.innerHTML = `
+                    <div style="text-align: center;">
+                        <i class="fas fa-qrcode" style="font-size: 6rem; color: #2c3e50;"></i>
+                        <p style="margin-top: 10px; color: #555; font-size: 0.9rem;">สแกนเพื่อส่งรูปภาพ</p>
+                        <p style="color: #7f8c8d; font-size: 0.8rem;">หรือกดลิงค์ด้านล่าง</p>
+                    </div>
+                `;
+                
+                // บันทึก URL นี้ไว้ในตัวแปร global เพื่อใช้ในฟังก์ชันอื่น
+                window.shareableUrl = receiveUrl;
+            } catch (error) {
+                console.error('Error generating share link:', error);
+                shareLinkElement.innerHTML = `
+                    <p style="color: #e74c3c;">ไม่สามารถสร้างลิงค์ได้</p>
+                `;
+            }
+        }
+
+        // ฟังก์ชันคัดลอกลิงค์
+        function copyShareLink() {
+            if (!window.shareableUrl) {
+                showNotification('ยังไม่มีลิงค์สำหรับคัดลอก', 'error');
+                return;
+            }
+            
+            navigator.clipboard.writeText(window.shareableUrl)
+                .then(() => {
+                    showNotification('คัดลอกลิงค์สำเร็จแล้ว', 'success');
+                })
+                .catch(err => {
+                    console.error('Error copying link:', err);
+                    showNotification('ไม่สามารถคัดลอกลิงค์ได้', 'error');
+                });
+        }
+
+        // ฟังก์ชันแชร์ผ่าน WhatsApp
+        function shareViaWhatsApp() {
+            if (!window.shareableUrl) {
+                showNotification('ยังไม่มีลิงค์สำหรับแชร์', 'error');
+                return;
+            }
+            
+            const message = `ส่งรูปภาพเช็คกิจกรรมได้ที่ลิงค์นี้: ${window.shareableUrl}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // ฟังก์ชันแชร์ผ่าน Line
+        function shareViaLine() {
+            if (!window.shareableUrl) {
+                showNotification('ยังไม่มีลิงค์สำหรับแชร์', 'error');
+                return;
+            }
+            
+            const message = `ส่งรูปภาพเช็คกิจกรรมได้ที่ลิงค์นี้: ${window.shareableUrl}`;
+            const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
+            window.open(lineUrl, '_blank');
+        }
+
+        // ฟังก์ชันเปิดหน้ารับรูปภาพ
+        function openReceivePhotoPage() {
+            // ตรวจสอบว่ามีพารามิเตอร์ receivePhoto ใน URL หรือไม่
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('receivePhoto')) {
+                receivePhotoModal.style.display = 'flex';
+            }
+        }
+
+        // ฟังก์ชันปิดหน้ารับรูปภาพ
+        function closeReceivePhotoModal() {
+            receivePhotoModal.style.display = 'none';
+            receivedImageData = null;
+            document.getElementById('receiveStudentName').value = '';
+            document.getElementById('receiveStudentId').value = '';
+            document.getElementById('receiveActivityInfo').value = '';
+            receiveImagePreview.style.display = 'none';
+            submitReceivedPhotoBtn.disabled = true;
+        }
+
+        // ฟังก์ชันเลือกรูปภาพสำหรับอาจารย์ (อัปโหลดแทนนักเรียน)
+        function handleTeacherFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) { // จำกัดขนาดไฟล์ 10MB
+                showNotification('ไฟล์รูปภาพใหญ่เกินไป กรุณาเลือกรูปที่มีขนาดน้อยกว่า 10MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                teacherImageForStudent = e.target.result;
+                teacherPreviewImage.src = teacherImageForStudent;
+                teacherImagePreview.style.display = 'block';
+                
+                // ตรวจสอบว่าเลือกนักเรียนแล้วหรือยัง
+                if (selectedStudentIdForUpload) {
+                    submitForStudentBtn.disabled = false;
+                }
+                
+                showNotification('เลือกรูปภาพสำเร็จแล้ว', 'success');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // ฟังก์ชันเลือกรูปภาพสำหรับผู้ส่งจากภายนอก
+        function handleReceiveFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) { // จำกัดขนาดไฟล์ 10MB
+                showNotification('ไฟล์รูปภาพใหญ่เกินไป กรุณาเลือกรูปที่มีขนาดน้อยกว่า 10MB', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                receivedImageData = e.target.result;
+                receivePreviewImage.src = receivedImageData;
+                receiveImagePreview.style.display = 'block';
+                
+                // ตรวจสอบว่ากรอกข้อมูลนักเรียนแล้วหรือยัง
+                const studentName = document.getElementById('receiveStudentName').value.trim();
+                const studentId = document.getElementById('receiveStudentId').value.trim();
+                
+                if (studentName && studentId && receivedImageData) {
+                    submitReceivedPhotoBtn.disabled = false;
+                }
+                
+                showNotification('เลือกรูปภาพสำเร็จแล้ว', 'success');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        // ฟังก์ชันส่งรูปภาพแทนนักเรียน (อาจารย์)
+        async function submitPhotoForStudent() {
+            if (!teacherImageForStudent || !selectedStudentIdForUpload) {
+                showNotification('กรุณาเลือกรูปภาพและนักเรียน', 'error');
+                return;
+            }
+            
+            try {
+                // ค้นหาข้อมูลนักเรียน
+                const selectedOption = selectStudentForUpload.options[selectStudentForUpload.selectedIndex];
+                const studentName = selectedOption.getAttribute('data-name');
+                
+                // สร้าง timestamp
+                const now = new Date();
+                const thaiTimestamp = now.toLocaleString('th-TH', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                // บันทึกรูปภาพในฐานข้อมูล
+                const imageRecord = await db.saveImage(
+                    null, // submissionId จะอัพเดททีหลัง
+                    selectedStudentIdForUpload,
+                    teacherImageForStudent
+                );
+                
+                // สร้าง submission record
+                const newSubmission = {
+                    studentId: selectedStudentIdForUpload,
+                    studentName: studentName,
+                    imageId: imageRecord,
+                    timestamp: now.toISOString(),
+                    thaiTimestamp: thaiTimestamp,
+                    status: 'pending',
+                    submittedBy: currentUser ? currentUser.name : 'อาจารย์',
+                    isTeacherUpload: true
+                };
+                
+                // บันทึก submission
+                const submissionRecord = await db.add('submissions', newSubmission);
+                
+                // อัพเดท image record ด้วย submissionId
+                await db.update('images', imageRecord, {
+                    submissionId: submissionRecord
+                });
+                
+                // รีเซ็ตฟอร์ม
+                teacherImageForStudent = null;
+                selectedStudentIdForUpload = null;
+                teacherPreviewImage.src = '';
+                teacherImagePreview.style.display = 'none';
+                selectStudentForUpload.selectedIndex = 0;
+                submitForStudentBtn.disabled = true;
+                
+                // อัพเดท UI
+                await renderSubmissions();
+                await renderSubmissionHistory();
+                
+                showNotification(`ส่งรูปภาพแทนนักเรียน ${studentName} สำเร็จแล้ว!`, 'success');
+            } catch (error) {
+                console.error('Error submitting photo for student:', error);
+                showNotification('เกิดข้อผิดพลาดในการส่งรูปภาพ', 'error');
+            }
+        }
+
+        // ฟังก์ชันส่งรูปภาพจากภายนอก
+        async function submitReceivedPhoto() {
+            const studentName = document.getElementById('receiveStudentName').value.trim();
+            const studentId = document.getElementById('receiveStudentId').value.trim();
+            const activityInfo = document.getElementById('receiveActivityInfo').value.trim();
+            
+            if (!studentName || !studentId || !receivedImageData) {
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วนและเลือกรูปภาพ', 'error');
+                return;
+            }
+            
+            try {
+                // เพิ่ม external submission
+                const submissionId = await db.addExternalSubmission(
+                    studentName,
+                    studentId,
+                    receivedImageData,
+                    activityInfo
+                );
+                
+                // รีเซ็ตฟอร์ม
+                closeReceivePhotoModal();
+                
+                showNotification('ส่งรูปภาพสำเร็จแล้ว! รอการตรวจสอบจากอาจารย์', 'success');
+                
+                // แสดงข้อความขอบคุณ
+                setTimeout(() => {
+                    alert(`ขอบคุณที่ส่งรูปภาพของคุณ ${studentName}!\n\nรูปภาพของคุณจะถูกตรวจสอบโดยอาจารย์ในเร็วๆ นี้\n\nคุณสามารถปิดหน้านี้ได้`);
+                }, 500);
+            } catch (error) {
+                console.error('Error submitting received photo:', error);
+                showNotification('เกิดข้อผิดพลาดในการส่งรูปภาพ', 'error');
+            }
+        }
+
+        // ฟังก์ชันตรวจสอบการกรอกข้อมูลในฟอร์มรับรูปภาพ
+        function checkReceiveForm() {
+            const studentName = document.getElementById('receiveStudentName').value.trim();
+            const studentId = document.getElementById('receiveStudentId').value.trim();
+            
+            if (studentName && studentId && receivedImageData) {
+                submitReceivedPhotoBtn.disabled = false;
+            } else {
+                submitReceivedPhotoBtn.disabled = true;
+            }
+        }
+
         // ฟังก์ชันสำหรับ Admin
 
         // ฟังก์ชันแสดงแดชบอร์ด Admin
@@ -4875,7 +5639,11 @@
                 totalStudents.textContent = stats.students;
                 totalTeachers.textContent = stats.users - stats.students; // จำนวนอาจารย์ = ผู้ใช้ทั้งหมด - นักเรียน
                 totalActivities.textContent = stats.activities;
-                totalAttendance.textContent = stats.approvedSubmissions;
+                totalAttendance.textContent = stats.approvedSubmissions + stats.externalPending;
+                
+                // แสดงข้อมูล external submissions
+                console.log('External submissions:', stats.externalSubmissions);
+                console.log('External pending:', stats.externalPending);
             } catch (error) {
                 console.error('Error rendering admin dashboard:', error);
                 totalStudents.textContent = '0';
@@ -5319,9 +6087,19 @@
         }
 
         // ฟังก์ชันสำหรับพิมพ์เอกสาร
-        async function openPrintDocumentModal(submissionId) {
+        async function openPrintDocumentModal(submissionId, isExternal = false) {
             try {
-                const submission = await db.get('submissions', submissionId);
+                let submission;
+                let studentInfo = null;
+                
+                if (isExternal) {
+                    submission = await db.get('external_submissions', submissionId);
+                } else {
+                    submission = await db.get('submissions', submissionId);
+                    // ดึงข้อมูลนักเรียน
+                    studentInfo = await db.query('users', 'studentId', submission.studentId);
+                }
+                
                 if (!submission) return;
                 
                 currentPrintSubmissionId = submissionId;
@@ -5330,7 +6108,6 @@
                 const attendanceRecord = await db.query('attendance', 'studentId', submission.studentId);
                 const activeActivities = await db.queryAll('activities', 'status', 'active');
                 const activeActivity = activeActivities.length > 0 ? activeActivities[0] : null;
-                const studentInfo = await db.query('users', 'studentId', submission.studentId);
                 const studentClass = studentInfo ? studentInfo.class : 'ปี 1';
                 
                 printDocumentContent.innerHTML = `
@@ -5350,8 +6127,8 @@
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                                 <div>
                                     <p style="margin-bottom: 8px;"><strong>ชื่อ-นามสกุล:</strong> ${submission.studentName}</p>
-                                    <p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-                                    <p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>
+                                    <p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
+                                    ${studentInfo ? `<p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>` : ''}
                                 </div>
                                 <div>
                                     <p style="margin-bottom: 8px;"><strong>วันที่ส่งรูป:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
@@ -5383,6 +6160,13 @@
                                     <p><strong>รายละเอียดกิจกรรม:</strong> ${activeActivity.description}</p>
                                 </div>
                             </div>
+                        ` : submission.activityInfo ? `
+                            <div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                                <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
+                                    <i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
+                                </h3>
+                                <p><strong>กิจกรรมที่ส่ง:</strong> ${submission.activityInfo}</p>
+                            </div>
                         ` : `
                             <div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
                                 <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
@@ -5403,6 +6187,7 @@
                                 <div>
                                     <p style="margin-bottom: 8px;"><strong>สถานะการเข้าร่วม:</strong> <span style="color: #27ae60; font-weight: bold;">เข้าร่วมกิจกรรม</span></p>
                                     <p style="margin-bottom: 8px;"><strong>วิธีการเช็คชื่อ:</strong> การถ่ายรูปยืนยันตัวตน</p>
+                                    ${isExternal ? '<p style="margin-bottom: 8px;"><strong>แหล่งที่มา:</strong> ส่งจากภายนอก</p>' : ''}
                                 </div>
                                 <div>
                                     <p style="margin-bottom: 8px;"><strong>วันที่อนุมัติ:</strong> ${new Date().toLocaleString('th-TH', {
@@ -5584,6 +6369,9 @@
                 const today = new Date().toISOString().split('T')[0];
                 if (activityDate) activityDate.value = today;
                 
+                // ตรวจสอบและเปิดหน้ารับรูปภาพถ้ามีพารามิเตอร์
+                openReceivePhotoPage();
+                
                 isInitialized = true;
                 
                 console.log('ระบบได้เริ่มต้นแล้ว');
@@ -5595,6 +6383,7 @@
                 console.log('- ผู้ดูแล: admin / college123');
                 console.log('- ฐานข้อมูล: IndexedDB พร้อมใช้งาน');
                 console.log('- ระบบซิงค์ข้อมูล: พร้อมใช้งาน');
+                console.log('- ระบบรับรูปภาพจากภายนอก: พร้อมใช้งาน');
                 
             } catch (error) {
                 console.error('Error initializing system:', error);
@@ -5698,6 +6487,14 @@
         // ฟังก์ชันลบประวัติ
         cancelDeleteHistoryBtn.addEventListener('click', closeDeleteHistoryModal);
         confirmDeleteHistoryBtn.addEventListener('click', deleteSubmissionHistory);
+        
+        // ฟังก์ชันใหม่สำหรับระบบรับรูปภาพจากภายนอก
+        teacherFileInput.addEventListener('change', handleTeacherFileSelect);
+        receiveFileInput.addEventListener('change', handleReceiveFileSelect);
+        
+        // ตรวจสอบการกรอกข้อมูลในฟอร์มรับรูปภาพจากภายนอก
+        document.getElementById('receiveStudentName').addEventListener('input', checkReceiveForm);
+        document.getElementById('receiveStudentId').addEventListener('input', checkReceiveForm);
 
         // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
@@ -5726,6 +6523,10 @@
         
         confirmDeleteHistoryModal.addEventListener('click', (e) => {
             if (e.target === confirmDeleteHistoryModal) closeDeleteHistoryModal();
+        });
+        
+        receivePhotoModal.addEventListener('click', (e) => {
+            if (e.target === receivePhotoModal) closeReceivePhotoModal();
         });
 
         // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
