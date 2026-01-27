@@ -3399,6 +3399,9 @@
         let teacherImageForStudent = null;
         let selectedStudentIdForUpload = null;
         let receivedImageData = null;
+        
+        // ตัวแปรสำหรับ auto-refresh
+        let refreshInterval = null;
 
         // DOM Elements - Login
         const loginPage = document.getElementById('loginPage');
@@ -3548,6 +3551,52 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
+        }
+
+        // ฟังก์ชัน debug สำหรับตรวจสอบฐานข้อมูล
+        async function debugDatabase() {
+            try {
+                console.log('=== DEBUG DATABASE ===');
+                
+                // ตรวจสอบ submissions ทั้งหมด
+                const allSubmissions = await db.getAll('submissions');
+                console.log('Total submissions:', allSubmissions.length);
+                
+                // ตรวจสอบ submissions ที่ pending
+                const pendingSubmissions = await db.queryAll('submissions', 'status', 'pending');
+                console.log('Pending submissions:', pendingSubmissions.length);
+                
+                // ตรวจสอบแต่ละ submission
+                for (const sub of pendingSubmissions) {
+                    console.log(`Submission ${sub.id}:`, {
+                        studentName: sub.studentName,
+                        studentId: sub.studentId,
+                        imageId: sub.imageId,
+                        timestamp: sub.timestamp
+                    });
+                    
+                    // ตรวจสอบว่ามีรูปภาพหรือไม่
+                    if (sub.imageId) {
+                        const image = await db.get('images', sub.imageId);
+                        console.log(`  Image ${sub.imageId} exists:`, image ? 'Yes' : 'No');
+                        if (image) {
+                            console.log(`  Image data type:`, typeof image.imageData);
+                            console.log(`  Image data length:`, image.imageData ? image.imageData.length : 0);
+                        }
+                    }
+                }
+                
+                // ตรวจสอบ images ทั้งหมด
+                const allImages = await db.getAll('images');
+                console.log('Total images in database:', allImages.length);
+                
+                console.log('=== END DEBUG ===');
+                
+                showNotification('Debug completed. Check console for details.', 'success');
+            } catch (error) {
+                console.error('Debug error:', error);
+                showNotification('Debug failed: ' + error.message, 'error');
+            }
         }
 
         // ฟังก์ชันโหลดข้อมูลเริ่มต้น
@@ -3785,6 +3834,9 @@
                     await renderAttendanceList();
                     await renderSubmissionHistory();
                     
+                    // เริ่ม auto-refresh
+                    startAutoRefresh();
+                    
                     showNotification(`ยินดีต้อนรับ ${user.name}`, 'success');
                 } else {
                     showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
@@ -3852,6 +3904,9 @@
                 stream.getTracks().forEach(track => track.stop());
                 stream = null;
             }
+            
+            // หยุด auto-refresh
+            stopAutoRefresh();
             
             // กลับไปหน้า login
             loginPage.classList.add('active');
@@ -4586,6 +4641,8 @@
             }
             
             try {
+                console.log('Starting to save submission...'); // Debug log
+                
                 // สร้าง timestamp
                 const now = new Date();
                 const thaiTimestamp = now.toLocaleString('th-TH', {
@@ -4604,6 +4661,8 @@
                     capturedImageData
                 );
                 
+                console.log('Image saved with ID:', imageRecord); // Debug log
+                
                 // สร้าง submission record
                 const newSubmission = {
                     studentId: currentUser.studentId,
@@ -4617,10 +4676,14 @@
                 // บันทึก submission
                 const submissionRecord = await db.add('submissions', newSubmission);
                 
+                console.log('Submission saved with ID:', submissionRecord); // Debug log
+                
                 // อัพเดท image record ด้วย submissionId
                 await db.update('images', imageRecord, {
                     submissionId: submissionRecord
                 });
+                
+                console.log('Image updated with submission ID'); // Debug log
                 
                 // แสดงประวัติใหม่ทันที
                 await renderStudentHistory();
@@ -4652,7 +4715,7 @@
                 
             } catch (error) {
                 console.error('Error sending photo:', error);
-                showNotification('เกิดข้อผิดพลาดในการส่งรูป', 'error');
+                showNotification('เกิดข้อผิดพลาดในการส่งรูป: ' + error.message, 'error');
             }
         }
 
@@ -4827,6 +4890,200 @@
             }
         }
 
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียนในหน้ามาจารย์
+        async function renderSubmissions() {
+            try {
+                console.log('Starting to render submissions...'); // Debug log
+                
+                // ดึง internal submissions
+                const pendingSubmissions = await db.queryAll('submissions', 'status', 'pending');
+                
+                // ดึง external submissions
+                const pendingExternalSubmissions = await db.getAllExternalSubmissions('pending');
+                
+                const allPendingSubmissions = [...pendingSubmissions, ...pendingExternalSubmissions];
+                
+                console.log('Found submissions:', allPendingSubmissions.length); // Debug log
+                
+                if (allPendingSubmissions.length === 0) {
+                    submissionsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-images"></i>
+                            <p>ยังไม่มีนักเรียนส่งรูปมา</p>
+                            <button class="btn btn-warning" onclick="debugDatabase()" style="margin-top: 15px;">
+                                <i class="fas fa-bug"></i> Debug ระบบ
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // ดึงรูปภาพสำหรับแต่ละ submission
+                const submissionsWithImages = [];
+                for (const submission of allPendingSubmissions) {
+                    let imageData = null;
+                    
+                    if (submission.imageId) {
+                        try {
+                            // ตรวจสอบว่าเป็น external หรือ internal
+                            const isExternal = submission.store === 'external' || 
+                                              (await db.query('external_submissions', 'id', submission.id));
+                            
+                            const storeName = isExternal ? 'external_images' : 'images';
+                            const image = await db.get(storeName, submission.imageId);
+                            console.log('Image found for submission', submission.id, ':', image ? 'Yes' : 'No'); // Debug log
+                            
+                            if (image && image.imageData) {
+                                imageData = image.imageData;
+                            } else {
+                                // ลองหาใน external_images ถ้าไม่เจอใน images
+                                const externalImage = await db.get('external_images', submission.imageId);
+                                if (externalImage && externalImage.imageData) {
+                                    imageData = externalImage.imageData;
+                                }
+                            }
+                        } catch (imageError) {
+                            console.error('Error loading image for submission', submission.id, ':', imageError);
+                        }
+                    }
+                    
+                    submissionsWithImages.push({
+                        ...submission,
+                        imageData: imageData,
+                        isExternal: submission.store === 'external' || 
+                                   (await db.query('external_submissions', 'id', submission.id)) !== undefined
+                    });
+                }
+                
+                // Debug: แสดงจำนวน submission ที่มีรูปภาพ
+                console.log('Submissions with images:', submissionsWithImages.filter(s => s.imageData).length);
+                
+                submissionsContainer.innerHTML = `
+                    <div class="submission-list">
+                        ${submissionsWithImages.map(submission => `
+                            <div class="submission-item">
+                                ${submission.imageData ? `
+                                    <img src="${submission.imageData}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                                ` : `
+                                    <div class="submission-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-image" style="font-size: 3rem; color: #bdc3c7;"></i>
+                                        <p style="color: #7f8c8d; margin-left: 10px;">ไม่มีรูปภาพ</p>
+                                    </div>
+                                `}
+                                <div class="submission-info">
+                                    <h3>${submission.studentName}</h3>
+                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
+                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
+                                    <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
+                                    ${submission.isExternal ? `<p><strong>แหล่งที่มา:</strong> <span class="status pending">ส่งจากภายนอก</span></p>` : ''}
+                                    <div class="submission-actions">
+                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
+                                            <i class="fas fa-check"></i> อนุมัติ
+                                        </button>
+                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
+                                            <i class="fas fa-times"></i> ปฏิเสธ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-warning" onclick="debugDatabase()">
+                            <i class="fas fa-bug"></i> Debug ระบบ
+                        </button>
+                        <button class="btn btn-info" onclick="renderSubmissions()" style="margin-left: 10px;">
+                            <i class="fas fa-sync-alt"></i> โหลดใหม่
+                        </button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error rendering submissions:', error);
+                submissionsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}</p>
+                        <button class="btn btn-warning" onclick="debugDatabase()" style="margin-top: 15px;">
+                            <i class="fas fa-bug"></i> Debug ระบบ
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ฟังก์ชันแสดงประวัติการส่งรูปทั้งหมด (สำหรับอาจารย์)
+        async function renderSubmissionHistory() {
+            try {
+                const searchResults = await db.searchSubmissions(
+                    submissionHistorySearchQuery,
+                    currentHistoryFilter !== 'all' ? currentHistoryFilter : null,
+                    null,
+                    true // รวม external submissions ด้วย
+                );
+                
+                if (searchResults.length === 0) {
+                    submissionHistoryContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <p>ไม่พบประวัติการส่งรูป</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                submissionHistoryContainer.innerHTML = `
+                    <div class="submission-list">
+                        ${searchResults.map(submission => `
+                            <div class="submission-item">
+                                ${submission.imageData ? `
+                                    <img src="${submission.imageData}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                                ` : `
+                                    <div class="submission-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-image" style="font-size: 3rem; color: #bdc3c7;"></i>
+                                    </div>
+                                `}
+                                <div class="submission-info">
+                                    <h3>${submission.studentName}</h3>
+                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
+                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
+                                    <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
+                                    <p><strong>สถานะ:</strong> 
+                                        <span class="status ${submission.status} mobile-status">
+                                            ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
+                                              submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
+                                              'รอตรวจสอบ'}
+                                        </span>
+                                        ${submission.isExternal ? ' <span class="status pending" style="background: #e3f2fd; color: #1565c0;">จากภายนอก</span>' : ''}
+                                    </p>
+                                    <div class="submission-actions">
+                                        ${submission.status === 'pending' ? `
+                                            <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
+                                                <i class="fas fa-check"></i> อนุมัติ
+                                            </button>
+                                            <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
+                                                <i class="fas fa-times"></i> ปฏิเสธ
+                                            </button>
+                                        ` : ''}
+                                        <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id}, ${submission.isExternal})">
+                                            <i class="fas fa-trash"></i> ลบประวัติ
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error rendering submission history:', error);
+                submissionHistoryContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>เกิดข้อผิดพลาดในการโหลดประวัติ</p>
+                    </div>
+                `;
+            }
+        }
+
         // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
         async function approveSubmission(submissionId, isExternal = false) {
             try {
@@ -4916,165 +5173,6 @@
             } catch (error) {
                 console.error('Error rejecting submission:', error);
                 showNotification('เกิดข้อผิดพลาดในการปฏิเสธ', 'error');
-            }
-        }
-
-        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
-        async function renderSubmissions() {
-            try {
-                // ดึง internal submissions
-                const pendingSubmissions = await db.queryAll('submissions', 'status', 'pending');
-                
-                // ดึง external submissions
-                const pendingExternalSubmissions = await db.getAllExternalSubmissions('pending');
-                
-                const allPendingSubmissions = [...pendingSubmissions, ...pendingExternalSubmissions];
-                
-                if (allPendingSubmissions.length === 0) {
-                    submissionsContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-images"></i>
-                            <p>ยังไม่มีนักเรียนส่งรูปมา</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // ดึงรูปภาพสำหรับแต่ละ submission
-                const submissionsWithImages = [];
-                for (const submission of allPendingSubmissions) {
-                    let imageData = null;
-                    if (submission.imageId) {
-                        // ตรวจสอบว่าเป็น external หรือ internal
-                        const isExternal = submission.store === 'external' || 
-                                          (await db.query('external_submissions', 'id', submission.id));
-                        
-                        const storeName = isExternal ? 'external_images' : 'images';
-                        const image = await db.get(storeName, submission.imageId);
-                        if (image) {
-                            imageData = image.imageData;
-                        }
-                    }
-                    
-                    submissionsWithImages.push({
-                        ...submission,
-                        imageData: imageData,
-                        isExternal: submission.store === 'external' || 
-                                   (await db.query('external_submissions', 'id', submission.id)) !== undefined
-                    });
-                }
-                
-                submissionsContainer.innerHTML = `
-                    <div class="submission-list">
-                        ${submissionsWithImages.map(submission => `
-                            <div class="submission-item">
-                                ${submission.imageData ? `
-                                    <img src="${submission.imageData}" alt="รูปของ ${submission.studentName}" class="submission-image">
-                                ` : `
-                                    <div class="submission-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-image" style="font-size: 3rem; color: #bdc3c7;"></i>
-                                    </div>
-                                `}
-                                <div class="submission-info">
-                                    <h3>${submission.studentName}</h3>
-                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
-                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
-                                    <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
-                                    ${submission.isExternal ? `<p><strong>แหล่งที่มา:</strong> <span class="status pending">ส่งจากภายนอก</span></p>` : ''}
-                                    <div class="submission-actions">
-                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
-                                            <i class="fas fa-check"></i> อนุมัติ
-                                        </button>
-                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
-                                            <i class="fas fa-times"></i> ปฏิเสธ
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error rendering submissions:', error);
-                submissionsContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-                    </div>
-                `;
-            }
-        }
-
-        // ฟังก์ชันแสดงประวัติการส่งรูปทั้งหมด (สำหรับอาจารย์)
-        async function renderSubmissionHistory() {
-            try {
-                const searchResults = await db.searchSubmissions(
-                    submissionHistorySearchQuery,
-                    currentHistoryFilter !== 'all' ? currentHistoryFilter : null,
-                    null,
-                    true // รวม external submissions ด้วย
-                );
-                
-                if (searchResults.length === 0) {
-                    submissionHistoryContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-history"></i>
-                            <p>ไม่พบประวัติการส่งรูป</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                submissionHistoryContainer.innerHTML = `
-                    <div class="submission-list">
-                        ${searchResults.map(submission => `
-                            <div class="submission-item">
-                                ${submission.imageData ? `
-                                    <img src="${submission.imageData}" alt="รูปของ ${submission.studentName}" class="submission-image">
-                                ` : `
-                                    <div class="submission-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                                        <i class="fas fa-image" style="font-size: 3rem; color: #bdc3c7;"></i>
-                                    </div>
-                                `}
-                                <div class="submission-info">
-                                    <h3>${submission.studentName}</h3>
-                                    <p><strong>รหัสนักเรียน:</strong> ${submission.studentId || 'ไม่ระบุ'}</p>
-                                    ${submission.activityInfo ? `<p><strong>กิจกรรม:</strong> ${submission.activityInfo}</p>` : ''}
-                                    <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.thaiTimestamp || formatDate(submission.timestamp)}</p>
-                                    <p><strong>สถานะ:</strong> 
-                                        <span class="status ${submission.status} mobile-status">
-                                            ${submission.status === 'approved' ? 'อนุมัติแล้ว' : 
-                                              submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 
-                                              'รอตรวจสอบ'}
-                                        </span>
-                                        ${submission.isExternal ? ' <span class="status pending" style="background: #e3f2fd; color: #1565c0;">จากภายนอก</span>' : ''}
-                                    </p>
-                                    <div class="submission-actions">
-                                        ${submission.status === 'pending' ? `
-                                            <button class="btn btn-success" onclick="approveSubmission(${submission.id}, ${submission.isExternal})">
-                                                <i class="fas fa-check"></i> อนุมัติ
-                                            </button>
-                                            <button class="btn btn-danger" onclick="rejectSubmission(${submission.id}, ${submission.isExternal})">
-                                                <i class="fas fa-times"></i> ปฏิเสธ
-                                            </button>
-                                        ` : ''}
-                                        <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id}, ${submission.isExternal})">
-                                            <i class="fas fa-trash"></i> ลบประวัติ
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error rendering submission history:', error);
-                submissionHistoryContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>เกิดข้อผิดพลาดในการโหลดประวัติ</p>
-                    </div>
-                `;
             }
         }
 
@@ -5628,7 +5726,41 @@
             }
         }
 
+        // ============================================
+        // ฟังก์ชันสำหรับ Auto-refresh
+        // ============================================
+
+        // ฟังก์ชันเริ่มต้น auto-refresh
+        function startAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+            
+            // อัพเดททุก 10 วินาที
+            refreshInterval = setInterval(async () => {
+                if (currentUserType === 'teacher') {
+                    console.log('Auto-refreshing teacher page...');
+                    await renderSubmissions();
+                    await renderAttendanceList();
+                    console.log('Auto-refreshed teacher page at', new Date().toLocaleTimeString());
+                }
+            }, 10000); // 10 วินาที
+            
+            console.log('Auto-refresh started');
+        }
+
+        // ฟังก์ชันหยุด auto-refresh
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+                console.log('Auto-refresh stopped');
+            }
+        }
+
+        // ============================================
         // ฟังก์ชันสำหรับ Admin
+        // ============================================
 
         // ฟังก์ชันแสดงแดชบอร์ด Admin
         async function renderAdminDashboard() {
@@ -6562,6 +6694,7 @@
             if (stream) {
                 stream.getTracks().forEach(track => track.stop());
             }
+            stopAutoRefresh();
         });
 
         // เรียกใช้ฟังก์ชันเริ่มต้นเมื่อหน้าโหลดเสร็จ
