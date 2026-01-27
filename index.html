@@ -8,13 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #003366; /* สีน้ำเงินกรมท่า มหาลัย */
+            --primary-blue: #003366;
+            --secondary-gold: #D4AF37; /* เพิ่มสีทองเล็กน้อยให้ดูเป็นทางการ */
             --light-blue: #0056b3;
-            --soft-bg: #f4f7f9;
+            --soft-bg: #f8fafc;
             --white: #ffffff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
-            --border-color: #e0e6ed;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
         }
 
         * {
@@ -34,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* ตกแต่งพื้นหลังให้ดูมีมิติแบบ Minimal */
+        /* พื้นหลังแบบ Modern Abstract */
         .bg-decoration {
             position: fixed;
             top: 0;
@@ -42,293 +43,316 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at 0% 0%, #e0eafc 0%, #cfdef3 100%);
+            background: radial-gradient(at 0% 0%, rgba(0,51,102,0.05) 0%, transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(0,86,179,0.05) 0%, transparent 50%);
         }
 
-        .bg-circle {
-            position: absolute;
+        /* --- ตราวิทยาลัยแบบ CSS Vector (สวยและคมชัด) --- */
+        .college-emblem {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            position: relative;
+            background: var(--white);
             border-radius: 50%;
-            background: white;
-            opacity: 0.5;
-            filter: blur(80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,33,102,0.1);
+            border: 2px solid var(--primary-blue);
         }
+
+        .emblem-inner {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            border: 1px dashed var(--secondary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .emblem-inner i {
+            font-size: 40px;
+            color: var(--primary-blue);
+            z-index: 2;
+        }
+
+        .emblem-text-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotateText 20s linear infinite;
+        }
+
+        @keyframes rotateText {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ----------------------------------------- */
 
         .container {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             padding: 20px;
-            animation: fadeIn 0.8s ease-out;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header Area */
         .login-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .college-logo {
-            width: 90px;
-            height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-        }
-
         .login-header h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--primary-blue);
             font-weight: 500;
-            letter-spacing: 0.5px;
+            margin-bottom: 5px;
         }
 
         .login-header p {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-light);
-            margin-top: 5px;
+            letter-spacing: 0.5px;
         }
 
-        /* Login Card */
         .login-card {
             background: var(--white);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.08);
-            border: 1px solid var(--white);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        /* Tabs Styling */
+        /* Tabs Modern Style */
         .login-tabs {
             display: flex;
-            background: #f8fafd;
-            padding: 5px;
-            border-radius: 12px;
+            background: #f1f5f9;
+            padding: 6px;
+            border-radius: 14px;
             margin-bottom: 30px;
-            border: 1px solid var(--border-color);
         }
 
         .login-tab {
             flex: 1;
-            padding: 10px 5px;
+            padding: 12px 5px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-radius: 10px;
+            transition: all 0.25s ease;
             color: var(--text-light);
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .login-tab.active {
             background: var(--white);
             color: var(--primary-blue);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        /* Form Controls */
-        .login-form {
-            display: none;
+        /* Forms */
+        .login-form { display: none; }
+        .login-form.active { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
         }
 
-        .login-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 22px; }
 
         .form-group label {
             display: block;
             font-size: 0.85rem;
             margin-bottom: 8px;
-            color: var(--text-dark);
-            font-weight: 400;
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-left: 4px;
         }
 
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #bdc3c7;
-            font-size: 0.9rem;
-        }
+        .input-wrapper { position: relative; }
 
         .form-group input {
             width: 100%;
-            padding: 12px 15px 12px 42px;
+            padding: 14px 16px 14px 45px;
             border: 1.5px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s ease;
             background: #fcfdfe;
+            color: var(--text-dark);
+        }
+
+        .input-wrapper i.main-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--primary-blue);
             background: var(--white);
-            box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.05);
+            box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.06);
         }
 
-        /* Password Toggle */
         .toggle-pass {
             position: absolute;
-            right: 15px;
-            left: auto !important;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             cursor: pointer;
-            color: #95a5a6 !important;
+            color: var(--text-light);
+            transition: 0.2s;
         }
 
-        /* Buttons */
+        .toggle-pass:hover { color: var(--primary-blue); }
+
+        /* Button */
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.05rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
             background: var(--primary-blue);
             color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 51, 102, 0.2);
         }
 
-        .btn-primary:hover {
+        .btn:hover {
             background: var(--light-blue);
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(0, 51, 102, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 51, 102, 0.25);
         }
 
-        /* Footer */
+        .btn:active { transform: translateY(0); }
+
         .footer-text {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.8rem;
+            margin-top: 40px;
+            font-size: 0.75rem;
             color: var(--text-light);
+            line-height: 1.6;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 30px 20px;
-            }
-            .login-header h1 {
-                font-size: 1.3rem;
-            }
-        }
+        .footer-text b { color: var(--primary-blue); }
     </style>
 </head>
 <body>
 
-    <div class="bg-decoration">
-        <div class="bg-circle" style="width: 400px; height: 400px; top: -100px; right: -100px;"></div>
-        <div class="bg-circle" style="width: 300px; height: 300px; bottom: -50px; left: -50px;"></div>
-    </div>
+    <div class="bg-decoration"></div>
 
     <div class="container">
         <div class="login-header">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="Logo" class="college-logo">
-            <h1>ระบบเช็คกิจกรรมนักศึกษา</h1>
-            <p>มหาวิทยาลัยเทคโนโลยีส่วนกลาง</p>
+            <div class="college-emblem">
+                <div class="emblem-inner">
+                    <i class="fas fa-graduation-cap"></i>
+                    <svg class="emblem-text-circle" viewBox="0 0 100 100">
+                        <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent"/>
+                        <text font-size="8.5" font-weight="500" fill="#003366">
+                            <textPath xlink:href="#circlePath">
+                                UNIVERSITY ACTIVITY SYSTEM • EDUCATION •
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+            </div>
+            <h1>ระบบเช็คกิจกรรม</h1>
+            <p>วิทยาลัยเทคโนโลยีระดับสูง</p>
         </div>
 
         <div class="login-card">
             <div class="login-tabs">
-                <div class="login-tab active" onclick="switchTab('student')">นักศึกษา</div>
-                <div class="login-tab" onclick="switchTab('teacher')">อาจารย์</div>
-                <div class="login-tab" onclick="switchTab('admin')">ผู้ดูแลระบบ</div>
+                <div class="login-tab active" onclick="switchTab('student', event)">นักศึกษา</div>
+                <div class="login-tab" onclick="switchTab('teacher', event)">อาจารย์</div>
+                <div class="login-tab" onclick="switchTab('admin', event)">ผู้ดูแลระบบ</div>
             </div>
 
             <form id="studentForm" class="login-form active">
                 <div class="form-group">
                     <label>รหัสนักศึกษา</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-id-card"></i>
-                        <input type="text" placeholder="กรอกรหัสนักศึกษา" required>
+                        <i class="fas fa-user-graduate main-icon"></i>
+                        <input type="text" placeholder="STU-XXXXXX" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-shield-alt main-icon"></i>
                         <input type="password" id="pass1" placeholder="••••••••" required>
                         <i class="fas fa-eye toggle-pass" onclick="toggleView('pass1')"></i>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+                <button type="submit" class="btn">เข้าสู่ระบบ</button>
             </form>
 
             <form id="teacherForm" class="login-form">
                 <div class="form-group">
                     <label>บัญชีผู้ใช้อาจารย์</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-user-tie"></i>
-                        <input type="text" placeholder="ชื่อผู้ใช้">
+                        <i class="fas fa-chalkboard-teacher main-icon"></i>
+                        <input type="text" placeholder="Username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-key main-icon"></i>
                         <input type="password" id="pass2" placeholder="••••••••">
                         <i class="fas fa-eye toggle-pass" onclick="toggleView('pass2')"></i>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">เข้าสู่ระบบอาจารย์</button>
+                <button type="submit" class="btn">เข้าสู่ระบบอาจารย์</button>
             </form>
 
-             <form id="adminForm" class="login-form">
+            <form id="adminForm" class="login-form">
                 <div class="form-group">
-                    <label>บัญชีผู้ดูแลระบบ</label>
+                    <label>ผู้ดูแลระบบ</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-user-shield"></i>
+                        <i class="fas fa-user-lock main-icon"></i>
                         <input type="text" placeholder="Admin ID">
                     </div>
                 </div>
                 <div class="form-group">
                     <label>รหัสผ่าน</label>
                     <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-fingerprint main-icon"></i>
                         <input type="password" id="pass3" placeholder="••••••••">
                         <i class="fas fa-eye toggle-pass" onclick="toggleView('pass3')"></i>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="background: #2c3e50;">เข้าสู่ระบบ Admin</button>
+                <button type="submit" class="btn" style="background: #1e293b;">เข้าสู่ระบบจัดการ</button>
             </form>
         </div>
 
         <div class="footer-text">
-            &copy; 2026 University Activity Tracking System<br>
-            ฝ่ายเทคโนโลยีสารสนเทศเพื่อการศึกษา
+            <b>University Activity System</b><br>
+            พัฒนาระบบโดย สำนักวิทยบริการและเทคโนโลยีสารสนเทศ
         </div>
     </div>
 
     <script>
-        function switchTab(role) {
-            // Remove active classes
+        function switchTab(role, event) {
             document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
-
-            // Add active class to selected
-            event.target.classList.add('active');
+            
+            event.currentTarget.classList.add('active');
             document.getElementById(role + 'Form').classList.add('active');
         }
 
