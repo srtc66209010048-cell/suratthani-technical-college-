@@ -2672,7 +2672,6 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        const API_URL = "https://script.google.com/u/0/home/projects/10SSdHrLqVIcKblk52OC2DBsqNPQ277gSxloRVUS_GNAWpDvujUlfXqWw/edit"
         // ============================================
         // ระบบฐานข้อมูล - Database Management System
         // ============================================
@@ -3708,7 +3707,6 @@
             if (!username || !password) {
                 showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
-                renderByRole();
             }
             
             try {
@@ -4569,20 +4567,24 @@
         }
 
         // ฟังก์ชันสำหรับส่งรูป
-        async function sendPhotoToTeacher() {
-  if (currentUser.role !== "student") return;
-
-  await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      studentId: currentUser.studentId,
-      studentName: currentUser.name,
-      imageBase64: capturedImageData
-    })
-  });
-
-  showNotification("ส่งงานเรียบร้อย", "success");
-}  
+        async function sendPhoto() {
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
+            const confirmCheckbox = document.getElementById('confirmAttendance');
+            if (!confirmCheckbox || !confirmCheckbox.checked) {
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนส่งรูป', 'error');
+                return;
+            }
+            
+            if (!capturedImageData) {
+                showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
+                return;
+            }
+            
+            if (!currentUser) {
+                showNotification('กรุณาล็อกอินก่อนใช้งาน', 'error');
+                return;
+            }
+            
             try {
                 // สร้าง timestamp
                 const now = new Date();
@@ -4655,23 +4657,22 @@
         }
 
         // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
-        async function renderSubmissions() {
-  if (currentUser.role !== "teacher") return;
-
-  const res = await fetch(API_URL);
-  const data = await res.json();
-
-  const container = document.getElementById("submissionsContainer");
-  container.innerHTML = "";
-
-  data.forEach(item => {
-    const img = document.createElement("img");
-    img.src = item.imageBase64;
-    img.className = "submission-image";
-
-    container.appendChild(img);
-  });
-}
+        async function renderStudentHistory() {
+            if (!currentUser) return;
+            
+            try {
+                const submissions = await db.queryAll('submissions', 'studentId', currentUser.studentId);
+                
+                if (submissions.length === 0) {
+                    studentHistory.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <p>ยังไม่มีประวัติการส่งรูป</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 // เรียงลำดับจากล่าสุดไปเก่าสุด
                 const sortedSubmissions = submissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
