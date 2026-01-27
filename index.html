@@ -2,601 +2,235 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเช็คกิจกรรมนักเรียน | University Activity System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* CSS สำหรับหน้า Login เท่านั้น */
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --white: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Kanit', 'Sarabun', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Kanit', sans-serif; /* ฟอนต์ไม่มีหัว ทันสมัย */
         }
 
         body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #333;
-            line-height: 1.6;
+            background-color: var(--bg-light);
+            background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+            background-size: 20px 20px; /* ลาย Dot บางๆ ด้านหลัง */
+            color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* พื้นหลังหน้า Login ที่สวยงาม */
-        .login-background-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, 
-                rgba(52, 152, 219, 0.85) 0%, 
-                rgba(41, 128, 185, 0.8) 25%, 
-                rgba(44, 62, 80, 0.85) 75%, 
-                rgba(52, 73, 94, 0.9) 100%);
-            z-index: -1;
-        }
-
-        .login-background-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
-                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 100px 100px, 50px 50px;
-            z-index: -2;
-            opacity: 0.3;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-20px) translateX(20px);
-            }
-        }
-
-        .floating-shapes {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -3;
-        }
-
-        .floating-shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 15s infinite ease-in-out;
-        }
-
-        .floating-shape:nth-child(1) {
-            width: 200px;
-            height: 200px;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.2), transparent);
-        }
-
-        .floating-shape:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 3s;
-            background: radial-gradient(circle, rgba(46, 204, 113, 0.15), transparent);
-        }
-
-        .floating-shape:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            top: 80%;
-            left: 20%;
-            animation-delay: 6s;
-            background: radial-gradient(circle, rgba(155, 89, 182, 0.15), transparent);
-        }
-
-        .floating-shape:nth-child(4) {
-            width: 180px;
-            height: 180px;
-            top: 20%;
-            left: 70%;
-            animation-delay: 9s;
-            background: radial-gradient(circle, rgba(241, 196, 15, 0.15), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
             width: 100%;
+            max-width: 450px;
+            padding: 20px;
         }
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+        /* ส่วนหัวที่เน้นความมินิมอล */
+        .brand-section {
             text-align: center;
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo-container {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin-bottom: 40px;
         }
 
         .college-logo {
-            height: 80px;
-            width: auto;
-            object-fit: contain;
-            border-radius: 8px;
-            background-color: white;
-            padding: 10px;
-            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            border: 3px solid #2c3e50;
-            transition: all 0.3s ease;
+            width: 90px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
 
-        .college-logo:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(52, 152, 219, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        .brand-section h1 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
-        .header-text {
-            flex: 1;
-            min-width: 300px;
+        .brand-section p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 5px;
         }
 
-        header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 25px 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        /* ส่วนล็อกอิน */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 500px;
-            padding: 20px;
-            width: 100%;
-        }
-
+        /* Card ล็อกอินแบบสะอาดตา */
         .login-card {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, 
-                #3498db 0%, 
-                #2ecc71 33%, 
-                #9b59b6 66%, 
-                #f1c40f 100%);
-            border-radius: 20px 20px 0 0;
-        }
-
-        .login-card h2 {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.8rem;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 15px;
-        }
-
+        /* Tabs สไตล์ Apple/Modern */
         .login-tabs {
             display: flex;
-            margin-bottom: 25px;
+            background: #f1f5f9;
+            padding: 6px;
             border-radius: 12px;
-            padding: 5px;
-            background: rgba(52, 152, 219, 0.1);
-            border: 2px solid rgba(52, 152, 219, 0.2);
-            flex-wrap: wrap;
+            margin-bottom: 30px;
         }
 
         .login-tab {
             flex: 1;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
             border-radius: 8px;
-            transition: all 0.3s ease;
-            min-width: 100px;
-            color: #555;
-            background: transparent;
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s;
+            color: #64748b;
         }
 
         .login-tab.active {
-            color: white;
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            background: var(--white);
+            color: var(--primary-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-weight: 500;
         }
 
-        .login-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 3px;
-            background: white;
-            border-radius: 3px;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { width: 0; }
-            to { width: 80%; }
-        }
-
-        .login-tab:hover:not(.active) {
-            background-color: rgba(52, 152, 219, 0.1);
-        }
-
-        .login-form {
-            display: none;
-        }
-
-        .login-form.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* Input Fields */
         .form-group {
             margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
+            font-size: 0.85rem;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 0.95rem;
+            color: #475569;
+            margin-left: 4px;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 14px 15px;
-            border: 2px solid rgba(52, 152, 219, 0.2);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
-            -webkit-appearance: none;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #3498db;
-            background: white;
-            box-shadow: 
-                0 0 0 3px rgba(52, 152, 219, 0.2),
-                0 4px 15px rgba(52, 152, 219, 0.1);
-        }
-
-        .form-group .input-with-icon {
+        .input-wrapper {
             position: relative;
         }
 
-        .form-group .input-with-icon input {
-            padding-right: 45px;
-        }
-
-        .form-group .input-with-icon i {
+        .input-wrapper i {
             position: absolute;
-            right: 15px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #666;
-            cursor: pointer;
-            transition: color 0.3s ease;
+            color: #94a3b8;
+            font-size: 0.9rem;
         }
 
-        .form-group .input-with-icon i:hover {
-            color: #3498db;
-        }
-
-        /* ปุ่มต่างๆ */
-        .btn {
-            padding: 14px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .form-group input {
             width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-            touch-action: manipulation;
+            padding: 12px 15px 12px 45px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #fcfcfd;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            background: var(--primary-blue);
             color: white;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            background: #172554;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.2);
         }
 
-        .btn-danger {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        /* ซ่อนฟอร์มที่ไม่เลือก */
+        .login-form { display: none; }
+        .login-form.active { display: block; animation: slideUp 0.4s ease-out; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .btn-danger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
-        }
-
-        .btn-purple {
-            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(142, 45, 226, 0.3);
-        }
-
-        .btn-purple:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(142, 45, 226, 0.4);
-        }
-
-        /* Responsive สำหรับหน้า Login */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header-container {
-                flex-direction: column;
-                text-align: center;
-                padding: 15px 10px;
-                margin-bottom: 15px;
-            }
-            
-            .college-logo {
-                height: 60px;
-                margin-bottom: 10px;
-            }
-            
-            header h1 {
-                font-size: 1.6rem;
-                line-height: 1.3;
-            }
-            
-            header p {
-                font-size: 0.95rem;
-            }
-            
-            .login-card {
-                padding: 25px 15px;
-                margin: 0;
-                border-radius: 15px;
-            }
-            
-            .login-card h2 {
-                font-size: 1.5rem;
-            }
-        }
-
+        /* Responsive */
         @media (max-width: 480px) {
-            .login-card {
-                padding: 20px 15px;
-            }
-            
-            .login-card h2 {
-                font-size: 1.3rem;
-            }
-            
-            .login-tabs {
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .login-tab {
-                min-width: auto;
-                padding: 10px;
-                font-size: 0.95rem;
-            }
-            
-            .btn {
-                padding: 12px 15px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* สำหรับแท็บเล็ต */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .header-container {
-                padding: 20px;
-            }
-            
-            .college-logo {
-                height: 70px;
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .login-card {
-                padding: 30px;
-            }
+            .login-card { padding: 30px 20px; }
+            .brand-section h1 { font-size: 1.3rem; }
         }
     </style>
 </head>
 <body>
-    <!-- หน้า Login -->
-    <div id="loginPage" class="content-area active">
-        <!-- พื้นหลังหน้า Login -->
-        <div class="login-background-overlay"></div>
-        <div class="login-background-pattern"></div>
-        <div class="floating-shapes">
-            <div class="floating-shape"></div>
-            <div class="floating-shape"></div>
-            <div class="floating-shape"></div>
-            <div class="floating-shape"></div>
+
+    <div class="container">
+        <div class="brand-section">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="Logo" class="college-logo">
+            <h1>ระบบเช็คกิจกรรม</h1>
+            <p>วิทยาลัยอาชีวศึกษาเชียงใหม่</p>
         </div>
 
-        <div class="container">
-            <header>
-                <div class="header-container">
-                    <div class="logo-container">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" 
-                             alt="โลโก้วิทยาลัย" 
-                             class="college-logo">
-                    </div>
-                    
-                    <div class="header-text">
-                        <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</h1>
-                        <p>ระบบสำหรับการเช็คกิจกรรมของนักเรียนด้วยการถ่ายรูปและส่งให้อาจารย์ตรวจสอบ</p>
-                    </div>
-                </div>
-            </header>
-
-            <div class="login-container">
-                <div class="login-card">
-                    <h2>เข้าสู่ระบบ</h2>
-                    
-                    <div class="login-tabs mobile-tabs">
-                        <div class="login-tab active" id="studentTab">นักเรียน</div>
-                        <div class="login-tab" id="teacherTab">อาจารย์</div>
-                        <div class="login-tab" id="adminTab">ผู้ดูแลระบบ</div>
-                    </div>
-
-                    <!-- ฟอร์มล็อกอินนักเรียน -->
-                    <div id="studentLoginForm" class="login-form active">
-                        <div class="form-group">
-                            <label for="studentUsername"><i class="fas fa-user-graduate"></i> รหัสนักเรียน</label>
-                            <input type="text" id="studentUsername" placeholder="กรอกรหัสนักเรียน เช่น STU001">
-                        </div>
-                        <div class="form-group">
-                            <label for="studentPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="studentPassword" placeholder="กรอกรหัสผ่าน">
-                                <i class="fas fa-eye" id="toggleStudentPassword"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" id="studentLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                        </button>
-                    </div>
-
-                    <!-- ฟอร์มล็อกอินอาจารย์ -->
-                    <div id="teacherLoginForm" class="login-form">
-                        <div class="form-group">
-                            <label for="teacherUsername"><i class="fas fa-chalkboard-teacher"></i> ชื่อผู้ใช้</label>
-                            <input type="text" id="teacherUsername" placeholder="กรอกชื่อผู้ใช้">
-                        </div>
-                        <div class="form-group">
-                            <label for="teacherPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="teacherPassword" placeholder="กรอกรหัสผ่าน">
-                                <i class="fas fa-eye" id="toggleTeacherPassword"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-danger" id="teacherLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                        </button>
-                    </div>
-
-                    <!-- ฟอร์มล็อกอิน Admin -->
-                    <div id="adminLoginForm" class="login-form">
-                        <div class="form-group">
-                            <label for="adminUsername"><i class="fas fa-user-shield"></i> ชื่อผู้ดูแล</label>
-                            <input type="text" id="adminUsername" placeholder="กรอกชื่อผู้ดูแลระบบ">
-                        </div>
-                        <div class="form-group">
-                            <label for="adminPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                            <div class="input-with-icon">
-                                <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน">
-                                <i class="fas fa-eye" id="toggleAdminPassword"></i>
-                            </div>
-                        </div>
-                        <button class="btn btn-purple" id="adminLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                        </button>
-                    </div>
-                </div>
+        <div class="login-card">
+            <div class="login-tabs">
+                <div class="login-tab active" onclick="switchTab('student')">นักเรียน</div>
+                <div class="login-tab" onclick="switchTab('teacher')">อาจารย์</div>
+                <div class="login-tab" onclick="switchTab('admin')">ผู้ดูแล</div>
             </div>
-        </div>
+
+            <div id="studentForm" class="login-form active">
+                <div class="form-group">
+                    <label>รหัสนักเรียน</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" placeholder="STU-00000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>รหัสผ่าน</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="••••••••">
+                    </div>
+                </div>
+                <button class="btn btn-primary">เข้าสู่ระบบ</button>
+            </div>
+
+            </div>
     </div>
 
-    <!-- โหลดไฟล์ JavaScript -->
-    <script src="app.js"></script>
+    <script>
+        function switchTab(role) {
+            // ลบ class active ออกจากทุก tab
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            // เพิ่ม active ให้ tab ที่กด
+            event.target.classList.add('active');
+            
+            // หมายเหตุ: คุณต้องไปเขียน JS สำหรับสลับฟอร์มเพิ่มเติมตาม ID ที่ตั้งไว้
+            console.log("Switching to: " + role);
+        }
+    </script>
 </body>
 </html>
