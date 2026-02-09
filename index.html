@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ￃ￐ﾺﾺ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￇￔﾷￂￒￅ￑ￂ</title>
+    <title>ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -22,7 +22,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ﾾￗ￩ﾹￋￅ￑ﾧￋﾹ￩ￒ Login ﾷￕ￨ￊￇￂﾧￒ￁ */
+        /* พื้นหลังหน้า Login ที่สวยงาม */
         .login-background-overlay {
             position: fixed;
             top: 0;
@@ -165,7 +165,7 @@
             opacity: 0.9;
         }
 
-        /* ￊ￨ￇﾹￅ￧ￍﾡￍￔﾹ */
+        /* ส่วนล็อกอิน */
         .login-container {
             display: flex;
             justify-content: center;
@@ -325,7 +325,7 @@
         .form-row { display: flex; gap: 15px; }
         .form-row .form-group { flex: 1; }
 
-        /* ﾻ￘￨￁ﾵ￨ￒﾧ￦ */
+        /* ปุ่มต่างๆ */
         .btn {
             padding: 14px 24px;
             font-size: 1rem;
@@ -455,7 +455,7 @@
             border-radius: 8px;
         }
 
-        /* ￅￔﾧﾤ￬ﾵ￨ￒﾧ￦ */
+        /* ลิงค์ต่างๆ */
         .form-links {
             margin-top: 20px;
             text-align: center;
@@ -477,7 +477,7 @@
             text-decoration: underline;
         }
 
-        /* ￊ￨ￇﾹﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ */
+        /* ส่วนของนักเรียน */
         .content-area { display: none; width: 100%; }
         .content-area.active { display: block; animation: fadeIn 0.5s ease; width: 100%; }
 
@@ -504,7 +504,7 @@
             font-size: 1.5rem;
         }
 
-        /* ￊ￨ￇﾹﾨ￑ﾴﾡￒￃ￢ﾻￃ￤﾿ￅ￬ﾹ￑ﾡ￠ￃￕￂﾹ */
+        /* ส่วนจัดการโปรไฟล์นักเรียน */
         .profile-section { margin-bottom: 30px; width: 100%; }
         .profile-card {
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
@@ -606,7 +606,7 @@
             width: 100%;
         }
 
-        /* ￊ￨ￇﾹﾢￍﾧￍￒﾨￒￃￂ￬ */
+        /* ส่วนของอาจารย์ */
         .submission-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -638,7 +638,7 @@
         .submission-info p { color: #555; margin-bottom: 15px; font-size: 0.9rem; }
         .submission-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
-        /* ￊ￨ￇﾹﾨ￑ﾴﾡￒￃﾹ￑ﾡ￠ￃￕￂﾹ */
+        /* ส่วนจัดการนักเรียน */
         .student-management { margin-top: 20px; }
         .student-form {
             display: grid;
@@ -685,7 +685,7 @@
         .student-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         .btn-small { padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; }
 
-        /* ￊ￨ￇﾹﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ (ￍￒﾨￒￃￂ￬) */
+        /* ส่วนประวัติการส่งรูป (อาจารย์) */
         .submission-history-section { margin-top: 30px; }
         .history-filters {
             display: flex;
@@ -970,9 +970,9 @@
             white-space: nowrap;
         }
 
-        /* ﾻ￘￨￁￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ/￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬ */
+        /* ปุ่มเปลี่ยนรหัสผ่าน/แก้ไขโปรไฟล์ */
         .profile-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        /* ﾢ￩ￍﾤￇￒ￁ﾪ￨ￇￂ￠ￋￅￗￍ */
+        /* ข้อความช่วยเหลือ */
         .help-text {
             font-size: 0.85rem;
             color: #7f8c8d;
@@ -980,7 +980,7 @@
             font-style: italic;
         }
 
-        /* ￊ￨ￇﾹ Admin */
+        /* ส่วน Admin */
         .admin-dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1122,7 +1122,7 @@
             color: #bdc3c7;
         }
 
-        /* ￊ￨ￇﾹﾡￔﾨﾡￃￃ￁ￊￓￋￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ */
+        /* ส่วนกิจกรรมสำหรับนักเรียน */
         .activities-section { margin-bottom: 30px; }
         .current-activity {
             background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
@@ -1168,7 +1168,7 @@
             min-width: 200px;
         }
 
-        /* ￊￓￋￃ￑ﾺￍ￘ﾻﾡￃﾳ￬￁ￗￍﾶￗￍﾢﾹￒﾴ￠ￅ￧ﾡ */
+        /* สำหรับอุปกรณ์มือถือขนาดเล็ก */
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .header-container {
@@ -1322,7 +1322,7 @@
             .activity-detail-item { flex-direction: column; }
         }
 
-        /* ￊￓￋￃ￑ﾺￍ￘ﾻﾡￃﾳ￬￁ￗￍﾶￗￍﾢﾹￒﾴ￠ￅ￧ﾡ￁ￒﾡ */
+        /* สำหรับอุปกรณ์มือถือขนาดเล็กมาก */
         @media (max-width: 480px) {
             .container { padding: 8px; }
             header {
@@ -1408,7 +1408,7 @@
             }
         }
 
-        /* ￊￓￋￃ￑ﾺ￡ﾷ￧ﾺ￠ￅ￧ﾵ */
+        /* สำหรับแท็บเล็ต */
         @media (min-width: 769px) and (max-width: 1024px) {
             .container { padding: 15px; }
             .header-container { padding: 20px; }
@@ -1422,7 +1422,7 @@
             .admin-dashboard { grid-template-columns: repeat(2, 1fr); }
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧￊￓￋￃ￑ﾺ landscape mode */
+        /* ปรับปรุงสำหรับ landscape mode */
         @media (max-height: 600px) and (orientation: landscape) {
             .login-container { min-height: 300px; padding: 10px; }
             .login-card { padding: 20px; }
@@ -1433,12 +1433,12 @@
             .camera-placeholder { height: 250px; }
         }
 
-        /* ﾻ￩ￍﾧﾡ￑ﾹﾡￒￃ zoom ﾺﾹ￁ￗￍﾶￗￍ￠￁ￗ￨ￍﾡﾴ input */
+        /* ป้องกันการ zoom บนมือถือเมื่อกด input */
         @media (max-width: 768px) {
             input, select, textarea { font-size: 16px !important; }
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾵￒￃￒﾧ￣ￋ￩￠ￅￗ￨ￍﾹ￣ﾹ￡ﾹￇﾹￍﾹ */
+        /* ปรับปรุงตารางให้เลื่อนในแนวนอน */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -1447,27 +1447,27 @@
         }
 
         .table-responsive table { min-width: 600px; }
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧￇ￑ﾹﾷￕ￨￡ￅ￐￠ￇￅￒﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของวันที่และเวลาบนมือถือ */
         .datetime-display {
             font-size: 0.9rem;
             word-break: break-word;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧￃ￙ﾻ￀ￒﾾ￣ﾹￃￒￂﾡￒￃￊ￨ﾧ */
+        /* ปรับปรุงการแสดงรูปภาพในรายการส่ง */
         .submission-image {
             max-height: 200px;
             object-fit: cover;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧ padding ￊￓￋￃ￑ﾺ￠ﾹￗ￩ￍￋￒﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุง padding สำหรับเนื้อหาบนมือถือ */
         .mobile-padding {
             padding-left: 10px;
             padding-right: 10px;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧ﾿ￍￃ￬￁ﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของฟอร์มบนมือถือ */
         .mobile-form-stack .form-group { margin-bottom: 15px; }
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧﾻ￘￨￁ﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของปุ่มบนมือถือ */
         .mobile-btn-group {
             display: flex;
             flex-direction: column;
@@ -1475,7 +1475,7 @@
         }
 
         .mobile-btn-group .btn { width: 100%; }
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧ￠￁ﾹ￙￡ﾷ￧ﾺﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของเมนูแท็บบนมือถือ */
         .mobile-tabs {
             flex-direction: row !important;
             overflow-x: auto;
@@ -1488,42 +1488,42 @@
             white-space: nowrap;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧﾵￒￃￒﾧﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของตารางบนมือถือ */
         .mobile-table th,
         .mobile-table td {
             padding: 10px 8px;
             font-size: 0.85rem;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧￊﾶￒﾹ￐ﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของสถานะบนมือถือ */
         .mobile-status {
             font-size: 0.8rem;
             padding: 4px 8px;
             min-width: 80px;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧￋ￑ￇﾢ￩ￍﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของหัวข้อบนมือถือ */
         .mobile-heading {
             font-size: 1.2rem;
             margin-bottom: 15px;
         }
 
-        /* ﾻￃ￑ﾺﾻￃ￘ﾧﾡￒￃ￡ￊﾴﾧﾼￅﾢￍﾧﾡￒￃ￬ﾴﾺﾹ￁ￗￍﾶￗￍ */
+        /* ปรับปรุงการแสดงผลของการ์ดบนมือถือ */
         .mobile-card {
             padding: 15px;
             margin-bottom: 15px;
         }
     </style>
-    <!-- ￠ﾾￔ￨￁﾿ￍﾹﾵ￬￤ﾷￂ -->
+    <!-- เพิ่มฟอนต์ไทย -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <!-- ￋﾹ￩ￒ Login -->
+    <!-- หน้า Login -->
     <div id="loginPage" class="content-area active">
-        <!-- ﾾￗ￩ﾹￋￅ￑ﾧￋﾹ￩ￒ Login -->
+        <!-- พื้นหลังหน้า Login -->
         <div class="login-background-overlay"></div>
         <div class="login-background-pattern"></div>
         <div class="floating-shapes">
@@ -1537,77 +1537,77 @@
             <header>
                 <div class="header-container">
                     <div class="logo-container">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="￢ￅ￢ﾡ￩ￇￔﾷￂￒￅ￑ￂ" class="college-logo">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="โลโก้วิทยาลัย" class="college-logo">
                     </div>
 
                     <div class="header-text">
-                        <h1><i class="fas fa-user-check"></i> ￃ￐ﾺﾺ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￇￔﾷￂￒￅ￑ￂ</h1>
-                        <p>ￃ￐ﾺﾺￊￓￋￃ￑ﾺﾡￒￃ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹﾴ￩ￇￂﾡￒￃﾶ￨ￒￂￃ￙ﾻ￡ￅ￐ￊ￨ﾧ￣ￋ￩ￍￒﾨￒￃￂ￬ﾵￃￇﾨￊￍﾺ</p>
+                        <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</h1>
+                        <p>ระบบสำหรับการเช็คกิจกรรมของนักเรียนด้วยการถ่ายรูปและส่งให้อาจารย์ตรวจสอบ</p>
                     </div>
                 </div>
             </header>
 
             <div class="login-container">
                 <div class="login-card">
-                    <h2>￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺ</h2>
+                    <h2>เข้าสู่ระบบ</h2>
 
                     <div class="login-tabs mobile-tabs">
-                        <div class="login-tab active" id="studentTab">ﾹ￑ﾡ￠ￃￕￂﾹ</div>
-                        <div class="login-tab" id="teacherTab">ￍￒﾨￒￃￂ￬</div>
-                        <div class="login-tab" id="adminTab">ﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ</div>
+                        <div class="login-tab active" id="studentTab">นักเรียน</div>
+                        <div class="login-tab" id="teacherTab">อาจารย์</div>
+                        <div class="login-tab" id="adminTab">ผู้ดูแลระบบ</div>
                     </div>
 
-                    <!-- ﾿ￍￃ￬￁ￅ￧ￍﾡￍￔﾹﾹ￑ﾡ￠ￃￕￂﾹ -->
+                    <!-- ฟอร์มล็อกอินนักเรียน -->
                     <div id="studentLoginForm" class="login-form active">
                         <div class="form-group">
-                            <label for="studentUsername"><i class="fas fa-user-graduate"></i> ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ</label>
-                            <input type="text" id="studentUsername" placeholder="ﾡￃￍﾡￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ ￠ﾪ￨ﾹ STU001">
+                            <label for="studentUsername"><i class="fas fa-user-graduate"></i> รหัสนักเรียน</label>
+                            <input type="text" id="studentUsername" placeholder="กรอกรหัสนักเรียน เช่น STU001">
                         </div>
                         <div class="form-group">
-                            <label for="studentPassword"><i class="fas fa-lock"></i> ￃￋ￑ￊﾼ￨ￒﾹ</label>
+                            <label for="studentPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
                             <div class="input-with-icon">
-                                <input type="password" id="studentPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹ">
+                                <input type="password" id="studentPassword" placeholder="กรอกรหัสผ่าน">
                                 <i class="fas fa-eye" id="toggleStudentPassword"></i>
                             </div>
                         </div>
                         <button class="btn btn-primary" id="studentLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺ
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
                     </div>
 
-                    <!-- ﾿ￍￃ￬￁ￅ￧ￍﾡￍￔﾹￍￒﾨￒￃￂ￬ -->
+                    <!-- ฟอร์มล็อกอินอาจารย์ -->
                     <div id="teacherLoginForm" class="login-form">
                         <div class="form-group">
-                            <label for="teacherUsername"><i class="fas fa-chalkboard-teacher"></i> ﾪￗ￨ￍﾼ￙￩￣ﾪ￩</label>
-                            <input type="text" id="teacherUsername" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾼ￙￩￣ﾪ￩">
+                            <label for="teacherUsername"><i class="fas fa-chalkboard-teacher"></i> ชื่อผู้ใช้</label>
+                            <input type="text" id="teacherUsername" placeholder="กรอกชื่อผู้ใช้">
                         </div>
                         <div class="form-group">
-                            <label for="teacherPassword"><i class="fas fa-lock"></i> ￃￋ￑ￊﾼ￨ￒﾹ</label>
+                            <label for="teacherPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
                             <div class="input-with-icon">
-                                <input type="password" id="teacherPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹ">
+                                <input type="password" id="teacherPassword" placeholder="กรอกรหัสผ่าน">
                                 <i class="fas fa-eye" id="toggleTeacherPassword"></i>
                             </div>
                         </div>
                         <button class="btn btn-danger" id="teacherLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺ
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
                     </div>
 
-                    <!-- ﾿ￍￃ￬￁ￅ￧ￍﾡￍￔﾹ Admin -->
+                    <!-- ฟอร์มล็อกอิน Admin -->
                     <div id="adminLoginForm" class="login-form">
                         <div class="form-group">
-                            <label for="adminUsername"><i class="fas fa-user-shield"></i> ﾪￗ￨ￍﾼ￙￩ﾴ￙￡ￅ</label>
-                            <input type="text" id="adminUsername" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ">
+                            <label for="adminUsername"><i class="fas fa-user-shield"></i> ชื่อผู้ดูแล</label>
+                            <input type="text" id="adminUsername" placeholder="กรอกชื่อผู้ดูแลระบบ">
                         </div>
                         <div class="form-group">
-                            <label for="adminPassword"><i class="fas fa-lock"></i> ￃￋ￑ￊﾼ￨ￒﾹ</label>
+                            <label for="adminPassword"><i class="fas fa-lock"></i> รหัสผ่าน</label>
                             <div class="input-with-icon">
-                                <input type="password" id="adminPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹ">
+                                <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน">
                                 <i class="fas fa-eye" id="toggleAdminPassword"></i>
                             </div>
                         </div>
                         <button class="btn btn-purple" id="adminLoginBtn">
-                            <i class="fas fa-sign-in-alt"></i> ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺ
+                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
                         </button>
                     </div>
                 </div>
@@ -1615,31 +1615,31 @@
         </div>
     </div>
 
-    <!-- ￋﾹ￩ￒￋￅ￑ﾡﾹ￑ﾡ￠ￃￕￂﾹ -->
+    <!-- หน้าหลักนักเรียน -->
     <div id="studentPage" class="content-area">
         <div class="container">
-            <!-- ￊ￨ￇﾹￋ￑ￇￊￓￋￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ -->
+            <!-- ส่วนหัวสำหรับนักเรียน -->
             <div style="position: relative;">
                 <button class="btn btn-secondary logout-btn" id="studentLogoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> ￍￍﾡﾨￒﾡￃ￐ﾺﾺ
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                 </button>
                 <div class="user-info" id="studentUserInfo"></div>
 
                 <header>
                     <div class="header-container">
                         <div class="logo-container">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="￢ￅ￢ﾡ￩ￇￔﾷￂￒￅ￑ￂ" class="college-logo">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="โลโก้วิทยาลัย" class="college-logo">
                         </div>
 
                         <div class="header-text">
-                            <h1><i class="fas fa-user-check"></i> ￃ￐ﾺﾺ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ</h1>
-                            <p>ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾴ￩ￇￂﾡￒￃﾶ￨ￒￂￃ￙ﾻ</p>
+                            <h1><i class="fas fa-user-check"></i> ระบบเช็คกิจกรรมของนักเรียน</h1>
+                            <p>ยินดีต้อนรับนักเรียน เข้าสู่ระบบเช็คกิจกรรมด้วยการถ่ายรูป</p>
                         </div>
                     </div>
                 </header>
             </div>
 
-            <!-- ￊ￨ￇﾹ￢ﾻￃ￤﾿ￅ￬ﾹ￑ﾡ￠ￃￕￂﾹ -->
+            <!-- ส่วนโปรไฟล์นักเรียน -->
             <div class="profile-section">
                 <div class="profile-card mobile-card">
                     <div class="profile-header">
@@ -1651,10 +1651,10 @@
                             <p id="studentProfileInfo"></p>
                             <div class="profile-actions mobile-btn-group">
                                 <button class="btn btn-primary btn-small" onclick="openEditProfileModal()">
-                                    <i class="fas fa-edit"></i> ￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬
+                                    <i class="fas fa-edit"></i> แก้ไขโปรไฟล์
                                 </button>
                                 <button class="btn btn-warning btn-small" onclick="openChangePasswordModal()">
-                                    <i class="fas fa-key"></i> ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ
+                                    <i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน
                                 </button>
                             </div>
                         </div>
@@ -1662,171 +1662,171 @@
                 </div>
             </div>
 
-            <!-- ￊ￨ￇﾹ￡ￊﾴﾧﾡￔﾨﾡￃￃ￁ￊￓￋￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ -->
+            <!-- ส่วนแสดงกิจกรรมสำหรับนักเรียน -->
             <div class="activities-section">
                 <div class="card mobile-card">
-                    <h2 class="mobile-heading"><i class="fas fa-calendar-check"></i> ﾡￔﾨﾡￃￃ￁ﾻ￑ﾨﾨ￘ﾺ￑ﾹ</h2>
+                    <h2 class="mobile-heading"><i class="fas fa-calendar-check"></i> กิจกรรมปัจจุบัน</h2>
                     <div id="currentActivityContainer">
-                        <!-- ﾡￔﾨﾡￃￃ￁ﾻ￑ﾨﾨ￘ﾺ￑ﾹﾨ￐￡ￊﾴﾧﾷￕ￨ﾹￕ￨ -->
+                        <!-- กิจกรรมปัจจุบันจะแสดงที่นี่ -->
                     </div>
                 </div>
             </div>
 
-            <!-- ￠ﾹￗ￩ￍￋￒￋￅ￑ﾡﾹ￑ﾡ￠ￃￕￂﾹ -->
+            <!-- เนื้อหาหลักนักเรียน -->
             <div class="card mobile-card">
-                <h2 class="mobile-heading"><i class="fas fa-camera"></i> ﾶ￨ￒￂￃ￙ﾻ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁</h2>
+                <h2 class="mobile-heading"><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
                 <div class="camera-container">
                     <video id="camera" autoplay playsinline></video>
                     <div class="camera-placeholder" id="cameraPlaceholder">
                         <i class="fas fa-camera"></i>
-                        <p>ﾡￅ￩ￍﾧﾨ￐￡ￊﾴﾧﾷￕ￨ﾹￕ￨ￋￅ￑ﾧﾨￒﾡﾡﾴﾻ￘￨￁ "￠ﾻￔﾴﾡￅ￩ￍﾧ"</p>
+                        <p>กล้องจะแสดงที่นี่หลังจากกดปุ่ม "เปิดกล้อง"</p>
                     </div>
-                    <img id="capturedImage" class="captured-image" alt="ￃ￙ﾻ￀ￒﾾﾷￕ￨ﾶ￨ￒￂ">
+                    <img id="capturedImage" class="captured-image" alt="รูปภาพที่ถ่าย">
                     <input type="file" id="fileInput" accept="image/*" style="display: none;">
                 </div>
 
                 <div class="controls mobile-btn-group">
                     <button class="btn btn-primary" id="startCameraBtn">
-                        <i class="fas fa-video"></i> ￠ﾻￔﾴﾡￅ￩ￍﾧ
+                        <i class="fas fa-video"></i> เปิดกล้อง
                     </button>
                     <button class="btn btn-warning" id="captureBtn" disabled>
-                        <i class="fas fa-camera-retro"></i> ﾶ￨ￒￂￃ￙ﾻ
+                        <i class="fas fa-camera-retro"></i> ถ่ายรูป
                     </button>
                     <button class="btn btn-warning" id="useFileBtn">
-                        <i class="fas fa-upload"></i> ￍ￑ﾻ￢ￋￅﾴￃ￙ﾻ
+                        <i class="fas fa-upload"></i> อัปโหลดรูป
                     </button>
                     <button class="btn btn-danger" id="retakeBtn" disabled>
-                        <i class="fas fa-redo"></i> ﾶ￨ￒￂ￣ￋ￁￨
+                        <i class="fas fa-redo"></i> ถ่ายใหม่
                     </button>
                     <button class="btn btn-success" id="sendBtn" disabled>
-                        <i class="fas fa-paper-plane"></i> ￊ￨ﾧￃ￙ﾻ￣ￋ￩ￍￒﾨￒￃￂ￬
+                        <i class="fas fa-paper-plane"></i> ส่งรูปให้อาจารย์
                     </button>
                 </div>
             </div>
 
             <div class="card mobile-card">
-                <h2 class="mobile-heading"><i class="fas fa-history"></i> ﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-history"></i> ประวัติการส่ง</h2>
                 <div id="studentHistory">
-                    <!-- ﾢ￩ￍ￁￙ￅﾻￃ￐ￇ￑ﾵￔﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                    <!-- ข้อมูลประวัติจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ￋﾹ￩ￒￋￅ￑ﾡￍￒﾨￒￃￂ￬ -->
+    <!-- หน้าหลักอาจารย์ -->
     <div id="teacherPage" class="content-area">
         <div class="container">
-            <!-- ￊ￨ￇﾹￋ￑ￇￊￓￋￃ￑ﾺￍￒﾨￒￃￂ￬ -->
+            <!-- ส่วนหัวสำหรับอาจารย์ -->
             <div style="position: relative;">
                 <button class="btn btn-secondary logout-btn" id="teacherLogoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> ￍￍﾡﾨￒﾡￃ￐ﾺﾺ
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                 </button>
                 <div class="user-info" id="teacherUserInfo"></div>
 
                 <header>
                     <div class="header-container">
                         <div class="logo-container">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="￢ￅ￢ﾡ￩ￇￔﾷￂￒￅ￑ￂ" class="college-logo">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="โลโก้วิทยาลัย" class="college-logo">
                         </div>
 
                         <div class="header-text">
-                            <h1><i class="fas fa-user-check"></i> ￃ￐ﾺﾺﾨ￑ﾴﾡￒￃ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁</h1>
-                            <p>ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺￍￒﾨￒￃￂ￬ ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺﾨ￑ﾴﾡￒￃ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾹ￑ﾡ￠ￃￕￂﾹ</p>
+                            <h1><i class="fas fa-user-check"></i> ระบบจัดการเช็คกิจกรรม</h1>
+                            <p>ยินดีต้อนรับอาจารย์ เข้าสู่ระบบจัดการเช็คกิจกรรมนักเรียน</p>
                         </div>
                     </div>
                 </header>
             </div>
 
-            <!-- ￊ￨ￇﾹﾨ￑ﾴﾡￒￃﾹ￑ﾡ￠ￃￕￂﾹ -->
+            <!-- ส่วนจัดการนักเรียน -->
             <div class="card mobile-card student-management">
-                <h2 class="mobile-heading"><i class="fas fa-users"></i> ﾨ￑ﾴﾡￒￃￃￒￂﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-users"></i> จัดการรายชื่อนักเรียน</h2>
                 <div class="student-form mobile-form-stack">
                     <div class="form-group">
-                        <label for="studentName">ﾪￗ￨ￍ-ﾹￒ￁ￊﾡ￘ￅ</label>
-                        <input type="text" id="studentName" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ">
+                        <label for="studentName">ชื่อ-นามสกุล</label>
+                        <input type="text" id="studentName" placeholder="กรอกชื่อนักเรียน">
                     </div>
                     <div class="form-group">
-                        <label for="studentId">ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ</label>
-                        <input type="text" id="studentId" placeholder="ﾡￃￍﾡￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ">
+                        <label for="studentId">รหัสนักเรียน</label>
+                        <input type="text" id="studentId" placeholder="กรอกรหัสนักเรียน">
                     </div>
                     <button class="btn btn-success" id="addStudentBtn">
-                        <i class="fas fa-plus"></i> ￠ﾾￔ￨￁ﾹ￑ﾡ￠ￃￕￂﾹ
+                        <i class="fas fa-plus"></i> เพิ่มนักเรียน
                     </button>
                 </div>
                 <div class="student-table-container">
                     <table class="student-table mobile-table">
                         <thead>
                             <tr>
-                                <th>ￅￓﾴ￑ﾺ</th>
-                                <th>ﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ</th>
-                                <th>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ</th>
-                                <th>ﾨ￑ﾴﾡￒￃ</th>
+                                <th>ลำดับ</th>
+                                <th>ชื่อนักเรียน</th>
+                                <th>รหัสนักเรียน</th>
+                                <th>จัดการ</th>
                             </tr>
                         </thead>
                         <tbody id="studentList">
-                            <!-- ﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                            <!-- ข้อมูลนักเรียนจะถูกแสดงที่นี่โดย JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div class="card mobile-card">
-                <h2 class="mobile-heading"><i class="fas fa-images"></i> ￃ￙ﾻﾷￕ￨ﾹ￑ﾡ￠ￃￕￂﾹￊ￨ﾧ￁ￒ (ￃￍﾵￃￇﾨￊￍﾺ)</h2>
+                <h2 class="mobile-heading"><i class="fas fa-images"></i> รูปที่นักเรียนส่งมา (รอตรวจสอบ)</h2>
                 <div id="submissionsContainer">
-                    <!-- ￃ￙ﾻﾷￕ￨ﾹ￑ﾡ￠ￃￕￂﾹￊ￨ﾧﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                    <!-- รูปที่นักเรียนส่งจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
 
-            <!-- ￊ￨ￇﾹﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾷ￑￩ﾧￋ￁ﾴ -->
+            <!-- ส่วนประวัติการส่งรูปทั้งหมด -->
             <div class="card mobile-card submission-history-section">
-                <h2 class="mobile-heading"><i class="fas fa-history"></i> ﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾷ￑￩ﾧￋ￁ﾴ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-history"></i> ประวัติการส่งรูปทั้งหมด</h2>
 
                 <div class="history-filters">
-                    <button class="history-filter-btn active" onclick="filterSubmissionHistory('all')">ﾷ￑￩ﾧￋ￁ﾴ</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('approved')">ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('pending')">ￃￍﾵￃￇﾨￊￍﾺ</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('rejected')">ﾻﾯￔ￠ￊﾸ￡ￅ￩ￇ</button>
+                    <button class="history-filter-btn active" onclick="filterSubmissionHistory('all')">ทั้งหมด</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('approved')">อนุมัติแล้ว</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('pending')">รอตรวจสอบ</button>
+                    <button class="history-filter-btn" onclick="filterSubmissionHistory('rejected')">ปฏิเสธแล้ว</button>
                 </div>
 
                 <div class="history-search">
-                    <input type="text" class="search-box" id="searchSubmissionHistory" placeholder="ﾤ￩ﾹￋￒﾹ￑ﾡ￠ￃￕￂﾹￋￃￗￍￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ..." oninput="searchSubmissionHistory()">
+                    <input type="text" class="search-box" id="searchSubmissionHistory" placeholder="ค้นหานักเรียนหรือรหัสนักเรียน..." oninput="searchSubmissionHistory()">
                     <button class="btn btn-secondary" onclick="clearSubmissionHistorySearch()">
-                        <i class="fas fa-times"></i> ￅ￩ￒﾧ
+                        <i class="fas fa-times"></i> ล้าง
                     </button>
                 </div>
 
                 <div id="submissionHistoryContainer">
-                    <!-- ﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾷ￑￩ﾧￋ￁ﾴﾨ￐￡ￊﾴﾧﾷￕ￨ﾹￕ￨ -->
+                    <!-- ประวัติการส่งรูปทั้งหมดจะแสดงที่นี่ -->
                 </div>
             </div>
 
             <div class="card mobile-card attendance-list">
                 <div class="attendance-controls">
                     <div>
-                        <input type="text" class="search-box" id="searchAttendance" placeholder="ﾤ￩ﾹￋￒﾹ￑ﾡ￠ￃￕￂﾹ...">
+                        <input type="text" class="search-box" id="searchAttendance" placeholder="ค้นหานักเรียน...">
                     </div>
                     <div class="filter-options">
-                        <button class="filter-btn active" data-filter="all">ﾷ￑￩ﾧￋ￁ﾴ</button>
-                        <button class="filter-btn" data-filter="approved">￠ﾪ￧ﾤﾪￗ￨ￍ￡ￅ￩ￇ</button>
-                        <button class="filter-btn" data-filter="absent">ￂ￑ﾧ￤￁￨￠ﾪ￧ﾤﾪￗ￨ￍ</button>
+                        <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+                        <button class="filter-btn" data-filter="approved">เช็คชื่อแล้ว</button>
+                        <button class="filter-btn" data-filter="absent">ยังไม่เช็คชื่อ</button>
                     </div>
                 </div>
 
-                <h2 class="mobile-heading"><i class="fas fa-clipboard-check"></i> ￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-clipboard-check"></i> รายการเช็คชื่อ</h2>
                 <div class="attendance-table-container">
                     <table class="attendance-table mobile-table">
                         <thead>
                             <tr>
-                                <th>ￅￓﾴ￑ﾺ</th>
-                                <th>ﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ</th>
-                                <th>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ</th>
-                                <th>￠ￇￅￒﾷￕ￨ￊ￨ﾧ</th>
-                                <th>ￊﾶￒﾹ￐</th>
-                                <th>ﾨ￑ﾴﾡￒￃ</th>
+                                <th>ลำดับ</th>
+                                <th>ชื่อนักเรียน</th>
+                                <th>รหัสนักเรียน</th>
+                                <th>เวลาที่ส่ง</th>
+                                <th>สถานะ</th>
+                                <th>จัดการ</th>
                             </tr>
                         </thead>
                         <tbody id="attendanceList">
-                            <!-- ￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                            <!-- รายการเช็คชื่อจะถูกแสดงที่นี่โดย JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -1834,277 +1834,277 @@
         </div>
     </div>
 
-    <!-- ￋﾹ￩ￒￋￅ￑ﾡ Admin -->
+    <!-- หน้าหลัก Admin -->
     <div id="adminPage" class="content-area">
         <div class="container">
-            <!-- ￊ￨ￇﾹￋ￑ￇￊￓￋￃ￑ﾺ Admin -->
+            <!-- ส่วนหัวสำหรับ Admin -->
             <div style="position: relative;">
                 <button class="btn btn-secondary logout-btn" id="adminLogoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> ￍￍﾡﾨￒﾡￃ￐ﾺﾺ
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
                 </button>
                 <div class="user-info" id="adminUserInfo"></div>
 
                 <header>
                     <div class="header-container">
                         <div class="logo-container">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="￢ￅ￢ﾡ￩ￇￔﾷￂￒￅ￑ￂ" class="college-logo">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlux4lEQv32t2eZrG7RYiLbC1vAdlGIHCksA&s" alt="โลโก้วิทยาลัย" class="college-logo">
                         </div>
 
                         <div class="header-text">
-                            <h1><i class="fas fa-user-shield"></i> ￃ￐ﾺﾺﾺￃￔￋￒￃﾨ￑ﾴﾡￒￃﾡￔﾨﾡￃￃ￁</h1>
-                            <p>ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ ￠ﾢ￩ￒￊ￙￨ￃ￐ﾺﾺﾺￃￔￋￒￃﾨ￑ﾴﾡￒￃﾡￔﾨﾡￃￃ￁ﾢￍﾧￇￔﾷￂￒￅ￑ￂ</p>
+                            <h1><i class="fas fa-user-shield"></i> ระบบบริหารจัดการกิจกรรม</h1>
+                            <p>ยินดีต้อนรับผู้ดูแลระบบ เข้าสู่ระบบบริหารจัดการกิจกรรมของวิทยาลัย</p>
                         </div>
                     </div>
                 </header>
             </div>
 
-            <!-- ￡ﾴﾪﾺￍￃ￬ﾴ Admin -->
+            <!-- แดชบอร์ด Admin -->
             <div class="admin-dashboard">
                 <div class="stat-card">
                     <i class="fas fa-users"></i>
                     <h3 id="totalStudents">0</h3>
-                    <p>ﾨￓﾹￇﾹﾹ￑ﾡ￠ￃￕￂﾹﾷ￑￩ﾧￋ￁ﾴ</p>
+                    <p>จำนวนนักเรียนทั้งหมด</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <h3 id="totalTeachers">0</h3>
-                    <p>ﾨￓﾹￇﾹￍￒﾨￒￃￂ￬ﾷ￑￩ﾧￋ￁ﾴ</p>
+                    <p>จำนวนอาจารย์ทั้งหมด</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-calendar-check"></i>
                     <h3 id="totalActivities">0</h3>
-                    <p>ﾨￓﾹￇﾹﾡￔﾨﾡￃￃ￁ﾷ￑￩ﾧￋ￁ﾴ</p>
+                    <p>จำนวนกิจกรรมทั้งหมด</p>
                 </div>
                 <div class="stat-card">
                     <i class="fas fa-check-circle"></i>
                     <h3 id="totalAttendance">0</h3>
-                    <p>ﾨￓﾹￇﾹﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾷ￑￩ﾧￋ￁ﾴ</p>
+                    <p>จำนวนการเช็คชื่อทั้งหมด</p>
                 </div>
             </div>
 
-            <!-- ￊ￨ￇﾹﾨ￑ﾴﾡￒￃﾡￔﾨﾡￃￃ￁ -->
+            <!-- ส่วนจัดการกิจกรรม -->
             <div class="card mobile-card">
-                <h2 class="mobile-heading"><i class="fas fa-calendar-plus"></i> ￠ﾾￔ￨￁ﾡￔﾨﾡￃￃ￁￣ￋ￁￨</h2>
+                <h2 class="mobile-heading"><i class="fas fa-calendar-plus"></i> เพิ่มกิจกรรมใหม่</h2>
                 <div class="activity-form mobile-form-stack">
                     <div class="form-group">
-                        <label for="activityName">ﾪￗ￨ￍﾡￔﾨﾡￃￃ￁</label>
-                        <input type="text" id="activityName" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾡￔﾨﾡￃￃ￁">
+                        <label for="activityName">ชื่อกิจกรรม</label>
+                        <input type="text" id="activityName" placeholder="กรอกชื่อกิจกรรม">
                     </div>
                     <div class="form-group">
-                        <label for="activityDate">ￇ￑ﾹﾷￕ￨ﾨ￑ﾴﾡￔﾨﾡￃￃ￁</label>
+                        <label for="activityDate">วันที่จัดกิจกรรม</label>
                         <input type="date" id="activityDate">
                     </div>
                     <div class="form-group full-width">
-                        <label for="activityDescription">ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁</label>
-                        <textarea id="activityDescription" placeholder="ﾡￃￍﾡￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁" rows="3"></textarea>
+                        <label for="activityDescription">รายละเอียดกิจกรรม</label>
+                        <textarea id="activityDescription" placeholder="กรอกรายละเอียดกิจกรรม" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="activityTime">￠ￇￅￒ￠ￃￔ￨￁ﾡￔﾨﾡￃￃ￁</label>
+                        <label for="activityTime">เวลาเริ่มกิจกรรม</label>
                         <input type="time" id="activityTime">
                     </div>
                     <div class="form-group">
-                        <label for="activityLocation">ￊﾶￒﾹﾷￕ￨ﾨ￑ﾴﾡￔﾨﾡￃￃ￁</label>
-                        <input type="text" id="activityLocation" placeholder="ﾡￃￍﾡￊﾶￒﾹﾷￕ￨">
+                        <label for="activityLocation">สถานที่จัดกิจกรรม</label>
+                        <input type="text" id="activityLocation" placeholder="กรอกสถานที่">
                     </div>
                     <div class="form-group">
-                        <label for="activityStatus">ￊﾶￒﾹ￐ﾡￔﾨﾡￃￃ￁</label>
+                        <label for="activityStatus">สถานะกิจกรรม</label>
                         <select id="activityStatus">
-                            <option value="active">ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ</option>
-                            <option value="upcoming">ﾡￓￅ￑ﾧﾨ￐￁ￒﾶￖﾧ</option>
-                            <option value="completed">ￊￔ￩ﾹￊ￘ﾴ￡ￅ￩ￇ</option>
+                            <option value="active">กำลังดำเนินการ</option>
+                            <option value="upcoming">กำลังจะมาถึง</option>
+                            <option value="completed">สิ้นสุดแล้ว</option>
                         </select>
                     </div>
                 </div>
                 <button class="btn btn-success" id="addActivityBtn">
-                    <i class="fas fa-plus"></i> ￠ﾾￔ￨￁ﾡￔﾨﾡￃￃ￁
+                    <i class="fas fa-plus"></i> เพิ่มกิจกรรม
                 </button>
             </div>
 
-            <!-- ￃￒￂﾡￒￃﾡￔﾨﾡￃￃ￁ﾷ￑￩ﾧￋ￁ﾴ -->
+            <!-- รายการกิจกรรมทั้งหมด -->
             <div class="card mobile-card activity-list">
-                <h2 class="mobile-heading"><i class="fas fa-list"></i> ￃￒￂﾡￒￃﾡￔﾨﾡￃￃ￁ﾷ￑￩ﾧￋ￁ﾴ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-list"></i> รายการกิจกรรมทั้งหมด</h2>
                 <div id="activitiesList">
-                    <!-- ﾡￔﾨﾡￃￃ￁ﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                    <!-- กิจกรรมจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
 
-            <!-- ￊ￨ￇﾹﾨ￑ﾴﾡￒￃﾼ￙￩￣ﾪ￩ -->
+            <!-- ส่วนจัดการผู้ใช้ -->
             <div class="card mobile-card user-management">
-                <h2 class="mobile-heading"><i class="fas fa-user-cog"></i> ﾨ￑ﾴﾡￒￃﾼ￙￩￣ﾪ￩ﾷ￑￩ﾧￋ￁ﾴ</h2>
+                <h2 class="mobile-heading"><i class="fas fa-user-cog"></i> จัดการผู้ใช้ทั้งหมด</h2>
                 <div class="user-table-container">
                     <table class="user-table mobile-table">
                         <thead>
                             <tr>
-                                <th>ￅￓﾴ￑ﾺ</th>
-                                <th>ﾪￗ￨ￍ</th>
-                                <th>ﾻￃ￐￠￀ﾷﾼ￙￩￣ﾪ￩</th>
-                                <th>ￍￕ￠￁ￅ</th>
-                                <th>ￊﾶￒﾹ￐</th>
-                                <th>ﾨ￑ﾴﾡￒￃ</th>
+                                <th>ลำดับ</th>
+                                <th>ชื่อ</th>
+                                <th>ประเภทผู้ใช้</th>
+                                <th>อีเมล</th>
+                                <th>สถานะ</th>
+                                <th>จัดการ</th>
                             </tr>
                         </thead>
                         <tbody id="userList">
-                            <!-- ￃￒￂﾡￒￃﾼ￙￩￣ﾪ￩ﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                            <!-- รายการผู้ใช้จะถูกแสดงที่นี่โดย JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- ￊﾶￔﾵￔ￡ￅ￐ￃￒￂﾧￒﾹ -->
+            <!-- สถิติและรายงาน -->
             <div class="card mobile-card chart-container">
-                <h2 class="mobile-heading"><i class="fas fa-chart-bar"></i> ￊﾶￔﾵￔﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</h2>
+                <h2 class="mobile-heading"><i class="fas fa-chart-bar"></i> สถิติการเข้าร่วมกิจกรรม</h2>
                 <div class="chart-placeholder">
                     <i class="fas fa-chart-line"></i>
-                    <p>ﾡￃￒ﾿￡ￊﾴﾧￊﾶￔﾵￔﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</p>
+                    <p>กราฟแสดงสถิติการเข้าร่วมกิจกรรม</p>
                 </div>
                 <div class="activity-stats" id="activityStats">
-                    <!-- ￊﾶￔﾵￔﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨￢ﾴￂ JavaScript -->
+                    <!-- สถิติจะถูกแสดงที่นี่โดย JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal ﾵ￨ￒﾧ￦ -->
+    <!-- Modal ต่างๆ -->
     <div class="modal" id="editStudentModal">
         <div class="modal-content">
-            <h3><i class="fas fa-edit"></i> ￡ﾡ￩￤ﾢﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ</h3>
+            <h3><i class="fas fa-edit"></i> แก้ไขข้อมูลนักเรียน</h3>
             <div class="form-group">
-                <label for="editStudentName">ﾪￗ￨ￍ-ﾹￒ￁ￊﾡ￘ￅ</label>
-                <input type="text" id="editStudentName" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ">
+                <label for="editStudentName">ชื่อ-นามสกุล</label>
+                <input type="text" id="editStudentName" placeholder="กรอกชื่อนักเรียน">
             </div>
             <div class="form-group">
-                <label for="editStudentId">ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ</label>
-                <input type="text" id="editStudentId" placeholder="ﾡￃￍﾡￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ">
+                <label for="editStudentId">รหัสนักเรียน</label>
+                <input type="text" id="editStudentId" placeholder="กรอกรหัสนักเรียน">
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelEditBtn">ￂﾡ￠ￅￔﾡ</button>
-                <button class="btn btn-success" id="saveEditBtn">ﾺ￑ﾹﾷￖﾡ</button>
+                <button class="btn btn-secondary" id="cancelEditBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveEditBtn">บันทึก</button>
             </div>
         </div>
     </div>
 
     <div class="modal" id="editProfileModal">
         <div class="modal-content">
-            <h3><i class="fas fa-user-edit"></i> ￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬</h3>
+            <h3><i class="fas fa-user-edit"></i> แก้ไขโปรไฟล์</h3>
             <div class="form-group">
-                <label for="editProfileName">ﾪￗ￨ￍ-ﾹￒ￁ￊﾡ￘ￅ</label>
-                <input type="text" id="editProfileName" placeholder="ﾡￃￍﾡﾪￗ￨ￍ-ﾹￒ￁ￊﾡ￘ￅ">
+                <label for="editProfileName">ชื่อ-นามสกุล</label>
+                <input type="text" id="editProfileName" placeholder="กรอกชื่อ-นามสกุล">
             </div>
             <div class="form-group">
-                <label for="editProfileEmail">ￍￕ￠￁ￅ</label>
-                <input type="email" id="editProfileEmail" placeholder="ﾡￃￍﾡￍￕ￠￁ￅ">
-                <div class="help-text">￣ﾪ￩ￊￓￋￃ￑ﾺﾡ￙￩ￃￋ￑ￊﾼ￨ￒﾹ</div>
+                <label for="editProfileEmail">อีเมล</label>
+                <input type="email" id="editProfileEmail" placeholder="กรอกอีเมล">
+                <div class="help-text">ใช้สำหรับกู้รหัสผ่าน</div>
             </div>
             <div class="form-group">
-                <label for="editProfileClass">ﾪ￑￩ﾹﾻￕ</label>
+                <label for="editProfileClass">ชั้นปี</label>
                 <select id="editProfileClass">
-                    <option value="">￠ￅￗￍﾡﾪ￑￩ﾹﾻￕ</option>
-                    <option value="ﾻￕ 1">ﾻￕ 1</option>
-                    <option value="ﾻￕ 2">ﾻￕ 2</option>
-                    <option value="ﾻￕ 3">ﾻￕ 3</option>
-                    <option value="ﾻￕ 4">ﾻￕ 4</option>
+                    <option value="">เลือกชั้นปี</option>
+                    <option value="ปี 1">ปี 1</option>
+                    <option value="ปี 2">ปี 2</option>
+                    <option value="ปี 3">ปี 3</option>
+                    <option value="ปี 4">ปี 4</option>
                 </select>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelEditProfileBtn">ￂﾡ￠ￅￔﾡ</button>
-                <button class="btn btn-success" id="saveEditProfileBtn">ﾺ￑ﾹﾷￖﾡ</button>
+                <button class="btn btn-secondary" id="cancelEditProfileBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveEditProfileBtn">บันทึก</button>
             </div>
         </div>
     </div>
 
     <div class="modal" id="changePasswordModal">
         <div class="modal-content">
-            <h3><i class="fas fa-key"></i> ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ</h3>
+            <h3><i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน</h3>
             <div class="form-group">
-                <label for="currentPassword">ￃￋ￑ￊﾼ￨ￒﾹﾻ￑ﾨﾨ￘ﾺ￑ﾹ</label>
+                <label for="currentPassword">รหัสผ่านปัจจุบัน</label>
                 <div class="input-with-icon">
-                    <input type="password" id="currentPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹﾻ￑ﾨﾨ￘ﾺ￑ﾹ">
+                    <input type="password" id="currentPassword" placeholder="กรอกรหัสผ่านปัจจุบัน">
                     <i class="fas fa-eye" id="toggleCurrentPassword"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="newStudentPassword">ￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨</label>
+                <label for="newStudentPassword">รหัสผ่านใหม่</label>
                 <div class="input-with-icon">
-                    <input type="password" id="newStudentPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨ (ￍￂ￨ￒﾧﾹ￩ￍￂ 6 ﾵ￑ￇ)">
+                    <input type="password" id="newStudentPassword" placeholder="กรอกรหัสผ่านใหม่ (อย่างน้อย 6 ตัว)">
                     <i class="fas fa-eye" id="toggleNewStudentPassword"></i>
                 </div>
             </div>
             <div class="form-group">
-                <label for="confirmStudentPassword">ￂￗﾹￂ￑ﾹￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨</label>
+                <label for="confirmStudentPassword">ยืนยันรหัสผ่านใหม่</label>
                 <div class="input-with-icon">
-                    <input type="password" id="confirmStudentPassword" placeholder="ﾡￃￍﾡￃￋ￑ￊﾼ￨ￒﾹￍￕﾡﾤￃ￑￩ﾧ">
+                    <input type="password" id="confirmStudentPassword" placeholder="กรอกรหัสผ่านอีกครั้ง">
                     <i class="fas fa-eye" id="toggleConfirmStudentPassword"></i>
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelChangePasswordBtn">ￂﾡ￠ￅￔﾡ</button>
-                <button class="btn btn-success" id="saveChangePasswordBtn">ﾺ￑ﾹﾷￖﾡ</button>
+                <button class="btn btn-secondary" id="cancelChangePasswordBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveChangePasswordBtn">บันทึก</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal ￊￓￋￃ￑ﾺ Admin -->
+    <!-- Modal สำหรับ Admin -->
     <div class="modal" id="editActivityModal">
         <div class="modal-content">
-            <h3><i class="fas fa-edit"></i> ￡ﾡ￩￤ﾢﾡￔﾨﾡￃￃ￁</h3>
+            <h3><i class="fas fa-edit"></i> แก้ไขกิจกรรม</h3>
             <div class="form-group">
-                <label for="editActivityName">ﾪￗ￨ￍﾡￔﾨﾡￃￃ￁</label>
-                <input type="text" id="editActivityName" placeholder="ﾡￃￍﾡﾪￗ￨ￍﾡￔﾨﾡￃￃ￁">
+                <label for="editActivityName">ชื่อกิจกรรม</label>
+                <input type="text" id="editActivityName" placeholder="กรอกชื่อกิจกรรม">
             </div>
             <div class="form-group">
-                <label for="editActivityDate">ￇ￑ﾹﾷￕ￨ﾨ￑ﾴﾡￔﾨﾡￃￃ￁</label>
+                <label for="editActivityDate">วันที่จัดกิจกรรม</label>
                 <input type="date" id="editActivityDate">
             </div>
             <div class="form-group">
-                <label for="editActivityDescription">ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁</label>
-                <textarea id="editActivityDescription" placeholder="ﾡￃￍﾡￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁" rows="3"></textarea>
+                <label for="editActivityDescription">รายละเอียดกิจกรรม</label>
+                <textarea id="editActivityDescription" placeholder="กรอกรายละเอียดกิจกรรม" rows="3"></textarea>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelEditActivityBtn">ￂﾡ￠ￅￔﾡ</button>
-                <button class="btn btn-success" id="saveEditActivityBtn">ﾺ￑ﾹﾷￖﾡ</button>
+                <button class="btn btn-secondary" id="cancelEditActivityBtn">ยกเลิก</button>
+                <button class="btn btn-success" id="saveEditActivityBtn">บันทึก</button>
             </div>
         </div>
     </div>
 
     <div class="modal" id="activityDetailModal">
         <div class="modal-content">
-            <h3><i class="fas fa-info-circle"></i> ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁</h3>
+            <h3><i class="fas fa-info-circle"></i> รายละเอียดกิจกรรม</h3>
             <div id="activityDetailContent">
-                <!-- ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁ﾨ￐￡ￊﾴﾧﾷￕ￨ﾹￕ￨ -->
+                <!-- รายละเอียดกิจกรรมจะแสดงที่นี่ -->
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="closeActivityDetailBtn">ﾻￔﾴ</button>
+                <button class="btn btn-secondary" id="closeActivityDetailBtn">ปิด</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal ￊￓￋￃ￑ﾺﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ -->
+    <!-- Modal สำหรับพิมพ์เอกสาร -->
     <div class="modal" id="printDocumentModal">
         <div class="modal-content" style="max-width: 800px;">
-            <h3><i class="fas fa-print"></i> ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃￂￗﾹￂ￑ﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</h3>
+            <h3><i class="fas fa-print"></i> พิมพ์เอกสารยืนยันการเข้าร่วมกิจกรรม</h3>
             <div id="printDocumentContent">
-                <!-- ￠ﾹￗ￩ￍￋￒ￠ￍﾡￊￒￃﾨ￐ﾶ￙ﾡ￡ￊﾴﾧﾷￕ￨ﾹￕ￨ -->
+                <!-- เนื้อหาเอกสารจะถูกแสดงที่นี่ -->
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="closePrintModalBtn">ￂﾡ￠ￅￔﾡ</button>
+                <button class="btn btn-secondary" id="closePrintModalBtn">ยกเลิก</button>
                 <button class="btn btn-success" onclick="printDocument()">
-                    <i class="fas fa-print"></i> ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+                    <i class="fas fa-print"></i> พิมพ์เอกสาร
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal ￂￗﾹￂ￑ﾹﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔ -->
+    <!-- Modal ยืนยันการลบประวัติ -->
     <div class="modal" id="confirmDeleteHistoryModal">
         <div class="modal-content">
-            <h3><i class="fas fa-exclamation-triangle"></i> ￂￗﾹￂ￑ﾹﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔ</h3>
+            <h3><i class="fas fa-exclamation-triangle"></i> ยืนยันการลบประวัติ</h3>
             <div id="confirmDeleteHistoryContent">
-                <p>ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨?</p>
-                <p class="help-text">ﾡￒￃﾡￃ￐ﾷￓﾹￕ￩￤￁￨ￊￒ￁ￒￃﾶￂ￩ￍﾹﾡￅ￑ﾺ￤ﾴ￩</p>
+                <p>คุณต้องการลบประวัติการส่งรูปนี้ใช่หรือไม่?</p>
+                <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelDeleteHistoryBtn">ￂﾡ￠ￅￔﾡ</button>
-                <button class="btn btn-danger" id="confirmDeleteHistoryBtn">ￅﾺ</button>
+                <button class="btn btn-secondary" id="cancelDeleteHistoryBtn">ยกเลิก</button>
+                <button class="btn btn-danger" id="confirmDeleteHistoryBtn">ลบ</button>
             </div>
         </div>
     </div>
@@ -2112,34 +2112,34 @@
     <div id="notification" class="notification"></div>
 
     <script>
-        // ﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩￡ￅ￐ﾹ￑ﾡ￠ￃￕￂﾹ
+        // ข้อมูลผู้ใช้และนักเรียน
         const users = {
             students: [
                 {
                     username: "SRTC048",
                     password: "123456",
-                    name: "ﾹￒￂ￠ﾶￅￔﾧ￈￑ﾡﾴￔ￬ ﾨ￑ﾹﾷￃ￬ﾻￒﾹ",
+                    name: "นายเถลิงศักดิ์ จันทร์ปาน",
                     studentId: "66209010048",
                     email: "somchai@college.ac.th",
-                    class: "ﾻￕ 3",
+                    class: "ปี 3",
                     type: "student"
                 },
                 {
                     username: "SRTC046",
                     password: "tae046",
-                    name: "ﾹￒￂ￠ﾵﾪￔﾹﾷ￬ ￠ﾡￔﾴￊ￑ﾧﾢ￬",
+                    name: "นายเตชินท์ เกิดสังข์",
                     studentId: "66209010046",
                     email: "somying@college.ac.th",
-                    class: "ﾻￕ 2",
+                    class: "ปี 2",
                     type: "student"
                 },
                 {
                     username: "SRTC055",
                     password: "we055",
-                    name: "ﾹￒￂￇￕￃ￀￑ﾷￃ ￃ￑ﾡﾺￓￃ￘ﾧ",
+                    name: "นายวีรภัทร รักบำรุง",
                     studentId: "66209010055",
                     email: "somying@college.ac.th",
-                    class: "ﾻￕ 2",
+                    class: "ปี 2",
                     type: "student"
                 }
             ],
@@ -2147,58 +2147,58 @@
                 {
                     username: "teacher",
                     password: "123456",
-                    name: "ￍￒﾨￒￃￂ￬ ﾼ￙￩ￊￍﾹ",
+                    name: "อาจารย์ ผู้สอน",
                     email: "teacher@college.ac.th",
                     type: "teacher"
                 },
                 {
                     username: "admin",
                     password: "college123",
-                    name: "ﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ",
+                    name: "ผู้ดูแลระบบ",
                     email: "admin@college.ac.th",
                     type: "admin"
                 }
             ]
         };
 
-        // ﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￃ￐ﾺﾺ - ￠ￃￔ￨￁ﾵ￩ﾹﾴ￩ￇￂﾢ￩ￍ￁￙ￅￇ￨ￒﾧ
+        // ข้อมูลนักเรียนในระบบ - เริ่มต้นด้วยข้อมูลว่าง
         let students = [];
-        // ﾢ￩ￍ￁￙ￅﾡￒￃￊ￨ﾧￃ￙ﾻ - ￠ￃￔ￨￁ﾵ￩ﾹﾴ￩ￇￂﾢ￩ￍ￁￙ￅￇ￨ￒﾧ
+        // ข้อมูลการส่งรูป - เริ่มต้นด้วยข้อมูลว่าง
         let submissions = [];
-        // ﾢ￩ￍ￁￙ￅﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ - ￠ￃￔ￨￁ﾵ￩ﾹﾴ￩ￇￂﾢ￩ￍ￁￙ￅￇ￨ￒﾧ
+        // ข้อมูลการเช็คชื่อ - เริ่มต้นด้วยข้อมูลว่าง
         let attendanceList = [];
-        // ﾢ￩ￍ￁￙ￅﾡￔﾨﾡￃￃ￁
+        // ข้อมูลกิจกรรม
         let activities = [
             {
                 id: 1,
-                name: "ﾡￔﾨﾡￃￃ￁ﾻￃ￑ﾺﾾￗ￩ﾹﾰￒﾹﾹ￑ﾡ￈ￖﾡ￉ￒ￣ￋ￁￨",
+                name: "กิจกรรมปรับพื้นฐานนักศึกษาใหม่",
                 date: "2024-06-15",
                 time: "09:00",
-                location: "ￋￍﾻￃ￐ﾪ￘￁￣ￋﾭ￨",
-                description: "ﾡￔﾨﾡￃￃ￁￡ﾹ￐ﾹￓￇￔﾷￂￒￅ￑ￂ￡ￅ￐ﾷￓﾤￇￒ￁ﾤ￘￩ﾹ￠ﾤￂﾡ￑ﾺￊ￀ￒﾾ￡ￇﾴￅ￩ￍ￁",
+                location: "หอประชุมใหญ่",
+                description: "กิจกรรมแนะนำวิทยาลัยและทำความคุ้นเคยกับสภาพแวดล้อม",
                 status: "completed"
             },
             {
                 id: 2,
-                name: "ￍﾺￃ￁ﾡￒￃ￠ﾢￕￂﾹ￢ﾻￃ￡ﾡￃ￁￠ﾺￗ￩ￍﾧﾵ￩ﾹ",
+                name: "อบรมการเขียนโปรแกรมเบื้องต้น",
                 date: "2024-07-10",
                 time: "13:00",
-                location: "ￋ￩ￍﾧﾻﾯￔﾺ￑ﾵￔﾡￒￃﾤￍ￁ﾾￔￇ￠ﾵￍￃ￬ 1",
-                description: "￠ￃￕￂﾹￃ￙￩ﾾￗ￩ﾹﾰￒﾹﾡￒￃ￠ﾢￕￂﾹ￢ﾻￃ￡ﾡￃ￁ﾴ￩ￇￂ￀ￒ￉ￒ Python",
+                location: "ห้องปฏิบัติการคอมพิวเตอร์ 1",
+                description: "เรียนรู้พื้นฐานการเขียนโปรแกรมด้วยภาษา Python",
                 status: "active"
             },
             {
                 id: 3,
-                name: "ﾡￔﾨﾡￃￃ￁ﾨￔﾵￍￒￊￒﾾ￑ﾲﾹￒﾪ￘￁ﾪﾹ",
+                name: "กิจกรรมจิตอาสาพัฒนาชุมชน",
                 date: "2024-08-20",
                 time: "08:00",
-                location: "ﾪ￘￁ﾪﾹ￣ﾡￅ￩ￇￔﾷￂￒￅ￑ￂ",
-                description: "ￃ￨ￇ￁ﾾ￑ﾲﾹￒﾪ￘￁ﾪﾹ￡ￅ￐ￊￃ￩ￒﾧￊ￑￁ﾾ￑ﾹﾸ￬ﾡ￑ﾺﾪ￘￁ﾪﾹￃￍﾺￇￔﾷￂￒￅ￑ￂ",
+                location: "ชุมชนใกล้วิทยาลัย",
+                description: "ร่วมพัฒนาชุมชนและสร้างสัมพันธ์กับชุมชนรอบวิทยาลัย",
                 status: "upcoming"
             }
         ];
 
-        // ﾵ￑ￇ￡ﾻￃￃ￐ﾺﾺ
+        // ตัวแปรระบบ
         let currentUser = null;
         let currentUserType = null;
         let stream = null;
@@ -2216,8 +2216,8 @@
         // ====================================================
         // GOOGLE SHEETS API CONFIGURATION
         // ====================================================
-        // ?? ￋ￁ￒￂ￠ￋﾵ￘: ﾹￕ￨ﾤￗￍ API Key ￊￓￋￃ￑ﾺﾷﾴￊￍﾺ￠ﾷ￨ￒﾹ￑￩ﾹ
-        // ￣ﾹ￢ﾻￃ￠ﾨﾤﾨￃￔﾧﾤￇￃ￣ﾪ￩ￃ￐ﾺﾺ￡ﾺ￧ﾡ￠ￍﾹﾴ￬ﾷￕ￨ﾻￅￍﾴ￀￑ￂﾡￇ￨ￒ
+        // ⚠️ หมายเหตุ: นี่คือ API Key สำหรับทดสอบเท่านั้น
+        // ในโปรเจคจริงควรใช้ระบบแบ็กเอนด์ที่ปลอดภัยกว่า
         const GOOGLE_SHEETS_CONFIG = {
             SPREADSHEET_ID: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
             API_KEY: 'AIzaSyBR7gNryBEd11Bdy4hVEKzWTPd6E4pS8RQ',
@@ -2335,12 +2335,12 @@
         const activityDetailContent = document.getElementById('activityDetailContent');
         const closeActivityDetailBtn = document.getElementById('closeActivityDetailBtn');
 
-        // Modal ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+        // Modal พิมพ์เอกสาร
         const printDocumentModal = document.getElementById('printDocumentModal');
         const printDocumentContent = document.getElementById('printDocumentContent');
         const closePrintModalBtn = document.getElementById('closePrintModalBtn');
 
-        // Modal ￂￗﾹￂ￑ﾹﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔ
+        // Modal ยืนยันการลบประวัติ
         const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
         const confirmDeleteHistoryContent = document.getElementById('confirmDeleteHistoryContent');
         const cancelDeleteHistoryBtn = document.getElementById('cancelDeleteHistoryBtn');
@@ -2353,7 +2353,7 @@
         // UTILITY FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧﾡￒￃ￡ﾨ￩ﾧ￠ﾵￗￍﾹ
+        // ฟังก์ชันแสดงการแจ้งเตือน
         function showNotification(message, type = 'success') {
             notification.textContent = message;
             notification.className = `notification ${type}`;
@@ -2364,7 +2364,7 @@
             }, 3000);
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￢ￋￅﾴﾢ￩ￍ￁￙ￅﾨￒﾡ localStorage
+        // ฟังก์ชันโหลดข้อมูลจาก localStorage
         function loadAllDataFromStorage() {
             try {
                 const savedSubmissions = localStorage.getItem('student_submissions');
@@ -2374,45 +2374,45 @@
 
                 if (savedSubmissions) {
                     submissions = JSON.parse(savedSubmissions);
-                    console.log('￢ￋￅﾴﾢ￩ￍ￁￙ￅ submissions ﾨￒﾡ localStorage:', submissions.length, 'ￃￒￂﾡￒￃ');
+                    console.log('โหลดข้อมูล submissions จาก localStorage:', submissions.length, 'รายการ');
                 }
 
                 if (savedAttendance) {
                     attendanceList = JSON.parse(savedAttendance);
-                    console.log('￢ￋￅﾴﾢ￩ￍ￁￙ￅ attendance ﾨￒﾡ localStorage:', attendanceList.length, 'ￃￒￂﾡￒￃ');
+                    console.log('โหลดข้อมูล attendance จาก localStorage:', attendanceList.length, 'รายการ');
                 }
 
                 if (savedStudents) {
                     students = JSON.parse(savedStudents);
-                    console.log('￢ￋￅﾴﾢ￩ￍ￁￙ￅ students ﾨￒﾡ localStorage:', students.length, 'ￃￒￂﾡￒￃ');
+                    console.log('โหลดข้อมูล students จาก localStorage:', students.length, 'รายการ');
                 }
 
                 if (savedActivities) {
                     activities = JSON.parse(savedActivities);
-                    console.log('￢ￋￅﾴﾢ￩ￍ￁￙ￅ activities ﾨￒﾡ localStorage:', activities.length, 'ￃￒￂﾡￒￃ');
+                    console.log('โหลดข้อมูล activities จาก localStorage:', activities.length, 'รายการ');
                 }
             } catch (e) {
                 console.log('Error loading from localStorage:', e);
-                showNotification('￠ﾡￔﾴﾢ￩ￍﾼￔﾴﾾￅￒﾴ￣ﾹﾡￒￃ￢ￋￅﾴﾢ￩ￍ￁￙ￅ', 'error');
+                showNotification('เกิดข้อผิดพลาดในการโหลดข้อมูล', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾺ￑ﾹﾷￖﾡﾢ￩ￍ￁￙ￅￅﾧ localStorage
+        // ฟังก์ชันบันทึกข้อมูลลง localStorage
         function saveAllDataToStorage() {
             try {
                 localStorage.setItem('student_submissions', JSON.stringify(submissions));
                 localStorage.setItem('student_attendance', JSON.stringify(attendanceList));
                 localStorage.setItem('student_data', JSON.stringify(students));
                 localStorage.setItem('student_activities', JSON.stringify(activities));
-                console.log('ﾺ￑ﾹﾷￖﾡﾢ￩ￍ￁￙ￅￅﾧ localStorage ￊￓ￠ￃ￧ﾨ');
+                console.log('บันทึกข้อมูลลง localStorage สำเร็จ');
             } catch (e) {
                 console.log('Error saving to localStorage:', e);
 
-                // ﾶ￩ￒ localStorage ￠ﾵ￧￁ ￣ￋ￩ￅﾺﾢ￩ￍ￁￙ￅ￠ﾡ￨ￒ
+                // ถ้า localStorage เต็ม ให้ลบข้อมูลเก่า
                 if (e.name === 'QuotaExceededError') {
-                    showNotification('ﾾￗ￩ﾹﾷￕ￨￠ﾡ￧ﾺﾢ￩ￍ￁￙ￅ￠ﾵ￧￁ ﾡￃ￘ﾳￒￅﾺﾢ￩ￍ￁￙ￅ￠ﾡ￨ￒﾺￒﾧￊ￨ￇﾹ', 'error');
+                    showNotification('พื้นที่เก็บข้อมูลเต็ม กรุณาลบข้อมูลเก่าบางส่วน', 'error');
 
-                    // ￅﾺﾢ￩ￍ￁￙ￅ￠ﾡ￨ￒ (￠ﾡ￧ﾺ￠ﾩﾾￒ￐ 20 ￃￒￂﾡￒￃￅ￨ￒￊ￘ﾴ)
+                    // ลบข้อมูลเก่า (เก็บเฉพาะ 20 รายการล่าสุด)
                     if (submissions.length > 20) {
                         submissions = submissions.slice(-20);
                         saveAllDataToStorage();
@@ -2421,10 +2421,10 @@
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾵￃￇﾨￊￍﾺ￡ￅ￐ￅ￩ￒﾧﾢ￩ￍ￁￙ￅﾷￕ￨￠ￊￕￂￋￒￂ
+        // ฟังก์ชันตรวจสอบและล้างข้อมูลที่เสียหาย
         function cleanCorruptedData() {
             try {
-                // ﾵￃￇﾨￊￍﾺ submissions
+                // ตรวจสอบ submissions
                 submissions = submissions.filter(sub =>
                     sub &&
                     sub.id &&
@@ -2434,7 +2434,7 @@
                     sub.imageUrl.startsWith('data:image')
                 );
 
-                // ﾵￃￇﾨￊￍﾺ attendanceList
+                // ตรวจสอบ attendanceList
                 attendanceList = attendanceList.filter(att =>
                     att &&
                     att.id &&
@@ -2442,7 +2442,7 @@
                     att.studentName
                 );
 
-                // ﾵￃￇﾨￊￍﾺ students
+                // ตรวจสอบ students
                 students = students.filter(student =>
                     student &&
                     student.id &&
@@ -2450,7 +2450,7 @@
                     student.studentId
                 );
 
-                // ﾵￃￇﾨￊￍﾺ activities
+                // ตรวจสอบ activities
                 activities = activities.filter(activity =>
                     activity &&
                     activity.id &&
@@ -2458,13 +2458,13 @@
                     activity.date
                 );
 
-                console.log('ﾷￓﾤￇￒ￁ￊ￐ￍￒﾴﾢ￩ￍ￁￙ￅ￠ￊￃ￧ﾨￊￔ￩ﾹ');
+                console.log('ทำความสะอาดข้อมูลเสร็จสิ้น');
             } catch (e) {
                 console.log('Error cleaning data:', e);
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾪ￨ￇￂ￠ￋￅￗￍ: ﾨ￑ﾴￃ￙ﾻ￡ﾺﾺￇ￑ﾹﾷￕ￨
+        // ฟังก์ชันช่วยเหลือ: จัดรูปแบบวันที่
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('th-TH', {
@@ -2474,13 +2474,13 @@
             });
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾪ￨ￇￂ￠ￋￅￗￍ: ￡ﾻￅﾧﾢ￩ￍﾤￇￒ￁ﾡￃￍﾧ
+        // ฟังก์ชันช่วยเหลือ: แปลงข้อความกรอง
         function getFilterText(filter) {
             switch (filter) {
-                case 'all': return 'ﾷ￑￩ﾧￋ￁ﾴ';
-                case 'approved': return 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ';
-                case 'pending': return 'ￃￍﾵￃￇﾨￊￍﾺ';
-                case 'rejected': return 'ﾻﾯￔ￠ￊﾸ￡ￅ￩ￇ';
+                case 'all': return 'ทั้งหมด';
+                case 'approved': return 'อนุมัติแล้ว';
+                case 'pending': return 'รอตรวจสอบ';
+                case 'rejected': return 'ปฏิเสธแล้ว';
                 default: return filter;
             }
         }
@@ -2489,13 +2489,13 @@
         // IMAGE COMPRESSION AND SIZE CHECK FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾵￃￇﾨￊￍﾺﾢﾹￒﾴ￀ￒﾾ
+        // ฟังก์ชันตรวจสอบขนาดภาพ
         function checkImageSize(imageData) {
             const base64Data = imageData.split(',')[1] || imageData;
-            const fileSize = Math.floor(base64Data.length * 3 / 4); // ﾢﾹￒﾴﾻￃ￐￁ￒﾳ￣ﾹ bytes
+            const fileSize = Math.floor(base64Data.length * 3 / 4); // ขนาดประมาณใน bytes
             const maxSize = 1024 * 1024; // 1MB
 
-            console.log(`ﾢﾹￒﾴ￀ￒﾾ: ${Math.round(fileSize / 1024)}KB / ${Math.round(maxSize / 1024)}KB`);
+            console.log(`ขนาดภาพ: ${Math.round(fileSize / 1024)}KB / ${Math.round(maxSize / 1024)}KB`);
 
             return {
                 size: fileSize,
@@ -2505,7 +2505,7 @@
             };
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾺￕﾺￍ￑ﾴ￀ￒﾾ￣ￋ￩￤￁￨￠ﾡￔﾹ 1MB
+        // ฟังก์ชันบีบอัดภาพให้ไม่เกิน 1MB
         async function compressImageTo1MB(imageData) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
@@ -2514,7 +2514,7 @@
                     let width = img.width;
                     let height = img.height;
 
-                    // ￅﾴﾤ￘ﾳ￀ￒﾾￅﾧ￠ￃￗ￨ￍￂ￦ ﾨﾹﾡￇ￨ￒﾨ￐￤ﾴ￩ﾢﾹￒﾴﾷￕ￨ﾵ￩ￍﾧﾡￒￃ
+                    // ลดคุณภาพลงเรื่อยๆ จนกว่าจะได้ขนาดที่ต้องการ
                     let quality = 0.9;
                     let compressedData;
 
@@ -2527,30 +2527,30 @@
 
                         compressedData = canvas.toDataURL('image/jpeg', quality);
 
-                        // ￅﾴﾤ￘ﾳ￀ￒﾾ￡ￅ￐ﾢﾹￒﾴￅﾧ
+                        // ลดคุณภาพและขนาดลง
                         quality -= 0.1;
                         if (quality < 0.3) {
-                            // ﾶ￩ￒﾤ￘ﾳ￀ￒﾾﾵ￨ￓﾡￇ￨ￒ 0.3 ￂ￑ﾧ￣ￋﾭ￨￠ﾡￔﾹ ￣ￋ￩ￅﾴﾢﾹￒﾴ￀ￒﾾ
+                            // ถ้าคุณภาพต่ำกว่า 0.3 ยังใหญ่เกิน ให้ลดขนาดภาพ
                             width = Math.floor(width * 0.8);
                             height = Math.floor(height * 0.8);
-                            quality = 0.7; // ￃￕ￠ﾫ￧ﾵﾤ￘ﾳ￀ￒﾾ
+                            quality = 0.7; // รีเซ็ตคุณภาพ
                         }
 
-                        // ﾤￓﾹￇﾳﾢﾹￒﾴ￤﾿ￅ￬
+                        // คำนวณขนาดไฟล์
                         const base64Length = compressedData.split(',')[1]?.length || 0;
                         const fileSize = Math.floor(base64Length * 3 / 4);
 
-                        console.log(`ﾡￓￅ￑ﾧﾺￕﾺￍ￑ﾴ: quality=${quality.toFixed(1)}, size=${Math.round(fileSize / 1024)}KB`);
+                        console.log(`กำลังบีบอัด: quality=${quality.toFixed(1)}, size=${Math.round(fileSize / 1024)}KB`);
 
                         if (fileSize <= 1024 * 1024 || (width < 300 && height < 300)) {
-                            // ﾢﾹￒﾴﾹ￩ￍￂﾡￇ￨ￒ 1MB ￋￃￗￍ￀ￒﾾ￠ￅ￧ﾡ￠ﾡￔﾹ￤ﾻ￡ￅ￩ￇ
+                            // ขนาดน้อยกว่า 1MB หรือภาพเล็กเกินไปแล้ว
                             resolve(compressedData);
                             return;
                         }
 
                     } while (quality > 0.1 || width > 300);
 
-                    // ﾶ￩ￒￂ￑ﾧ￣ￋﾭ￨￠ﾡￔﾹ ￣ￋ￩￣ﾪ￩￀ￒﾾﾤ￘ﾳ￀ￒﾾﾵ￨ￓￊ￘ﾴ
+                    // ถ้ายังใหญ่เกิน ให้ใช้ภาพคุณภาพต่ำสุด
                     canvas.width = 300;
                     canvas.height = 300;
                     const ctx = canvas.getContext('2d');
@@ -2566,24 +2566,24 @@
         // AUTHENTICATION FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￅ￑ﾺ￡ﾷ￧ﾺ
+        // ฟังก์ชันสลับแท็บ
         function switchToTab(tabName) {
-            // ￃￕ￠ﾫ￧ﾵ￡ﾷ￧ﾺﾷ￑￩ﾧￋ￁ﾴ
+            // รีเซ็ตแท็บทั้งหมด
             [studentTab, teacherTab, adminTab].forEach(tab => tab.classList.remove('active'));
             [studentLoginForm, teacherLoginForm, adminLoginForm].forEach(form => form.classList.remove('active'));
 
-            // ﾵ￑￩ﾧﾤ￨ￒ￡ﾷ￧ﾺﾷￕ￨￠ￅￗￍﾡ
+            // ตั้งค่าแท็บที่เลือก
             document.getElementById(tabName + 'Tab').classList.add('active');
             document.getElementById(tabName + 'LoginForm').classList.add('active');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅ￧ￍﾡￍￔﾹﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันล็อกอินนักเรียน
         function loginStudent() {
             const username = studentUsername.value.trim();
             const password = studentPassword.value.trim();
 
             if (!username || !password) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -2595,50 +2595,50 @@
                 currentUser = student;
                 currentUserType = 'student';
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￃ￐ﾺﾺﾶ￩ￒￂ￑ﾧ￤￁￨￁ￕ
+                // อัพเดทข้อมูลนักเรียนในระบบถ้ายังไม่มี
                 const existingStudent = students.find(s => s.studentId === student.studentId);
                 if (!existingStudent) {
                     students.push({
                         id: students.length + 1,
                         name: student.name,
                         studentId: student.studentId,
-                        class: student.class || 'ﾻￕ 1'
+                        class: student.class || 'ปี 1'
                     });
                     saveAllDataToStorage();
                 }
 
-                // ￡ￊﾴﾧￋﾹ￩ￒﾹ￑ﾡ￠ￃￕￂﾹ
+                // แสดงหน้านักเรียน
                 loginPage.classList.remove('active');
                 studentPage.classList.add('active');
                 teacherPage.classList.remove('active');
                 adminPage.classList.remove('active');
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩
-                studentUserInfo.textContent = `ﾹ￑ﾡ￠ￃￕￂﾹ: ${student.name}`;
+                // อัพเดทข้อมูลผู้ใช้
+                studentUserInfo.textContent = `นักเรียน: ${student.name}`;
                 studentProfileName.textContent = student.name;
-                studentProfileInfo.textContent = `ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ: ${student.studentId} | ﾪ￑￩ﾹﾻￕ: ${student.class || 'ﾻￕ 1'}`;
+                studentProfileInfo.textContent = `รหัสนักเรียน: ${student.studentId} | ชั้นปี: ${student.class || 'ปี 1'}`;
 
-                // ￅ￩ￒﾧ﾿ￍￃ￬￁
+                // ล้างฟอร์ม
                 studentUsername.value = '';
                 studentPassword.value = '';
 
-                // ￢ￋￅﾴﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ
+                // โหลดข้อมูลนักเรียน
                 renderStudentHistory();
                 renderCurrentActivity();
 
-                showNotification(`ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺ ${student.name}`, 'success');
+                showNotification(`ยินดีต้อนรับ ${student.name}`, 'success');
             } else {
-                showNotification('ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹￋￃￗￍￃￋ￑ￊﾼ￨ￒﾹ￤￁￨ﾶ￙ﾡﾵ￩ￍﾧ', 'error');
+                showNotification('รหัสนักเรียนหรือรหัสผ่านไม่ถูกต้อง', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅ￧ￍﾡￍￔﾹￍￒﾨￒￃￂ￬
+        // ฟังก์ชันล็อกอินอาจารย์
         function loginTeacher() {
             const username = teacherUsername.value.trim();
             const password = teacherPassword.value.trim();
 
             if (!username || !password) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -2650,39 +2650,39 @@
                 currentUser = teacher;
                 currentUserType = 'teacher';
 
-                // ￡ￊﾴﾧￋﾹ￩ￒￍￒﾨￒￃￂ￬
+                // แสดงหน้าอาจารย์
                 loginPage.classList.remove('active');
                 teacherPage.classList.add('active');
                 studentPage.classList.remove('active');
                 adminPage.classList.remove('active');
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩
-                teacherUserInfo.textContent = `ￍￒﾨￒￃￂ￬: ${teacher.name}`;
+                // อัพเดทข้อมูลผู้ใช้
+                teacherUserInfo.textContent = `อาจารย์: ${teacher.name}`;
 
-                // ￅ￩ￒﾧ﾿ￍￃ￬￁
+                // ล้างฟอร์ม
                 teacherUsername.value = '';
                 teacherPassword.value = '';
 
-                // ￢ￋￅﾴﾢ￩ￍ￁￙ￅ
+                // โหลดข้อมูล
                 loadAllDataFromStorage();
                 renderStudents();
                 renderSubmissions();
                 renderAttendanceList();
                 renderSubmissionHistory();
 
-                showNotification(`ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺ ${teacher.name}`, 'success');
+                showNotification(`ยินดีต้อนรับ ${teacher.name}`, 'success');
             } else {
-                showNotification('ﾪￗ￨ￍﾼ￙￩￣ﾪ￩ￋￃￗￍￃￋ￑ￊﾼ￨ￒﾹ￤￁￨ﾶ￙ﾡﾵ￩ￍﾧ', 'error');
+                showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅ￧ￍﾡￍￔﾹ Admin
+        // ฟังก์ชันล็อกอิน Admin
         function loginAdmin() {
             const username = adminUsername.value.trim();
             const password = adminPassword.value.trim();
 
             if (!username || !password) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -2694,56 +2694,56 @@
                 currentUser = adminUser;
                 currentUserType = 'admin';
 
-                // ￡ￊﾴﾧￋﾹ￩ￒ Admin
+                // แสดงหน้า Admin
                 loginPage.classList.remove('active');
                 adminPage.classList.add('active');
                 studentPage.classList.remove('active');
                 teacherPage.classList.remove('active');
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩
-                adminUserInfo.textContent = `ﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ: ${adminUser.name}`;
+                // อัพเดทข้อมูลผู้ใช้
+                adminUserInfo.textContent = `ผู้ดูแลระบบ: ${adminUser.name}`;
 
-                // ￅ￩ￒﾧ﾿ￍￃ￬￁
+                // ล้างฟอร์ม
                 adminUsername.value = '';
                 adminPassword.value = '';
 
-                // ￢ￋￅﾴﾢ￩ￍ￁￙ￅ Admin
+                // โหลดข้อมูล Admin
                 loadAllDataFromStorage();
                 renderAdminDashboard();
                 renderActivities();
                 renderUserList();
                 renderActivityStats();
 
-                showNotification(`ￂￔﾹﾴￕﾵ￩ￍﾹￃ￑ﾺﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ ${adminUser.name}`, 'success');
+                showNotification(`ยินดีต้อนรับผู้ดูแลระบบ ${adminUser.name}`, 'success');
             } else {
-                showNotification('ﾪￗ￨ￍﾼ￙￩￣ﾪ￩ￋￃￗￍￃￋ￑ￊﾼ￨ￒﾹ￤￁￨ﾶ￙ﾡﾵ￩ￍﾧ', 'error');
+                showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￍￍﾡﾨￒﾡￃ￐ﾺﾺ
+        // ฟังก์ชันออกจากระบบ
         function logout() {
             currentUser = null;
             currentUserType = null;
 
-            // ﾻￔﾴﾡￅ￩ￍﾧﾶ￩ￒ￠ﾻￔﾴￍￂ￙￨
+            // ปิดกล้องถ้าเปิดอยู่
             if (stream) {
                 stream.getTracks().forEach(track => track.stop());
                 stream = null;
             }
 
-            // ﾡￅ￑ﾺ￤ﾻￋﾹ￩ￒ login
+            // กลับไปหน้า login
             loginPage.classList.add('active');
             studentPage.classList.remove('active');
             teacherPage.classList.remove('active');
             adminPage.classList.remove('active');
 
-            // ￃￕ￠ﾫ￧ﾵﾤ￨ￒ￠ￃￔ￨￁ﾵ￩ﾹ
+            // รีเซ็ตค่าเริ่มต้น
             switchToTab('studentTab');
 
-            showNotification('ￍￍﾡﾨￒﾡￃ￐ﾺﾺￊￓ￠ￃ￧ﾨ', 'success');
+            showNotification('ออกจากระบบสำเร็จ', 'success');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￅ￑ﾺ￡ￊﾴﾧ/ﾫ￨ￍﾹￃￋ￑ￊﾼ￨ￒﾹ
+        // ฟังก์ชันสลับแสดง/ซ่อนรหัสผ่าน
         function togglePasswordVisibility(inputId, toggleIconId) {
             const input = document.getElementById(inputId);
             const toggleIcon = document.getElementById(toggleIconId);
@@ -2763,7 +2763,7 @@
         // STUDENT PROFILE FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ﾻￔﾴ modal ￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬
+        // ฟังก์ชันเปิด modal แก้ไขโปรไฟล์
         function openEditProfileModal() {
             if (!currentUser || currentUserType !== 'student') return;
 
@@ -2773,7 +2773,7 @@
             editProfileModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾺ￑ﾹﾷￖﾡﾡￒￃ￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬
+        // ฟังก์ชันบันทึกการแก้ไขโปรไฟล์
         function saveEditProfile() {
             if (!currentUser || currentUserType !== 'student') return;
 
@@ -2782,123 +2782,123 @@
             const studentClass = editProfileClass.value;
 
             if (!name || !email || !studentClass) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
-            // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩
+            // อัพเดทข้อมูลผู้ใช้
             currentUser.name = name;
             currentUser.email = email;
             currentUser.class = studentClass;
 
-            // ￍ￑ﾾ￠ﾴﾷￃￒￂﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￃ￐ﾺﾺ
+            // อัพเดทรายชื่อนักเรียนในระบบ
             const studentIndex = students.findIndex(s => s.studentId === currentUser.studentId);
             if (studentIndex !== -1) {
                 students[studentIndex].name = name;
                 students[studentIndex].class = studentClass;
 
-                // ￍ￑ﾾ￠ﾴﾷￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+                // อัพเดทรายการเช็คชื่อ
                 attendanceList.forEach(item => {
                     if (item.studentId === currentUser.studentId) {
                         item.studentName = name;
                     }
                 });
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾡￒￃￊ￨ﾧ
+                // อัพเดทข้อมูลการส่ง
                 submissions.forEach(sub => {
                     if (sub.studentId === currentUser.studentId) {
                         sub.studentName = name;
                     }
                 });
 
-                // ﾺ￑ﾹﾷￖﾡﾡￒￃ￠ﾻￅￕ￨ￂﾹ￡ﾻￅﾧ
+                // บันทึกการเปลี่ยนแปลง
                 saveAllDataToStorage();
             }
 
-            // ￍ￑ﾾ￠ﾴﾷ UI
-            studentUserInfo.textContent = `ﾹ￑ﾡ￠ￃￕￂﾹ: ${name}`;
+            // อัพเดท UI
+            studentUserInfo.textContent = `นักเรียน: ${name}`;
             studentProfileName.textContent = name;
-            studentProfileInfo.textContent = `ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ: ${currentUser.studentId} | ﾪ￑￩ﾹﾻￕ: ${studentClass}`;
+            studentProfileInfo.textContent = `รหัสนักเรียน: ${currentUser.studentId} | ชั้นปี: ${studentClass}`;
 
-            // ﾻￔﾴ modal
+            // ปิด modal
             editProfileModal.style.display = 'none';
 
-            // ￍ￑ﾾ￠ﾴﾷﾻￃ￐ￇ￑ﾵￔ
+            // อัพเดทประวัติ
             renderStudentHistory();
             renderSubmissions();
 
-            showNotification('￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬ￊￓ￠ￃ￧ﾨ', 'success');
+            showNotification('แก้ไขโปรไฟล์สำเร็จ', 'success');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ﾻￔﾴ modal ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ
+        // ฟังก์ชันเปิด modal เปลี่ยนรหัสผ่าน
         function openChangePasswordModal() {
             changePasswordModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾺ￑ﾹﾷￖﾡￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨
+        // ฟังก์ชันบันทึกรหัสผ่านใหม่
         function saveChangePassword() {
             const currentPass = currentPassword.value;
             const newPass = newStudentPassword.value;
             const confirmPass = confirmStudentPassword.value;
 
             if (!currentPass || !newPass || !confirmPass) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
             if (newPass.length < 6) {
-                showNotification('ￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨ﾵ￩ￍﾧ￁ￕￍￂ￨ￒﾧﾹ￩ￍￂ 6 ﾵ￑ￇￍ￑ﾡ￉ￃ', 'error');
+                showNotification('รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร', 'error');
                 return;
             }
 
             if (newPass !== confirmPass) {
-                showNotification('ￃￋ￑ￊﾼ￨ￒﾹ￣ￋ￁￨￤￁￨ﾵￃﾧﾡ￑ﾹ', 'error');
+                showNotification('รหัสผ่านใหม่ไม่ตรงกัน', 'error');
                 return;
             }
 
             if (currentUser.password !== currentPass) {
-                showNotification('ￃￋ￑ￊﾼ￨ￒﾹﾻ￑ﾨﾨ￘ﾺ￑ﾹ￤￁￨ﾶ￙ﾡﾵ￩ￍﾧ', 'error');
+                showNotification('รหัสผ่านปัจจุบันไม่ถูกต้อง', 'error');
                 return;
             }
 
-            // ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ
+            // เปลี่ยนรหัสผ่าน
             currentUser.password = newPass;
 
-            // ￅ￩ￒﾧ﾿ￍￃ￬￁￡ￅ￐ﾻￔﾴ modal
+            // ล้างฟอร์มและปิด modal
             currentPassword.value = '';
             newStudentPassword.value = '';
             confirmStudentPassword.value = '';
             changePasswordModal.style.display = 'none';
 
-            showNotification('￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹￊￓ￠ￃ￧ﾨ', 'success');
+            showNotification('เปลี่ยนรหัสผ่านสำเร็จ', 'success');
         }
 
         // ====================================================
         // STUDENT CAMERA AND IMAGE FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￠ﾻￔﾴﾡￅ￩ￍﾧ
+        // ฟังก์ชันสำหรับเปิดกล้อง
         async function startCamera() {
             try {
-                // ﾵￃￇﾨￊￍﾺￇ￨ￒ￠ﾻ￧ﾹￍ￘ﾻﾡￃﾳ￬￁ￗￍﾶￗￍￋￃￗￍ￤￁￨
+                // ตรวจสอบว่าเป็นอุปกรณ์มือถือหรือไม่
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-                // ﾵ￑￩ﾧﾤ￨ￒﾡￅ￩ￍﾧￊￓￋￃ￑ﾺ￁ￗￍﾶￗￍ￡ￅ￐ﾤￍ￁ﾾￔￇ￠ﾵￍￃ￬ - ￡ﾡ￩￤ﾢ￣ￋ￩￣ﾪ￩ﾡￅ￩ￍﾧￋￅ￑ﾧ￢ﾴￂ default
+                // ตั้งค่ากล้องสำหรับมือถือและคอมพิวเตอร์ - แก้ไขให้ใช้กล้องหลังโดย default
                 const constraints = {
                     video: {
                         width: { ideal: 1280 },
                         height: { ideal: 720 },
-                        // ￣ﾪ￩ﾡￅ￩ￍﾧￋￅ￑ﾧￊￓￋￃ￑ﾺ￁ￗￍﾶￗￍ, ￣ﾪ￩ﾡￅ￩ￍﾧￋﾹ￩ￒ/ﾻﾡﾵￔￊￓￋￃ￑ﾺﾤￍ￁ﾾￔￇ￠ﾵￍￃ￬
+                        // ใช้กล้องหลังสำหรับมือถือ, ใช้กล้องหน้า/ปกติสำหรับคอมพิวเตอร์
                         facingMode: isMobile ? { exact: "environment" } : "user"
                     },
                     audio: false
                 };
 
                 try {
-                    // ﾾￂￒￂￒ￁￣ﾪ￩ﾡￅ￩ￍﾧￋￅ￑ﾧﾡ￨ￍﾹ
+                    // พยายามใช้กล้องหลังก่อน
                     stream = await navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    // ﾶ￩ￒ￣ﾪ￩ﾡￅ￩ￍﾧￋￅ￑ﾧ￤￁￨￤ﾴ￩ ￣ￋ￩ￅￍﾧ￣ﾪ￩ﾡￅ￩ￍﾧￋﾹ￩ￒ
+                    // ถ้าใช้กล้องหลังไม่ได้ ให้ลองใช้กล้องหน้า
                     console.log('Cannot use back camera, trying front camera:', err);
                     constraints.video.facingMode = "user";
                     stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -2907,54 +2907,54 @@
                 camera.srcObject = stream;
                 camera.style.display = 'block';
 
-                // ￡ﾡ￩￤ﾢ: ￊￓￋￃ￑ﾺﾡￅ￩ￍﾧￋﾹ￩ￒ (facingMode = "user") ￣ￋ￩ﾡￅ￑ﾺﾴ￩ￒﾹ￀ￒﾾ￡ﾹￇﾹￍﾹ
-                // ￡ﾵ￨ￊￓￋￃ￑ﾺﾡￅ￩ￍﾧￋￅ￑ﾧ (facingMode = "environment") ￣ￋ￩￡ￊﾴﾧ￀ￒﾾﾻﾡﾵￔ
+                // แก้ไข: สำหรับกล้องหน้า (facingMode = "user") ให้กลับด้านภาพแนวนอน
+                // แต่สำหรับกล้องหลัง (facingMode = "environment") ให้แสดงภาพปกติ
                 const isFrontCamera = stream.getVideoTracks()[0]?.getSettings()?.facingMode === 'user';
                 if (isFrontCamera) {
-                    // ﾡￅ￩ￍﾧￋﾹ￩ￒ: ﾡￅ￑ﾺﾴ￩ￒﾹ￣ￋ￩￠ￋ￁ￗￍﾹﾡￃ￐ﾨﾡ
+                    // กล้องหน้า: กลับด้านให้เหมือนกระจก
                     camera.style.transform = 'scaleX(-1)';
                 } else {
-                    // ﾡￅ￩ￍﾧￋￅ￑ﾧ: ￡ￊﾴﾧﾻﾡﾵￔ
+                    // กล้องหลัง: แสดงปกติ
                     camera.style.transform = 'scaleX(1)';
                 }
 
-                camera.style.objectFit = 'cover'; // ﾷￓ￣ￋ￩￀ￒﾾ￠ﾵ￧￁￠﾿ￃ￁
+                camera.style.objectFit = 'cover'; // ทำให้ภาพเต็มเฟรม
 
                 cameraPlaceholder.style.display = 'none';
                 capturedImage.style.display = 'none';
 
                 startCameraBtn.disabled = true;
 
-                // ﾵￃￇﾨￊￍﾺￇ￨ￒﾵￔ￪ﾡﾡￔﾨﾡￃￃ￁ￋￃￗￍￂ￑ﾧ
+                // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
                 const confirmCheckbox = document.getElementById('confirmAttendance');
                 if (confirmCheckbox && confirmCheckbox.checked) {
                     captureBtn.disabled = false;
-                    showNotification('ￊￒ￁ￒￃﾶﾶ￨ￒￂￃ￙ﾻ￤ﾴ￩￡ￅ￩ￇ', 'success');
+                    showNotification('สามารถถ่ายรูปได้แล้ว', 'success');
                 } else {
                     captureBtn.disabled = true;
-                    showNotification('ﾡￃ￘ﾳￒﾵￔ￪ﾡￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ﾡ￨ￍﾹ', 'warning');
+                    showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อน', 'warning');
                 }
 
                 useFileBtn.disabled = true;
                 retakeBtn.disabled = true;
                 sendBtn.disabled = true;
 
-                showNotification('￠ﾻￔﾴﾡￅ￩ￍﾧￊￓ￠ￃ￧ﾨ￡ￅ￩ￇ', 'success');
+                showNotification('เปิดกล้องสำเร็จแล้ว', 'success');
             } catch (error) {
                 console.error('Error accessing camera:', error);
-                showNotification('￤￁￨ￊￒ￁ￒￃﾶ￠ﾻￔﾴﾡￅ￩ￍﾧ￤ﾴ￩ ﾡￃ￘ﾳￒﾵￃￇﾨￊￍﾺﾡￒￃￍﾹ￘ﾭￒﾵﾡￒￃ￠ﾢ￩ￒﾶￖﾧﾡￅ￩ￍﾧ', 'error');
+                showNotification('ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบการอนุญาตการเข้าถึงกล้อง', 'error');
 
                 startCameraBtn.disabled = true;
                 useFileBtn.disabled = false;
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾶ￨ￒￂￃ￙ﾻ
+        // ฟังก์ชันสำหรับถ่ายรูป
         function captureImage() {
-            // ﾵￃￇﾨￊￍﾺￇ￨ￒﾵￔ￪ﾡﾡￔﾨﾡￃￃ￁ￋￃￗￍￂ￑ﾧ
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
             if (!confirmCheckbox || !confirmCheckbox.checked) {
-                showNotification('ﾡￃ￘ﾳￒﾵￔ￪ﾡￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ﾡ￨ￍﾹﾶ￨ￒￂￃ￙ﾻ', 'error');
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนถ่ายรูป', 'error');
                 return;
             }
 
@@ -2969,15 +2969,15 @@
 
                     const context = canvas.getContext('2d');
 
-                    // ﾵￃￇﾨￊￍﾺￇ￨ￒ￠ﾻ￧ﾹﾡￅ￩ￍﾧￋﾹ￩ￒￋￃￗￍ￤￁￨
+                    // ตรวจสอบว่าเป็นกล้องหน้าหรือไม่
                     const isFrontCamera = stream.getVideoTracks()[0]?.getSettings()?.facingMode === 'user';
 
                     if (isFrontCamera) {
-                        // ￊￓￋￃ￑ﾺﾡￅ￩ￍﾧￋﾹ￩ￒ: ﾡￅ￑ﾺﾴ￩ￒﾹ￀ￒﾾ￡ﾹￇﾹￍﾹ￠ﾾￗ￨ￍ￡ﾡ￩ﾻ￑ﾭￋￒ mirror
+                        // สำหรับกล้องหน้า: กลับด้านภาพแนวนอนเพื่อแก้ปัญหา mirror
                         context.translate(videoWidth, 0);
                         context.scale(-1, 1);
                     } else {
-                        // ￊￓￋￃ￑ﾺﾡￅ￩ￍﾧￋￅ￑ﾧ: ￤￁￨ﾵ￩ￍﾧﾷￓￍ￐￤ￃ
+                        // สำหรับกล้องหลัง: ไม่ต้องทำอะไร
                         context.setTransform(1, 0, 0, 1, 0, 0);
                     }
 
@@ -2986,7 +2986,7 @@
                     capturedImageData = canvas.toDataURL('image/jpeg', 0.8);
                     capturedImage.src = capturedImageData;
 
-                    // ￡ￊﾴﾧ￀ￒﾾﾷￕ￨ﾶ￨ￒￂﾵￒ￁ﾻﾡﾵￔ
+                    // แสดงภาพที่ถ่ายตามปกติ
                     capturedImage.style.transform = 'scaleX(1)';
                     capturedImage.style.objectFit = 'cover';
 
@@ -2994,42 +2994,42 @@
 
                     camera.style.display = 'none'; // Ensure camera is hidden
 
-                    // ￠ￃￕￂﾡ￣ﾪ￩﾿￑ﾧﾡ￬ﾪ￑ﾹￂￗﾹￂ￑ﾹ￡ￅ￐ￊ￨ﾧￃ￙ﾻﾷ￑ﾹﾷￕ
+                    // เรียกใช้ฟังก์ชันยืนยันและส่งรูปทันที
                     confirmAndSend();
                 } else {
-                    showNotification('￤￁￨ￊￒ￁ￒￃﾶﾶ￨ￒￂￃ￙ﾻ￤ﾴ￩ ﾡￃ￘ﾳￒￅￍﾧￍￕﾡﾤￃ￑￩ﾧ', 'error');
+                    showNotification('ไม่สามารถถ่ายรูปได้ กรุณาลองอีกครั้ง', 'error');
                 }
             } catch (error) {
                 console.error('Error capturing image:', error);
-                showNotification('￠ﾡￔﾴﾢ￩ￍﾼￔﾴﾾￅￒﾴ￣ﾹﾡￒￃﾶ￨ￒￂￃ￙ﾻ', 'error');
+                showNotification('เกิดข้อผิดพลาดในการถ่ายรูป', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￣ﾪ￩￤﾿ￅ￬ￃ￙ﾻ￀ￒﾾ
+        // ฟังก์ชันสำหรับใช้ไฟล์รูปภาพ
         function useFile() {
-            // ﾵￃￇﾨￊￍﾺￇ￨ￒﾵￔ￪ﾡﾡￔﾨﾡￃￃ￁ￋￃￗￍￂ￑ﾧ
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
             if (!confirmCheckbox || !confirmCheckbox.checked) {
-                showNotification('ﾡￃ￘ﾳￒﾵￔ￪ﾡￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ﾡ￨ￍﾹￍ￑ﾻ￢ￋￅﾴￃ￙ﾻ', 'error');
+                showNotification('กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนอัปโหลดรูป', 'error');
                 return;
             }
 
             fileInput.click();
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺￍ￑ﾻ￢ￋￅﾴￃ￙ﾻ￀ￒﾾ
+        // ฟังก์ชันสำหรับอัปโหลดรูปภาพ
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             if (!file.type.match('image.*')) {
-                showNotification('ﾡￃ￘ﾳￒ￠ￅￗￍﾡￃ￙ﾻ￀ￒﾾ￠ﾷ￨ￒﾹ￑￩ﾹ', 'error');
+                showNotification('กรุณาเลือกรูปภาพเท่านั้น', 'error');
                 return;
             }
 
-            // ﾵￃￇﾨￊￍﾺﾢﾹￒﾴ￤﾿ￅ￬ (￤￁￨￠ﾡￔﾹ 5MB ￠ﾴￔ￁)
+            // ตรวจสอบขนาดไฟล์ (ไม่เกิน 5MB เดิม)
             if (file.size > 5 * 1024 * 1024) {
-                showNotification('￤﾿ￅ￬ￃ￙ﾻ￀ￒﾾ￣ￋﾭ￨￠ﾡￔﾹ￤ﾻ ﾡￃ￘ﾳￒ￠ￅￗￍﾡￃ￙ﾻﾷￕ￨￁ￕﾢﾹￒﾴﾹ￩ￍￂﾡￇ￨ￒ 5MB', 'error');
+                showNotification('ไฟล์รูปภาพใหญ่เกินไป กรุณาเลือกรูปที่มีขนาดน้อยกว่า 5MB', 'error');
                 return;
             }
 
@@ -3038,11 +3038,11 @@
             reader.onload = function (e) {
                 capturedImageData = e.target.result;
 
-                // ﾵￃￇﾨￊￍﾺﾢﾹￒﾴ￀ￒﾾ
+                // ตรวจสอบขนาดภาพ
                 const sizeCheck = checkImageSize(capturedImageData);
 
                 if (sizeCheck.isOverLimit) {
-                    showNotification(`￀ￒﾾﾢﾹￒﾴ ${sizeCheck.sizeInKB}KB ￣ￋﾭ￨￠ﾡￔﾹ 1MB ﾡￃ￘ﾳￒ￠ￅￗￍﾡￃ￙ﾻ￀ￒﾾﾷￕ￨￠ￅ￧ﾡﾡￇ￨ￒ`, 'error');
+                    showNotification(`ภาพขนาด ${sizeCheck.sizeInKB}KB ใหญ่เกิน 1MB กรุณาเลือกรูปภาพที่เล็กกว่า`, 'error');
                     fileInput.value = '';
                     return;
                 }
@@ -3052,19 +3052,19 @@
                 capturedImage.style.display = 'block';
                 cameraPlaceholder.style.display = 'none';
 
-                // ￠ￃￕￂﾡ￣ﾪ￩﾿￑ﾧﾡ￬ﾪ￑ﾹￂￗﾹￂ￑ﾹ￡ￅ￐ￊ￨ﾧￃ￙ﾻﾷ￑ﾹﾷￕ
+                // เรียกใช้ฟังก์ชันยืนยันและส่งรูปทันที
                 confirmAndSend();
             };
 
             reader.onerror = function () {
-                showNotification('￤￁￨ￊￒ￁ￒￃﾶￍ￨ￒﾹ￤﾿ￅ￬ￃ￙ﾻ￀ￒﾾ￤ﾴ￩', 'error');
+                showNotification('ไม่สามารถอ่านไฟล์รูปภาพได้', 'error');
                 fileInput.value = '';
             };
 
             reader.readAsDataURL(file);
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾶ￨ￒￂￃ￙ﾻ￣ￋ￁￨
+        // ฟังก์ชันสำหรับถ่ายรูปใหม่
         function retakePhoto() {
             capturedImage.style.display = 'none';
             capturedImage.src = '';
@@ -3090,28 +3090,28 @@
                 sendBtn.disabled = true;
             }
 
-            showNotification('ﾾￃ￩ￍ￁ﾶ￨ￒￂￃ￙ﾻ￣ￋ￁￨￡ￅ￩ￇ', 'warning');
+            showNotification('พร้อมถ่ายรูปใหม่แล้ว', 'warning');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￂￗﾹￂ￑ﾹ￡ￅ￐ￊ￨ﾧￃ￙ﾻ (￠ﾾￔ￨￁￣ￋ￁￨)
+        // ฟังก์ชันยืนยันและส่งรูป (เพิ่มใหม่)
         function confirmAndSend() {
             Swal.fire({
-                title: 'ￂￗﾹￂ￑ﾹﾡￒￃￊ￨ﾧￃ￙ﾻ?',
-                text: "ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￊ￨ﾧￃ￙ﾻﾹￕ￩￣ￋ￩ￍￒﾨￒￃￂ￬￠ￅￂￋￃￗￍ￤￁￨?",
+                title: 'ยืนยันการส่งรูป?',
+                text: "คุณต้องการส่งรูปนี้ให้อาจารย์เลยหรือไม่?",
                 imageUrl: capturedImageData,
                 imageHeight: 300,
-                imageAlt: 'ￃ￙ﾻﾷￕ￨ﾶ￨ￒￂ',
+                imageAlt: 'รูปที่ถ่าย',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
                 cancelButtonColor: '#d33',
-                confirmButtonText: '￣ﾪ￨, ￊ￨ﾧ￠ￅￂ!',
-                cancelButtonText: 'ￂﾡ￠ￅￔﾡ',
+                confirmButtonText: 'ใช่, ส่งเลย!',
+                cancelButtonText: 'ยกเลิก',
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     sendPhoto();
                 } else {
-                    // ﾡￃﾳￕￂﾡ￠ￅￔﾡ ￣ￋ￩￡ￊﾴﾧﾻ￘￨￁ﾤￇﾺﾤ￘￁ﾵￒ￁ﾻﾡﾵￔ
+                    // กรณียกเลิก ให้แสดงปุ่มควบคุมตามปกติ
                     startCameraBtn.disabled = false;
                     captureBtn.disabled = true;
                     useFileBtn.disabled = false;
@@ -3121,46 +3121,46 @@
             });
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺￊ￨ﾧￃ￙ﾻ
+        // ฟังก์ชันสำหรับส่งรูป
         async function sendPhoto() {
-            // ﾵￃￇﾨￊￍﾺￇ￨ￒﾵￔ￪ﾡﾡￔﾨﾡￃￃ￁ￋￃￗￍￂ￑ﾧ
+            // ตรวจสอบว่าติ๊กกิจกรรมหรือยัง
             const confirmCheckbox = document.getElementById('confirmAttendance');
             if (!confirmCheckbox || !confirmCheckbox.checked) {
                 Swal.fire({
                     icon: 'warning',
-                    title: '￡ﾨ￩ﾧ￠ﾵￗￍﾹ',
-                    text: 'ﾡￃ￘ﾳￒﾵￔ￪ﾡￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ﾡ￨ￍﾹￊ￨ﾧￃ￙ﾻ',
-                    confirmButtonText: 'ﾵﾡￅﾧ'
+                    title: 'แจ้งเตือน',
+                    text: 'กรุณาติ๊กยืนยันเข้าร่วมกิจกรรมก่อนส่งรูป',
+                    confirmButtonText: 'ตกลง'
                 });
                 return;
             }
 
             if (!capturedImageData) {
-                showNotification('ﾡￃ￘ﾳￒﾶ￨ￒￂￃ￙ﾻￋￃￗￍￍ￑ﾻ￢ￋￅﾴￃ￙ﾻﾡ￨ￍﾹￊ￨ﾧ', 'error');
+                showNotification('กรุณาถ่ายรูปหรืออัปโหลดรูปก่อนส่ง', 'error');
                 return;
             }
 
             if (!currentUser) {
-                showNotification('ﾡￃ￘ﾳￒￅ￧ￍﾡￍￔﾹﾡ￨ￍﾹ￣ﾪ￩ﾧￒﾹ', 'error');
+                showNotification('กรุณาล็อกอินก่อนใช้งาน', 'error');
                 return;
             }
 
             try {
-                // ﾵￃￇﾨￊￍﾺﾢﾹￒﾴ￀ￒﾾ
+                // ตรวจสอบขนาดภาพ
                 const sizeCheck = checkImageSize(capturedImageData);
 
                 let finalImageData = capturedImageData;
 
-                // ﾶ￩ￒﾢﾹￒﾴ￠ﾡￔﾹ 1MB ￣ￋ￩ﾺￕﾺￍ￑ﾴ
+                // ถ้าขนาดเกิน 1MB ให้บีบอัด
                 if (sizeCheck.isOverLimit) {
-                    showNotification(`￀ￒﾾﾢﾹￒﾴ ${sizeCheck.sizeInKB}KB ﾡￓￅ￑ﾧﾺￕﾺￍ￑ﾴ￣ￋ￩￠ￋￅￗￍ￤￁￨￠ﾡￔﾹ 1MB...`, 'warning');
+                    showNotification(`ภาพขนาด ${sizeCheck.sizeInKB}KB กำลังบีบอัดให้เหลือไม่เกิน 1MB...`, 'warning');
                     finalImageData = await compressImageTo1MB(capturedImageData);
 
                     const newSize = checkImageSize(finalImageData);
-                    showNotification(`ﾺￕﾺￍ￑ﾴ￀ￒﾾￊￓ￠ￃ￧ﾨ: ${newSize.sizeInKB}KB`, 'success');
+                    showNotification(`บีบอัดภาพสำเร็จ: ${newSize.sizeInKB}KB`, 'success');
                 }
 
-                // ￊￃ￩ￒﾧ timestamp
+                // สร้าง timestamp
                 const now = new Date();
                 const thaiTimestamp = now.toLocaleString('th-TH', {
                     year: 'numeric',
@@ -3171,7 +3171,7 @@
                     second: '2-digit'
                 });
 
-                // ￊￃ￩ￒﾧ ID ￊￓￋￃ￑ﾺ submission ￣ￋ￁￨
+                // สร้าง ID สำหรับ submission ใหม่
                 const newId = submissions.length > 0 ? Math.max(...submissions.map(s => s.id)) + 1 : 1;
 
                 const newSubmission = {
@@ -3183,22 +3183,22 @@
                     status: 'pending'
                 };
 
-                // ￠ﾡ￧ﾺ￣ﾹ localStorage (ￊￓￋￃ￑ﾺ offline)
+                // เก็บใน localStorage (สำหรับ offline)
                 submissions.push(newSubmission);
                 saveAllDataToStorage();
 
                 Swal.fire({
                     icon: 'success',
-                    title: 'ￊￓ￠ￃ￧ﾨ',
-                    text: 'ￊ￨ﾧￃ￙ﾻ￣ￋ￩ￍￒﾨￒￃￂ￬￠ￃￕￂﾺￃ￩ￍￂ￡ￅ￩ￇ!',
+                    title: 'สำเร็จ',
+                    text: 'ส่งรูปให้อาจารย์เรียบร้อยแล้ว!',
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#6c5ce7'
                 });
 
-                // ￡ￊﾴﾧﾻￃ￐ￇ￑ﾵￔ￣ￋ￁￨ﾷ￑ﾹﾷￕ
+                // แสดงประวัติใหม่ทันที
                 renderStudentHistory();
 
-                // ﾻￔﾴﾡￅ￩ￍﾧﾶ￩ￒ￠ﾻￔﾴￍￂ￙￨
+                // ปิดกล้องถ้าเปิดอยู่
                 if (stream) {
                     stream.getTracks().forEach(track => track.stop());
                     stream = null;
@@ -3208,7 +3208,7 @@
                 cameraPlaceholder.style.display = 'flex';
                 capturedImageData = null;
 
-                // ￃￕ￠ﾫ￧ﾵ checkbox ﾡￒￃￂￗﾹￂ￑ﾹﾡￔﾨﾡￃￃ￁
+                // รีเซ็ต checkbox การยืนยันกิจกรรม
                 if (confirmCheckbox) {
                     confirmCheckbox.checked = false;
                 }
@@ -3221,11 +3221,11 @@
 
             } catch (error) {
                 console.error('Error sending photo:', error);
-                showNotification(error.message || '￠ﾡￔﾴﾢ￩ￍﾼￔﾴﾾￅￒﾴ￣ﾹﾡￒￃￊ￨ﾧￃ￙ﾻ', 'error');
+                showNotification(error.message || 'เกิดข้อผิดพลาดในการส่งรูป', 'error');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ￊﾴﾧﾻￃ￐ￇ￑ﾵￔﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันสำหรับแสดงประวัติของนักเรียน
         function renderStudentHistory() {
             if (!currentUser) return;
 
@@ -3235,29 +3235,29 @@
                 studentHistory.innerHTML = `
 <div class="empty-state">
 <i class="fas fa-history"></i>
-<p>ￂ￑ﾧ￤￁￨￁ￕﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ</p>
+<p>ยังไม่มีประวัติการส่งรูป</p>
 </div>
 `;
                 return;
             }
 
-            // ￠ￃￕￂﾧￅￓﾴ￑ﾺﾨￒﾡￅ￨ￒￊ￘ﾴ￤ﾻ￠ﾡ￨ￒￊ￘ﾴ
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
             const sortedSubmissions = studentSubmissions.sort((a, b) => b.id - a.id);
 
             studentHistory.innerHTML = `
 <div class="submission-list">
 ${sortedSubmissions.map(submission => `
 <div class="submission-item">
-<img src="${submission.imageUrl}" alt="ￃ￙ﾻﾷￕ￨ￊ￨ﾧ￢ﾴￂ ${submission.studentName}" class="submission-image">
+<img src="${submission.imageUrl}" alt="รูปที่ส่งโดย ${submission.studentName}" class="submission-image">
 <div class="submission-info">
 <h3>${submission.studentName}</h3>
-<p><strong>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>￠ￇￅￒￊ￨ﾧ:</strong> ${submission.timestamp}</p>
-<p><strong>ￊﾶￒﾹ￐:</strong>
+<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+<p><strong>สถานะ:</strong>
 <span class="status ${submission.status}">
-${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
-                    submission.status === 'rejected' ? 'ﾻﾯￔ￠ￊﾸ￡ￅ￩ￇ' :
-                        'ￃￍﾵￃￇﾨￊￍﾺ'}
+${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                    submission.status === 'rejected' ? 'ปฏิเสธแล้ว' :
+                        'รอตรวจสอบ'}
 </span>
 </p>
 </div>
@@ -3267,16 +3267,16 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
 `;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ￊﾴﾧﾡￔﾨﾡￃￃ￁ﾻ￑ﾨﾨ￘ﾺ￑ﾹￊￓￋￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันสำหรับแสดงกิจกรรมปัจจุบันสำหรับนักเรียน
         function renderCurrentActivity() {
-            // ￋￒﾡￔﾨﾡￃￃ￁ﾷￕ￨ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ
+            // หากิจกรรมที่กำลังดำเนินการ
             const activeActivity = activities.find(a => a.status === 'active');
 
             if (!activeActivity) {
                 currentActivityContainer.innerHTML = `
 <div class="empty-state">
 <i class="fas fa-calendar-times"></i>
-<p>￤￁￨￁ￕﾡￔﾨﾡￃￃ￁ﾷￕ￨ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ￣ﾹﾢﾳ￐ﾹￕ￩</p>
+<p>ไม่มีกิจกรรมที่กำลังดำเนินการในขณะนี้</p>
 </div>
 `;
                 return;
@@ -3287,35 +3287,35 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
 <h3><i class="fas fa-calendar-alt"></i> ${activeActivity.name}</h3>
 <div class="activity-details-list">
 <div class="activity-detail-item">
-<div class="activity-detail-label">ￇ￑ﾹﾷￕ￨:</div>
-<div class="activity-detail-value">${formatDate(activeActivity.date)} ￠ￇￅￒ ${activeActivity.time}</div>
+<div class="activity-detail-label">วันที่:</div>
+<div class="activity-detail-value">${formatDate(activeActivity.date)} เวลา ${activeActivity.time}</div>
 </div>
 <div class="activity-detail-item">
-<div class="activity-detail-label">ￊﾶￒﾹﾷￕ￨:</div>
+<div class="activity-detail-label">สถานที่:</div>
 <div class="activity-detail-value">${activeActivity.location}</div>
 </div>
 <div class="activity-detail-item">
-<div class="activity-detail-label">ￃￒￂￅ￐￠ￍￕￂﾴ:</div>
+<div class="activity-detail-label">รายละเอียด:</div>
 <div class="activity-detail-value">${activeActivity.description}</div>
 </div>
 <div class="activity-detail-item">
-<div class="activity-detail-label">ￊﾶￒﾹ￐:</div>
+<div class="activity-detail-label">สถานะ:</div>
 <div class="activity-detail-value">
-<span class="badge badge-active">ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ</span>
+<span class="badge badge-active">กำลังดำเนินการ</span>
 </div>
 </div>
 <div class="activity-detail-item">
-<div class="activity-detail-label">ﾢ￑￩ﾹﾵￍﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁:</div>
+<div class="activity-detail-label">ขั้นตอนการเข้าร่วม:</div>
 <div class="activity-detail-value">
 <div style="margin-top: 10px;">
 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
 <input type="checkbox" id="confirmAttendance" style="width: 20px; height: 20px;">
 <label for="confirmAttendance" style="font-weight: 600; color: #2c3e50;">
-? ￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ﾹￕ￩
+✅ ยืนยันเข้าร่วมกิจกรรมนี้
 </label>
 </div>
 <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">
-?? ﾡￃ￘ﾳￒﾵￔ￪ﾡￂￗﾹￂ￑ﾹﾡ￨ￍﾹ ﾨￖﾧﾨ￐ￊￒ￁ￒￃﾶﾶ￨ￒￂￃ￙ﾻ￤ﾴ￩
+⚠️ กรุณาติ๊กยืนยันก่อน จึงจะสามารถถ่ายรูปได้
 </p>
 </div>
 </div>
@@ -3323,11 +3323,11 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
 </div>
 </div>
 <div style="text-align: center; margin-top: 15px;">
-<p class="help-text">ￋￅ￑ﾧﾨￒﾡﾵￔ￪ﾡￂￗﾹￂ￑ﾹ￡ￅ￩ￇ ￊￒ￁ￒￃﾶﾶ￨ￒￂￃ￙ﾻ￠ﾾￗ￨ￍ￠ﾪ￧ﾤﾪￗ￨ￍ￤ﾴ￩</p>
+<p class="help-text">หลังจากติ๊กยืนยันแล้ว สามารถถ่ายรูปเพื่อเช็คชื่อได้</p>
 </div>
 `;
 
-            // ￠ﾾￔ￨￁ Event Listener ￊￓￋￃ￑ﾺ checkbox
+            // เพิ่ม Event Listener สำหรับ checkbox
             const confirmCheckbox = document.getElementById('confirmAttendance');
             if (confirmCheckbox) {
                 confirmCheckbox.addEventListener('change', function () {
@@ -3335,16 +3335,16 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                     const useFileBtn = document.getElementById('useFileBtn');
 
                     if (this.checked) {
-                        // ﾵￃￇﾨￊￍﾺￇ￨ￒﾡￅ￩ￍﾧ￠ﾻￔﾴￍￂ￙￨ￋￃￗￍ￤￁￨
+                        // ตรวจสอบว่ากล้องเปิดอยู่หรือไม่
                         if (stream) {
                             captureBtn.disabled = false;
                         }
                         useFileBtn.disabled = false;
-                        showNotification('ￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁￠ￃￕￂﾺￃ￩ￍￂ￡ￅ￩ￇ ﾵￍﾹﾹￕ￩ￊￒ￁ￒￃﾶﾶ￨ￒￂￃ￙ﾻ￤ﾴ￩', 'success');
+                        showNotification('ยืนยันเข้าร่วมกิจกรรมเรียบร้อยแล้ว ตอนนี้สามารถถ่ายรูปได้', 'success');
                     } else {
                         captureBtn.disabled = true;
                         useFileBtn.disabled = true;
-                        showNotification('ￂﾡ￠ￅￔﾡﾡￒￃￂￗﾹￂ￑ﾹ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁￡ￅ￩ￇ', 'warning');
+                        showNotification('ยกเลิกการยืนยันเข้าร่วมกิจกรรมแล้ว', 'warning');
                     }
                 });
             }
@@ -3354,18 +3354,18 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
         // TEACHER MANAGEMENT FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￠ﾾￔ￨￁ﾹ￑ﾡ￠ￃￕￂﾹ (ￍￒﾨￒￃￂ￬)
+        // ฟังก์ชันสำหรับเพิ่มนักเรียน (อาจารย์)
         function addStudent() {
             const name = studentNameInput.value.trim();
             const studentId = studentIdInput.value.trim();
 
             if (!name || !studentId) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
             if (students.some(student => student.studentId === studentId)) {
-                showNotification('ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹﾹￕ￩￁ￕￍￂ￙￨￡ￅ￩ￇ', 'error');
+                showNotification('รหัสนักเรียนนี้มีอยู่แล้ว', 'error');
                 return;
             }
 
@@ -3373,19 +3373,19 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                 id: students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1,
                 name: name,
                 studentId: studentId,
-                class: "ﾻￕ 1"
+                class: "ปี 1"
             };
 
             students.push(newStudent);
 
-            // ￠ﾾￔ￨￁ﾺ￑ﾭﾪￕﾼ￙￩￣ﾪ￩ￊￓￋￃ￑ﾺﾹ￑ﾡ￠ￃￕￂﾹ
+            // เพิ่มบัญชีผู้ใช้สำหรับนักเรียน
             users.students.push({
                 username: studentId,
                 password: "123456",
                 name: name,
                 studentId: studentId,
                 email: `${studentId.toLowerCase()}@college.ac.th`,
-                class: "ﾻￕ 1",
+                class: "ปี 1",
                 type: "student"
             });
 
@@ -3395,12 +3395,12 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             saveAllDataToStorage();
             renderStudents();
 
-            showNotification(`￠ﾾￔ￨￁ﾹ￑ﾡ￠ￃￕￂﾹ "${name}" ￊￓ￠ￃ￧ﾨ`, 'success');
+            showNotification(`เพิ่มนักเรียน "${name}" สำเร็จ`, 'success');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺￅﾺﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันสำหรับลบนักเรียน
         function deleteStudent(studentId) {
-            if (!confirm('ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺﾹ￑ﾡ￠ￃￕￂﾹﾤﾹﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨?')) {
+            if (!confirm('คุณต้องการลบนักเรียนคนนี้ใช่หรือไม่?')) {
                 return;
             }
 
@@ -3409,13 +3409,13 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                 const studentName = students[studentIndex].name;
                 const studentIdToDelete = students[studentIndex].studentId;
 
-                // ￅﾺￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹﾹￕ￩ﾴ￩ￇￂ
+                // ลบรายการเช็คชื่อของนักเรียนนี้ด้วย
                 attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
 
-                // ￅﾺﾢ￩ￍ￁￙ￅﾡￒￃￊ￨ﾧﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹﾹￕ￩
+                // ลบข้อมูลการส่งของนักเรียนนี้
                 submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
 
-                // ￅﾺﾺ￑ﾭﾪￕﾼ￙￩￣ﾪ￩
+                // ลบบัญชีผู้ใช้
                 const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
                 if (userIndex !== -1) {
                     users.students.splice(userIndex, 1);
@@ -3429,11 +3429,11 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                 renderSubmissions();
                 renderSubmissionHistory();
 
-                showNotification(`ￅﾺﾹ￑ﾡ￠ￃￕￂﾹ "${studentName}" ￊￓ￠ￃ￧ﾨ`, 'success');
+                showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￠ﾻￔﾴ modal ￡ﾡ￩￤ﾢﾹ￑ﾡ￠ￃￕￂﾹ (ￍￒﾨￒￃￂ￬)
+        // ฟังก์ชันสำหรับเปิด modal แก้ไขนักเรียน (อาจารย์)
         function openEditModal(studentId) {
             const student = students.find(s => s.id === studentId);
             if (!student) return;
@@ -3444,7 +3444,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             editStudentModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾺ￑ﾹﾷￖﾡﾡￒￃ￡ﾡ￩￤ﾢﾹ￑ﾡ￠ￃￕￂﾹ (ￍￒﾨￒￃￂ￬)
+        // ฟังก์ชันสำหรับบันทึกการแก้ไขนักเรียน (อาจารย์)
         function saveEditStudent() {
             if (!editingStudentId) return;
 
@@ -3452,7 +3452,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             const studentId = editStudentId.value.trim();
 
             if (!name || !studentId) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -3461,7 +3461,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             );
 
             if (duplicate) {
-                showNotification('ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹﾹￕ￩￁ￕￍￂ￙￨￡ￅ￩ￇ', 'error');
+                showNotification('รหัสนักเรียนนี้มีอยู่แล้ว', 'error');
                 return;
             }
 
@@ -3469,7 +3469,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             if (studentIndex !== -1) {
                 const oldStudentId = students[studentIndex].studentId;
 
-                // ￍ￑ﾾ￠ﾴﾷￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾷￕ￨￠ﾡￕ￨ￂￇﾢ￩ￍﾧ
+                // อัพเดทรายการเช็คชื่อที่เกี่ยวข้อง
                 attendanceList.forEach(item => {
                     if (item.studentId === oldStudentId) {
                         item.studentId = studentId;
@@ -3477,7 +3477,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                     }
                 });
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾡￒￃￊ￨ﾧ
+                // อัพเดทข้อมูลการส่ง
                 submissions.forEach(sub => {
                     if (sub.studentId === oldStudentId) {
                         sub.studentId = studentId;
@@ -3485,7 +3485,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                     }
                 });
 
-                // ￍ￑ﾾ￠ﾴﾷﾢ￩ￍ￁￙ￅﾼ￙￩￣ﾪ￩
+                // อัพเดทข้อมูลผู้ใช้
                 const userIndex = users.students.findIndex(s => s.studentId === oldStudentId);
                 if (userIndex !== -1) {
                     users.students[userIndex].username = studentId;
@@ -3502,11 +3502,11 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                 renderSubmissions();
                 renderSubmissionHistory();
                 closeEditModal();
-                showNotification('￡ﾡ￩￤ﾢﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹￊￓ￠ￃ￧ﾨ', 'success');
+                showNotification('แก้ไขข้อมูลนักเรียนสำเร็จ', 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾻￔﾴ modal
+        // ฟังก์ชันสำหรับปิด modal
         function closeEditModal() {
             editStudentModal.style.display = 'none';
             editingStudentId = null;
@@ -3514,12 +3514,12 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             editStudentId.value = '';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ modal ￡ﾡ￩￤ﾢ￢ﾻￃ￤﾿ￅ￬
+        // ฟังก์ชันปิด modal แก้ไขโปรไฟล์
         function closeEditProfileModal() {
             editProfileModal.style.display = 'none';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ modal ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ
+        // ฟังก์ชันปิด modal เปลี่ยนรหัสผ่าน
         function closeChangePasswordModal() {
             changePasswordModal.style.display = 'none';
             currentPassword.value = '';
@@ -3527,13 +3527,13 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             confirmStudentPassword.value = '';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ￊﾴﾧￃￒￂﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน
         function renderStudents() {
             if (students.length === 0) {
                 studentList.innerHTML = `
 <tr>
 <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
-ￂ￑ﾧ￤￁￨￁ￕￃￒￂﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹ
+ยังไม่มีรายชื่อนักเรียน
 </td>
 </tr>
 `;
@@ -3548,10 +3548,10 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
 <td>
 <div class="student-actions">
 <button class="btn btn-primary btn-small" onclick="openEditModal(${student.id})">
-<i class="fas fa-edit"></i> ￡ﾡ￩￤ﾢ
+<i class="fas fa-edit"></i> แก้ไข
 </button>
 <button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})">
-<i class="fas fa-trash"></i> ￅﾺ
+<i class="fas fa-trash"></i> ลบ
 </button>
 </div>
 </td>
@@ -3563,14 +3563,14 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
         // TEACHER SUBMISSION FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺￍﾹ￘￁￑ﾵￔﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับอนุมัติการเช็คชื่อ
         function approveSubmission(submissionId) {
             const submission = submissions.find(s => s.id === submissionId);
             if (!submission) return;
 
             submission.status = 'approved';
 
-            // ￠ﾾￔ￨￁ￋￃￗￍￍ￑ﾾ￠ﾴﾷ￣ﾹ attendance list
+            // เพิ่มหรืออัพเดทใน attendance list
             const existingAttendance = attendanceList.find(a => a.studentId === submission.studentId);
             if (!existingAttendance) {
                 attendanceList.push({
@@ -3590,17 +3590,17 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             renderAttendanceList();
             renderSubmissionHistory();
 
-            showNotification(`ￍﾹ￘￁￑ﾵￔﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾢￍﾧ ${submission.studentName} ￡ￅ￩ￇ`, 'success');
+            showNotification(`อนุมัติการเช็คชื่อของ ${submission.studentName} แล้ว`, 'success');
 
-            // ￡ￊﾴﾧﾵ￑ￇ￠ￅￗￍﾡ￣ﾹﾡￒￃﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+            // แสดงตัวเลือกในการพิมพ์เอกสาร
             setTimeout(() => {
-                if (confirm(`ￍﾹ￘￁￑ﾵￔﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾢￍﾧ ${submission.studentName} ￊￓ￠ￃ￧ﾨ! ﾵ￩ￍﾧﾡￒￃﾾￔ￁ﾾ￬￠ￍﾡￊￒￃￂￗﾹￂ￑ﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ￋￃￗￍ￤￁￨?`)) {
+                if (confirm(`อนุมัติการเช็คชื่อของ ${submission.studentName} สำเร็จ! ต้องการพิมพ์เอกสารยืนยันการเข้าร่วมกิจกรรมหรือไม่?`)) {
                     openPrintDocumentModal(submissionId);
                 }
             }, 500);
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾻﾯￔ￠ￊﾸﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับปฏิเสธการเช็คชื่อ
         function rejectSubmission(submissionId) {
             const submission = submissions.find(s => s.id === submissionId);
             if (!submission) return;
@@ -3617,10 +3617,10 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
             renderAttendanceList();
             renderSubmissionHistory();
 
-            showNotification(`ﾻﾯￔ￠ￊﾸﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾢￍﾧ ${submission.studentName} ￡ￅ￩ￇ`, 'error');
+            showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ￊﾴﾧￃￒￂﾡￒￃￊ￨ﾧﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
         function renderSubmissions() {
             const pendingSubmissions = submissions.filter(s => s.status === 'pending');
 
@@ -3628,7 +3628,7 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
                 submissionsContainer.innerHTML = `
 <div class="empty-state">
 <i class="fas fa-images"></i>
-<p>ￂ￑ﾧ￤￁￨￁ￕﾹ￑ﾡ￠ￃￕￂﾹￊ￨ﾧￃ￙ﾻ￁ￒ</p>
+<p>ยังไม่มีนักเรียนส่งรูปมา</p>
 </div>
 `;
                 return;
@@ -3638,17 +3638,17 @@ ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
 <div class="submission-list">
 ${pendingSubmissions.map(submission => `
 <div class="submission-item">
-<img src="${submission.imageUrl}" alt="ￃ￙ﾻﾢￍﾧ ${submission.studentName}" class="submission-image">
+<img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
 <div class="submission-info">
 <h3>${submission.studentName}</h3>
-<p><strong>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>￠ￇￅￒￊ￨ﾧ:</strong> ${submission.timestamp}</p>
+<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
 <div class="submission-actions">
 <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
-<i class="fas fa-check"></i> ￍﾹ￘￁￑ﾵￔ
+<i class="fas fa-check"></i> อนุมัติ
 </button>
 <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
-<i class="fas fa-times"></i> ﾻﾯￔ￠ￊﾸ
+<i class="fas fa-times"></i> ปฏิเสธ
 </button>
 </div>
 </div>
@@ -3658,16 +3658,16 @@ ${pendingSubmissions.map(submission => `
 `;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾷ￑￩ﾧￋ￁ﾴ (ￊￓￋￃ￑ﾺￍￒﾨￒￃￂ￬)
+        // ฟังก์ชันแสดงประวัติการส่งรูปทั้งหมด (สำหรับอาจารย์)
         function renderSubmissionHistory() {
             let filteredSubmissions = [...submissions];
 
-            // ﾡￃￍﾧﾵￒ￁ￊﾶￒﾹ￐
+            // กรองตามสถานะ
             if (currentHistoryFilter !== 'all') {
                 filteredSubmissions = filteredSubmissions.filter(s => s.status === currentHistoryFilter);
             }
 
-            // ﾡￃￍﾧﾵￒ￁ﾤￓﾤ￩ﾹￋￒ
+            // กรองตามคำค้นหา
             if (submissionHistorySearchQuery) {
                 const query = submissionHistorySearchQuery.toLowerCase();
                 filteredSubmissions = filteredSubmissions.filter(s =>
@@ -3676,9 +3676,9 @@ ${pendingSubmissions.map(submission => `
                 );
             }
 
-            // ￠ￃￕￂﾧￅￓﾴ￑ﾺﾨￒﾡￅ￨ￒￊ￘ﾴ￤ﾻ￠ﾡ￨ￒￊ￘ﾴ
+            // เรียงลำดับจากล่าสุดไปเก่าสุด
             filteredSubmissions.sort((a, b) => {
-                // ￡ﾻￅﾧ timestamp ￠ﾻ￧ﾹￇ￑ﾹﾷￕ￨ￊￓￋￃ￑ﾺﾡￒￃ￠ￃￕￂﾧￅￓﾴ￑ﾺ
+                // แปลง timestamp เป็นวันที่สำหรับการเรียงลำดับ
                 const dateA = new Date(a.timestamp.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
                 const dateB = new Date(b.timestamp.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$2/$1/$3'));
                 return dateB - dateA;
@@ -3688,7 +3688,7 @@ ${pendingSubmissions.map(submission => `
                 submissionHistoryContainer.innerHTML = `
 <div class="empty-state">
 <i class="fas fa-history"></i>
-<p>￤￁￨ﾾﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ</p>
+<p>ไม่พบประวัติการส่งรูป</p>
 </div>
 `;
                 return;
@@ -3698,29 +3698,29 @@ ${pendingSubmissions.map(submission => `
 <div class="submission-list">
 ${filteredSubmissions.map(submission => `
 <div class="submission-item">
-<img src="${submission.imageUrl}" alt="ￃ￙ﾻﾢￍﾧ ${submission.studentName}" class="submission-image">
+<img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
 <div class="submission-info">
 <h3>${submission.studentName}</h3>
-<p><strong>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>￠ￇￅￒￊ￨ﾧ:</strong> ${submission.timestamp}</p>
-<p><strong>ￊﾶￒﾹ￐:</strong>
+<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+<p><strong>สถานะ:</strong>
 <span class="status ${submission.status} mobile-status">
-${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
-                    submission.status === 'rejected' ? 'ﾻﾯￔ￠ￊﾸ￡ￅ￩ￇ' :
-                        'ￃￍﾵￃￇﾨￊￍﾺ'}
+${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                    submission.status === 'rejected' ? 'ปฏิเสธแล้ว' :
+                        'รอตรวจสอบ'}
 </span>
 </p>
 <div class="submission-actions">
 ${submission.status === 'pending' ? `
 <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
-<i class="fas fa-check"></i> ￍﾹ￘￁￑ﾵￔ
+<i class="fas fa-check"></i> อนุมัติ
 </button>
 <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
-<i class="fas fa-times"></i> ﾻﾯￔ￠ￊﾸ
+<i class="fas fa-times"></i> ปฏิเสธ
 </button>
 ` : ''}
 <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id})">
-<i class="fas fa-trash"></i> ￅﾺﾻￃ￐ￇ￑ﾵￔ
+<i class="fas fa-trash"></i> ลบประวัติ
 </button>
 </div>
 </div>
@@ -3730,11 +3730,11 @@ ${submission.status === 'pending' ? `
 `;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾡￃￍﾧﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ
+        // ฟังก์ชันกรองประวัติการส่งรูป
         function filterSubmissionHistory(filter) {
             currentHistoryFilter = filter;
 
-            // ￍ￑ﾾ￠ﾴﾷﾻ￘￨￁ﾡￃￍﾧ
+            // อัพเดทปุ่มกรอง
             const filterButtons = document.querySelectorAll('.history-filter-btn');
             filterButtons.forEach(btn => {
                 if (btn.textContent.includes(getFilterText(filter))) {
@@ -3747,20 +3747,20 @@ ${submission.status === 'pending' ? `
             renderSubmissionHistory();
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾤ￩ﾹￋￒﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ
+        // ฟังก์ชันค้นหาประวัติการส่งรูป
         function searchSubmissionHistory() {
             submissionHistorySearchQuery = searchSubmissionHistoryInput.value.trim().toLowerCase();
             renderSubmissionHistory();
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅ￩ￒﾧﾡￒￃﾤ￩ﾹￋￒ
+        // ฟังก์ชันล้างการค้นหา
         function clearSubmissionHistorySearch() {
             searchSubmissionHistoryInput.value = '';
             submissionHistorySearchQuery = '';
             renderSubmissionHistory();
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ﾻￔﾴ Modal ￂￗﾹￂ￑ﾹﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔ
+        // ฟังก์ชันเปิด Modal ยืนยันการลบประวัติ
         function openDeleteHistoryModal(submissionId) {
             const submission = submissions.find(s => s.id === submissionId);
             if (!submission) return;
@@ -3768,17 +3768,17 @@ ${submission.status === 'pending' ? `
             submissionToDelete = submissionId;
 
             confirmDeleteHistoryContent.innerHTML = `
-<p>ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾢￍﾧ <strong>${submission.studentName}</strong> (${submission.studentId}) ￣ﾪ￨ￋￃￗￍ￤￁￨?</p>
-<p><strong>ￇ￑ﾹﾷￕ￨ￊ￨ﾧ:</strong> ${submission.timestamp}</p>
-<p><strong>ￊﾶￒﾹ￐:</strong> ${submission.status === 'approved' ? 'ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ' :
-                    submission.status === 'rejected' ? 'ﾻﾯￔ￠ￊﾸ￡ￅ￩ￇ' : 'ￃￍﾵￃￇﾨￊￍﾺ'}</p>
-<p class="help-text">ﾡￒￃﾡￃ￐ﾷￓﾹￕ￩￤￁￨ￊￒ￁ￒￃﾶￂ￩ￍﾹﾡￅ￑ﾺ￤ﾴ￩</p>
+<p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId}) ใช่หรือไม่?</p>
+<p><strong>วันที่ส่ง:</strong> ${submission.timestamp}</p>
+<p><strong>สถานะ:</strong> ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                    submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}</p>
+<p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
 `;
 
             confirmDeleteHistoryModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ
+        // ฟังก์ชันลบประวัติการส่งรูป
         function deleteSubmissionHistory() {
             if (!submissionToDelete) return;
 
@@ -3786,10 +3786,10 @@ ${submission.status === 'pending' ? `
             if (submissionIndex !== -1) {
                 const submission = submissions[submissionIndex];
 
-                // ￅﾺￍￍﾡﾨￒﾡￃￒￂﾡￒￃ submissions
+                // ลบออกจากรายการ submissions
                 submissions.splice(submissionIndex, 1);
 
-                // ﾶ￩ￒￅﾺ submission ﾷￕ￨ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ ￣ￋ￩ￅﾺￍￍﾡﾨￒﾡ attendance list ﾴ￩ￇￂ
+                // ถ้าลบ submission ที่อนุมัติแล้ว ให้ลบออกจาก attendance list ด้วย
                 if (submission.status === 'approved') {
                     const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
                     if (attendanceIndex !== -1) {
@@ -3797,23 +3797,23 @@ ${submission.status === 'pending' ? `
                     }
                 }
 
-                // ﾺ￑ﾹﾷￖﾡﾡￒￃ￠ﾻￅￕ￨ￂﾹ￡ﾻￅﾧ
+                // บันทึกการเปลี่ยนแปลง
                 saveAllDataToStorage();
 
-                // ￍ￑ﾾ￠ﾴﾷ UI
+                // อัพเดท UI
                 renderSubmissions();
                 renderAttendanceList();
                 renderSubmissionHistory();
 
-                showNotification(`ￅﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾢￍﾧ ${submission.studentName} ￊￓ￠ￃ￧ﾨ`, 'success');
+                showNotification(`ลบประวัติการส่งรูปของ ${submission.studentName} สำเร็จ`, 'success');
             }
 
-            // ﾻￔﾴ Modal
+            // ปิด Modal
             confirmDeleteHistoryModal.style.display = 'none';
             submissionToDelete = null;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ Modal ￅﾺﾻￃ￐ￇ￑ﾵￔ
+        // ฟังก์ชันปิด Modal ลบประวัติ
         function closeDeleteHistoryModal() {
             confirmDeleteHistoryModal.style.display = 'none';
             submissionToDelete = null;
@@ -3823,13 +3823,13 @@ ${submission.status === 'pending' ? `
         // TEACHER ATTENDANCE FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ﾡ￩￤ﾢￊﾶￒﾹ￐￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับแก้ไขสถานะเช็คชื่อ
         function updateAttendanceStatus(attendanceId, newStatus) {
             const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
             if (attendanceIndex !== -1) {
                 attendanceList[attendanceIndex].status = newStatus;
 
-                // ￍ￑ﾾ￠ﾴﾷￊﾶￒﾹ￐￣ﾹ submissions ﾴ￩ￇￂ
+                // อัพเดทสถานะใน submissions ด้วย
                 const studentId = attendanceList[attendanceIndex].studentId;
                 submissions.forEach(sub => {
                     if (sub.studentId === studentId && newStatus === 'approved') {
@@ -3843,13 +3843,13 @@ ${submission.status === 'pending' ? `
                 renderAttendanceList();
                 renderSubmissions();
                 renderSubmissionHistory();
-                showNotification('ￍ￑ﾾ￠ﾴﾷￊﾶￒﾹ￐￠ﾪ￧ﾤﾪￗ￨ￍￊￓ￠ￃ￧ﾨ', 'success');
+                showNotification('อัพเดทสถานะเช็คชื่อสำเร็จ', 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺￅﾺￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับลบรายการเช็คชื่อ
         function deleteAttendance(attendanceId) {
-            if (!confirm('ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨?')) {
+            if (!confirm('คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?')) {
                 return;
             }
 
@@ -3861,11 +3861,11 @@ ${submission.status === 'pending' ? `
                 saveAllDataToStorage();
                 renderAttendanceList();
 
-                showNotification(`ￅﾺￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍﾢￍﾧ ${studentName} ￊￓ￠ￃ￧ﾨ`, 'success');
+                showNotification(`ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`, 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾡￃￍﾧ￡ￅ￐ﾤ￩ﾹￋￒￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับกรองและค้นหารายการเช็คชื่อ
         function filterAttendanceList() {
             let filtered = attendanceList;
 
@@ -3886,7 +3886,7 @@ ${submission.status === 'pending' ? `
             return filtered;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺ￡ￊﾴﾧￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ
         function renderAttendanceList() {
             const filteredAttendance = filterAttendanceList();
 
@@ -3894,7 +3894,7 @@ ${submission.status === 'pending' ? `
                 attendanceListElement.innerHTML = `
 <tr>
 <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
-${attendanceList.length === 0 ? 'ￂ￑ﾧ￤￁￨￁ￕￃￒￂﾪￗ￨ￍﾹ￑ﾡ￠ￃￕￂﾹﾷￕ￨￠ﾪ￧ﾤﾪￗ￨ￍ' : '￤￁￨ﾾﾺﾢ￩ￍ￁￙ￅﾷￕ￨ﾤ￩ﾹￋￒ'}
+${attendanceList.length === 0 ? 'ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ' : 'ไม่พบข้อมูลที่ค้นหา'}
 </td>
 </tr>
 `;
@@ -3911,14 +3911,14 @@ ${attendanceList.length === 0 ? 'ￂ￑ﾧ￤￁￨￁ￕￃￒￂﾪￗ￨ￍ�
 <select class="status-select ${attendance.status}"
 onchange="updateAttendanceStatus(${attendance.id}, this.value)"
 style="width: 120px;">
-<option value="approved" ${attendance.status === 'approved' ? 'selected' : ''}>￠ﾪ￧ﾤﾪￗ￨ￍ￡ￅ￩ￇ</option>
-<option value="absent" ${attendance.status === 'absent' ? 'selected' : ''}>ￂ￑ﾧ￤￁￨￠ﾪ￧ﾤﾪￗ￨ￍ</option>
+<option value="approved" ${attendance.status === 'approved' ? 'selected' : ''}>เช็คชื่อแล้ว</option>
+<option value="absent" ${attendance.status === 'absent' ? 'selected' : ''}>ยังไม่เช็คชื่อ</option>
 </select>
 </td>
 <td>
 <div class="attendance-actions">
 <button class="btn btn-danger btn-small" onclick="deleteAttendance(${attendance.id})">
-<i class="fas fa-trash"></i> ￅﾺ
+<i class="fas fa-trash"></i> ลบ
 </button>
 </div>
 </td>
@@ -3930,22 +3930,22 @@ style="width: 120px;">
         // ADMIN FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧ￡ﾴﾪﾺￍￃ￬ﾴ Admin
+        // ฟังก์ชันแสดงแดชบอร์ด Admin
         function renderAdminDashboard() {
-            // ﾤￓﾹￇﾳￊﾶￔﾵￔ
+            // คำนวณสถิติ
             const studentCount = users.students.length;
             const teacherCount = users.teachers.length;
             const activityCount = activities.length;
             const attendanceCount = attendanceList.filter(a => a.status === 'approved').length;
 
-            // ￍ￑ﾾ￠ﾴﾷﾵ￑ￇ￠ￅﾢ
+            // อัพเดทตัวเลข
             totalStudents.textContent = studentCount;
             totalTeachers.textContent = teacherCount;
             totalActivities.textContent = activityCount;
             totalAttendance.textContent = attendanceCount;
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ﾾￔ￨￁ﾡￔﾨﾡￃￃ￁￣ￋ￁￨
+        // ฟังก์ชันเพิ่มกิจกรรมใหม่
         function addActivity() {
             const name = activityName.value.trim();
             const date = activityDate.value;
@@ -3955,7 +3955,7 @@ style="width: 120px;">
             const status = activityStatus.value;
 
             if (!name || !date || !time || !location || !description) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -3971,7 +3971,7 @@ style="width: 120px;">
 
             activities.push(newActivity);
 
-            // ￅ￩ￒﾧ﾿ￍￃ￬￁
+            // ล้างฟอร์ม
             activityName.value = '';
             activityDate.value = '';
             activityTime.value = '';
@@ -3979,30 +3979,30 @@ style="width: 120px;">
             activityDescription.value = '';
             activityStatus.value = 'active';
 
-            // ﾺ￑ﾹﾷￖﾡﾢ￩ￍ￁￙ￅ
+            // บันทึกข้อมูล
             saveAllDataToStorage();
 
-            // ￡ￊﾴﾧﾡￔﾨﾡￃￃ￁￣ￋ￁￨
+            // แสดงกิจกรรมใหม่
             renderActivities();
             renderActivityStats();
             renderAdminDashboard();
 
-            showNotification(`￠ﾾￔ￨￁ﾡￔﾨﾡￃￃ￁ "${name}" ￊￓ￠ￃ￧ﾨ`, 'success');
+            showNotification(`เพิ่มกิจกรรม "${name}" สำเร็จ`, 'success');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧￃￒￂﾡￒￃﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันแสดงรายการกิจกรรม
         function renderActivities() {
             if (activities.length === 0) {
                 activitiesList.innerHTML = `
 <div class="empty-state">
 <i class="fas fa-calendar-times"></i>
-<p>ￂ￑ﾧ￤￁￨￁ￕﾡￔﾨﾡￃￃ￁</p>
+<p>ยังไม่มีกิจกรรม</p>
 </div>
 `;
                 return;
             }
 
-            // ￠ￃￕￂﾧﾡￔﾨﾡￃￃ￁ﾵￒ￁ￇ￑ﾹﾷￕ￨ (￣ￋ￁￨￤ﾻ￠ﾡ￨ￒ)
+            // เรียงกิจกรรมตามวันที่ (ใหม่ไปเก่า)
             const sortedActivities = [...activities].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             activitiesList.innerHTML = sortedActivities.map(activity => `
@@ -4011,70 +4011,70 @@ style="width: 120px;">
 <h3>${activity.name}</h3>
 <div class="activity-actions">
 <button class="btn btn-info btn-small" onclick="viewActivityDetail(${activity.id})">
-<i class="fas fa-eye"></i> ﾴ￙ￃￒￂￅ￐￠ￍￕￂﾴ
+<i class="fas fa-eye"></i> ดูรายละเอียด
 </button>
 <button class="btn btn-primary btn-small" onclick="editActivity(${activity.id})">
-<i class="fas fa-edit"></i> ￡ﾡ￩￤ﾢ
+<i class="fas fa-edit"></i> แก้ไข
 </button>
 <button class="btn btn-danger btn-small" onclick="deleteActivity(${activity.id})">
-<i class="fas fa-trash"></i> ￅﾺ
+<i class="fas fa-trash"></i> ลบ
 </button>
 </div>
 </div>
 <div class="activity-details">
-<p><strong>ￇ￑ﾹﾷￕ￨:</strong> ${formatDate(activity.date)} ￠ￇￅￒ ${activity.time}</p>
-<p><strong>ￊﾶￒﾹﾷￕ￨:</strong> ${activity.location}</p>
-<p><strong>ￊﾶￒﾹ￐:</strong>
+<p><strong>วันที่:</strong> ${formatDate(activity.date)} เวลา ${activity.time}</p>
+<p><strong>สถานที่:</strong> ${activity.location}</p>
+<p><strong>สถานะ:</strong>
 <span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
-${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
-                    activity.status === 'upcoming' ? 'ﾡￓￅ￑ﾧﾨ￐￁ￒﾶￖﾧ' : 'ￊￔ￩ﾹￊ￘ﾴ￡ￅ￩ￇ'}
+${activity.status === 'active' ? 'กำลังดำเนินการ' :
+                    activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
 </span>
 </p>
-<p><strong>ￃￒￂￅ￐￠ￍￕￂﾴ:</strong> ${activity.description.substring(0, 100)}${activity.description.length > 100 ? '...' : ''}</p>
+<p><strong>รายละเอียด:</strong> ${activity.description.substring(0, 100)}${activity.description.length > 100 ? '...' : ''}</p>
 </div>
 </div>
 `).join('');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾴ￙ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันดูรายละเอียดกิจกรรม
         function viewActivityDetail(activityId) {
             const activity = activities.find(a => a.id === activityId);
             if (!activity) return;
 
             activityDetailContent.innerHTML = `
 <div class="form-group">
-<label>ﾪￗ￨ￍﾡￔﾨﾡￃￃ￁:</label>
+<label>ชื่อกิจกรรม:</label>
 <p style="font-weight: bold; font-size: 1.2rem;">${activity.name}</p>
 </div>
 <div class="form-group">
-<label>ￇ￑ﾹﾷￕ￨ﾨ￑ﾴﾡￔﾨﾡￃￃ￁:</label>
-<p>${formatDate(activity.date)} ￠ￇￅￒ ${activity.time}</p>
+<label>วันที่จัดกิจกรรม:</label>
+<p>${formatDate(activity.date)} เวลา ${activity.time}</p>
 </div>
 <div class="form-group">
-<label>ￊﾶￒﾹﾷￕ￨:</label>
+<label>สถานที่:</label>
 <p>${activity.location}</p>
 </div>
 <div class="form-group">
-<label>ￊﾶￒﾹ￐:</label>
+<label>สถานะ:</label>
 <p><span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
-${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
-                    activity.status === 'upcoming' ? 'ﾡￓￅ￑ﾧﾨ￐￁ￒﾶￖﾧ' : 'ￊￔ￩ﾹￊ￘ﾴ￡ￅ￩ￇ'}
+${activity.status === 'active' ? 'กำลังดำเนินการ' :
+                    activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
 </span></p>
 </div>
 <div class="form-group">
-<label>ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁:</label>
+<label>รายละเอียดกิจกรรม:</label>
 <p>${activity.description}</p>
 </div>
 <div class="form-group">
-<label>ￊﾶￔﾵￔﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁:</label>
-<p>ￂ￑ﾧ￤￁￨￁ￕﾢ￩ￍ￁￙ￅﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍￊￓￋￃ￑ﾺﾡￔﾨﾡￃￃ￁ﾹￕ￩</p>
+<label>สถิติการเข้าร่วม:</label>
+<p>ยังไม่มีข้อมูลการเช็คชื่อสำหรับกิจกรรมนี้</p>
 </div>
 `;
 
             activityDetailModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ﾡ￩￤ﾢﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันแก้ไขกิจกรรม
         function editActivity(activityId) {
             const activity = activities.find(a => a.id === activityId);
             if (!activity) return;
@@ -4086,7 +4086,7 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
             editActivityModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾺ￑ﾹﾷￖﾡﾡￒￃ￡ﾡ￩￤ﾢﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันบันทึกการแก้ไขกิจกรรม
         function saveEditActivity() {
             if (!editingActivityId) return;
 
@@ -4095,7 +4095,7 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
             const description = editActivityDescription.value.trim();
 
             if (!name || !date || !description) {
-                showNotification('ﾡￃ￘ﾳￒﾡￃￍﾡﾢ￩ￍ￁￙ￅ￣ￋ￩ﾤￃﾺﾶ￩ￇﾹ', 'error');
+                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
                 return;
             }
 
@@ -4108,13 +4108,13 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
                 saveAllDataToStorage();
                 renderActivities();
                 closeEditActivityModal();
-                showNotification('￡ﾡ￩￤ﾢﾡￔﾨﾡￃￃ￁ￊￓ￠ￃ￧ﾨ', 'success');
+                showNotification('แก้ไขกิจกรรมสำเร็จ', 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅﾺﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันลบกิจกรรม
         function deleteActivity(activityId) {
-            if (!confirm('ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺﾡￔﾨﾡￃￃ￁ﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨?')) {
+            if (!confirm('คุณต้องการลบกิจกรรมนี้ใช่หรือไม่?')) {
                 return;
             }
 
@@ -4128,11 +4128,11 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
                 renderActivityStats();
                 renderAdminDashboard();
 
-                showNotification(`ￅﾺﾡￔﾨﾡￃￃ￁ "${activityName}" ￊￓ￠ￃ￧ﾨ`, 'success');
+                showNotification(`ลบกิจกรรม "${activityName}" สำเร็จ`, 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ Modal ￡ﾡ￩￤ﾢﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันปิด Modal แก้ไขกิจกรรม
         function closeEditActivityModal() {
             editActivityModal.style.display = 'none';
             editingActivityId = null;
@@ -4141,12 +4141,12 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
             editActivityDescription.value = '';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ Modal ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันปิด Modal รายละเอียดกิจกรรม
         function closeActivityDetailModal() {
             activityDetailModal.style.display = 'none';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧￃￒￂﾡￒￃﾼ￙￩￣ﾪ￩
+        // ฟังก์ชันแสดงรายการผู้ใช้
         function renderUserList() {
             const allUsers = [
                 ...users.students.map(s => ({ ...s, type: 'student' })),
@@ -4157,7 +4157,7 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
                 userList.innerHTML = `
 <tr>
 <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
-ￂ￑ﾧ￤￁￨￁ￕﾼ￙￩￣ﾪ￩￣ﾹￃ￐ﾺﾺ
+ยังไม่มีผู้ใช้ในระบบ
 </td>
 </tr>
 `;
@@ -4170,23 +4170,23 @@ ${activity.status === 'active' ? 'ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ' :
 <td>${user.name}</td>
 <td>
 <span class="user-type user-type-${user.type}">
-${user.type === 'student' ? 'ﾹ￑ﾡ￠ￃￕￂﾹ' :
-                    user.type === 'teacher' ? 'ￍￒﾨￒￃￂ￬' : 'ﾼ￙￩ﾴ￙￡ￅￃ￐ﾺﾺ'}
+${user.type === 'student' ? 'นักเรียน' :
+                    user.type === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ'}
 </span>
 </td>
-<td>${user.email || '￤￁￨￁ￕﾢ￩ￍ￁￙ￅ'}</td>
+<td>${user.email || 'ไม่มีข้อมูล'}</td>
 <td>
 <span class="status approved">
-￣ﾪ￩ﾧￒﾹﾻﾡﾵￔ
+ใช้งานปกติ
 </span>
 </td>
 <td>
 <div class="student-actions">
 <button class="btn btn-warning btn-small" onclick="resetUserPassword('${user.username}')">
-<i class="fas fa-key"></i> ￃￕ￠ﾫ￧ﾵￃￋ￑ￊ
+<i class="fas fa-key"></i> รีเซ็ตรหัส
 </button>
 <button class="btn btn-danger btn-small" onclick="deleteUser('${user.username}', '${user.type}')">
-<i class="fas fa-trash"></i> ￅﾺ
+<i class="fas fa-trash"></i> ลบ
 </button>
 </div>
 </td>
@@ -4194,29 +4194,29 @@ ${user.type === 'student' ? 'ﾹ￑ﾡ￠ￃￕￂﾹ' :
 `).join('');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￃￕ￠ﾫ￧ﾵￃￋ￑ￊﾼ￨ￒﾹﾼ￙￩￣ﾪ￩
+        // ฟังก์ชันรีเซ็ตรหัสผ่านผู้ใช้
         function resetUserPassword(username) {
-            if (!confirm('ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￃￕ￠ﾫ￧ﾵￃￋ￑ￊﾼ￨ￒﾹﾢￍﾧﾼ￙￩￣ﾪ￩ﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨? ￃￋ￑ￊﾼ￨ￒﾹﾨ￐ﾶ￙ﾡﾵ￑￩ﾧ￠ﾻ￧ﾹ "123456"')) {
+            if (!confirm('คุณต้องการรีเซ็ตรหัสผ่านของผู้ใช้นี้ใช่หรือไม่? รหัสผ่านจะถูกตั้งเป็น "123456"')) {
                 return;
             }
 
-            // ﾤ￩ﾹￋￒﾼ￙￩￣ﾪ￩￣ﾹ students
+            // ค้นหาผู้ใช้ใน students
             let user = users.students.find(u => u.username === username);
 
-            // ﾶ￩ￒ￤￁￨￠ﾨￍ￣ﾹ students ￣ￋ￩ﾤ￩ﾹￋￒ￣ﾹ teachers
+            // ถ้าไม่เจอใน students ให้ค้นหาใน teachers
             if (!user) {
                 user = users.teachers.find(u => u.username === username);
             }
 
             if (user) {
                 user.password = "123456";
-                showNotification(`ￃￕ￠ﾫ￧ﾵￃￋ￑ￊﾼ￨ￒﾹﾢￍﾧ ${user.name} ￊￓ￠ￃ￧ﾨ`, 'success');
+                showNotification(`รีเซ็ตรหัสผ่านของ ${user.name} สำเร็จ`, 'success');
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅﾺﾼ￙￩￣ﾪ￩
+        // ฟังก์ชันลบผู้ใช้
         function deleteUser(username, userType) {
-            if (!confirm('ﾤ￘ﾳﾵ￩ￍﾧﾡￒￃￅﾺﾼ￙￩￣ﾪ￩ﾹￕ￩￣ﾪ￨ￋￃￗￍ￤￁￨? ﾡￒￃﾡￃ￐ﾷￓﾹￕ￩￤￁￨ￊￒ￁ￒￃﾶￂ￩ￍﾹﾡￅ￑ﾺ￤ﾴ￩')) {
+            if (!confirm('คุณต้องการลบผู้ใช้นี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')) {
                 return;
             }
 
@@ -4226,7 +4226,7 @@ ${user.type === 'student' ? 'ﾹ￑ﾡ￠ￃￕￂﾹ' :
                     const userName = users.students[userIndex].name;
                     const studentId = users.students[userIndex].studentId;
 
-                    // ￅﾺﾢ￩ￍ￁￙ￅﾷￕ￨￠ﾡￕ￨ￂￇﾢ￩ￍﾧ
+                    // ลบข้อมูลที่เกี่ยวข้อง
                     submissions = submissions.filter(s => s.studentId !== studentId);
                     attendanceList = attendanceList.filter(a => a.studentId !== studentId);
                     students = students.filter(s => s.studentId !== studentId);
@@ -4237,7 +4237,7 @@ ${user.type === 'student' ? 'ﾹ￑ﾡ￠ￃￕￂﾹ' :
                     renderUserList();
                     renderAdminDashboard();
 
-                    showNotification(`ￅﾺﾼ￙￩￣ﾪ￩ "${userName}" ￊￓ￠ￃ￧ﾨ`, 'success');
+                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
             } else {
                 const userIndex = users.teachers.findIndex(u => u.username === username);
@@ -4248,49 +4248,49 @@ ${user.type === 'student' ? 'ﾹ￑ﾡ￠ￃￕￂﾹ' :
                     renderUserList();
                     renderAdminDashboard();
 
-                    showNotification(`ￅﾺﾼ￙￩￣ﾪ￩ "${userName}" ￊￓ￠ￃ￧ﾨ`, 'success');
+                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
             }
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￡ￊﾴﾧￊﾶￔﾵￔﾡￔﾨﾡￃￃ￁
+        // ฟังก์ชันแสดงสถิติกิจกรรม
         function renderActivityStats() {
             if (activities.length === 0) {
                 activityStats.innerHTML = `
-<p>ￂ￑ﾧ￤￁￨￁ￕﾡￔﾨﾡￃￃ￁￣ﾹￃ￐ﾺﾺ</p>
+<p>ยังไม่มีกิจกรรมในระบบ</p>
 `;
                 return;
             }
 
-            // ﾹ￑ﾺﾨￓﾹￇﾹﾡￔﾨﾡￃￃ￁ﾵￒ￁ￊﾶￒﾹ￐
+            // นับจำนวนกิจกรรมตามสถานะ
             const activeCount = activities.filter(a => a.status === 'active').length;
             const upcomingCount = activities.filter(a => a.status === 'upcoming').length;
             const completedCount = activities.filter(a => a.status === 'completed').length;
 
-            // ￋￒￇ￑ﾹﾷￕ￨ﾡￔﾨﾡￃￃ￁ￅ￨ￒￊ￘ﾴ
+            // หาวันที่กิจกรรมล่าสุด
             const latestActivity = [...activities].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
             activityStats.innerHTML = `
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #3498db; margin-bottom: 5px;">ﾡￔﾨﾡￃￃ￁ﾷￕ￨ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ</h4>
+<h4 style="color: #3498db; margin-bottom: 5px;">กิจกรรมที่กำลังดำเนินการ</h4>
 <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${activeCount}</p>
 </div>
 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #f39c12; margin-bottom: 5px;">ﾡￔﾨﾡￃￃ￁ﾷￕ￨ﾡￓￅ￑ﾧﾨ￐￁ￒﾶￖﾧ</h4>
+<h4 style="color: #f39c12; margin-bottom: 5px;">กิจกรรมที่กำลังจะมาถึง</h4>
 <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${upcomingCount}</p>
 </div>
 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #27ae60; margin-bottom: 5px;">ﾡￔﾨﾡￃￃ￁ﾷￕ￨ￊￔ￩ﾹￊ￘ﾴ￡ￅ￩ￇ</h4>
+<h4 style="color: #27ae60; margin-bottom: 5px;">กิจกรรมที่สิ้นสุดแล้ว</h4>
 <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${completedCount}</p>
 </div>
 </div>
 ${latestActivity ? `
 <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
-<h4 style="color: #1565c0; margin-bottom: 10px;">ﾡￔﾨﾡￃￃ￁ￅ￨ￒￊ￘ﾴ</h4>
+<h4 style="color: #1565c0; margin-bottom: 10px;">กิจกรรมล่าสุด</h4>
 <p><strong>${latestActivity.name}</strong></p>
-<p>ￇ￑ﾹﾷￕ￨: ${formatDate(latestActivity.date)} ￠ￇￅￒ ${latestActivity.time}</p>
-<p>ￊﾶￒﾹﾷￕ￨: ${latestActivity.location}</p>
+<p>วันที่: ${formatDate(latestActivity.date)} เวลา ${latestActivity.time}</p>
+<p>สถานที่: ${latestActivity.location}</p>
 </div>
 ` : ''}
 `;
@@ -4300,132 +4300,132 @@ ${latestActivity ? `
         // PRINT DOCUMENT FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+        // ฟังก์ชันสำหรับพิมพ์เอกสาร
         function openPrintDocumentModal(submissionId) {
             const submission = submissions.find(s => s.id === submissionId);
             if (!submission) return;
 
             currentPrintSubmissionId = submissionId;
 
-            // ﾵￃￇﾨￊￍﾺￇ￨ￒﾹ￑ﾡ￠ￃￕￂﾹ￁ￕﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍￋￃￗￍ￤￁￨
+            // ตรวจสอบว่านักเรียนมีการเช็คชื่อหรือไม่
             const attendanceRecord = attendanceList.find(a => a.studentId === submission.studentId);
 
-            // ￋￒﾡ￘ﾨﾡￃￃ￁ﾻ￑ﾨﾨ￘ﾺ￑ﾹ
+            // หากุจกรรมปัจจุบัน
             const activeActivity = activities.find(a => a.status === 'active');
 
-            // ﾵￃￇﾨￊￍﾺﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ
+            // ตรวจสอบข้อมูลนักเรียน
             const studentInfo = users.students.find(s => s.studentId === submission.studentId);
-            const studentClass = studentInfo ? studentInfo.class : 'ﾻￕ 1';
+            const studentClass = studentInfo ? studentInfo.class : 'ปี 1';
 
             printDocumentContent.innerHTML = `
 <div id="documentToPrint" style="background: white; padding: 30px; font-family: 'Sarabun', sans-serif;">
-<!-- ￊ￨ￇﾹￋ￑ￇ￠ￍﾡￊￒￃ -->
+<!-- ส่วนหัวเอกสาร -->
 <div style="text-align: center; margin-bottom: 30px;">
-<h1 style="color: #2c3e50; margin-bottom: 5px;">ￇￔﾷￂￒￅ￑ￂ￠ﾷﾤﾹￔﾤￃ￐ￂￍﾧ</h1>
-<h2 style="color: #3498db; margin-bottom: 10px;">￠ￍﾡￊￒￃￂￗﾹￂ￑ﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</h2>
-<p style="color: #555; font-size: 1.1rem;">￠ￅﾢﾷￕ￨￠ￍﾡￊￒￃ: ACT${submission.id.toString().padStart(4, '0')}</p>
+<h1 style="color: #2c3e50; margin-bottom: 5px;">วิทยาลัยเทคนิคระยอง</h1>
+<h2 style="color: #3498db; margin-bottom: 10px;">เอกสารยืนยันการเข้าร่วมกิจกรรม</h2>
+<p style="color: #555; font-size: 1.1rem;">เลขที่เอกสาร: ACT${submission.id.toString().padStart(4, '0')}</p>
 </div>
 
-<!-- ﾢ￩ￍ￁￙ￅￊ￨ￇﾹﾵ￑ￇ -->
+<!-- ข้อมูลส่วนตัว -->
 <div style="border: 2px solid #3498db; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
 <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
-<i class="fas fa-user"></i> ﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ
+<i class="fas fa-user"></i> ข้อมูลนักเรียน
 </h3>
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
 <div>
-<p style="margin-bottom: 8px;"><strong>ﾪￗ￨ￍ-ﾹￒ￁ￊﾡ￘ￅ:</strong> ${submission.studentName}</p>
-<p style="margin-bottom: 8px;"><strong>ￃￋ￑ￊﾹ￑ﾡ￠ￃￕￂﾹ:</strong> ${submission.studentId}</p>
-<p style="margin-bottom: 8px;"><strong>ﾪ￑￩ﾹﾻￕ:</strong> ${studentClass}</p>
+<p style="margin-bottom: 8px;"><strong>ชื่อ-นามสกุล:</strong> ${submission.studentName}</p>
+<p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+<p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>
 </div>
 <div>
-<p style="margin-bottom: 8px;"><strong>ￇ￑ﾹﾷￕ￨ￊ￨ﾧￃ￙ﾻ:</strong> ${submission.timestamp}</p>
-<p style="margin-bottom: 8px;"><strong>ￊﾶￒﾹ￐:</strong> <span style="color: #27ae60; font-weight: bold;">ￍﾹ￘￁￑ﾵￔ￡ￅ￩ￇ</span></p>
-<p style="margin-bottom: 8px;"><strong>￠ￅﾢﾷￕ￨￠ￍﾡￊￒￃ:</strong> ACT${submission.id.toString().padStart(4, '0')}</p>
+<p style="margin-bottom: 8px;"><strong>วันที่ส่งรูป:</strong> ${submission.timestamp}</p>
+<p style="margin-bottom: 8px;"><strong>สถานะ:</strong> <span style="color: #27ae60; font-weight: bold;">อนุมัติแล้ว</span></p>
+<p style="margin-bottom: 8px;"><strong>เลขที่เอกสาร:</strong> ACT${submission.id.toString().padStart(4, '0')}</p>
 </div>
 </div>
 </div>
 
-<!-- ﾢ￩ￍ￁￙ￅﾡￔﾨﾡￃￃ￁ -->
+<!-- ข้อมูลกิจกรรม -->
 ${activeActivity ? `
 <div style="border: 2px solid #27ae60; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
 <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">
-<i class="fas fa-calendar-alt"></i> ﾢ￩ￍ￁￙ￅﾡￔﾨﾡￃￃ￁
+<i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
 </h3>
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
 <div>
-<p style="margin-bottom: 8px;"><strong>ﾪￗ￨ￍﾡￔﾨﾡￃￃ￁:</strong> ${activeActivity.name}</p>
-<p style="margin-bottom: 8px;"><strong>ￇ￑ﾹﾷￕ￨:</strong> ${formatDate(activeActivity.date)}</p>
-<p style="margin-bottom: 8px;"><strong>￠ￇￅￒ:</strong> ${activeActivity.time} ﾹ.</p>
+<p style="margin-bottom: 8px;"><strong>ชื่อกิจกรรม:</strong> ${activeActivity.name}</p>
+<p style="margin-bottom: 8px;"><strong>วันที่:</strong> ${formatDate(activeActivity.date)}</p>
+<p style="margin-bottom: 8px;"><strong>เวลา:</strong> ${activeActivity.time} น.</p>
 </div>
 <div>
-<p style="margin-bottom: 8px;"><strong>ￊﾶￒﾹﾷￕ￨:</strong> ${activeActivity.location}</p>
-<p style="margin-bottom: 8px;"><strong>ￊﾶￒﾹ￐ﾡￔﾨﾡￃￃ￁:</strong> ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ</p>
-<p style="margin-bottom: 8px;"><strong>ﾼ￙￩ﾨ￑ﾴﾡￔﾨﾡￃￃ￁:</strong> ￇￔﾷￂￒￅ￑ￂ￠ﾷﾤﾹￔﾤￃ￐ￂￍﾧ</p>
+<p style="margin-bottom: 8px;"><strong>สถานที่:</strong> ${activeActivity.location}</p>
+<p style="margin-bottom: 8px;"><strong>สถานะกิจกรรม:</strong> กำลังดำเนินการ</p>
+<p style="margin-bottom: 8px;"><strong>ผู้จัดกิจกรรม:</strong> วิทยาลัยเทคนิคระยอง</p>
 </div>
 </div>
 <div style="margin-top: 15px;">
-<p><strong>ￃￒￂￅ￐￠ￍￕￂﾴﾡￔﾨﾡￃￃ￁:</strong> ${activeActivity.description}</p>
+<p><strong>รายละเอียดกิจกรรม:</strong> ${activeActivity.description}</p>
 </div>
 </div>
 ` : `
 <div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
 <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
-<i class="fas fa-calendar-alt"></i> ﾢ￩ￍ￁￙ￅﾡￔﾨﾡￃￃ￁
+<i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
 </h3>
 <p style="text-align: center; color: #f39c12; font-style: italic;">
-￤￁￨ﾾﾺﾢ￩ￍ￁￙ￅﾡￔﾨﾡￃￃ￁ﾷￕ￨ﾡￓￅ￑ﾧﾴￓ￠ﾹￔﾹﾡￒￃ
+ไม่พบข้อมูลกิจกรรมที่กำลังดำเนินการ
 </p>
 </div>
 `}
 
-<!-- ﾢ￩ￍ￁￙ￅﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ -->
+<!-- ข้อมูลการเช็คชื่อ -->
 <div style="border: 2px solid #8e44ad; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
 <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #8e44ad; padding-bottom: 10px;">
-<i class="fas fa-check-circle"></i> ﾢ￩ￍ￁￙ￅﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+<i class="fas fa-check-circle"></i> ข้อมูลการเช็คชื่อ
 </h3>
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
 <div>
-<p style="margin-bottom: 8px;"><strong>ￊﾶￒﾹ￐ﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁:</strong> <span style="color: #27ae60; font-weight: bold;">￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</span></p>
-<p style="margin-bottom: 8px;"><strong>ￇￔﾸￕﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ:</strong> ﾡￒￃﾶ￨ￒￂￃ￙ﾻￂￗﾹￂ￑ﾹﾵ￑ￇﾵﾹ</p>
+<p style="margin-bottom: 8px;"><strong>สถานะการเข้าร่วม:</strong> <span style="color: #27ae60; font-weight: bold;">เข้าร่วมกิจกรรม</span></p>
+<p style="margin-bottom: 8px;"><strong>วิธีการเช็คชื่อ:</strong> การถ่ายรูปยืนยันตัวตน</p>
 </div>
 <div>
-<p style="margin-bottom: 8px;"><strong>ￇ￑ﾹﾷￕ￨ￍﾹ￘￁￑ﾵￔ:</strong> ${new Date().toLocaleString('th-TH', {
+<p style="margin-bottom: 8px;"><strong>วันที่อนุมัติ:</strong> ${new Date().toLocaleString('th-TH', {
                 year: 'numeric',
                 month: '2-digit',
                 day: '2-digit',
                 hour: '2-digit',
                 minute: '2-digit'
             })}</p>
-<p style="margin-bottom: 8px;"><strong>ﾼ￙￩ￍﾹ￘￁￑ﾵￔ:</strong> ${currentUser ? currentUser.name : 'ￍￒﾨￒￃￂ￬ﾼ￙￩ￊￍﾹ'}</p>
+<p style="margin-bottom: 8px;"><strong>ผู้อนุมัติ:</strong> ${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'}</p>
 </div>
 </div>
 ${attendanceRecord ? `
 <div style="margin-top: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
-<p><strong>ﾺ￑ﾹﾷￖﾡ￠ￇￅￒ￠ﾢ￩ￒￃ￨ￇ￁:</strong> ${attendanceRecord.timestamp}</p>
+<p><strong>บันทึกเวลาเข้าร่วม:</strong> ${attendanceRecord.timestamp}</p>
 </div>
 ` : ''}
 </div>
 
-<!-- ￋ￁ￒￂ￠ￋﾵ￘￡ￅ￐ￅￒￂ￠ﾫ￧ﾹ -->
+<!-- หมายเหตุและลายเซ็น -->
 <div style="border-top: 2px dashed #ddd; padding-top: 25px; margin-top: 25px;">
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
 <div>
-<h4 style="color: #2c3e50; margin-bottom: 10px;">ￋ￁ￒￂ￠ￋﾵ￘</h4>
+<h4 style="color: #2c3e50; margin-bottom: 10px;">หมายเหตุ</h4>
 <ul style="color: #555; padding-left: 20px;">
-<li>￠ￍﾡￊￒￃﾹￕ￩￠ﾻ￧ﾹ￠ￍﾡￊￒￃￂￗﾹￂ￑ﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁ￍￂ￨ￒﾧ￠ﾻ￧ﾹﾷￒﾧﾡￒￃ</li>
-<li>ￊￒ￁ￒￃﾶﾹￓ￤ﾻﾻￃ￐ﾡￍﾺﾡￒￃﾢￍￃ￑ﾺￋﾹ￨ￇￂﾡￔﾨﾡￃￃ￁￤ﾴ￩</li>
-<li>￠ￍﾡￊￒￃ￁ￕￍￒￂ￘ 1 ﾻￕ ﾹ￑ﾺﾨￒﾡￇ￑ﾹﾷￕ￨ￍﾹ￘￁￑ﾵￔ</li>
-<li>ﾡￃﾳￕￊ￙ﾭￋￒￂￊￒ￁ￒￃﾶﾢￍￍￍﾡ￣ￋ￁￨￤ﾴ￩ﾷￕ￨ﾧￒﾹﾡￔﾨﾡￃￃ￁ﾹ￑ﾡ￈ￖﾡ￉ￒ</li>
+<li>เอกสารนี้เป็นเอกสารยืนยันการเข้าร่วมกิจกรรมอย่างเป็นทางการ</li>
+<li>สามารถนำไปประกอบการขอรับหน่วยกิจกรรมได้</li>
+<li>เอกสารมีอายุ 1 ปี นับจากวันที่อนุมัติ</li>
+<li>กรณีสูญหายสามารถขอออกใหม่ได้ที่งานกิจกรรมนักศึกษา</li>
 </ul>
 </div>
 <div style="text-align: center;">
 <div style="margin-bottom: 20px;">
-<p style="margin-bottom: 40px;">ￅﾧﾪￗ￨ￍ........................................................</p>
-<p style="margin-bottom: 5px;">(${currentUser ? currentUser.name : 'ￍￒﾨￒￃￂ￬ﾼ￙￩ￊￍﾹ'})</p>
-<p>ￍￒﾨￒￃￂ￬ﾼ￙￩ﾴ￙￡ￅﾡￔﾨﾡￃￃ￁</p>
+<p style="margin-bottom: 40px;">ลงชื่อ........................................................</p>
+<p style="margin-bottom: 5px;">(${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'})</p>
+<p>อาจารย์ผู้ดูแลกิจกรรม</p>
 </div>
 <div style="border: 1px solid #ddd; padding: 10px; display: inline-block;">
-<p style="margin: 0; font-size: 0.9rem;">ￇ￑ﾹￍￍﾡ￠ￍﾡￊￒￃ: ${new Date().toLocaleDateString('th-TH', {
+<p style="margin: 0; font-size: 0.9rem;">วันออกเอกสาร: ${new Date().toLocaleDateString('th-TH', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -4435,12 +4435,12 @@ ${attendanceRecord ? `
 </div>
 </div>
 
-<!-- ﾵￃￒﾻￃ￐ﾷ￑ﾺ -->
+<!-- ตราประทับ -->
 <div style="text-align: center; margin-top: 30px;">
 <div style="display: inline-block; border: 3px solid #e74c3c; border-radius: 50%; width: 120px; height: 120px; position: relative; padding-top: 20px;">
-<div style="font-weight: bold; color: #e74c3c; font-size: 1.2rem;">ﾵￃￒﾻￃ￐ﾷ￑ﾺ</div>
-<div style="color: #2c3e50; font-size: 0.9rem; margin-top: 5px;">ￇￔﾷￂￒￅ￑ￂ￠ﾷﾤﾹￔﾤￃ￐ￂￍﾧ</div>
-<div style="color: #2c3e50; font-size: 0.8rem; margin-top: 3px;">ﾡￔﾨﾡￃￃ￁ﾹ￑ﾡ￈ￖﾡ￉ￒ</div>
+<div style="font-weight: bold; color: #e74c3c; font-size: 1.2rem;">ตราประทับ</div>
+<div style="color: #2c3e50; font-size: 0.9rem; margin-top: 5px;">วิทยาลัยเทคนิคระยอง</div>
+<div style="color: #2c3e50; font-size: 0.8rem; margin-top: 3px;">กิจกรรมนักศึกษา</div>
 </div>
 </div>
 </div>
@@ -4449,12 +4449,12 @@ ${attendanceRecord ? `
             printDocumentModal.style.display = 'flex';
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￊￓￋￃ￑ﾺﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+        // ฟังก์ชันสำหรับพิมพ์เอกสาร
         function printDocument() {
             const printContent = document.getElementById('documentToPrint').innerHTML;
             const originalContent = document.body.innerHTML;
 
-            // ￊￃ￩ￒﾧￋﾹ￩ￒﾾￔ￁ﾾ￬￠ﾩﾾￒ￐
+            // สร้างหน้าพิมพ์เฉพาะ
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
 <!DOCTYPE html>
@@ -4462,7 +4462,7 @@ ${attendanceRecord ? `
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>￠ￍﾡￊￒￃￂￗﾹￂ￑ﾹﾡￒￃ￠ﾢ￩ￒￃ￨ￇ￁ﾡￔﾨﾡￃￃ￁</title>
+<title>เอกสารยืนยันการเข้าร่วมกิจกรรม</title>
 <style>
 body {
 font-family: 'Sarabun', sans-serif;
@@ -4514,15 +4514,15 @@ color: red;
 <body>
 ${printContent}
 <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.9rem;">
-<p>￠ￍﾡￊￒￃﾩﾺ￑ﾺﾹￕ￩ﾶ￙ﾡￊￃ￩ￒﾧ￢ﾴￂￃ￐ﾺﾺ￠ﾪ￧ﾤﾡￔﾨﾡￃￃ￁ﾢￍﾧﾹ￑ﾡ￠ￃￕￂﾹ￣ﾹￇￔﾷￂￒￅ￑ￂ</p>
-<p>ￇ￑ﾹﾷￕ￨ﾾￔ￁ﾾ￬: ${new Date().toLocaleString('th-TH')}</p>
+<p>เอกสารฉบับนี้ถูกสร้างโดยระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</p>
+<p>วันที่พิมพ์: ${new Date().toLocaleString('th-TH')}</p>
 </div>
 <div class="no-print" style="text-align: center; margin-top: 30px;">
 <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
-<i class="fas fa-print"></i> ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+<i class="fas fa-print"></i> พิมพ์เอกสาร
 </button>
 <button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;">
-ﾻￔﾴￋﾹ￩ￒﾵ￨ￒﾧ
+ปิดหน้าต่าง
 </button>
 </div>
 </body>
@@ -4530,15 +4530,15 @@ ${printContent}
 `);
             printWindow.document.close();
 
-            // ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃￋￅ￑ﾧﾨￒﾡ￢ￋￅﾴ￠ￊￃ￧ﾨ
+            // พิมพ์เอกสารหลังจากโหลดเสร็จ
             printWindow.onload = function () {
                 printWindow.print();
             };
 
-            showNotification('ﾡￓￅ￑ﾧ￠ﾻￔﾴￋﾹ￩ￒﾵ￨ￒﾧﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ...', 'success');
+            showNotification('กำลังเปิดหน้าต่างพิมพ์เอกสาร...', 'success');
         }
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾻￔﾴ Modal ﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+        // ฟังก์ชันปิด Modal พิมพ์เอกสาร
         function closePrintDocumentModal() {
             printDocumentModal.style.display = 'none';
             currentPrintSubmissionId = null;
@@ -4548,19 +4548,19 @@ ${printContent}
         // INITIALIZATION FUNCTIONS
         // ====================================================
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ￃￔ￨￁ﾵ￩ﾹￃ￐ﾺﾺ
+        // ฟังก์ชันเริ่มต้นระบบ
         function initializeSystem() {
             if (isInitialized) return;
 
-            console.log('ﾡￓￅ￑ﾧ￠ￃￔ￨￁ﾵ￩ﾹￃ￐ﾺﾺ...');
+            console.log('กำลังเริ่มต้นระบบ...');
 
-            // ￢ￋￅﾴﾢ￩ￍ￁￙ￅﾨￒﾡ localStorage
+            // โหลดข้อมูลจาก localStorage
             loadAllDataFromStorage();
 
-            // ﾷￓﾤￇￒ￁ￊ￐ￍￒﾴﾢ￩ￍ￁￙ￅﾷￕ￨￠ￊￕￂￋￒￂ
+            // ทำความสะอาดข้อมูลที่เสียหาย
             cleanCorruptedData();
 
-            // ￠ﾾￔ￨￁ﾹ￑ﾡ￠ￃￕￂﾹﾨￒﾡ users.students ﾶ￩ￒￂ￑ﾧ￤￁￨￁ￕ￣ﾹￃ￐ﾺﾺ
+            // เพิ่มนักเรียนจาก users.students ถ้ายังไม่มีในระบบ
             users.students.forEach((student) => {
                 const existingStudent = students.find(s => s.studentId === student.studentId);
                 if (!existingStudent) {
@@ -4568,42 +4568,42 @@ ${printContent}
                         id: students.length + 1,
                         name: student.name,
                         studentId: student.studentId,
-                        class: student.class || 'ﾻￕ 1'
+                        class: student.class || 'ปี 1'
                     });
                 }
             });
 
-            // ﾺ￑ﾹﾷￖﾡﾢ￩ￍ￁￙ￅ￠ￃￔ￨￁ﾵ￩ﾹ
+            // บันทึกข้อมูลเริ่มต้น
             saveAllDataToStorage();
 
-            // ￡ￊﾴﾧﾢ￩ￍ￁￙ￅﾹ￑ﾡ￠ￃￕￂﾹ
+            // แสดงข้อมูลนักเรียน
             renderStudents();
 
-            // ﾵ￑￩ﾧﾤ￨ￒￇ￑ﾹﾷￕ￨￠ￃￔ￨￁ﾵ￩ﾹ￣ﾹ﾿ￍￃ￬￁ﾡￔﾨﾡￃￃ￁￠ﾻ￧ﾹￇ￑ﾹﾹￕ￩
+            // ตั้งค่าวันที่เริ่มต้นในฟอร์มกิจกรรมเป็นวันนี้
             const today = new Date().toISOString().split('T')[0];
             if (activityDate) activityDate.value = today;
 
             isInitialized = true;
 
-            console.log('ￃ￐ﾺﾺ￤ﾴ￩￠ￃￔ￨￁ﾵ￩ﾹ￡ￅ￩ￇ');
-            console.log('?? ￋ￁ￒￂ￠ￋﾵ￘: ￃ￐ﾺﾺﾺￕﾺￍ￑ﾴ￀ￒﾾￍ￑ﾵ￢ﾹ￁￑ﾵￔ￣ￋ￩￠ￋￅￗￍ￤￁￨￠ﾡￔﾹ 1MB');
-            console.log('?? ﾢ￩ￍ￁￙ￅￃ￐ﾺﾺ:');
-            console.log('- ﾹ￑ﾡ￠ￃￕￂﾹ 1: SRTC048 / 123456');
-            console.log('- ﾹ￑ﾡ￠ￃￕￂﾹ 2: SRTC046 / tae046');
-            console.log('- ﾹ￑ﾡ￠ￃￕￂﾹ 3: SRTC055 / we055');
-            console.log('- ￍￒﾨￒￃￂ￬: teacher / 123456');
-            console.log('- ﾼ￙￩ﾴ￙￡ￅ: admin / college123');
-            console.log('- ﾡￔﾨﾡￃￃ￁: ￁ￕﾡￔﾨﾡￃￃ￁ﾵ￑ￇￍￂ￨ￒﾧ 3 ￃￒￂﾡￒￃ');
-            console.log('- ﾨￓﾹￇﾹﾢ￩ￍ￁￙ￅ￣ﾹￃ￐ﾺﾺ:');
+            console.log('ระบบได้เริ่มต้นแล้ว');
+            console.log('⚠️ หมายเหตุ: ระบบบีบอัดภาพอัตโนมัติให้เหลือไม่เกิน 1MB');
+            console.log('📊 ข้อมูลระบบ:');
+            console.log('- นักเรียน 1: SRTC048 / 123456');
+            console.log('- นักเรียน 2: SRTC046 / tae046');
+            console.log('- นักเรียน 3: SRTC055 / we055');
+            console.log('- อาจารย์: teacher / 123456');
+            console.log('- ผู้ดูแล: admin / college123');
+            console.log('- กิจกรรม: มีกิจกรรมตัวอย่าง 3 รายการ');
+            console.log('- จำนวนข้อมูลในระบบ:');
             console.log(' - submissions:', submissions.length);
             console.log(' - attendance:', attendanceList.length);
             console.log(' - students:', students.length);
             console.log(' - activities:', activities.length);
-            console.log('- ﾡￒￃ￣ﾪ￩ﾧￒﾹ: ￍￒﾨￒￃￂ￬ￊￒ￁ￒￃﾶￅﾺﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ￤ﾴ￩ﾨￒﾡￊ￨ￇﾹﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻﾷ￑￩ﾧￋ￁ﾴ');
+            console.log('- การใช้งาน: อาจารย์สามารถลบประวัติการส่งรูปได้จากส่วนประวัติการส่งรูปทั้งหมด');
 
-            // ￡ￊﾴﾧﾢ￩ￍﾤￇￒ￁￡ﾹ￐ﾹￓﾢﾹￒﾴ￀ￒﾾ
+            // แสดงข้อความแนะนำขนาดภาพ
             setTimeout(() => {
-                showNotification('?? ￃ￐ﾺﾺﾨￓﾡ￑ﾴﾢﾹￒﾴ￀ￒﾾ￤￁￨￠ﾡￔﾹ 1MB ￀ￒﾾ￣ￋﾭ￨ﾨ￐ﾶ￙ﾡﾺￕﾺￍ￑ﾴￍ￑ﾵ￢ﾹ￁￑ﾵￔ', 'warning');
+                showNotification('⚠️ ระบบจำกัดขนาดภาพไม่เกิน 1MB ภาพใหญ่จะถูกบีบอัดอัตโนมัติ', 'warning');
             }, 1000);
         }
 
@@ -4611,7 +4611,7 @@ ${printContent}
         // EVENT LISTENERS SETUP
         // ====================================================
 
-        // ﾵ￑￩ﾧﾤ￨ￒ Event Listeners
+        // ตั้งค่า Event Listeners
         studentTab.addEventListener('click', () => switchToTab('student'));
         teacherTab.addEventListener('click', () => switchToTab('teacher'));
         adminTab.addEventListener('click', () => switchToTab('admin'));
@@ -4623,7 +4623,7 @@ ${printContent}
         teacherLogoutBtn.addEventListener('click', logout);
         adminLogoutBtn.addEventListener('click', logout);
 
-        // ￅ￧ￍﾡￍￔﾹﾴ￩ￇￂ Enter
+        // ล็อกอินด้วย Enter
         studentUsername.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') loginStudent();
         });
@@ -4648,7 +4648,7 @@ ${printContent}
             if (e.key === 'Enter') loginAdmin();
         });
 
-        // ￊￅ￑ﾺ￡ￊﾴﾧￃￋ￑ￊﾼ￨ￒﾹ
+        // สลับแสดงรหัสผ่าน
         document.getElementById('toggleStudentPassword').addEventListener('click', () => {
             togglePasswordVisibility('studentPassword', 'toggleStudentPassword');
         });
@@ -4673,7 +4673,7 @@ ${printContent}
             togglePasswordVisibility('confirmStudentPassword', 'toggleConfirmStudentPassword');
         });
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾡￅ￩ￍﾧ
+        // ฟังก์ชันกล้อง
         startCameraBtn.addEventListener('click', startCamera);
         captureBtn.addEventListener('click', captureImage);
         useFileBtn.addEventListener('click', useFile);
@@ -4681,33 +4681,33 @@ ${printContent}
         retakeBtn.addEventListener('click', retakePhoto);
         sendBtn.addEventListener('click', sendPhoto);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾨ￑ﾴﾡￒￃﾹ￑ﾡ￠ￃￕￂﾹ
+        // ฟังก์ชันจัดการนักเรียน
         addStudentBtn.addEventListener('click', addStudent);
         cancelEditBtn.addEventListener('click', closeEditModal);
         saveEditBtn.addEventListener('click', saveEditStudent);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾨ￑ﾴﾡￒￃ￢ﾻￃ￤﾿ￅ￬
+        // ฟังก์ชันจัดการโปรไฟล์
         cancelEditProfileBtn.addEventListener('click', closeEditProfileModal);
         saveEditProfileBtn.addEventListener('click', saveEditProfile);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ﾻￅￕ￨ￂﾹￃￋ￑ￊﾼ￨ￒﾹ
+        // ฟังก์ชันเปลี่ยนรหัสผ่าน
         cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
         saveChangePasswordBtn.addEventListener('click', saveChangePassword);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾨ￑ﾴﾡￒￃﾡￔﾨﾡￃￃ￁ (Admin)
+        // ฟังก์ชันจัดการกิจกรรม (Admin)
         addActivityBtn.addEventListener('click', addActivity);
         cancelEditActivityBtn.addEventListener('click', closeEditActivityModal);
         saveEditActivityBtn.addEventListener('click', saveEditActivity);
         closeActivityDetailBtn.addEventListener('click', closeActivityDetailModal);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹﾾￔ￁ﾾ￬￠ￍﾡￊￒￃ
+        // ฟังก์ชันพิมพ์เอกสาร
         closePrintModalBtn.addEventListener('click', closePrintDocumentModal);
 
-        // ﾿￑ﾧﾡ￬ﾪ￑ﾹￅﾺﾻￃ￐ￇ￑ﾵￔ
+        // ฟังก์ชันลบประวัติ
         cancelDeleteHistoryBtn.addEventListener('click', closeDeleteHistoryModal);
         confirmDeleteHistoryBtn.addEventListener('click', deleteSubmissionHistory);
 
-        // ﾻￔﾴ modal ￠￁ￗ￨ￍﾤￅￔﾡﾢ￩ￒﾧﾹￍﾡ
+        // ปิด modal เมื่อคลิกข้างนอก
         editStudentModal.addEventListener('click', (e) => {
             if (e.target === editStudentModal) closeEditModal();
         });
@@ -4736,7 +4736,7 @@ ${printContent}
             if (e.target === confirmDeleteHistoryModal) closeDeleteHistoryModal();
         });
 
-        // ￍﾹ￘ﾭￒﾵﾡﾴ Enter ￣ﾹ﾿ￍￃ￬￁￠ﾾￔ￨￁ﾹ￑ﾡ￠ￃￕￂﾹ
+        // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
         studentNameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') addStudent();
         });
@@ -4745,13 +4745,13 @@ ${printContent}
             if (e.key === 'Enter') addStudent();
         });
 
-        // ﾡￒￃﾤ￩ﾹￋￒ￡ￅ￐ﾡￃￍﾧￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // การค้นหาและกรองรายการเช็คชื่อ
         searchAttendanceInput.addEventListener('input', (e) => {
             searchQuery = e.target.value.trim().toLowerCase();
             renderAttendanceList();
         });
 
-        // ﾡￃￍﾧￃￒￂﾡￒￃ￠ﾪ￧ﾤﾪￗ￨ￍ
+        // กรองรายการเช็คชื่อ
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -4761,17 +4761,17 @@ ${printContent}
             });
         });
 
-        // ﾡￒￃﾤ￩ﾹￋￒﾻￃ￐ￇ￑ﾵￔﾡￒￃￊ￨ﾧￃ￙ﾻ
+        // การค้นหาประวัติการส่งรูป
         searchSubmissionHistoryInput.addEventListener('input', searchSubmissionHistory);
 
-        // ﾻￔﾴﾡￅ￩ￍﾧ￠￁ￗ￨ￍￍￍﾡﾨￒﾡￋﾹ￩ￒ
+        // ปิดกล้องเมื่อออกจากหน้า
         window.addEventListener('beforeunload', () => {
             if (stream) {
                 stream.getTracks().forEach(track => track.stop());
             }
         });
 
-        // ￠ￃￕￂﾡ￣ﾪ￩﾿￑ﾧﾡ￬ﾪ￑ﾹ￠ￃￔ￨￁ﾵ￩ﾹ￠￁ￗ￨ￍￋﾹ￩ￒ￢ￋￅﾴ￠ￊￃ￧ﾨ
+        // เรียกใช้ฟังก์ชันเริ่มต้นเมื่อหน้าโหลดเสร็จ
         document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
 </body>
