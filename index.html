@@ -2027,15 +2027,15 @@
                 <h2 class="mobile-heading"><i class="fas fa-history"></i> ประวัติการส่งรูปทั้งหมด</h2>
 
                 <div class="history-filters">
-                    <button class="history-filter-btn active" onclick="filterSubmissionHistory('all')">ทั้งหมด</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('approved')">อนุมัติแล้ว</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('pending')">รอตรวจสอบ</button>
-                    <button class="history-filter-btn" onclick="filterSubmissionHistory('rejected')">ปฏิเสธแล้ว</button>
+                    <button class="history-filter-btn active" data-filter="all">ทั้งหมด</button>
+                    <button class="history-filter-btn" data-filter="approved">อนุมัติแล้ว</button>
+                    <button class="history-filter-btn" data-filter="pending">รอตรวจสอบ</button>
+                    <button class="history-filter-btn" data-filter="rejected">ปฏิเสธแล้ว</button>
                 </div>
 
                 <div class="history-search">
-                    <input type="text" class="search-box" id="searchSubmissionHistory" placeholder="ค้นหานักเรียนหรือรหัสนักเรียน..." oninput="searchSubmissionHistory()">
-                    <button class="btn btn-secondary" onclick="clearSubmissionHistorySearch()">
+                    <input type="text" class="search-box" id="searchSubmissionHistory" placeholder="ค้นหานักเรียนหรือรหัสนักเรียน...">
+                    <button class="btn btn-secondary" id="clearSearchBtn">
                         <i class="fas fa-times"></i> ล้าง
                     </button>
                 </div>
@@ -2332,7 +2332,7 @@
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="closePrintModalBtn">ยกเลิก</button>
-                <button class="btn btn-success" onclick="printDocument()">
+                <button class="btn btn-success" id="printDocumentBtn">
                     <i class="fas fa-print"></i> พิมพ์เอกสาร
                 </button>
             </div>
@@ -2344,8 +2344,7 @@
         <div class="modal-content">
             <h3><i class="fas fa-exclamation-triangle"></i> ยืนยันการลบประวัติ</h3>
             <div id="confirmDeleteHistoryContent">
-                <p>คุณต้องการลบประวัติการส่งรูปนี้ใช่หรือไม่?</p>
-                <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+                <!-- เนื้อหายืนยันการลบจะแสดงที่นี่ -->
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelDeleteHistoryBtn">ยกเลิก</button>
@@ -2361,7 +2360,7 @@
         // SYSTEM VARIABLES
         // ====================================================
         
-        // ข้อมูลผู้ใช้และนักเรียน (อัปเดตตามรูปภาพ)
+        // ข้อมูลผู้ใช้และนักเรียน
         const users = {
             students: [
                 {
@@ -2459,15 +2458,13 @@
         let submissionToDelete = null;
         let isInitialized = false;
 
-        // ตัวอย่าง Base64 ภาพ (รูปภาพเล็กๆ สำหรับตัวอย่าง)
-        const sampleImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAKAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=";
-
         // ====================================================
         // UTILITY FUNCTIONS
         // ====================================================
 
         // ฟังก์ชันแสดงการแจ้งเตือน
         function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
             notification.textContent = message;
             notification.className = `notification ${type}`;
             notification.style.display = 'block';
@@ -2487,22 +2484,18 @@
 
                 if (savedSubmissions) {
                     submissions = JSON.parse(savedSubmissions);
-                    console.log('โหลดข้อมูล submissions จาก localStorage:', submissions.length, 'รายการ');
                 }
 
                 if (savedAttendance) {
                     attendanceList = JSON.parse(savedAttendance);
-                    console.log('โหลดข้อมูล attendance จาก localStorage:', attendanceList.length, 'รายการ');
                 }
 
                 if (savedStudents) {
                     students = JSON.parse(savedStudents);
-                    console.log('โหลดข้อมูล students จาก localStorage:', students.length, 'รายการ');
                 }
 
                 if (savedActivities) {
                     activities = JSON.parse(savedActivities);
-                    console.log('โหลดข้อมูล activities จาก localStorage:', activities.length, 'รายการ');
                 }
             } catch (e) {
                 console.log('Error loading from localStorage:', e);
@@ -2517,7 +2510,6 @@
                 localStorage.setItem('student_attendance', JSON.stringify(attendanceList));
                 localStorage.setItem('student_data', JSON.stringify(students));
                 localStorage.setItem('student_activities', JSON.stringify(activities));
-                console.log('บันทึกข้อมูลลง localStorage สำเร็จ');
             } catch (e) {
                 console.log('Error saving to localStorage:', e);
             }
@@ -2554,8 +2546,6 @@
                     activity.name &&
                     activity.date
                 );
-
-                console.log('ทำความสะอาดข้อมูลเสร็จสิ้น');
             } catch (e) {
                 console.log('Error cleaning data:', e);
             }
@@ -2571,6 +2561,17 @@
             });
         }
 
+        // ฟังก์ชันแปลงข้อความกรอง
+        function getFilterText(filter) {
+            const filterMap = {
+                'all': 'ทั้งหมด',
+                'approved': 'อนุมัติแล้ว',
+                'pending': 'รอตรวจสอบ',
+                'rejected': 'ปฏิเสธแล้ว'
+            };
+            return filterMap[filter] || filter;
+        }
+
         // ====================================================
         // IMAGE COMPRESSION AND SIZE CHECK FUNCTIONS
         // ====================================================
@@ -2580,8 +2581,6 @@
             const base64Data = imageData.split(',')[1] || imageData;
             const fileSize = Math.floor(base64Data.length * 3 / 4);
             const maxSize = 1024 * 1024;
-
-            console.log(`ขนาดภาพ: ${Math.round(fileSize / 1024)}KB / ${Math.round(maxSize / 1024)}KB`);
 
             return {
                 size: fileSize,
@@ -2622,8 +2621,6 @@
                         const base64Length = compressedData.split(',')[1]?.length || 0;
                         const fileSize = Math.floor(base64Length * 3 / 4);
 
-                        console.log(`กำลังบีบอัด: quality=${quality.toFixed(1)}, size=${Math.round(fileSize / 1024)}KB`);
-
                         if (fileSize <= 1024 * 1024 || (width < 300 && height < 300)) {
                             resolve(compressedData);
                             return;
@@ -2648,6 +2645,13 @@
 
         // ฟังก์ชันสลับแท็บ
         function switchToTab(tabName) {
+            const studentTab = document.getElementById('studentTab');
+            const teacherTab = document.getElementById('teacherTab');
+            const adminTab = document.getElementById('adminTab');
+            const studentLoginForm = document.getElementById('studentLoginForm');
+            const teacherLoginForm = document.getElementById('teacherLoginForm');
+            const adminLoginForm = document.getElementById('adminLoginForm');
+
             [studentTab, teacherTab, adminTab].forEach(tab => tab.classList.remove('active'));
             [studentLoginForm, teacherLoginForm, adminLoginForm].forEach(form => form.classList.remove('active'));
 
@@ -2657,6 +2661,16 @@
 
         // ฟังก์ชันล็อกอินนักเรียน
         function loginStudent() {
+            const studentUsername = document.getElementById('studentUsername');
+            const studentPassword = document.getElementById('studentPassword');
+            const loginPage = document.getElementById('loginPage');
+            const studentPage = document.getElementById('studentPage');
+            const teacherPage = document.getElementById('teacherPage');
+            const adminPage = document.getElementById('adminPage');
+            const studentUserInfo = document.getElementById('studentUserInfo');
+            const studentProfileName = document.getElementById('studentProfileName');
+            const studentProfileInfo = document.getElementById('studentProfileInfo');
+
             const username = studentUsername.value.trim();
             const password = studentPassword.value.trim();
 
@@ -2707,6 +2721,14 @@
 
         // ฟังก์ชันล็อกอินอาจารย์
         function loginTeacher() {
+            const teacherUsername = document.getElementById('teacherUsername');
+            const teacherPassword = document.getElementById('teacherPassword');
+            const loginPage = document.getElementById('loginPage');
+            const teacherPage = document.getElementById('teacherPage');
+            const studentPage = document.getElementById('studentPage');
+            const adminPage = document.getElementById('adminPage');
+            const teacherUserInfo = document.getElementById('teacherUserInfo');
+
             const username = teacherUsername.value.trim();
             const password = teacherPassword.value.trim();
 
@@ -2747,6 +2769,14 @@
 
         // ฟังก์ชันล็อกอิน Admin
         function loginAdmin() {
+            const adminUsername = document.getElementById('adminUsername');
+            const adminPassword = document.getElementById('adminPassword');
+            const loginPage = document.getElementById('loginPage');
+            const adminPage = document.getElementById('adminPage');
+            const studentPage = document.getElementById('studentPage');
+            const teacherPage = document.getElementById('teacherPage');
+            const adminUserInfo = document.getElementById('adminUserInfo');
+
             const username = adminUsername.value.trim();
             const password = adminPassword.value.trim();
 
@@ -2795,12 +2825,17 @@
                 stream = null;
             }
 
+            const loginPage = document.getElementById('loginPage');
+            const studentPage = document.getElementById('studentPage');
+            const teacherPage = document.getElementById('teacherPage');
+            const adminPage = document.getElementById('adminPage');
+
             loginPage.classList.add('active');
             studentPage.classList.remove('active');
             teacherPage.classList.remove('active');
             adminPage.classList.remove('active');
 
-            switchToTab('studentTab');
+            switchToTab('student');
 
             showNotification('ออกจากระบบสำเร็จ', 'success');
         }
@@ -2829,6 +2864,11 @@
         function openEditProfileModal() {
             if (!currentUser || currentUserType !== 'student') return;
 
+            const editProfileModal = document.getElementById('editProfileModal');
+            const editProfileName = document.getElementById('editProfileName');
+            const editProfileEmail = document.getElementById('editProfileEmail');
+            const editProfileClass = document.getElementById('editProfileClass');
+
             editProfileName.value = currentUser.name;
             editProfileEmail.value = currentUser.email || '';
             editProfileClass.value = currentUser.class || '';
@@ -2838,6 +2878,14 @@
         // ฟังก์ชันบันทึกการแก้ไขโปรไฟล์
         function saveEditProfile() {
             if (!currentUser || currentUserType !== 'student') return;
+
+            const editProfileName = document.getElementById('editProfileName');
+            const editProfileEmail = document.getElementById('editProfileEmail');
+            const editProfileClass = document.getElementById('editProfileClass');
+            const editProfileModal = document.getElementById('editProfileModal');
+            const studentUserInfo = document.getElementById('studentUserInfo');
+            const studentProfileName = document.getElementById('studentProfileName');
+            const studentProfileInfo = document.getElementById('studentProfileInfo');
 
             const name = editProfileName.value.trim();
             const email = editProfileEmail.value.trim();
@@ -2886,11 +2934,17 @@
 
         // ฟังก์ชันเปิด modal เปลี่ยนรหัสผ่าน
         function openChangePasswordModal() {
+            const changePasswordModal = document.getElementById('changePasswordModal');
             changePasswordModal.style.display = 'flex';
         }
 
         // ฟังก์ชันบันทึกรหัสผ่านใหม่
         function saveChangePassword() {
+            const currentPassword = document.getElementById('currentPassword');
+            const newStudentPassword = document.getElementById('newStudentPassword');
+            const confirmStudentPassword = document.getElementById('confirmStudentPassword');
+            const changePasswordModal = document.getElementById('changePasswordModal');
+
             const currentPass = currentPassword.value;
             const newPass = newStudentPassword.value;
             const confirmPass = confirmStudentPassword.value;
@@ -2933,12 +2987,19 @@
         async function startCamera() {
             try {
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                const camera = document.getElementById('camera');
+                const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+                const startCameraBtn = document.getElementById('startCameraBtn');
+                const captureBtn = document.getElementById('captureBtn');
+                const useFileBtn = document.getElementById('useFileBtn');
+                const retakeBtn = document.getElementById('retakeBtn');
+                const sendBtn = document.getElementById('sendBtn');
 
                 const constraints = {
                     video: {
                         width: { ideal: 1280 },
                         height: { ideal: 720 },
-                        facingMode: isMobile ? { exact: "environment" } : "user"
+                        facingMode: isMobile ? "environment" : "user"
                     },
                     audio: false
                 };
@@ -2986,6 +3047,8 @@
                 console.error('Error accessing camera:', error);
                 showNotification('ไม่สามารถเปิดกล้องได้ กรุณาตรวจสอบการอนุญาตการเข้าถึงกล้อง', 'error');
 
+                const startCameraBtn = document.getElementById('startCameraBtn');
+                const useFileBtn = document.getElementById('useFileBtn');
                 startCameraBtn.disabled = true;
                 useFileBtn.disabled = false;
             }
@@ -3000,6 +3063,8 @@
             }
 
             try {
+                const camera = document.getElementById('camera');
+                const capturedImage = document.getElementById('capturedImage');
                 const canvas = document.createElement('canvas');
                 const videoWidth = camera.videoWidth;
                 const videoHeight = camera.videoHeight;
@@ -3048,6 +3113,7 @@
                 return;
             }
 
+            const fileInput = document.getElementById('fileInput');
             fileInput.click();
         }
 
@@ -3075,9 +3141,13 @@
 
                 if (sizeCheck.isOverLimit) {
                     showNotification(`ภาพขนาด ${sizeCheck.sizeInKB}KB ใหญ่เกิน 1MB กรุณาเลือกรูปภาพที่เล็กกว่า`, 'error');
+                    const fileInput = document.getElementById('fileInput');
                     fileInput.value = '';
                     return;
                 }
+
+                const capturedImage = document.getElementById('capturedImage');
+                const cameraPlaceholder = document.getElementById('cameraPlaceholder');
 
                 capturedImage.src = capturedImageData;
 
@@ -3089,6 +3159,7 @@
 
             reader.onerror = function () {
                 showNotification('ไม่สามารถอ่านไฟล์รูปภาพได้', 'error');
+                const fileInput = document.getElementById('fileInput');
                 fileInput.value = '';
             };
 
@@ -3097,6 +3168,15 @@
 
         // ฟังก์ชันสำหรับถ่ายรูปใหม่
         function retakePhoto() {
+            const capturedImage = document.getElementById('capturedImage');
+            const camera = document.getElementById('camera');
+            const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+            const startCameraBtn = document.getElementById('startCameraBtn');
+            const captureBtn = document.getElementById('captureBtn');
+            const useFileBtn = document.getElementById('useFileBtn');
+            const retakeBtn = document.getElementById('retakeBtn');
+            const sendBtn = document.getElementById('sendBtn');
+
             capturedImage.style.display = 'none';
             capturedImage.src = '';
             capturedImageData = null;
@@ -3142,6 +3222,12 @@
                 if (result.isConfirmed) {
                     sendPhoto();
                 } else {
+                    const startCameraBtn = document.getElementById('startCameraBtn');
+                    const captureBtn = document.getElementById('captureBtn');
+                    const useFileBtn = document.getElementById('useFileBtn');
+                    const retakeBtn = document.getElementById('retakeBtn');
+                    const sendBtn = document.getElementById('sendBtn');
+
                     startCameraBtn.disabled = false;
                     captureBtn.disabled = true;
                     useFileBtn.disabled = false;
@@ -3226,6 +3312,14 @@
                     stream = null;
                 }
 
+                const capturedImage = document.getElementById('capturedImage');
+                const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+                const startCameraBtn = document.getElementById('startCameraBtn');
+                const captureBtn = document.getElementById('captureBtn');
+                const useFileBtn = document.getElementById('useFileBtn');
+                const retakeBtn = document.getElementById('retakeBtn');
+                const sendBtn = document.getElementById('sendBtn');
+
                 capturedImage.style.display = 'none';
                 cameraPlaceholder.style.display = 'flex';
                 capturedImageData = null;
@@ -3242,7 +3336,7 @@
 
             } catch (error) {
                 console.error('Error sending photo:', error);
-                showNotification(error.message || 'เกิดข้อผิดพลาดในการส่งรูป', 'error');
+                showNotification('เกิดข้อผิดพลาดในการส่งรูป', 'error');
             }
         }
 
@@ -3250,112 +3344,111 @@
         function renderStudentHistory() {
             if (!currentUser) return;
 
+            const studentHistory = document.getElementById('studentHistory');
             const studentSubmissions = submissions.filter(s => s.studentId === currentUser.studentId);
 
             if (studentSubmissions.length === 0) {
                 studentHistory.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-history"></i>
-<p>ยังไม่มีประวัติการส่งรูป</p>
-</div>
-`;
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>ยังไม่มีประวัติการส่งรูป</p>
+                    </div>
+                `;
                 return;
             }
 
             const sortedSubmissions = studentSubmissions.sort((a, b) => b.id - a.id);
 
             studentHistory.innerHTML = `
-<div class="submission-list">
-${sortedSubmissions.map(submission => `
-<div class="submission-item">
-<img src="${submission.imageUrl}" alt="รูปที่ส่งโดย ${submission.studentName}" class="submission-image">
-<div class="submission-info">
-<h3>${submission.studentName}</h3>
-<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
-<p><strong>สถานะ:</strong>
-<span class="status ${submission.status}">
-${submission.status === 'approved' ? 'อนุมัติแล้ว' :
-                    submission.status === 'rejected' ? 'ปฏิเสธแล้ว' :
-                        'รอตรวจสอบ'}
-</span>
-</p>
-</div>
-</div>
-`).join('')}
-</div>
-`;
+                <div class="submission-list">
+                    ${sortedSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปที่ส่งโดย ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p><strong>สถานะ:</strong>
+                                    <span class="status ${submission.status}">
+                                        ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                                          submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         // ฟังก์ชันสำหรับแสดงกิจกรรมปัจจุบันสำหรับนักเรียน
         function renderCurrentActivity() {
+            const currentActivityContainer = document.getElementById('currentActivityContainer');
             const activeActivity = activities.find(a => a.status === 'active');
 
             if (!activeActivity) {
                 currentActivityContainer.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-calendar-times"></i>
-<p>ไม่มีกิจกรรมที่กำลังดำเนินการในขณะนี้</p>
-</div>
-`;
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>ไม่มีกิจกรรมที่กำลังดำเนินการในขณะนี้</p>
+                    </div>
+                `;
                 return;
             }
 
             currentActivityContainer.innerHTML = `
-<div class="current-activity">
-<h3><i class="fas fa-calendar-alt"></i> ${activeActivity.name}</h3>
-<div class="activity-details-list">
-<div class="activity-detail-item">
-<div class="activity-detail-label">วันที่:</div>
-<div class="activity-detail-value">${formatDate(activeActivity.date)} เวลา ${activeActivity.time}</div>
-</div>
-<div class="activity-detail-item">
-<div class="activity-detail-label">สถานที่:</div>
-<div class="activity-detail-value">${activeActivity.location}</div>
-</div>
-<div class="activity-detail-item">
-<div class="activity-detail-label">รายละเอียด:</div>
-<div class="activity-detail-value">${activeActivity.description}</div>
-</div>
-<div class="activity-detail-item">
-<div class="activity-detail-label">สถานะ:</div>
-<div class="activity-detail-value">
-<span class="badge badge-active">กำลังดำเนินการ</span>
-</div>
-</div>
-<div class="activity-detail-item">
-<div class="activity-detail-label">ขั้นตอนการเข้าร่วม:</div>
-<div class="activity-detail-value">
-<div style="margin-top: 10px;">
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-<input type="checkbox" id="confirmAttendance" style="width: 20px; height: 20px;">
-<label for="confirmAttendance" style="font-weight: 600; color: #2c3e50;">
-✅ ยืนยันเข้าร่วมกิจกรรมนี้
-</label>
-</div>
-<p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">
-⚠️ กรุณาติ๊กยืนยันก่อน จึงจะสามารถถ่ายรูปได้
-</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div style="text-align: center; margin-top: 15px;">
-<p class="help-text">หลังจากติ๊กยืนยันแล้ว สามารถถ่ายรูปเพื่อเช็คชื่อได้</p>
-</div>
-`;
+                <div class="current-activity">
+                    <h3><i class="fas fa-calendar-alt"></i> ${activeActivity.name}</h3>
+                    <div class="activity-details-list">
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">วันที่:</div>
+                            <div class="activity-detail-value">${formatDate(activeActivity.date)} เวลา ${activeActivity.time}</div>
+                        </div>
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">สถานที่:</div>
+                            <div class="activity-detail-value">${activeActivity.location}</div>
+                        </div>
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">รายละเอียด:</div>
+                            <div class="activity-detail-value">${activeActivity.description}</div>
+                        </div>
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">สถานะ:</div>
+                            <div class="activity-detail-value">
+                                <span class="badge badge-active">กำลังดำเนินการ</span>
+                            </div>
+                        </div>
+                        <div class="activity-detail-item">
+                            <div class="activity-detail-label">ขั้นตอนการเข้าร่วม:</div>
+                            <div class="activity-detail-value">
+                                <div style="margin-top: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                        <input type="checkbox" id="confirmAttendance" style="width: 20px; height: 20px;">
+                                        <label for="confirmAttendance" style="font-weight: 600; color: #2c3e50;">
+                                            ✅ ยืนยันเข้าร่วมกิจกรรมนี้
+                                        </label>
+                                    </div>
+                                    <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">
+                                        ⚠️ กรุณาติ๊กยืนยันก่อน จึงจะสามารถถ่ายรูปได้
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 15px;">
+                    <p class="help-text">หลังจากติ๊กยืนยันแล้ว สามารถถ่ายรูปเพื่อเช็คชื่อได้</p>
+                </div>
+            `;
 
             const confirmCheckbox = document.getElementById('confirmAttendance');
+            const captureBtn = document.getElementById('captureBtn');
+            const useFileBtn = document.getElementById('useFileBtn');
+
             if (confirmCheckbox) {
                 confirmCheckbox.addEventListener('change', function () {
-                    const captureBtn = document.getElementById('captureBtn');
-                    const useFileBtn = document.getElementById('useFileBtn');
-
                     if (this.checked) {
-                        if (stream) {
-                            captureBtn.disabled = false;
-                        }
+                        captureBtn.disabled = false;
                         useFileBtn.disabled = false;
                         showNotification('ยืนยันเข้าร่วมกิจกรรมเรียบร้อยแล้ว ตอนนี้สามารถถ่ายรูปได้', 'success');
                     } else {
@@ -3373,6 +3466,9 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 
         // ฟังก์ชันสำหรับเพิ่มนักเรียน (อาจารย์)
         function addStudent() {
+            const studentNameInput = document.getElementById('studentName');
+            const studentIdInput = document.getElementById('studentId');
+
             const name = studentNameInput.value.trim();
             const studentId = studentIdInput.value.trim();
 
@@ -3416,52 +3512,41 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 
         // ฟังก์ชันสำหรับลบนักเรียน
         function deleteStudent(studentId) {
-            Swal.fire({
-                title: 'ยืนยันการลบนักเรียน?',
-                text: "คุณต้องการลบนักเรียนคนนี้ใช่หรือไม่?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบเลย!',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const studentIndex = students.findIndex(s => s.id === studentId);
-                    if (studentIndex !== -1) {
-                        const studentName = students[studentIndex].name;
-                        const studentIdToDelete = students[studentIndex].studentId;
+            if (!confirm('คุณต้องการลบนักเรียนคนนี้ใช่หรือไม่?')) {
+                return;
+            }
 
-                        attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
+            const studentIndex = students.findIndex(s => s.id === studentId);
+            if (studentIndex !== -1) {
+                const studentName = students[studentIndex].name;
+                const studentIdToDelete = students[studentIndex].studentId;
 
-                        submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
+                attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
+                submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
 
-                        const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
-                        if (userIndex !== -1) {
-                            users.students.splice(userIndex, 1);
-                        }
-
-                        students.splice(studentIndex, 1);
-
-                        saveAllDataToStorage();
-                        renderStudents();
-                        renderAttendanceList();
-                        renderSubmissions();
-                        renderSubmissionHistory();
-
-                        Swal.fire(
-                            'ลบสำเร็จ!',
-                            `ลบนักเรียน "${studentName}" สำเร็จ`,
-                            'success'
-                        );
-                    }
+                const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
+                if (userIndex !== -1) {
+                    users.students.splice(userIndex, 1);
                 }
-            });
+
+                students.splice(studentIndex, 1);
+
+                saveAllDataToStorage();
+                renderStudents();
+                renderAttendanceList();
+                renderSubmissions();
+                renderSubmissionHistory();
+
+                showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
+            }
         }
 
         // ฟังก์ชันสำหรับเปิด modal แก้ไขนักเรียน (อาจารย์)
         function openEditModal(studentId) {
+            const editStudentModal = document.getElementById('editStudentModal');
+            const editStudentName = document.getElementById('editStudentName');
+            const editStudentId = document.getElementById('editStudentId');
+
             const student = students.find(s => s.id === studentId);
             if (!student) return;
 
@@ -3473,6 +3558,9 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 
         // ฟังก์ชันสำหรับบันทึกการแก้ไขนักเรียน (อาจารย์)
         function saveEditStudent() {
+            const editStudentName = document.getElementById('editStudentName');
+            const editStudentId = document.getElementById('editStudentId');
+
             if (!editingStudentId) return;
 
             const name = editStudentName.value.trim();
@@ -3532,99 +3620,67 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 
         // ฟังก์ชันสำหรับปิด modal
         function closeEditModal() {
+            const editStudentModal = document.getElementById('editStudentModal');
             editStudentModal.style.display = 'none';
             editingStudentId = null;
+            
+            const editStudentName = document.getElementById('editStudentName');
+            const editStudentId = document.getElementById('editStudentId');
             editStudentName.value = '';
             editStudentId.value = '';
         }
 
         // ฟังก์ชันปิด modal แก้ไขโปรไฟล์
         function closeEditProfileModal() {
+            const editProfileModal = document.getElementById('editProfileModal');
             editProfileModal.style.display = 'none';
         }
 
         // ฟังก์ชันปิด modal เปลี่ยนรหัสผ่าน
         function closeChangePasswordModal() {
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            const currentPassword = document.getElementById('currentPassword');
+            const newStudentPassword = document.getElementById('newStudentPassword');
+            const confirmStudentPassword = document.getElementById('confirmStudentPassword');
+
             changePasswordModal.style.display = 'none';
             currentPassword.value = '';
             newStudentPassword.value = '';
             confirmStudentPassword.value = '';
         }
 
-        // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน (อัปเดตตามรูปภาพ)
+        // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน
         function renderStudents() {
+            const studentList = document.getElementById('studentList');
+            
             if (students.length === 0) {
-                // เพิ่มนักเรียนตัวอย่างตามรูปภาพ
-                students = [
-                    {
-                        id: 1,
-                        name: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        studentId: "66209010048",
-                        class: "ปี 3"
-                    },
-                    {
-                        id: 2,
-                        name: "นายเตชินท์ เกิดสังข์",
-                        studentId: "66209010046",
-                        class: "ปี 2"
-                    },
-                    {
-                        id: 3,
-                        name: "นายวีรภัทร รักบำรุง",
-                        studentId: "66209010055",
-                        class: "ปี 2"
-                    }
-                ];
-                
-                // อัปเดต users.students ด้วย
-                users.students = [
-                    {
-                        username: "SRTC048",
-                        password: "123456",
-                        name: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        studentId: "66209010048",
-                        email: "srtc048@college.ac.th",
-                        class: "ปี 3",
-                        type: "student"
-                    },
-                    {
-                        username: "SRTC046",
-                        password: "tae046",
-                        name: "นายเตชินท์ เกิดสังข์",
-                        studentId: "66209010046",
-                        email: "srtc046@college.ac.th",
-                        class: "ปี 2",
-                        type: "student"
-                    },
-                    {
-                        username: "SRTC055",
-                        password: "we055",
-                        name: "นายวีรภัทร รักบำรุง",
-                        studentId: "66209010055",
-                        email: "srtc055@college.ac.th",
-                        class: "ปี 2",
-                        type: "student"
-                    }
-                ];
+                studentList.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 30px; color: #777;">
+                            ยังไม่มีรายชื่อนักเรียน
+                        </td>
+                    </tr>
+                `;
+                return;
             }
 
             studentList.innerHTML = students.map((student, index) => `
-<tr>
-<td>${index + 1}</td>
-<td>${student.name}</td>
-<td>${student.studentId}</td>
-<td>
-<div class="student-actions">
-<button class="btn btn-primary btn-small" onclick="openEditModal(${student.id})">
-<i class="fas fa-edit"></i> แก้ไข
-</button>
-<button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})">
-<i class="fas fa-trash"></i> ลบ
-</button>
-</div>
-</td>
-</tr>
-`).join('');
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${student.name}</td>
+                    <td>${student.studentId}</td>
+                    <td>
+                        <div class="student-actions">
+                            <button class="btn btn-primary btn-small" onclick="openEditModal(${student.id})">
+                                <i class="fas fa-edit"></i> แก้ไข
+                            </button>
+                            <button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})">
+                                <i class="fas fa-trash"></i> ลบ
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         // ====================================================
@@ -3686,60 +3742,48 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
 
-        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน (อัปเดตตามรูปภาพ)
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
         function renderSubmissions() {
-            // เพิ่มตัวอย่างข้อมูลตามรูปภาพ
-            if (submissions.length === 0) {
-                submissions = [
-                    {
-                        id: 1,
-                        studentId: "66209010048",
-                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        imageUrl: sampleImageBase64,
-                        timestamp: "10/02/2569 10:17:03",
-                        status: 'pending'
-                    }
-                ];
-            }
-
+            const submissionsContainer = document.getElementById('submissionsContainer');
             const pendingSubmissions = submissions.filter(s => s.status === 'pending');
 
             if (pendingSubmissions.length === 0) {
                 submissionsContainer.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-images"></i>
-<p>ยังไม่มีนักเรียนส่งรูปมา</p>
-</div>
-`;
+                    <div class="empty-state">
+                        <i class="fas fa-images"></i>
+                        <p>ยังไม่มีนักเรียนส่งรูปมา</p>
+                    </div>
+                `;
                 return;
             }
 
             submissionsContainer.innerHTML = `
-<div class="submission-list">
-${pendingSubmissions.map(submission => `
-<div class="submission-item">
-<img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
-<div class="submission-info">
-<h3>${submission.studentName}</h3>
-<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
-<div class="submission-actions">
-<button class="btn btn-success" onclick="approveSubmission(${submission.id})">
-<i class="fas fa-check"></i> อนุมัติ
-</button>
-<button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
-<i class="fas fa-times"></i> ปฏิเสธ
-</button>
-</div>
-</div>
-</div>
-`).join('')}
-</div>
-`;
+                <div class="submission-list">
+                    ${pendingSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <div class="submission-actions">
+                                    <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                        <i class="fas fa-check"></i> อนุมัติ
+                                    </button>
+                                    <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                        <i class="fas fa-times"></i> ปฏิเสธ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         // ฟังก์ชันแสดงประวัติการส่งรูปทั้งหมด (สำหรับอาจารย์)
         function renderSubmissionHistory() {
+            const submissionHistoryContainer = document.getElementById('submissionHistoryContainer');
             let filteredSubmissions = [...submissions];
 
             if (currentHistoryFilter !== 'all') {
@@ -3762,48 +3806,47 @@ ${pendingSubmissions.map(submission => `
 
             if (filteredSubmissions.length === 0) {
                 submissionHistoryContainer.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-history"></i>
-<p>ไม่พบประวัติการส่งรูป</p>
-</div>
-`;
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>ไม่พบประวัติการส่งรูป</p>
+                    </div>
+                `;
                 return;
             }
 
             submissionHistoryContainer.innerHTML = `
-<div class="submission-list">
-${filteredSubmissions.map(submission => `
-<div class="submission-item">
-<img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
-<div class="submission-info">
-<h3>${submission.studentName}</h3>
-<p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-<p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
-<p><strong>สถานะ:</strong>
-<span class="status ${submission.status} mobile-status">
-${submission.status === 'approved' ? 'อนุมัติแล้ว' :
-                    submission.status === 'rejected' ? 'ปฏิเสธแล้ว' :
-                        'รอตรวจสอบ'}
-</span>
-</p>
-<div class="submission-actions">
-${submission.status === 'pending' ? `
-<button class="btn btn-success" onclick="approveSubmission(${submission.id})">
-<i class="fas fa-check"></i> อนุมัติ
-</button>
-<button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
-<i class="fas fa-times"></i> ปฏิเสธ
-</button>
-` : ''}
-<button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id})">
-<i class="fas fa-trash"></i> ลบประวัติ
-</button>
-</div>
-</div>
-</div>
-`).join('')}
-</div>
-`;
+                <div class="submission-list">
+                    ${filteredSubmissions.map(submission => `
+                        <div class="submission-item">
+                            <img src="${submission.imageUrl}" alt="รูปของ ${submission.studentName}" class="submission-image">
+                            <div class="submission-info">
+                                <h3>${submission.studentName}</h3>
+                                <p><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p class="datetime-display"><strong>เวลาส่ง:</strong> ${submission.timestamp}</p>
+                                <p><strong>สถานะ:</strong>
+                                    <span class="status ${submission.status} mobile-status">
+                                        ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                                          submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}
+                                    </span>
+                                </p>
+                                <div class="submission-actions">
+                                    ${submission.status === 'pending' ? `
+                                        <button class="btn btn-success" onclick="approveSubmission(${submission.id})">
+                                            <i class="fas fa-check"></i> อนุมัติ
+                                        </button>
+                                        <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">
+                                            <i class="fas fa-times"></i> ปฏิเสธ
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-danger" onclick="openDeleteHistoryModal(${submission.id})">
+                                        <i class="fas fa-trash"></i> ลบประวัติ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         // ฟังก์ชันกรองประวัติการส่งรูป
@@ -3812,7 +3855,7 @@ ${submission.status === 'pending' ? `
 
             const filterButtons = document.querySelectorAll('.history-filter-btn');
             filterButtons.forEach(btn => {
-                if (btn.textContent.includes(getFilterText(filter))) {
+                if (btn.dataset.filter === filter) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -3824,12 +3867,14 @@ ${submission.status === 'pending' ? `
 
         // ฟังก์ชันค้นหาประวัติการส่งรูป
         function searchSubmissionHistory() {
+            const searchSubmissionHistoryInput = document.getElementById('searchSubmissionHistory');
             submissionHistorySearchQuery = searchSubmissionHistoryInput.value.trim().toLowerCase();
             renderSubmissionHistory();
         }
 
         // ฟังก์ชันล้างการค้นหา
         function clearSubmissionHistorySearch() {
+            const searchSubmissionHistoryInput = document.getElementById('searchSubmissionHistory');
             searchSubmissionHistoryInput.value = '';
             submissionHistorySearchQuery = '';
             renderSubmissionHistory();
@@ -3842,13 +3887,16 @@ ${submission.status === 'pending' ? `
 
             submissionToDelete = submissionId;
 
+            const confirmDeleteHistoryContent = document.getElementById('confirmDeleteHistoryContent');
+            const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
+
             confirmDeleteHistoryContent.innerHTML = `
-<p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId}) ใช่หรือไม่?</p>
-<p><strong>วันที่ส่ง:</strong> ${submission.timestamp}</p>
-<p><strong>สถานะ:</strong> ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
+                <p>คุณต้องการลบประวัติการส่งรูปของ <strong>${submission.studentName}</strong> (${submission.studentId}) ใช่หรือไม่?</p>
+                <p><strong>วันที่ส่ง:</strong> ${submission.timestamp}</p>
+                <p><strong>สถานะ:</strong> ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
                     submission.status === 'rejected' ? 'ปฏิเสธแล้ว' : 'รอตรวจสอบ'}</p>
-<p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
-`;
+                <p class="help-text">การกระทำนี้ไม่สามารถย้อนกลับได้</p>
+            `;
 
             confirmDeleteHistoryModal.style.display = 'flex';
         }
@@ -3879,25 +3927,16 @@ ${submission.status === 'pending' ? `
                 showNotification(`ลบประวัติการส่งรูปของ ${submission.studentName} สำเร็จ`, 'success');
             }
 
+            const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
             confirmDeleteHistoryModal.style.display = 'none';
             submissionToDelete = null;
         }
 
         // ฟังก์ชันปิด Modal ลบประวัติ
         function closeDeleteHistoryModal() {
+            const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
             confirmDeleteHistoryModal.style.display = 'none';
             submissionToDelete = null;
-        }
-
-        // ฟังก์ชันช่วยเหลือ: แปลงข้อความกรอง
-        function getFilterText(filter) {
-            switch (filter) {
-                case 'all': return 'ทั้งหมด';
-                case 'approved': return 'อนุมัติแล้ว';
-                case 'pending': return 'รอตรวจสอบ';
-                case 'rejected': return 'ปฏิเสธแล้ว';
-                default: return filter;
-            }
         }
 
         // ====================================================
@@ -3929,34 +3968,20 @@ ${submission.status === 'pending' ? `
 
         // ฟังก์ชันสำหรับลบรายการเช็คชื่อ
         function deleteAttendance(attendanceId) {
-            Swal.fire({
-                title: 'ยืนยันการลบรายการเช็คชื่อ?',
-                text: "คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบเลย!',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
-                    if (attendanceIndex !== -1) {
-                        const studentName = attendanceList[attendanceIndex].studentName;
-                        attendanceList.splice(attendanceIndex, 1);
+            if (!confirm('คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?')) {
+                return;
+            }
 
-                        saveAllDataToStorage();
-                        renderAttendanceList();
+            const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
+            if (attendanceIndex !== -1) {
+                const studentName = attendanceList[attendanceIndex].studentName;
+                attendanceList.splice(attendanceIndex, 1);
 
-                        Swal.fire(
-                            'ลบสำเร็จ!',
-                            `ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`,
-                            'success'
-                        );
-                    }
-                }
-            });
+                saveAllDataToStorage();
+                renderAttendanceList();
+
+                showNotification(`ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`, 'success');
+            }
         }
 
         // ฟังก์ชันสำหรับกรองและค้นหารายการเช็คชื่อ
@@ -3980,71 +4005,45 @@ ${submission.status === 'pending' ? `
             return filtered;
         }
 
-        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ (อัปเดตตามรูปภาพ)
+        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ
         function renderAttendanceList() {
-            // เพิ่มตัวอย่างข้อมูลตามรูปภาพ
-            if (attendanceList.length === 0) {
-                attendanceList = [
-                    {
-                        id: 1,
-                        studentId: "66209010048",
-                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        timestamp: "10/02/2569 10:17:03",
-                        status: "approved"
-                    },
-                    {
-                        id: 2,
-                        studentId: "66209010046",
-                        studentName: "นายเตชินท์ เกิดสังข์",
-                        timestamp: "09/02/2569 14:25:18",
-                        status: "approved"
-                    },
-                    {
-                        id: 3,
-                        studentId: "66209010055",
-                        studentName: "นายวีรภัทร รักบำรุง",
-                        timestamp: "08/02/2569 09:30:45",
-                        status: "absent"
-                    }
-                ];
-            }
-
+            const attendanceListElement = document.getElementById('attendanceList');
             const filteredAttendance = filterAttendanceList();
 
             if (filteredAttendance.length === 0) {
                 attendanceListElement.innerHTML = `
-<tr>
-<td colspan="6" style="text-align: center; padding: 30px; color: #777;">
-${attendanceList.length === 0 ? 'ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ' : 'ไม่พบข้อมูลที่ค้นหา'}
-</td>
-</tr>
-`;
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
+                            ${attendanceList.length === 0 ? 'ยังไม่มีรายชื่อนักเรียนที่เช็คชื่อ' : 'ไม่พบข้อมูลที่ค้นหา'}
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
             attendanceListElement.innerHTML = filteredAttendance.map((attendance, index) => `
-<tr>
-<td>${index + 1}</td>
-<td>${attendance.studentName}</td>
-<td>${attendance.studentId}</td>
-<td class="datetime-display">${attendance.timestamp}</td>
-<td>
-<select class="status-select ${attendance.status}"
-onchange="updateAttendanceStatus(${attendance.id}, this.value)"
-style="width: 120px;">
-<option value="approved" ${attendance.status === 'approved' ? 'selected' : ''}>เช็คชื่อแล้ว</option>
-<option value="absent" ${attendance.status === 'absent' ? 'selected' : ''}>ยังไม่เช็คชื่อ</option>
-</select>
-</td>
-<td>
-<div class="attendance-actions">
-<button class="btn btn-danger btn-small" onclick="deleteAttendance(${attendance.id})">
-<i class="fas fa-trash"></i> ลบ
-</button>
-</div>
-</td>
-</tr>
-`).join('');
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${attendance.studentName}</td>
+                    <td>${attendance.studentId}</td>
+                    <td class="datetime-display">${attendance.timestamp}</td>
+                    <td>
+                        <select class="status-select ${attendance.status}"
+                            onchange="updateAttendanceStatus(${attendance.id}, this.value)"
+                            style="width: 120px;">
+                            <option value="approved" ${attendance.status === 'approved' ? 'selected' : ''}>เช็คชื่อแล้ว</option>
+                            <option value="absent" ${attendance.status === 'absent' ? 'selected' : ''}>ยังไม่เช็คชื่อ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="attendance-actions">
+                            <button class="btn btn-danger btn-small" onclick="deleteAttendance(${attendance.id})">
+                                <i class="fas fa-trash"></i> ลบ
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         // ====================================================
@@ -4053,6 +4052,11 @@ style="width: 120px;">
 
         // ฟังก์ชันแสดงแดชบอร์ด Admin
         function renderAdminDashboard() {
+            const totalStudents = document.getElementById('totalStudents');
+            const totalTeachers = document.getElementById('totalTeachers');
+            const totalActivities = document.getElementById('totalActivities');
+            const totalAttendance = document.getElementById('totalAttendance');
+
             const studentCount = users.students.length;
             const teacherCount = users.teachers.length;
             const activityCount = activities.length;
@@ -4066,6 +4070,13 @@ style="width: 120px;">
 
         // ฟังก์ชันเพิ่มกิจกรรมใหม่
         function addActivity() {
+            const activityName = document.getElementById('activityName');
+            const activityDate = document.getElementById('activityDate');
+            const activityTime = document.getElementById('activityTime');
+            const activityLocation = document.getElementById('activityLocation');
+            const activityDescription = document.getElementById('activityDescription');
+            const activityStatus = document.getElementById('activityStatus');
+
             const name = activityName.value.trim();
             const date = activityDate.value;
             const time = activityTime.value;
@@ -4108,47 +4119,49 @@ style="width: 120px;">
 
         // ฟังก์ชันแสดงรายการกิจกรรม
         function renderActivities() {
+            const activitiesList = document.getElementById('activitiesList');
+            
             if (activities.length === 0) {
                 activitiesList.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-calendar-times"></i>
-<p>ยังไม่มีกิจกรรม</p>
-</div>
-`;
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>ยังไม่มีกิจกรรม</p>
+                    </div>
+                `;
                 return;
             }
 
             const sortedActivities = [...activities].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             activitiesList.innerHTML = sortedActivities.map(activity => `
-<div class="activity-item">
-<div class="activity-header">
-<h3>${activity.name}</h3>
-<div class="activity-actions">
-<button class="btn btn-info btn-small" onclick="viewActivityDetail(${activity.id})">
-<i class="fas fa-eye"></i> ดูรายละเอียด
-</button>
-<button class="btn btn-primary btn-small" onclick="editActivity(${activity.id})">
-<i class="fas fa-edit"></i> แก้ไข
-</button>
-<button class="btn btn-danger btn-small" onclick="deleteActivity(${activity.id})">
-<i class="fas fa-trash"></i> ลบ
-</button>
-</div>
-</div>
-<div class="activity-details">
-<p><strong>วันที่:</strong> ${formatDate(activity.date)} เวลา ${activity.time}</p>
-<p><strong>สถานที่:</strong> ${activity.location}</p>
-<p><strong>สถานะ:</strong>
-<span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
-${activity.status === 'active' ? 'กำลังดำเนินการ' :
-                    activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
-</span>
-</p>
-<p><strong>รายละเอียด:</strong> ${activity.description.substring(0, 100)}${activity.description.length > 100 ? '...' : ''}</p>
-</div>
-</div>
-`).join('');
+                <div class="activity-item">
+                    <div class="activity-header">
+                        <h3>${activity.name}</h3>
+                        <div class="activity-actions">
+                            <button class="btn btn-info btn-small" onclick="viewActivityDetail(${activity.id})">
+                                <i class="fas fa-eye"></i> ดูรายละเอียด
+                            </button>
+                            <button class="btn btn-primary btn-small" onclick="editActivity(${activity.id})">
+                                <i class="fas fa-edit"></i> แก้ไข
+                            </button>
+                            <button class="btn btn-danger btn-small" onclick="deleteActivity(${activity.id})">
+                                <i class="fas fa-trash"></i> ลบ
+                            </button>
+                        </div>
+                    </div>
+                    <div class="activity-details">
+                        <p><strong>วันที่:</strong> ${formatDate(activity.date)} เวลา ${activity.time}</p>
+                        <p><strong>สถานที่:</strong> ${activity.location}</p>
+                        <p><strong>สถานะ:</strong>
+                            <span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
+                                ${activity.status === 'active' ? 'กำลังดำเนินการ' :
+                                  activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
+                            </span>
+                        </p>
+                        <p><strong>รายละเอียด:</strong> ${activity.description.substring(0, 100)}${activity.description.length > 100 ? '...' : ''}</p>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // ฟังก์ชันดูรายละเอียดกิจกรรม
@@ -4156,35 +4169,38 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
             const activity = activities.find(a => a.id === activityId);
             if (!activity) return;
 
+            const activityDetailContent = document.getElementById('activityDetailContent');
+            const activityDetailModal = document.getElementById('activityDetailModal');
+
             activityDetailContent.innerHTML = `
-<div class="form-group">
-<label>ชื่อกิจกรรม:</label>
-<p style="font-weight: bold; font-size: 1.2rem;">${activity.name}</p>
-</div>
-<div class="form-group">
-<label>วันที่จัดกิจกรรม:</label>
-<p>${formatDate(activity.date)} เวลา ${activity.time}</p>
-</div>
-<div class="form-group">
-<label>สถานที่:</label>
-<p>${activity.location}</p>
-</div>
-<div class="form-group">
-<label>สถานะ:</label>
-<p><span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
-${activity.status === 'active' ? 'กำลังดำเนินการ' :
-                    activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
-</span></p>
-</div>
-<div class="form-group">
-<label>รายละเอียดกิจกรรม:</label>
-<p>${activity.description}</p>
-</div>
-<div class="form-group">
-<label>สถิติการเข้าร่วม:</label>
-<p>ยังไม่มีข้อมูลการเช็คชื่อสำหรับกิจกรรมนี้</p>
-</div>
-`;
+                <div class="form-group">
+                    <label>ชื่อกิจกรรม:</label>
+                    <p style="font-weight: bold; font-size: 1.2rem;">${activity.name}</p>
+                </div>
+                <div class="form-group">
+                    <label>วันที่จัดกิจกรรม:</label>
+                    <p>${formatDate(activity.date)} เวลา ${activity.time}</p>
+                </div>
+                <div class="form-group">
+                    <label>สถานที่:</label>
+                    <p>${activity.location}</p>
+                </div>
+                <div class="form-group">
+                    <label>สถานะ:</label>
+                    <p><span class="badge ${activity.status === 'active' || activity.status === 'upcoming' ? 'badge-active' : 'badge-inactive'}">
+                        ${activity.status === 'active' ? 'กำลังดำเนินการ' :
+                          activity.status === 'upcoming' ? 'กำลังจะมาถึง' : 'สิ้นสุดแล้ว'}
+                    </span></p>
+                </div>
+                <div class="form-group">
+                    <label>รายละเอียดกิจกรรม:</label>
+                    <p>${activity.description}</p>
+                </div>
+                <div class="form-group">
+                    <label>สถิติการเข้าร่วม:</label>
+                    <p>ยังไม่มีข้อมูลการเช็คชื่อสำหรับกิจกรรมนี้</p>
+                </div>
+            `;
 
             activityDetailModal.style.display = 'flex';
         }
@@ -4195,6 +4211,12 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
             if (!activity) return;
 
             editingActivityId = activityId;
+            
+            const editActivityName = document.getElementById('editActivityName');
+            const editActivityDate = document.getElementById('editActivityDate');
+            const editActivityDescription = document.getElementById('editActivityDescription');
+            const editActivityModal = document.getElementById('editActivityModal');
+
             editActivityName.value = activity.name;
             editActivityDate.value = activity.date;
             editActivityDescription.value = activity.description;
@@ -4204,6 +4226,10 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
         // ฟังก์ชันบันทึกการแก้ไขกิจกรรม
         function saveEditActivity() {
             if (!editingActivityId) return;
+
+            const editActivityName = document.getElementById('editActivityName');
+            const editActivityDate = document.getElementById('editActivityDate');
+            const editActivityDescription = document.getElementById('editActivityDescription');
 
             const name = editActivityName.value.trim();
             const date = editActivityDate.value;
@@ -4229,42 +4255,34 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
 
         // ฟังก์ชันลบกิจกรรม
         function deleteActivity(activityId) {
-            Swal.fire({
-                title: 'ยืนยันการลบกิจกรรม?',
-                text: "คุณต้องการลบกิจกรรมนี้ใช่หรือไม่?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบเลย!',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const activityIndex = activities.findIndex(a => a.id === activityId);
-                    if (activityIndex !== -1) {
-                        const activityName = activities[activityIndex].name;
-                        activities.splice(activityIndex, 1);
+            if (!confirm('คุณต้องการลบกิจกรรมนี้ใช่หรือไม่?')) {
+                return;
+            }
 
-                        saveAllDataToStorage();
-                        renderActivities();
-                        renderActivityStats();
-                        renderAdminDashboard();
+            const activityIndex = activities.findIndex(a => a.id === activityId);
+            if (activityIndex !== -1) {
+                const activityName = activities[activityIndex].name;
+                activities.splice(activityIndex, 1);
 
-                        Swal.fire(
-                            'ลบสำเร็จ!',
-                            `ลบกิจกรรม "${activityName}" สำเร็จ`,
-                            'success'
-                        );
-                    }
-                }
-            });
+                saveAllDataToStorage();
+                renderActivities();
+                renderActivityStats();
+                renderAdminDashboard();
+
+                showNotification(`ลบกิจกรรม "${activityName}" สำเร็จ`, 'success');
+            }
         }
 
         // ฟังก์ชันปิด Modal แก้ไขกิจกรรม
         function closeEditActivityModal() {
+            const editActivityModal = document.getElementById('editActivityModal');
             editActivityModal.style.display = 'none';
             editingActivityId = null;
+            
+            const editActivityName = document.getElementById('editActivityName');
+            const editActivityDate = document.getElementById('editActivityDate');
+            const editActivityDescription = document.getElementById('editActivityDescription');
+            
             editActivityName.value = '';
             editActivityDate.value = '';
             editActivityDescription.value = '';
@@ -4272,11 +4290,13 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
 
         // ฟังก์ชันปิด Modal รายละเอียดกิจกรรม
         function closeActivityDetailModal() {
+            const activityDetailModal = document.getElementById('activityDetailModal');
             activityDetailModal.style.display = 'none';
         }
 
         // ฟังก์ชันแสดงรายการผู้ใช้
         function renderUserList() {
+            const userList = document.getElementById('userList');
             const allUsers = [
                 ...users.students.map(s => ({ ...s, type: 'student' })),
                 ...users.teachers.map(t => ({ ...t, type: t.type || 'teacher' }))
@@ -4284,139 +4304,107 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
 
             if (allUsers.length === 0) {
                 userList.innerHTML = `
-<tr>
-<td colspan="6" style="text-align: center; padding: 30px; color: #777;">
-ยังไม่มีผู้ใช้ในระบบ
-</td>
-</tr>
-`;
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px; color: #777;">
+                            ยังไม่มีผู้ใช้ในระบบ
+                        </td>
+                    </tr>
+                `;
                 return;
             }
 
             userList.innerHTML = allUsers.map((user, index) => `
-<tr>
-<td>${index + 1}</td>
-<td>${user.name}</td>
-<td>
-<span class="user-type user-type-${user.type}">
-${user.type === 'student' ? 'นักเรียน' :
-                    user.type === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ'}
-</span>
-</td>
-<td>${user.email || 'ไม่มีข้อมูล'}</td>
-<td>
-<span class="status approved">
-ใช้งานปกติ
-</span>
-</td>
-<td>
-<div class="student-actions">
-<button class="btn btn-warning btn-small" onclick="resetUserPassword('${user.username}')">
-<i class="fas fa-key"></i> รีเซ็ตรหัส
-</button>
-<button class="btn btn-danger btn-small" onclick="deleteUser('${user.username}', '${user.type}')">
-<i class="fas fa-trash"></i> ลบ
-</button>
-</div>
-</td>
-</tr>
-`).join('');
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>
+                        <span class="user-type user-type-${user.type}">
+                            ${user.type === 'student' ? 'นักเรียน' :
+                              user.type === 'teacher' ? 'อาจารย์' : 'ผู้ดูแลระบบ'}
+                        </span>
+                    </td>
+                    <td>${user.email || 'ไม่มีข้อมูล'}</td>
+                    <td>
+                        <span class="status approved">
+                            ใช้งานปกติ
+                        </span>
+                    </td>
+                    <td>
+                        <div class="student-actions">
+                            <button class="btn btn-warning btn-small" onclick="resetUserPassword('${user.username}')">
+                                <i class="fas fa-key"></i> รีเซ็ตรหัส
+                            </button>
+                            <button class="btn btn-danger btn-small" onclick="deleteUser('${user.username}', '${user.type}')">
+                                <i class="fas fa-trash"></i> ลบ
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         // ฟังก์ชันรีเซ็ตรหัสผ่านผู้ใช้
         function resetUserPassword(username) {
-            Swal.fire({
-                title: 'รีเซ็ตรหัสผ่าน?',
-                text: "คุณต้องการรีเซ็ตรหัสผ่านของผู้ใช้นี้ใช่หรือไม่? รหัสผ่านจะถูกตั้งเป็น '123456'",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#f39c12',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, รีเซ็ตเลย!',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let user = users.students.find(u => u.username === username);
+            if (!confirm('คุณต้องการรีเซ็ตรหัสผ่านของผู้ใช้นี้ใช่หรือไม่? รหัสผ่านจะถูกตั้งเป็น "123456"')) {
+                return;
+            }
 
-                    if (!user) {
-                        user = users.teachers.find(u => u.username === username);
-                    }
+            let user = users.students.find(u => u.username === username);
 
-                    if (user) {
-                        user.password = "123456";
-                        Swal.fire(
-                            'รีเซ็ตสำเร็จ!',
-                            `รีเซ็ตรหัสผ่านของ ${user.name} สำเร็จ`,
-                            'success'
-                        );
-                    }
-                }
-            });
+            if (!user) {
+                user = users.teachers.find(u => u.username === username);
+            }
+
+            if (user) {
+                user.password = "123456";
+                showNotification(`รีเซ็ตรหัสผ่านของ ${user.name} สำเร็จ`, 'success');
+            }
         }
 
         // ฟังก์ชันลบผู้ใช้
         function deleteUser(username, userType) {
-            Swal.fire({
-                title: 'ยืนยันการลบผู้ใช้?',
-                text: "คุณต้องการลบผู้ใช้นี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'ใช่, ลบเลย!',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (userType === 'student') {
-                        const userIndex = users.students.findIndex(u => u.username === username);
-                        if (userIndex !== -1) {
-                            const userName = users.students[userIndex].name;
-                            const studentId = users.students[userIndex].studentId;
+            if (!confirm('คุณต้องการลบผู้ใช้นี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')) {
+                return;
+            }
 
-                            submissions = submissions.filter(s => s.studentId !== studentId);
-                            attendanceList = attendanceList.filter(a => a.studentId !== studentId);
-                            students = students.filter(s => s.studentId !== studentId);
+            if (userType === 'student') {
+                const userIndex = users.students.findIndex(u => u.username === username);
+                if (userIndex !== -1) {
+                    const userName = users.students[userIndex].name;
+                    const studentId = users.students[userIndex].studentId;
 
-                            users.students.splice(userIndex, 1);
+                    submissions = submissions.filter(s => s.studentId !== studentId);
+                    attendanceList = attendanceList.filter(a => a.studentId !== studentId);
+                    students = students.filter(s => s.studentId !== studentId);
 
-                            saveAllDataToStorage();
-                            renderUserList();
-                            renderAdminDashboard();
+                    users.students.splice(userIndex, 1);
 
-                            Swal.fire(
-                                'ลบสำเร็จ!',
-                                `ลบผู้ใช้ "${userName}" สำเร็จ`,
-                                'success'
-                            );
-                        }
-                    } else {
-                        const userIndex = users.teachers.findIndex(u => u.username === username);
-                        if (userIndex !== -1) {
-                            const userName = users.teachers[userIndex].name;
-                            users.teachers.splice(userIndex, 1);
+                    saveAllDataToStorage();
+                    renderUserList();
+                    renderAdminDashboard();
 
-                            renderUserList();
-                            renderAdminDashboard();
-
-                            Swal.fire(
-                                'ลบสำเร็จ!',
-                                `ลบผู้ใช้ "${userName}" สำเร็จ`,
-                                'success'
-                            );
-                        }
-                    }
+                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
                 }
-            });
+            } else {
+                const userIndex = users.teachers.findIndex(u => u.username === username);
+                if (userIndex !== -1) {
+                    const userName = users.teachers[userIndex].name;
+                    users.teachers.splice(userIndex, 1);
+
+                    renderUserList();
+                    renderAdminDashboard();
+
+                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
+                }
+            }
         }
 
         // ฟังก์ชันแสดงสถิติกิจกรรม
         function renderActivityStats() {
+            const activityStats = document.getElementById('activityStats');
+            
             if (activities.length === 0) {
-                activityStats.innerHTML = `
-<p>ยังไม่มีกิจกรรมในระบบ</p>
-`;
+                activityStats.innerHTML = `<p>ยังไม่มีกิจกรรมในระบบ</p>`;
                 return;
             }
 
@@ -4427,29 +4415,29 @@ ${user.type === 'student' ? 'นักเรียน' :
             const latestActivity = [...activities].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
             activityStats.innerHTML = `
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
-<div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #3498db; margin-bottom: 5px;">กิจกรรมที่กำลังดำเนินการ</h4>
-<p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${activeCount}</p>
-</div>
-<div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #f39c12; margin-bottom: 5px;">กิจกรรมที่กำลังจะมาถึง</h4>
-<p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${upcomingCount}</p>
-</div>
-<div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
-<h4 style="color: #27ae60; margin-bottom: 5px;">กิจกรรมที่สิ้นสุดแล้ว</h4>
-<p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${completedCount}</p>
-</div>
-</div>
-${latestActivity ? `
-<div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
-<h4 style="color: #1565c0; margin-bottom: 10px;">กิจกรรมล่าสุด</h4>
-<p><strong>${latestActivity.name}</strong></p>
-<p>วันที่: ${formatDate(latestActivity.date)} เวลา ${latestActivity.time}</p>
-<p>สถานที่: ${latestActivity.location}</p>
-</div>
-` : ''}
-`;
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4 style="color: #3498db; margin-bottom: 5px;">กิจกรรมที่กำลังดำเนินการ</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${activeCount}</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4 style="color: #f39c12; margin-bottom: 5px;">กิจกรรมที่กำลังจะมาถึง</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${upcomingCount}</p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        <h4 style="color: #27ae60; margin-bottom: 5px;">กิจกรรมที่สิ้นสุดแล้ว</h4>
+                        <p style="font-size: 1.5rem; font-weight: bold; color: #2c3e50;">${completedCount}</p>
+                    </div>
+                </div>
+                ${latestActivity ? `
+                    <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">กิจกรรมล่าสุด</h4>
+                        <p><strong>${latestActivity.name}</strong></p>
+                        <p>วันที่: ${formatDate(latestActivity.date)} เวลา ${latestActivity.time}</p>
+                        <p>สถานที่: ${latestActivity.location}</p>
+                    </div>
+                ` : ''}
+            `;
         }
 
         // ====================================================
@@ -4464,134 +4452,135 @@ ${latestActivity ? `
             currentPrintSubmissionId = submissionId;
 
             const attendanceRecord = attendanceList.find(a => a.studentId === submission.studentId);
-
             const activeActivity = activities.find(a => a.status === 'active');
-
             const studentInfo = users.students.find(s => s.studentId === submission.studentId);
             const studentClass = studentInfo ? studentInfo.class : 'ปี 1';
 
+            const printDocumentContent = document.getElementById('printDocumentContent');
+            const printDocumentModal = document.getElementById('printDocumentModal');
+
             printDocumentContent.innerHTML = `
-<div id="documentToPrint" style="background: white; padding: 30px; font-family: 'Sarabun', sans-serif;">
-<div style="text-align: center; margin-bottom: 30px;">
-<h1 style="color: #2c3e50; margin-bottom: 5px;">วิทยาลัยเทคนิคระยอง</h1>
-<h2 style="color: #3498db; margin-bottom: 10px;">เอกสารยืนยันการเข้าร่วมกิจกรรม</h2>
-<p style="color: #555; font-size: 1.1rem;">เลขที่เอกสาร: ACT${submission.id.toString().padStart(4, '0')}</p>
-</div>
+                <div id="documentToPrint" style="background: white; padding: 30px; font-family: 'Sarabun', sans-serif;">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <h1 style="color: #2c3e50; margin-bottom: 5px;">วิทยาลัยเทคนิคระยอง</h1>
+                        <h2 style="color: #3498db; margin-bottom: 10px;">เอกสารยืนยันการเข้าร่วมกิจกรรม</h2>
+                        <p style="color: #555; font-size: 1.1rem;">เลขที่เอกสาร: ACT${submission.id.toString().padStart(4, '0')}</p>
+                    </div>
 
-<div style="border: 2px solid #3498db; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
-<h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
-<i class="fas fa-user"></i> ข้อมูลนักเรียน
-</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-<div>
-<p style="margin-bottom: 8px;"><strong>ชื่อ-นามสกุล:</strong> ${submission.studentName}</p>
-<p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
-<p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>
-</div>
-<div>
-<p style="margin-bottom: 8px;"><strong>วันที่ส่งรูป:</strong> ${submission.timestamp}</p>
-<p style="margin-bottom: 8px;"><strong>สถานะ:</strong> <span style="color: #27ae60; font-weight: bold;">อนุมัติแล้ว</span></p>
-<p style="margin-bottom: 8px;"><strong>เลขที่เอกสาร:</strong> ACT${submission.id.toString().padStart(4, '0')}</p>
-</div>
-</div>
-</div>
+                    <div style="border: 2px solid #3498db; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                        <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 10px;">
+                            <i class="fas fa-user"></i> ข้อมูลนักเรียน
+                        </h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>ชื่อ-นามสกุล:</strong> ${submission.studentName}</p>
+                                <p style="margin-bottom: 8px;"><strong>รหัสนักเรียน:</strong> ${submission.studentId}</p>
+                                <p style="margin-bottom: 8px;"><strong>ชั้นปี:</strong> ${studentClass}</p>
+                            </div>
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>วันที่ส่งรูป:</strong> ${submission.timestamp}</p>
+                                <p style="margin-bottom: 8px;"><strong>สถานะ:</strong> <span style="color: #27ae60; font-weight: bold;">อนุมัติแล้ว</span></p>
+                                <p style="margin-bottom: 8px;"><strong>เลขที่เอกสาร:</strong> ACT${submission.id.toString().padStart(4, '0')}</p>
+                            </div>
+                        </div>
+                    </div>
 
-${activeActivity ? `
-<div style="border: 2px solid #27ae60; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
-<h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">
-<i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
-</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-<div>
-<p style="margin-bottom: 8px;"><strong>ชื่อกิจกรรม:</strong> ${activeActivity.name}</p>
-<p style="margin-bottom: 8px;"><strong>วันที่:</strong> ${formatDate(activeActivity.date)}</p>
-<p style="margin-bottom: 8px;"><strong>เวลา:</strong> ${activeActivity.time} น.</p>
-</div>
-<div>
-<p style="margin-bottom: 8px;"><strong>สถานที่:</strong> ${activeActivity.location}</p>
-<p style="margin-bottom: 8px;"><strong>สถานะกิจกรรม:</strong> กำลังดำเนินการ</p>
-<p style="margin-bottom: 8px;"><strong>ผู้จัดกิจกรรม:</strong> วิทยาลัยเทคนิคระยอง</p>
-</div>
-</div>
-<div style="margin-top: 15px;">
-<p><strong>รายละเอียดกิจกรรม:</strong> ${activeActivity.description}</p>
-</div>
-</div>
-` : `
-<div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
-<h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
-<i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
-</h3>
-<p style="text-align: center; color: #f39c12; font-style: italic;">
-ไม่พบข้อมูลกิจกรรมที่กำลังดำเนินการ
-</p>
-</div>
-`}
+                    ${activeActivity ? `
+                        <div style="border: 2px solid #27ae60; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #27ae60; padding-bottom: 10px;">
+                                <i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
+                            </h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <p style="margin-bottom: 8px;"><strong>ชื่อกิจกรรม:</strong> ${activeActivity.name}</p>
+                                    <p style="margin-bottom: 8px;"><strong>วันที่:</strong> ${formatDate(activeActivity.date)}</p>
+                                    <p style="margin-bottom: 8px;"><strong>เวลา:</strong> ${activeActivity.time} น.</p>
+                                </div>
+                                <div>
+                                    <p style="margin-bottom: 8px;"><strong>สถานที่:</strong> ${activeActivity.location}</p>
+                                    <p style="margin-bottom: 8px;"><strong>สถานะกิจกรรม:</strong> กำลังดำเนินการ</p>
+                                    <p style="margin-bottom: 8px;"><strong>ผู้จัดกิจกรรม:</strong> วิทยาลัยเทคนิคระยอง</p>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <p><strong>รายละเอียดกิจกรรม:</strong> ${activeActivity.description}</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="border: 2px solid #f39c12; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                            <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #f39c12; padding-bottom: 10px;">
+                                <i class="fas fa-calendar-alt"></i> ข้อมูลกิจกรรม
+                            </h3>
+                            <p style="text-align: center; color: #f39c12; font-style: italic;">
+                                ไม่พบข้อมูลกิจกรรมที่กำลังดำเนินการ
+                            </p>
+                        </div>
+                    `}
 
-<div style="border: 2px solid #8e44ad; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
-<h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #8e44ad; padding-bottom: 10px;">
-<i class="fas fa-check-circle"></i> ข้อมูลการเช็คชื่อ
-</h3>
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-<div>
-<p style="margin-bottom: 8px;"><strong>สถานะการเข้าร่วม:</strong> <span style="color: #27ae60; font-weight: bold;">เข้าร่วมกิจกรรม</span></p>
-<p style="margin-bottom: 8px;"><strong>วิธีการเช็คชื่อ:</strong> การถ่ายรูปยืนยันตัวตน</p>
-</div>
-<div>
-<p style="margin-bottom: 8px;"><strong>วันที่อนุมัติ:</strong> ${new Date().toLocaleString('th-TH', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            })}</p>
-<p style="margin-bottom: 8px;"><strong>ผู้อนุมัติ:</strong> ${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'}</p>
-</div>
-</div>
-${attendanceRecord ? `
-<div style="margin-top: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
-<p><strong>บันทึกเวลาเข้าร่วม:</strong> ${attendanceRecord.timestamp}</p>
-</div>
-` : ''}
-</div>
+                    <div style="border: 2px solid #8e44ad; border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                        <h3 style="color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #8e44ad; padding-bottom: 10px;">
+                            <i class="fas fa-check-circle"></i> ข้อมูลการเช็คชื่อ
+                        </h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>สถานะการเข้าร่วม:</strong> <span style="color: #27ae60; font-weight: bold;">เข้าร่วมกิจกรรม</span></p>
+                                <p style="margin-bottom: 8px;"><strong>วิธีการเช็คชื่อ:</strong> การถ่ายรูปยืนยันตัวตน</p>
+                            </div>
+                            <div>
+                                <p style="margin-bottom: 8px;"><strong>วันที่อนุมัติ:</strong> ${new Date().toLocaleString('th-TH', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</p>
+                                <p style="margin-bottom: 8px;"><strong>ผู้อนุมัติ:</strong> ${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'}</p>
+                            </div>
+                        </div>
+                        ${attendanceRecord ? `
+                            <div style="margin-top: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                <p><strong>บันทึกเวลาเข้าร่วม:</strong> ${attendanceRecord.timestamp}</p>
+                            </div>
+                        ` : ''}
+                    </div>
 
-<div style="border-top: 2px dashed #ddd; padding-top: 25px; margin-top: 25px;">
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-<div>
-<h4 style="color: #2c3e50; margin-bottom: 10px;">หมายเหตุ</h4>
-<ul style="color: #555; padding-left: 20px;">
-<li>เอกสารนี้เป็นเอกสารยืนยันการเข้าร่วมกิจกรรมอย่างเป็นทางการ</li>
-<li>สามารถนำไปประกอบการขอรับหน่วยกิจกรรมได้</li>
-<li>เอกสารมีอายุ 1 ปี นับจากวันที่อนุมัติ</li>
-<li>กรณีสูญหายสามารถขอออกใหม่ได้ที่งานกิจกรรมนักศึกษา</li>
-</ul>
-</div>
-<div style="text-align: center;">
-<div style="margin-bottom: 20px;">
-<p style="margin-bottom: 40px;">ลงชื่อ........................................................</p>
-<p style="margin-bottom: 5px;">(${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'})</p>
-<p>อาจารย์ผู้ดูแลกิจกรรม</p>
-</div>
-<div style="border: 1px solid #ddd; padding: 10px; display: inline-block;">
-<p style="margin: 0; font-size: 0.9rem;">วันออกเอกสาร: ${new Date().toLocaleDateString('th-TH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            })}</p>
-</div>
-</div>
-</div>
-</div>
+                    <div style="border-top: 2px dashed #ddd; padding-top: 25px; margin-top: 25px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 10px;">หมายเหตุ</h4>
+                                <ul style="color: #555; padding-left: 20px;">
+                                    <li>เอกสารนี้เป็นเอกสารยืนยันการเข้าร่วมกิจกรรมอย่างเป็นทางการ</li>
+                                    <li>สามารถนำไปประกอบการขอรับหน่วยกิจกรรมได้</li>
+                                    <li>เอกสารมีอายุ 1 ปี นับจากวันที่อนุมัติ</li>
+                                    <li>กรณีสูญหายสามารถขอออกใหม่ได้ที่งานกิจกรรมนักศึกษา</li>
+                                </ul>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="margin-bottom: 20px;">
+                                    <p style="margin-bottom: 40px;">ลงชื่อ........................................................</p>
+                                    <p style="margin-bottom: 5px;">(${currentUser ? currentUser.name : 'อาจารย์ผู้สอน'})</p>
+                                    <p>อาจารย์ผู้ดูแลกิจกรรม</p>
+                                </div>
+                                <div style="border: 1px solid #ddd; padding: 10px; display: inline-block;">
+                                    <p style="margin: 0; font-size: 0.9rem;">วันออกเอกสาร: ${new Date().toLocaleDateString('th-TH', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<div style="text-align: center; margin-top: 30px;">
-<div style="display: inline-block; border: 3px solid #e74c3c; border-radius: 50%; width: 120px; height: 120px; position: relative; padding-top: 20px;">
-<div style="font-weight: bold; color: #e74c3c; font-size: 1.2rem;">ตราประทับ</div>
-<div style="color: #2c3e50; font-size: 0.9rem; margin-top: 5px;">วิทยาลัยเทคนิคระยอง</div>
-<div style="color: #2c3e50; font-size: 0.8rem; margin-top: 3px;">กิจกรรมนักศึกษา</div>
-</div>
-</div>
-</div>
-`;
+                    <div style="text-align: center; margin-top: 30px;">
+                        <div style="display: inline-block; border: 3px solid #e74c3c; border-radius: 50%; width: 120px; height: 120px; position: relative; padding-top: 20px;">
+                            <div style="font-weight: bold; color: #e74c3c; font-size: 1.2rem;">ตราประทับ</div>
+                            <div style="color: #2c3e50; font-size: 0.9rem; margin-top: 5px;">วิทยาลัยเทคนิคระยอง</div>
+                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 3px;">กิจกรรมนักศึกษา</div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             printDocumentModal.style.display = 'flex';
         }
@@ -4599,81 +4588,80 @@ ${attendanceRecord ? `
         // ฟังก์ชันสำหรับพิมพ์เอกสาร
         function printDocument() {
             const printContent = document.getElementById('documentToPrint').innerHTML;
-            const originalContent = document.body.innerHTML;
 
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
-<!DOCTYPE html>
-<html lang="th">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>เอกสารยืนยันการเข้าร่วมกิจกรรม</title>
-<style>
-body {
-font-family: 'Sarabun', sans-serif;
-margin: 20px;
-color: #333;
-}
-@media print {
-body {
-margin: 0;
-padding: 15px;
-}
-.no-print {
-display: none !important;
-}
-@page {
-size: A4;
-margin: 20mm;
-}
-}
-.header {
-text-align: center;
-margin-bottom: 30px;
-border-bottom: 2px solid #3498db;
-padding-bottom: 15px;
-}
-.section {
-margin-bottom: 25px;
-page-break-inside: avoid;
-}
-.signature-area {
-margin-top: 50px;
-text-align: right;
-}
-.stamp {
-border: 2px solid red;
-border-radius: 50%;
-width: 100px;
-height: 100px;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-text-align: center;
-font-weight: bold;
-color: red;
-}
-</style>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-${printContent}
-<div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.9rem;">
-<p>เอกสารฉบับนี้ถูกสร้างโดยระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</p>
-<p>วันที่พิมพ์: ${new Date().toLocaleString('th-TH')}</p>
-</div>
-<div class="no-print" style="text-align: center; margin-top: 30px;">
-<button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
-<i class="fas fa-print"></i> พิมพ์เอกสาร
-</button>
-<button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;">
-ปิดหน้าต่าง
-</button>
-</div>
-</body>
-</html>
-`);
+                <!DOCTYPE html>
+                <html lang="th">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>เอกสารยืนยันการเข้าร่วมกิจกรรม</title>
+                    <style>
+                        body {
+                            font-family: 'Sarabun', sans-serif;
+                            margin: 20px;
+                            color: #333;
+                        }
+                        @media print {
+                            body {
+                                margin: 0;
+                                padding: 15px;
+                            }
+                            .no-print {
+                                display: none !important;
+                            }
+                            @page {
+                                size: A4;
+                                margin: 20mm;
+                            }
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            border-bottom: 2px solid #3498db;
+                            padding-bottom: 15px;
+                        }
+                        .section {
+                            margin-bottom: 25px;
+                            page-break-inside: avoid;
+                        }
+                        .signature-area {
+                            margin-top: 50px;
+                            text-align: right;
+                        }
+                        .stamp {
+                            border: 2px solid red;
+                            border-radius: 50%;
+                            width: 100px;
+                            height: 100px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            font-weight: bold;
+                            color: red;
+                        }
+                    </style>
+                    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+                </head>
+                <body>
+                    ${printContent}
+                    <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.9rem;">
+                        <p>เอกสารฉบับนี้ถูกสร้างโดยระบบเช็คกิจกรรมของนักเรียนในวิทยาลัย</p>
+                        <p>วันที่พิมพ์: ${new Date().toLocaleString('th-TH')}</p>
+                    </div>
+                    <div class="no-print" style="text-align: center; margin-top: 30px;">
+                        <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                            <i class="fas fa-print"></i> พิมพ์เอกสาร
+                        </button>
+                        <button onclick="window.close()" style="padding: 10px 20px; background: #95a5a6; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px;">
+                            ปิดหน้าต่าง
+                        </button>
+                    </div>
+                </body>
+                </html>
+            `);
             printWindow.document.close();
 
             printWindow.onload = function () {
@@ -4685,6 +4673,7 @@ ${printContent}
 
         // ฟังก์ชันปิด Modal พิมพ์เอกสาร
         function closePrintDocumentModal() {
+            const printDocumentModal = document.getElementById('printDocumentModal');
             printDocumentModal.style.display = 'none';
             currentPrintSubmissionId = null;
         }
@@ -4697,13 +4686,9 @@ ${printContent}
         function initializeSystem() {
             if (isInitialized) return;
 
-            console.log('กำลังเริ่มต้นระบบ...');
-
             loadAllDataFromStorage();
-
             cleanCorruptedData();
 
-            // อัปเดตข้อมูลตัวอย่าง
             users.students.forEach((student) => {
                 const existingStudent = students.find(s => s.studentId === student.studentId);
                 if (!existingStudent) {
@@ -4716,50 +4701,10 @@ ${printContent}
                 }
             });
 
-            // เพิ่มข้อมูลตัวอย่างถ้ายังไม่มี
-            if (submissions.length === 0) {
-                submissions = [
-                    {
-                        id: 1,
-                        studentId: "66209010048",
-                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        imageUrl: sampleImageBase64,
-                        timestamp: "10/02/2569 10:17:03",
-                        status: 'pending'
-                    }
-                ];
-            }
-
-            if (attendanceList.length === 0) {
-                attendanceList = [
-                    {
-                        id: 1,
-                        studentId: "66209010048",
-                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
-                        timestamp: "10/02/2569 10:17:03",
-                        status: "approved"
-                    },
-                    {
-                        id: 2,
-                        studentId: "66209010046", 
-                        studentName: "นายเตชินท์ เกิดสังข์",
-                        timestamp: "09/02/2569 14:25:18",
-                        status: "approved"
-                    },
-                    {
-                        id: 3,
-                        studentId: "66209010055",
-                        studentName: "นายวีรภัทร รักบำรุง",
-                        timestamp: "08/02/2569 09:30:45",
-                        status: "absent"
-                    }
-                ];
-            }
-
             saveAllDataToStorage();
-
             renderStudents();
 
+            const activityDate = document.getElementById('activityDate');
             const today = new Date().toISOString().split('T')[0];
             if (activityDate) activityDate.value = today;
 
@@ -4778,7 +4723,6 @@ ${printContent}
             console.log(' - attendance:', attendanceList.length);
             console.log(' - students:', students.length);
             console.log(' - activities:', activities.length);
-            console.log('- การใช้งาน: อาจารย์สามารถลบประวัติการส่งรูปได้จากส่วนประวัติการส่งรูปทั้งหมด');
 
             setTimeout(() => {
                 showNotification('✅ ระบบพร้อมใช้งาน!', 'success');
@@ -4786,294 +4730,156 @@ ${printContent}
         }
 
         // ====================================================
-        // DOM Elements
-        // ====================================================
-        
-        // Login elements
-        const loginPage = document.getElementById('loginPage');
-        const studentPage = document.getElementById('studentPage');
-        const teacherPage = document.getElementById('teacherPage');
-        const adminPage = document.getElementById('adminPage');
-        const studentTab = document.getElementById('studentTab');
-        const teacherTab = document.getElementById('teacherTab');
-        const adminTab = document.getElementById('adminTab');
-        const studentLoginForm = document.getElementById('studentLoginForm');
-        const teacherLoginForm = document.getElementById('teacherLoginForm');
-        const adminLoginForm = document.getElementById('adminLoginForm');
-
-        // Input fields
-        const studentUsername = document.getElementById('studentUsername');
-        const studentPassword = document.getElementById('studentPassword');
-        const teacherUsername = document.getElementById('teacherUsername');
-        const teacherPassword = document.getElementById('teacherPassword');
-        const adminUsername = document.getElementById('adminUsername');
-        const adminPassword = document.getElementById('adminPassword');
-
-        // Buttons
-        const studentLoginBtn = document.getElementById('studentLoginBtn');
-        const teacherLoginBtn = document.getElementById('teacherLoginBtn');
-        const adminLoginBtn = document.getElementById('adminLoginBtn');
-        const studentLogoutBtn = document.getElementById('studentLogoutBtn');
-        const teacherLogoutBtn = document.getElementById('teacherLogoutBtn');
-        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
-
-        // Profile elements
-        const studentUserInfo = document.getElementById('studentUserInfo');
-        const teacherUserInfo = document.getElementById('teacherUserInfo');
-        const adminUserInfo = document.getElementById('adminUserInfo');
-        const studentProfileName = document.getElementById('studentProfileName');
-        const studentProfileInfo = document.getElementById('studentProfileInfo');
-
-        // DOM Elements - Student
-        const camera = document.getElementById('camera');
-        const cameraPlaceholder = document.getElementById('cameraPlaceholder');
-        const capturedImage = document.getElementById('capturedImage');
-        const startCameraBtn = document.getElementById('startCameraBtn');
-        const captureBtn = document.getElementById('captureBtn');
-        const useFileBtn = document.getElementById('useFileBtn');
-        const fileInput = document.getElementById('fileInput');
-        const retakeBtn = document.getElementById('retakeBtn');
-        const sendBtn = document.getElementById('sendBtn');
-        const studentHistory = document.getElementById('studentHistory');
-        const currentActivityContainer = document.getElementById('currentActivityContainer');
-
-        // DOM Elements - Teacher
-        const studentNameInput = document.getElementById('studentName');
-        const studentIdInput = document.getElementById('studentId');
-        const addStudentBtn = document.getElementById('addStudentBtn');
-        const studentList = document.getElementById('studentList');
-        const submissionsContainer = document.getElementById('submissionsContainer');
-        const attendanceListElement = document.getElementById('attendanceList');
-        const searchAttendanceInput = document.getElementById('searchAttendance');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const submissionHistoryContainer = document.getElementById('submissionHistoryContainer');
-        const searchSubmissionHistoryInput = document.getElementById('searchSubmissionHistory');
-
-        // DOM Elements - Admin
-        const activityName = document.getElementById('activityName');
-        const activityDate = document.getElementById('activityDate');
-        const activityTime = document.getElementById('activityTime');
-        const activityLocation = document.getElementById('activityLocation');
-        const activityDescription = document.getElementById('activityDescription');
-        const activityStatus = document.getElementById('activityStatus');
-        const addActivityBtn = document.getElementById('addActivityBtn');
-        const activitiesList = document.getElementById('activitiesList');
-        const userList = document.getElementById('userList');
-        const totalStudents = document.getElementById('totalStudents');
-        const totalTeachers = document.getElementById('totalTeachers');
-        const totalActivities = document.getElementById('totalActivities');
-        const totalAttendance = document.getElementById('totalAttendance');
-        const activityStats = document.getElementById('activityStats');
-
-        // Modal elements
-        const editStudentModal = document.getElementById('editStudentModal');
-        const editStudentName = document.getElementById('editStudentName');
-        const editStudentId = document.getElementById('editStudentId');
-        const cancelEditBtn = document.getElementById('cancelEditBtn');
-        const saveEditBtn = document.getElementById('saveEditBtn');
-
-        const editProfileModal = document.getElementById('editProfileModal');
-        const editProfileName = document.getElementById('editProfileName');
-        const editProfileEmail = document.getElementById('editProfileEmail');
-        const editProfileClass = document.getElementById('editProfileClass');
-        const cancelEditProfileBtn = document.getElementById('cancelEditProfileBtn');
-        const saveEditProfileBtn = document.getElementById('saveEditProfileBtn');
-
-        const changePasswordModal = document.getElementById('changePasswordModal');
-        const currentPassword = document.getElementById('currentPassword');
-        const newStudentPassword = document.getElementById('newStudentPassword');
-        const confirmStudentPassword = document.getElementById('confirmStudentPassword');
-        const cancelChangePasswordBtn = document.getElementById('cancelChangePasswordBtn');
-        const saveChangePasswordBtn = document.getElementById('saveChangePasswordBtn');
-
-        const editActivityModal = document.getElementById('editActivityModal');
-        const editActivityName = document.getElementById('editActivityName');
-        const editActivityDate = document.getElementById('editActivityDate');
-        const editActivityDescription = document.getElementById('editActivityDescription');
-        const cancelEditActivityBtn = document.getElementById('cancelEditActivityBtn');
-        const saveEditActivityBtn = document.getElementById('saveEditActivityBtn');
-
-        const activityDetailModal = document.getElementById('activityDetailModal');
-        const activityDetailContent = document.getElementById('activityDetailContent');
-        const closeActivityDetailBtn = document.getElementById('closeActivityDetailBtn');
-
-        const printDocumentModal = document.getElementById('printDocumentModal');
-        const printDocumentContent = document.getElementById('printDocumentContent');
-        const closePrintModalBtn = document.getElementById('closePrintModalBtn');
-
-        const confirmDeleteHistoryModal = document.getElementById('confirmDeleteHistoryModal');
-        const confirmDeleteHistoryContent = document.getElementById('confirmDeleteHistoryContent');
-        const cancelDeleteHistoryBtn = document.getElementById('cancelDeleteHistoryBtn');
-        const confirmDeleteHistoryBtn = document.getElementById('confirmDeleteHistoryBtn');
-
-        const notification = document.getElementById('notification');
-
-        // ====================================================
         // EVENT LISTENERS SETUP
         // ====================================================
 
-        // ตั้งค่า Event Listeners
-        studentTab.addEventListener('click', () => switchToTab('student'));
-        teacherTab.addEventListener('click', () => switchToTab('teacher'));
-        adminTab.addEventListener('click', () => switchToTab('admin'));
+        // ตั้งค่า Event Listeners เมื่อหน้าโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', function() {
+            // สลับแท็บ Login
+            document.getElementById('studentTab').addEventListener('click', () => switchToTab('student'));
+            document.getElementById('teacherTab').addEventListener('click', () => switchToTab('teacher'));
+            document.getElementById('adminTab').addEventListener('click', () => switchToTab('admin'));
 
-        studentLoginBtn.addEventListener('click', loginStudent);
-        teacherLoginBtn.addEventListener('click', loginTeacher);
-        adminLoginBtn.addEventListener('click', loginAdmin);
-        studentLogoutBtn.addEventListener('click', logout);
-        teacherLogoutBtn.addEventListener('click', logout);
-        adminLogoutBtn.addEventListener('click', logout);
+            // ปุ่ม Login
+            document.getElementById('studentLoginBtn').addEventListener('click', loginStudent);
+            document.getElementById('teacherLoginBtn').addEventListener('click', loginTeacher);
+            document.getElementById('adminLoginBtn').addEventListener('click', loginAdmin);
 
-        // ล็อกอินด้วย Enter
-        studentUsername.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginStudent();
-        });
+            // ปุ่ม Logout
+            document.getElementById('studentLogoutBtn').addEventListener('click', logout);
+            document.getElementById('teacherLogoutBtn').addEventListener('click', logout);
+            document.getElementById('adminLogoutBtn').addEventListener('click', logout);
 
-        studentPassword.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginStudent();
-        });
+            // Login ด้วย Enter
+            document.getElementById('studentUsername').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginStudent();
+            });
+            document.getElementById('studentPassword').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginStudent();
+            });
+            document.getElementById('teacherUsername').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginTeacher();
+            });
+            document.getElementById('teacherPassword').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginTeacher();
+            });
+            document.getElementById('adminUsername').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginAdmin();
+            });
+            document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginAdmin();
+            });
 
-        teacherUsername.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginTeacher();
-        });
+            // สลับแสดงรหัสผ่าน
+            document.getElementById('toggleStudentPassword').addEventListener('click', () => {
+                togglePasswordVisibility('studentPassword', 'toggleStudentPassword');
+            });
+            document.getElementById('toggleTeacherPassword').addEventListener('click', () => {
+                togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword');
+            });
+            document.getElementById('toggleAdminPassword').addEventListener('click', () => {
+                togglePasswordVisibility('adminPassword', 'toggleAdminPassword');
+            });
+            document.getElementById('toggleCurrentPassword').addEventListener('click', () => {
+                togglePasswordVisibility('currentPassword', 'toggleCurrentPassword');
+            });
+            document.getElementById('toggleNewStudentPassword').addEventListener('click', () => {
+                togglePasswordVisibility('newStudentPassword', 'toggleNewStudentPassword');
+            });
+            document.getElementById('toggleConfirmStudentPassword').addEventListener('click', () => {
+                togglePasswordVisibility('confirmStudentPassword', 'toggleConfirmStudentPassword');
+            });
 
-        teacherPassword.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginTeacher();
-        });
+            // ฟังก์ชันกล้อง
+            document.getElementById('startCameraBtn').addEventListener('click', startCamera);
+            document.getElementById('captureBtn').addEventListener('click', captureImage);
+            document.getElementById('useFileBtn').addEventListener('click', useFile);
+            document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+            document.getElementById('retakeBtn').addEventListener('click', retakePhoto);
+            document.getElementById('sendBtn').addEventListener('click', sendPhoto);
 
-        adminUsername.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginAdmin();
-        });
+            // ฟังก์ชันจัดการนักเรียน (อาจารย์)
+            document.getElementById('addStudentBtn').addEventListener('click', addStudent);
+            document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+            document.getElementById('saveEditBtn').addEventListener('click', saveEditStudent);
 
-        adminPassword.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginAdmin();
-        });
+            // ฟังก์ชันจัดการโปรไฟล์
+            document.getElementById('cancelEditProfileBtn').addEventListener('click', closeEditProfileModal);
+            document.getElementById('saveEditProfileBtn').addEventListener('click', saveEditProfile);
 
-        // สลับแสดงรหัสผ่าน
-        document.getElementById('toggleStudentPassword').addEventListener('click', () => {
-            togglePasswordVisibility('studentPassword', 'toggleStudentPassword');
-        });
+            // ฟังก์ชันเปลี่ยนรหัสผ่าน
+            document.getElementById('cancelChangePasswordBtn').addEventListener('click', closeChangePasswordModal);
+            document.getElementById('saveChangePasswordBtn').addEventListener('click', saveChangePassword);
 
-        document.getElementById('toggleTeacherPassword').addEventListener('click', () => {
-            togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword');
-        });
+            // ฟังก์ชันจัดการกิจกรรม (Admin)
+            document.getElementById('addActivityBtn').addEventListener('click', addActivity);
+            document.getElementById('cancelEditActivityBtn').addEventListener('click', closeEditActivityModal);
+            document.getElementById('saveEditActivityBtn').addEventListener('click', saveEditActivity);
+            document.getElementById('closeActivityDetailBtn').addEventListener('click', closeActivityDetailModal);
 
-        document.getElementById('toggleAdminPassword').addEventListener('click', () => {
-            togglePasswordVisibility('adminPassword', 'toggleAdminPassword');
-        });
+            // ฟังก์ชันพิมพ์เอกสาร
+            document.getElementById('closePrintModalBtn').addEventListener('click', closePrintDocumentModal);
+            document.getElementById('printDocumentBtn').addEventListener('click', printDocument);
 
-        document.getElementById('toggleCurrentPassword').addEventListener('click', () => {
-            togglePasswordVisibility('currentPassword', 'toggleCurrentPassword');
-        });
+            // ฟังก์ชันลบประวัติ
+            document.getElementById('cancelDeleteHistoryBtn').addEventListener('click', closeDeleteHistoryModal);
+            document.getElementById('confirmDeleteHistoryBtn').addEventListener('click', deleteSubmissionHistory);
 
-        document.getElementById('toggleNewStudentPassword').addEventListener('click', () => {
-            togglePasswordVisibility('newStudentPassword', 'toggleNewStudentPassword');
-        });
+            // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
+            document.getElementById('studentName').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addStudent();
+            });
+            document.getElementById('studentId').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addStudent();
+            });
 
-        document.getElementById('toggleConfirmStudentPassword').addEventListener('click', () => {
-            togglePasswordVisibility('confirmStudentPassword', 'toggleConfirmStudentPassword');
-        });
-
-        // ฟังก์ชันกล้อง
-        startCameraBtn.addEventListener('click', startCamera);
-        captureBtn.addEventListener('click', captureImage);
-        useFileBtn.addEventListener('click', useFile);
-        fileInput.addEventListener('change', handleFileSelect);
-        retakeBtn.addEventListener('click', retakePhoto);
-        sendBtn.addEventListener('click', sendPhoto);
-
-        // ฟังก์ชันจัดการนักเรียน
-        addStudentBtn.addEventListener('click', addStudent);
-        cancelEditBtn.addEventListener('click', closeEditModal);
-        saveEditBtn.addEventListener('click', saveEditStudent);
-
-        // ฟังก์ชันจัดการโปรไฟล์
-        cancelEditProfileBtn.addEventListener('click', closeEditProfileModal);
-        saveEditProfileBtn.addEventListener('click', saveEditProfile);
-
-        // ฟังก์ชันเปลี่ยนรหัสผ่าน
-        cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
-        saveChangePasswordBtn.addEventListener('click', saveChangePassword);
-
-        // ฟังก์ชันจัดการกิจกรรม (Admin)
-        addActivityBtn.addEventListener('click', addActivity);
-        cancelEditActivityBtn.addEventListener('click', closeEditActivityModal);
-        saveEditActivityBtn.addEventListener('click', saveEditActivity);
-        closeActivityDetailBtn.addEventListener('click', closeActivityDetailModal);
-
-        // ฟังก์ชันพิมพ์เอกสาร
-        closePrintModalBtn.addEventListener('click', closePrintDocumentModal);
-
-        // ฟังก์ชันลบประวัติ
-        cancelDeleteHistoryBtn.addEventListener('click', closeDeleteHistoryModal);
-        confirmDeleteHistoryBtn.addEventListener('click', deleteSubmissionHistory);
-
-        // ปิด modal เมื่อคลิกข้างนอก
-        editStudentModal.addEventListener('click', (e) => {
-            if (e.target === editStudentModal) closeEditModal();
-        });
-
-        editProfileModal.addEventListener('click', (e) => {
-            if (e.target === editProfileModal) closeEditProfileModal();
-        });
-
-        changePasswordModal.addEventListener('click', (e) => {
-            if (e.target === changePasswordModal) closeChangePasswordModal();
-        });
-
-        editActivityModal.addEventListener('click', (e) => {
-            if (e.target === editActivityModal) closeEditActivityModal();
-        });
-
-        activityDetailModal.addEventListener('click', (e) => {
-            if (e.target === activityDetailModal) closeActivityDetailModal();
-        });
-
-        printDocumentModal.addEventListener('click', (e) => {
-            if (e.target === printDocumentModal) closePrintDocumentModal();
-        });
-
-        confirmDeleteHistoryModal.addEventListener('click', (e) => {
-            if (e.target === confirmDeleteHistoryModal) closeDeleteHistoryModal();
-        });
-
-        // อนุญาตกด Enter ในฟอร์มเพิ่มนักเรียน
-        studentNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addStudent();
-        });
-
-        studentIdInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addStudent();
-        });
-
-        // การค้นหาและกรองรายการเช็คชื่อ
-        searchAttendanceInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value.trim().toLowerCase();
-            renderAttendanceList();
-        });
-
-        // กรองรายการเช็คชื่อ
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                currentAttendanceFilter = button.dataset.filter;
+            // การค้นหาและกรองรายการเช็คชื่อ
+            document.getElementById('searchAttendance').addEventListener('input', (e) => {
+                searchQuery = e.target.value.trim().toLowerCase();
                 renderAttendanceList();
             });
+
+            // กรองรายการเช็คชื่อ
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentAttendanceFilter = button.dataset.filter;
+                    renderAttendanceList();
+                });
+            });
+
+            // การค้นหาประวัติการส่งรูป
+            document.getElementById('searchSubmissionHistory').addEventListener('input', searchSubmissionHistory);
+            document.getElementById('clearSearchBtn').addEventListener('click', clearSubmissionHistorySearch);
+
+            // กรองประวัติการส่งรูป
+            document.querySelectorAll('.history-filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    filterSubmissionHistory(filter);
+                });
+            });
+
+            // ปิดกล้องเมื่อออกจากหน้า
+            window.addEventListener('beforeunload', () => {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            });
+
+            // ปิด modal เมื่อคลิกข้างนอก
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // เรียกใช้ฟังก์ชันเริ่มต้นระบบ
+            initializeSystem();
         });
-
-        // การค้นหาประวัติการส่งรูป
-        searchSubmissionHistoryInput.addEventListener('input', searchSubmissionHistory);
-
-        // ปิดกล้องเมื่อออกจากหน้า
-        window.addEventListener('beforeunload', () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-        });
-
-        // เรียกใช้ฟังก์ชันเริ่มต้นเมื่อหน้าโหลดเสร็จ
-        document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
 </body>
 </html>
