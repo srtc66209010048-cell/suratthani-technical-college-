@@ -2361,7 +2361,7 @@
         // SYSTEM VARIABLES
         // ====================================================
         
-        // ข้อมูลผู้ใช้และนักเรียน
+        // ข้อมูลผู้ใช้และนักเรียน (อัปเดตตามรูปภาพ)
         const users = {
             students: [
                 {
@@ -2458,6 +2458,9 @@
         let submissionHistorySearchQuery = '';
         let submissionToDelete = null;
         let isInitialized = false;
+
+        // ตัวอย่าง Base64 ภาพ (รูปภาพเล็กๆ สำหรับตัวอย่าง)
+        const sampleImageBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAKAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=";
 
         // ====================================================
         // UTILITY FUNCTIONS
@@ -3413,34 +3416,48 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 
         // ฟังก์ชันสำหรับลบนักเรียน
         function deleteStudent(studentId) {
-            if (!confirm('คุณต้องการลบนักเรียนคนนี้ใช่หรือไม่?')) {
-                return;
-            }
+            Swal.fire({
+                title: 'ยืนยันการลบนักเรียน?',
+                text: "คุณต้องการลบนักเรียนคนนี้ใช่หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const studentIndex = students.findIndex(s => s.id === studentId);
+                    if (studentIndex !== -1) {
+                        const studentName = students[studentIndex].name;
+                        const studentIdToDelete = students[studentIndex].studentId;
 
-            const studentIndex = students.findIndex(s => s.id === studentId);
-            if (studentIndex !== -1) {
-                const studentName = students[studentIndex].name;
-                const studentIdToDelete = students[studentIndex].studentId;
+                        attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
 
-                attendanceList = attendanceList.filter(a => a.studentId !== studentIdToDelete);
+                        submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
 
-                submissions = submissions.filter(s => s.studentId !== studentIdToDelete);
+                        const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
+                        if (userIndex !== -1) {
+                            users.students.splice(userIndex, 1);
+                        }
 
-                const userIndex = users.students.findIndex(s => s.studentId === studentIdToDelete);
-                if (userIndex !== -1) {
-                    users.students.splice(userIndex, 1);
+                        students.splice(studentIndex, 1);
+
+                        saveAllDataToStorage();
+                        renderStudents();
+                        renderAttendanceList();
+                        renderSubmissions();
+                        renderSubmissionHistory();
+
+                        Swal.fire(
+                            'ลบสำเร็จ!',
+                            `ลบนักเรียน "${studentName}" สำเร็จ`,
+                            'success'
+                        );
+                    }
                 }
-
-                students.splice(studentIndex, 1);
-
-                saveAllDataToStorage();
-                renderStudents();
-                renderAttendanceList();
-                renderSubmissions();
-                renderSubmissionHistory();
-
-                showNotification(`ลบนักเรียน "${studentName}" สำเร็จ`, 'success');
-            }
+            });
         }
 
         // ฟังก์ชันสำหรับเปิด modal แก้ไขนักเรียน (อาจารย์)
@@ -3534,17 +3551,61 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
             confirmStudentPassword.value = '';
         }
 
-        // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน
+        // ฟังก์ชันสำหรับแสดงรายชื่อนักเรียน (อัปเดตตามรูปภาพ)
         function renderStudents() {
             if (students.length === 0) {
-                studentList.innerHTML = `
-<tr>
-<td colspan="4" style="text-align: center; padding: 30px; color: #777;">
-ยังไม่มีรายชื่อนักเรียน
-</td>
-</tr>
-`;
-                return;
+                // เพิ่มนักเรียนตัวอย่างตามรูปภาพ
+                students = [
+                    {
+                        id: 1,
+                        name: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        studentId: "66209010048",
+                        class: "ปี 3"
+                    },
+                    {
+                        id: 2,
+                        name: "นายเตชินท์ เกิดสังข์",
+                        studentId: "66209010046",
+                        class: "ปี 2"
+                    },
+                    {
+                        id: 3,
+                        name: "นายวีรภัทร รักบำรุง",
+                        studentId: "66209010055",
+                        class: "ปี 2"
+                    }
+                ];
+                
+                // อัปเดต users.students ด้วย
+                users.students = [
+                    {
+                        username: "SRTC048",
+                        password: "123456",
+                        name: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        studentId: "66209010048",
+                        email: "srtc048@college.ac.th",
+                        class: "ปี 3",
+                        type: "student"
+                    },
+                    {
+                        username: "SRTC046",
+                        password: "tae046",
+                        name: "นายเตชินท์ เกิดสังข์",
+                        studentId: "66209010046",
+                        email: "srtc046@college.ac.th",
+                        class: "ปี 2",
+                        type: "student"
+                    },
+                    {
+                        username: "SRTC055",
+                        password: "we055",
+                        name: "นายวีรภัทร รักบำรุง",
+                        studentId: "66209010055",
+                        email: "srtc055@college.ac.th",
+                        class: "ปี 2",
+                        type: "student"
+                    }
+                ];
             }
 
             studentList.innerHTML = students.map((student, index) => `
@@ -3625,8 +3686,22 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
             showNotification(`ปฏิเสธการเช็คชื่อของ ${submission.studentName} แล้ว`, 'error');
         }
 
-        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน
+        // ฟังก์ชันสำหรับแสดงรายการส่งของนักเรียน (อัปเดตตามรูปภาพ)
         function renderSubmissions() {
+            // เพิ่มตัวอย่างข้อมูลตามรูปภาพ
+            if (submissions.length === 0) {
+                submissions = [
+                    {
+                        id: 1,
+                        studentId: "66209010048",
+                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        imageUrl: sampleImageBase64,
+                        timestamp: "10/02/2569 10:17:03",
+                        status: 'pending'
+                    }
+                ];
+            }
+
             const pendingSubmissions = submissions.filter(s => s.status === 'pending');
 
             if (pendingSubmissions.length === 0) {
@@ -3854,20 +3929,34 @@ ${submission.status === 'pending' ? `
 
         // ฟังก์ชันสำหรับลบรายการเช็คชื่อ
         function deleteAttendance(attendanceId) {
-            if (!confirm('คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?')) {
-                return;
-            }
+            Swal.fire({
+                title: 'ยืนยันการลบรายการเช็คชื่อ?',
+                text: "คุณต้องการลบรายการเช็คชื่อนี้ใช่หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
+                    if (attendanceIndex !== -1) {
+                        const studentName = attendanceList[attendanceIndex].studentName;
+                        attendanceList.splice(attendanceIndex, 1);
 
-            const attendanceIndex = attendanceList.findIndex(a => a.id === attendanceId);
-            if (attendanceIndex !== -1) {
-                const studentName = attendanceList[attendanceIndex].studentName;
-                attendanceList.splice(attendanceIndex, 1);
+                        saveAllDataToStorage();
+                        renderAttendanceList();
 
-                saveAllDataToStorage();
-                renderAttendanceList();
-
-                showNotification(`ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`, 'success');
-            }
+                        Swal.fire(
+                            'ลบสำเร็จ!',
+                            `ลบรายการเช็คชื่อของ ${studentName} สำเร็จ`,
+                            'success'
+                        );
+                    }
+                }
+            });
         }
 
         // ฟังก์ชันสำหรับกรองและค้นหารายการเช็คชื่อ
@@ -3891,8 +3980,35 @@ ${submission.status === 'pending' ? `
             return filtered;
         }
 
-        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ
+        // ฟังก์ชันสำหรับแสดงรายการเช็คชื่อ (อัปเดตตามรูปภาพ)
         function renderAttendanceList() {
+            // เพิ่มตัวอย่างข้อมูลตามรูปภาพ
+            if (attendanceList.length === 0) {
+                attendanceList = [
+                    {
+                        id: 1,
+                        studentId: "66209010048",
+                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        timestamp: "10/02/2569 10:17:03",
+                        status: "approved"
+                    },
+                    {
+                        id: 2,
+                        studentId: "66209010046",
+                        studentName: "นายเตชินท์ เกิดสังข์",
+                        timestamp: "09/02/2569 14:25:18",
+                        status: "approved"
+                    },
+                    {
+                        id: 3,
+                        studentId: "66209010055",
+                        studentName: "นายวีรภัทร รักบำรุง",
+                        timestamp: "08/02/2569 09:30:45",
+                        status: "absent"
+                    }
+                ];
+            }
+
             const filteredAttendance = filterAttendanceList();
 
             if (filteredAttendance.length === 0) {
@@ -4113,22 +4229,36 @@ ${activity.status === 'active' ? 'กำลังดำเนินการ' :
 
         // ฟังก์ชันลบกิจกรรม
         function deleteActivity(activityId) {
-            if (!confirm('คุณต้องการลบกิจกรรมนี้ใช่หรือไม่?')) {
-                return;
-            }
+            Swal.fire({
+                title: 'ยืนยันการลบกิจกรรม?',
+                text: "คุณต้องการลบกิจกรรมนี้ใช่หรือไม่?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const activityIndex = activities.findIndex(a => a.id === activityId);
+                    if (activityIndex !== -1) {
+                        const activityName = activities[activityIndex].name;
+                        activities.splice(activityIndex, 1);
 
-            const activityIndex = activities.findIndex(a => a.id === activityId);
-            if (activityIndex !== -1) {
-                const activityName = activities[activityIndex].name;
-                activities.splice(activityIndex, 1);
+                        saveAllDataToStorage();
+                        renderActivities();
+                        renderActivityStats();
+                        renderAdminDashboard();
 
-                saveAllDataToStorage();
-                renderActivities();
-                renderActivityStats();
-                renderAdminDashboard();
-
-                showNotification(`ลบกิจกรรม "${activityName}" สำเร็จ`, 'success');
-            }
+                        Swal.fire(
+                            'ลบสำเร็จ!',
+                            `ลบกิจกรรม "${activityName}" สำเร็จ`,
+                            'success'
+                        );
+                    }
+                }
+            });
         }
 
         // ฟังก์ชันปิด Modal แก้ไขกิจกรรม
@@ -4195,58 +4325,90 @@ ${user.type === 'student' ? 'นักเรียน' :
 
         // ฟังก์ชันรีเซ็ตรหัสผ่านผู้ใช้
         function resetUserPassword(username) {
-            if (!confirm('คุณต้องการรีเซ็ตรหัสผ่านของผู้ใช้นี้ใช่หรือไม่? รหัสผ่านจะถูกตั้งเป็น "123456"')) {
-                return;
-            }
+            Swal.fire({
+                title: 'รีเซ็ตรหัสผ่าน?',
+                text: "คุณต้องการรีเซ็ตรหัสผ่านของผู้ใช้นี้ใช่หรือไม่? รหัสผ่านจะถูกตั้งเป็น '123456'",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#f39c12',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, รีเซ็ตเลย!',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let user = users.students.find(u => u.username === username);
 
-            let user = users.students.find(u => u.username === username);
+                    if (!user) {
+                        user = users.teachers.find(u => u.username === username);
+                    }
 
-            if (!user) {
-                user = users.teachers.find(u => u.username === username);
-            }
-
-            if (user) {
-                user.password = "123456";
-                showNotification(`รีเซ็ตรหัสผ่านของ ${user.name} สำเร็จ`, 'success');
-            }
+                    if (user) {
+                        user.password = "123456";
+                        Swal.fire(
+                            'รีเซ็ตสำเร็จ!',
+                            `รีเซ็ตรหัสผ่านของ ${user.name} สำเร็จ`,
+                            'success'
+                        );
+                    }
+                }
+            });
         }
 
         // ฟังก์ชันลบผู้ใช้
         function deleteUser(username, userType) {
-            if (!confirm('คุณต้องการลบผู้ใช้นี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')) {
-                return;
-            }
+            Swal.fire({
+                title: 'ยืนยันการลบผู้ใช้?',
+                text: "คุณต้องการลบผู้ใช้นี้ใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'ใช่, ลบเลย!',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (userType === 'student') {
+                        const userIndex = users.students.findIndex(u => u.username === username);
+                        if (userIndex !== -1) {
+                            const userName = users.students[userIndex].name;
+                            const studentId = users.students[userIndex].studentId;
 
-            if (userType === 'student') {
-                const userIndex = users.students.findIndex(u => u.username === username);
-                if (userIndex !== -1) {
-                    const userName = users.students[userIndex].name;
-                    const studentId = users.students[userIndex].studentId;
+                            submissions = submissions.filter(s => s.studentId !== studentId);
+                            attendanceList = attendanceList.filter(a => a.studentId !== studentId);
+                            students = students.filter(s => s.studentId !== studentId);
 
-                    submissions = submissions.filter(s => s.studentId !== studentId);
-                    attendanceList = attendanceList.filter(a => a.studentId !== studentId);
-                    students = students.filter(s => s.studentId !== studentId);
+                            users.students.splice(userIndex, 1);
 
-                    users.students.splice(userIndex, 1);
+                            saveAllDataToStorage();
+                            renderUserList();
+                            renderAdminDashboard();
 
-                    saveAllDataToStorage();
-                    renderUserList();
-                    renderAdminDashboard();
+                            Swal.fire(
+                                'ลบสำเร็จ!',
+                                `ลบผู้ใช้ "${userName}" สำเร็จ`,
+                                'success'
+                            );
+                        }
+                    } else {
+                        const userIndex = users.teachers.findIndex(u => u.username === username);
+                        if (userIndex !== -1) {
+                            const userName = users.teachers[userIndex].name;
+                            users.teachers.splice(userIndex, 1);
 
-                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
+                            renderUserList();
+                            renderAdminDashboard();
+
+                            Swal.fire(
+                                'ลบสำเร็จ!',
+                                `ลบผู้ใช้ "${userName}" สำเร็จ`,
+                                'success'
+                            );
+                        }
+                    }
                 }
-            } else {
-                const userIndex = users.teachers.findIndex(u => u.username === username);
-                if (userIndex !== -1) {
-                    const userName = users.teachers[userIndex].name;
-                    users.teachers.splice(userIndex, 1);
-
-                    renderUserList();
-                    renderAdminDashboard();
-
-                    showNotification(`ลบผู้ใช้ "${userName}" สำเร็จ`, 'success');
-                }
-            }
+            });
         }
 
         // ฟังก์ชันแสดงสถิติกิจกรรม
@@ -4541,6 +4703,7 @@ ${printContent}
 
             cleanCorruptedData();
 
+            // อัปเดตข้อมูลตัวอย่าง
             users.students.forEach((student) => {
                 const existingStudent = students.find(s => s.studentId === student.studentId);
                 if (!existingStudent) {
@@ -4552,6 +4715,46 @@ ${printContent}
                     });
                 }
             });
+
+            // เพิ่มข้อมูลตัวอย่างถ้ายังไม่มี
+            if (submissions.length === 0) {
+                submissions = [
+                    {
+                        id: 1,
+                        studentId: "66209010048",
+                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        imageUrl: sampleImageBase64,
+                        timestamp: "10/02/2569 10:17:03",
+                        status: 'pending'
+                    }
+                ];
+            }
+
+            if (attendanceList.length === 0) {
+                attendanceList = [
+                    {
+                        id: 1,
+                        studentId: "66209010048",
+                        studentName: "นายเถลิงศักดิ์ จันทร์ปาน",
+                        timestamp: "10/02/2569 10:17:03",
+                        status: "approved"
+                    },
+                    {
+                        id: 2,
+                        studentId: "66209010046", 
+                        studentName: "นายเตชินท์ เกิดสังข์",
+                        timestamp: "09/02/2569 14:25:18",
+                        status: "approved"
+                    },
+                    {
+                        id: 3,
+                        studentId: "66209010055",
+                        studentName: "นายวีรภัทร รักบำรุง",
+                        timestamp: "08/02/2569 09:30:45",
+                        status: "absent"
+                    }
+                ];
+            }
 
             saveAllDataToStorage();
 
