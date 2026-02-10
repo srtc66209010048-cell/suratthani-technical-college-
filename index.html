@@ -2755,52 +2755,63 @@
         }
 
         // ฟังก์ชันล็อกอิน Admin
-        function loginAdmin() {
-            const adminUsername = document.getElementById('adminUsername');
-            const adminPassword = document.getElementById('adminPassword');
-            const loginPage = document.getElementById('loginPage');
-            const adminPage = document.getElementById('adminPage');
-            const studentPage = document.getElementById('studentPage');
-            const teacherPage = document.getElementById('teacherPage');
-            const adminUserInfo = document.getElementById('adminUserInfo');
+// แก้ไขฟังก์ชัน loginAdmin()
+function loginAdmin() {
+    const adminUsername = document.getElementById('adminUsername');
+    const adminPassword = document.getElementById('adminPassword');
+    const loginPage = document.getElementById('loginPage');
+    const adminPage = document.getElementById('adminPage');
+    const studentPage = document.getElementById('studentPage');
+    const teacherPage = document.getElementById('teacherPage');
+    const adminUserInfo = document.getElementById('adminUserInfo');
 
-            const username = adminUsername.value.trim();
-            const password = adminPassword.value.trim();
+    const username = adminUsername.value.trim();
+    const password = adminPassword.value.trim();
 
-            if (!username || !password) {
-                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-                return;
-            }
+    if (!username || !password) {
+        showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+        return;
+    }
 
-            const adminUser = users.teachers.find(u =>
-                u.username === username && u.password === password && u.type === 'admin'
-            );
+    // ค้นหาผู้ใช้ที่เป็น admin
+    const adminUser = users.teachers.find(u =>
+        u.username === username && u.password === password
+    );
 
-            if (adminUser) {
-                currentUser = adminUser;
-                currentUserType = 'admin';
-
-                loginPage.classList.remove('active');
-                adminPage.classList.add('active');
-                studentPage.classList.remove('active');
-                teacherPage.classList.remove('active');
-
-                adminUserInfo.textContent = `ผู้ดูแลระบบ: ${adminUser.name}`;
-
-                adminUsername.value = '';
-                adminPassword.value = '';
-
-                loadAllDataFromStorage();
-                renderAdminDashboard();
-                renderActivities();
-                renderUserList();
-                renderActivityStats();
-
-                showNotification(`ยินดีต้อนรับผู้ดูแลระบบ ${adminUser.name}`, 'success');
-            } else {
-                showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
-            }
+    if (adminUser) {
+        // ตรวจสอบว่าเป็น admin จริงหรือไม่
+        if (username === 'admin' && password === 'college123') {
+            adminUser.type = 'admin'; // ตั้ง type ให้ถูกต้อง
         }
+        
+        currentUser = adminUser;
+        currentUserType = 'admin';
+
+        // ซ่อน/แสดงหน้า
+        loginPage.classList.remove('active');
+        adminPage.classList.add('active');
+        studentPage.classList.remove('active');
+        teacherPage.classList.remove('active');
+
+        // แสดงข้อมูลผู้ใช้
+        adminUserInfo.textContent = `ผู้ดูแลระบบ: ${adminUser.name}`;
+
+        // เคลียร์ฟอร์ม
+        adminUsername.value = '';
+        adminPassword.value = '';
+
+        // โหลดข้อมูลและแสดงแดชบอร์ด
+        loadAllDataFromStorage();
+        renderAdminDashboard();
+        renderActivities();
+        renderUserList();
+        renderActivityStats();
+
+        showNotification(`ยินดีต้อนรับผู้ดูแลระบบ ${adminUser.name}`, 'success');
+    } else {
+        showNotification('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'error');
+    }
+}
 
         // ฟังก์ชันออกจากระบบ
         function logout() {
