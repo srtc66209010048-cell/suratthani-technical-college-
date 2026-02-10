@@ -1,0 +1,88 @@
+<!-- เพิ่มโค้ดนี้ในส่วนบนของไฟล์ HTML หลัง <!DOCTYPE html> -->
+<!-- เพิ่มระบบแชร์ลิงก์ QR Code -->
+<div style="position: fixed; top: 20px; right: 20px; z-index: 9999; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); display: none;" id="sharePanel">
+  <h3 style="margin-bottom: 10px; color: #3498db;">แชร์ลิงก์</h3>
+  <div id="qrcode"></div>
+  <p style="font-size: 12px; margin-top: 10px;">ให้เพื่อนสแกน QR Code เพื่อเข้าถึงเว็บ</p>
+  <button onclick="copyLink()" style="margin-top: 10px; padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    คัดลอกลิงก์
+  </button>
+  <button onclick="closeSharePanel()" style="margin-top: 5px; padding: 8px 15px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    ปิด
+  </button>
+</div>
+
+<!-- ปุ่มแชร์ลิงก์ -->
+<button style="position: fixed; bottom: 20px; right: 20px; z-index: 9998; background: #2ecc71; color: white; border: none; padding: 15px; border-radius: 50%; box-shadow: 0 0 10px rgba(0,0,0,0.3); cursor: pointer;" onclick="showSharePanel()">
+  <i class="fas fa-share-alt"></i>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+  let currentShareLink = '';
+
+  function showSharePanel() {
+    // สร้างลิงก์ปัจจุบัน
+    currentShareLink = window.location.href;
+    
+    // สร้าง QR Code
+    const qrContainer = document.getElementById('qrcode');
+    qrContainer.innerHTML = '';
+    
+    QRCode.toCanvas(qrContainer, currentShareLink, {
+      width: 200,
+      margin: 1,
+      color: {
+        dark: '#3498db',
+        light: '#ffffff'
+      }
+    }, function (error) {
+      if (error) console.error(error);
+    });
+    
+    document.getElementById('sharePanel').style.display = 'block';
+  }
+
+  function closeSharePanel() {
+    document.getElementById('sharePanel').style.display = 'none';
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(currentShareLink)
+      .then(() => {
+        alert('คัดลอกลิงก์เรียบร้อยแล้ว!');
+      })
+      .catch(err => {
+        console.error('คัดลอกลิงก์ไม่สำเร็จ: ', err);
+      });
+  }
+
+  // ตรวจสอบว่าอยู่ในเครื่องเดียวกันหรือไม่
+  function isLocalhost() {
+    return window.location.hostname === 'localhost' || 
+           window.location.hostname === '127.0.0.1' ||
+           window.location.hostname === '';
+  }
+
+  // ถ้าอยู่ใน localhost ให้แสดงคำแนะนำ
+  if (isLocalhost()) {
+    alert('⚠️ คุณกำลังใช้งานใน localhost เครื่องอื่นยังไม่สามารถเข้าถึงได้\n\nให้เพื่อนใช้ลิงก์นี้:\nhttp://' + getLocalIP() + ':3000\n\nหรือใช้ GitHub Pages (แนะนำ)');
+  }
+
+  // ฟังก์ชันดึง IP Local
+  function getLocalIP() {
+    return new Promise((resolve) => {
+      const pc = new RTCPeerConnection({ iceServers: [] });
+      pc.createDataChannel('');
+      pc.createOffer().then(offer => pc.setLocalDescription(offer));
+      pc.onicecandidate = (ice) => {
+        if (ice && ice.candidate && ice.candidate.candidate) {
+          const parts = ice.candidate.candidate.split(' ');
+          const ip = parts[4];
+          resolve(ip || 'localhost');
+          pc.close();
+        }
+      };
+    });
+  }
+</script>
