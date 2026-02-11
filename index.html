@@ -1955,7 +1955,7 @@
                 <h2 class="mobile-heading"><i class="fas fa-camera"></i> ถ่ายรูปเช็คกิจกรรม</h2>
                 
                 <div class="camera-container">
-                    <video id="camera" autoplay playsinline></video>
+                    <video id="video" autoplay playsinline></video>
                     <div class="camera-placeholder" id="cameraPlaceholder">
                         <i class="fas fa-camera"></i>
                         <p>กล้องจะแสดงที่นี่หลังจากกดปุ่ม "เปิดกล้อง"</p>
@@ -1967,6 +1967,9 @@
                 <div class="controls mobile-btn-group">
                     <button class="btn btn-primary" id="startCameraBtn">
                         <i class="fas fa-video"></i> เปิดกล้อง
+                    </button>
+                    <button id="switchCameraBtn" disabled>
+                    🔄 กลับกล้อง
                     </button>
                     <button class="btn btn-warning" id="captureBtn" disabled>
                         <i class="fas fa-camera-retro"></i> ถ่ายรูป
@@ -2392,6 +2395,45 @@
     <div id="notification" class="notification"></div>
 
     <script>
+        <script>
+
+let currentStream;
+let currentFacingMode = "environment"; // เริ่มกล้องหลัง
+
+const openCameraBtn = document.getElementById("openCameraBtn");
+const switchCameraBtn = document.getElementById("switchCameraBtn");
+const video = document.getElementById("video");
+
+openCameraBtn.addEventListener("click", startCamera);
+
+async function startCamera() {
+
+    if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+    }
+
+    try {
+        currentStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: currentFacingMode }
+        });
+
+        video.srcObject = currentStream;
+        switchCameraBtn.disabled = false;
+
+    } catch (error) {
+        alert("ไม่สามารถเปิดกล้องได้");
+    }
+}
+
+switchCameraBtn.addEventListener("click", function() {
+
+    currentFacingMode =
+        currentFacingMode === "environment" ? "user" : "environment";
+
+    startCamera();
+});
+
+</script>
         // ====================================================
         // SYSTEM VARIABLES
         // ====================================================
