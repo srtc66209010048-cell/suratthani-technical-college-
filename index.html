@@ -41,7 +41,6 @@
     font-family: sans-serif;
     background: url('https://scontent-bkk1-2.xx.fbcdn.net/v/t1.15752-9/630979127_1411125913208458_7798798214523247135_n.png?stp=dst-png_s552x414&_nc_cat=105&ccb=1-7&_nc_sid=0024fc&_nc_ohc=DRKk-iL8jiQQ7kNvwHe3kQB&_nc_oc=AdnFnAydDZhwNsT_dNTeqsExM0BpcwfN7kbIzRXwV43dhT2R2CcG7RZaDXtasWiSBho&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-bkk1-2.xx&oh=03_Q7cD4gGXxtaqhs7RBDFySBz5A8TygXn4-6LNkMKN6dYg_geWUQ&oe=69B3A91B') no-repeat center center fixed;
     background-size: cover;
-    position: relative;
 }
         .login-background-overlay {
             position: fixed;
@@ -1757,20 +1756,19 @@
             from { box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
             to { box-shadow: 0 0 20px rgba(52, 152, 219, 0.8), 0 0 30px rgba(52, 152, 219, 0.3); }
             
-       body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-        rgba(0, 70, 140, 0.75),
-        rgba(0, 120, 200, 0.75)
+       .login-background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(0, 70, 140, 0.8),
+        rgba(0, 120, 200, 0.8)
     );
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    z-index: -1;
+    z-index: 0;
 }
         }
     </style>
@@ -1781,6 +1779,7 @@
 </head>
 
 <body>
+    <div class="login-background-overlay"></div>
     <!-- หน้า Login -->
     <div id="loginPage" class="content-area active">
         <!-- พื้นหลังหน้า Login -->
