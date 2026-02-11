@@ -1965,14 +1965,14 @@
                 </div>
 
                 <div class="controls mobile-btn-group">
-                    <button class="btn btn-primary" id="startCameraBtn">
-                        <i class="fas fa-video"></i> เปิดกล้อง
+                    <button class="btn-camera" onclick="openCamera()" id="openCameraBtn" disabled>
+                    📷 เปิดกล้อง
                     </button>
                     <button class="btn btn-warning" id="captureBtn" disabled>
                         <i class="fas fa-camera-retro"></i> ถ่ายรูป
                     </button>
-                    <button class="btn btn-warning" id="useFileBtn">
-                        <i class="fas fa-upload"></i> อัปโหลดรูป
+                    <button class="btn-upload" id="uploadBtn" disabled>
+                    ⬆ อัปโหลดรูป
                     </button>
                     <button class="btn btn-danger" id="retakeBtn" disabled>
                         <i class="fas fa-redo"></i> ถ่ายใหม่
@@ -3363,9 +3363,8 @@ ${submission.status === 'approved' ? 'อนุมัติแล้ว' :
 <div class="activity-detail-value">
 <div style="margin-top: 10px;">
 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-<input type="checkbox" id="confirmAttendance" style="width: 20px; height: 20px;">
-<label for="confirmAttendance" style="font-weight: 600; color: #2c3e50;">
-✅ ยืนยันเข้าร่วมกิจกรรมนี้
+<input type="checkbox" id="confirmActivity">
+<label for="confirmActivity">✅ยืนยันเข้าร่วมกิจกรรมนี้</label> 
 </label>
 </div>
 <p style="color: #e74c3c; font-size: 0.9rem; font-style: italic;">
