@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <title>ระบบเช็คกิจกรรมของนักเรียนในวิทยาลัยเทคนิคสุราษฎร์ธานี</title>
@@ -1889,7 +1887,7 @@
             
             <div style="text-align: center; margin-top: 30px; color: rgba(255,255,255,0.8); font-size: 0.9rem;">
                 <p><i class="fas fa-info-circle"></i> ทดสอบระบบด้วยบัญชีตัวอย่างด้านล่าง</p>
-                <p>นักเรียน: SRTC048 / 21112550 | SRTC046 / tae046 | SRTC055 / we055</p>
+                <p>นักเรียน: 66209010048 / 21/11/2550 | SRTC046 / tae046 | SRTC055 / we055</p>
                 <p>อาจารย์: teacher / 123456 | ผู้ดูแล: admin / college123</p>
             </div>
         </div>
@@ -3890,36 +3888,23 @@ ${submission.status === 'pending' ? `
             confirmDeleteHistoryModal.style.display = 'flex';
         }
 
-       // ฟังก์ชันลบประวัติการส่งรูป
-function deleteSubmissionHistory() {
+        // ฟังก์ชันลบประวัติการส่งรูป
+        function deleteSubmissionHistory() {
+            if (!submissionToDelete) return;
 
-    // 🔥 ปิดกล้องก่อน
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-        stream = null;
-    }
+            const submissionIndex = submissions.findIndex(s => s.id === submissionToDelete);
+            if (submissionIndex !== -1) {
+                const submission = submissions[submissionIndex];
 
-    if (!submissionToDelete) return;
+                submissions.splice(submissionIndex, 1);
 
-    const submissionIndex = submissions.findIndex(s => s.id === submissionToDelete);
+                if (submission.status === 'approved') {
+                    const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
+                    if (attendanceIndex !== -1) {
+                        attendanceList.splice(attendanceIndex, 1);
+                    }
+                }
 
-    if (submissionIndex !== -1) {
-
-        const submission = submissions[submissionIndex];
-
-        submissions.splice(submissionIndex, 1);
-
-        if (submission.status === 'approved') {
-
-            const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
-
-            if (attendanceIndex !== -1) {
-                attendanceList.splice(attendanceIndex, 1);
-            }
-        }
-    }
-}
                 saveAllDataToStorage();
 
                 renderSubmissions();
