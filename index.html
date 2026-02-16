@@ -3890,23 +3890,36 @@ ${submission.status === 'pending' ? `
             confirmDeleteHistoryModal.style.display = 'flex';
         }
 
-        // ฟังก์ชันลบประวัติการส่งรูป
-        function deleteSubmissionHistory() {
-            if (!submissionToDelete) return;
+       // ฟังก์ชันลบประวัติการส่งรูป
+function deleteSubmissionHistory() {
 
-            const submissionIndex = submissions.findIndex(s => s.id === submissionToDelete);
-            if (submissionIndex !== -1) {
-                const submission = submissions[submissionIndex];
+    // 🔥 ปิดกล้องก่อน
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+        stream = null;
+    }
 
-                submissions.splice(submissionIndex, 1);
+    if (!submissionToDelete) return;
 
-                if (submission.status === 'approved') {
-                    const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
-                    if (attendanceIndex !== -1) {
-                        attendanceList.splice(attendanceIndex, 1);
-                    }
-                }
+    const submissionIndex = submissions.findIndex(s => s.id === submissionToDelete);
 
+    if (submissionIndex !== -1) {
+
+        const submission = submissions[submissionIndex];
+
+        submissions.splice(submissionIndex, 1);
+
+        if (submission.status === 'approved') {
+
+            const attendanceIndex = attendanceList.findIndex(a => a.studentId === submission.studentId);
+
+            if (attendanceIndex !== -1) {
+                attendanceList.splice(attendanceIndex, 1);
+            }
+        }
+    }
+}
                 saveAllDataToStorage();
 
                 renderSubmissions();
